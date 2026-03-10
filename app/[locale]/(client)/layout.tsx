@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/layout/Navbar";
+import { TopBar } from "@/components/layout/TopBar";
 import { Footer } from "@/components/layout/Footer";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import { CallbackPopup } from "@/components/callback/CallbackPopup";
@@ -40,7 +41,14 @@ export default async function ClientLayout({
 		<CookieConsentProvider>
 			<NavbarVariantProvider>
 				<div className="flex flex-col min-h-screen">
-					<Navbar config={siteConfig} logoUrl={logoUrl} companyName={companyName} socialMedia={socialMedia} />
+					{/* Fixed header: TopBar (top-0) + Navbar (top-10) */}
+					<div className="fixed top-0 left-0 z-50 w-full">
+						<TopBar
+							facebookUrl={socialMedia?.facebook}
+							youtubeUrl={socialMedia?.youtube}
+						/>
+						<Navbar config={siteConfig} logoUrl={logoUrl} companyName={companyName} socialMedia={socialMedia} />
+					</div>
 					<main className="flex-1 w-full">{children}</main>
 					<Footer
 						config={siteConfig}

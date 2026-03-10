@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { User, Menu } from "lucide-react";
-import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import { Search, X, Menu } from "lucide-react";
+import { FaFacebookF, FaYoutube } from "react-icons/fa";
 import { useTranslations } from "next-intl";
 
 import {
@@ -17,14 +17,11 @@ import {
 } from "@/components/ui/navigation-menu";
 
 import { mainNavNew } from "@/config/navigation-new";
-import { useNavigation } from "@/lib/hooks/use-navigation";
-import { useNavbarVariant } from "@/lib/context/navbar-variant-context";
 import { cn } from "@/lib/utils";
 import type { SiteConfigType } from "@/config/site";
 import Logo from "../common/logo";
 import MobileNavbar from "./MobileNavbar";
 import ProtectedNavbar from "./ProtectedNavbar";
-import { NavbarSearch } from "./NavbarSearch";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { authClient } from "@/lib/auth-client";
 
@@ -46,14 +43,10 @@ interface NavbarProps {
 export function Navbar({ config, logoUrl, companyName, socialMedia }: NavbarProps) {
 	const [isScrolled, setIsScrolled] = useState(false);
 	const [isMounted, setIsMounted] = useState(false);
-	const { data: navigationData } = useNavigation();
-	const { variant } = useNavbarVariant();
+	const [searchOpen, setSearchOpen] = useState(false);
+	const [searchQuery, setSearchQuery] = useState("");
 	const t = useTranslations("navigation");
-	const tCommon = useTranslations("common");
 	const { data: session } = authClient.useSession();
-
-	// Always use light text since navbar now has a dark primary background
-	const useLightText = true;
 
 	useEffect(() => {
 		setIsMounted(true);
@@ -67,291 +60,147 @@ export function Navbar({ config, logoUrl, companyName, socialMedia }: NavbarProp
 		return () => window.removeEventListener("scroll", handleScroll);
 	}, []);
 
+	const handleSearch = (e: React.FormEvent) => {
+		e.preventDefault();
+		if (searchQuery.trim().length >= 2) {
+			window.location.href = `/aktuelles?s=${encodeURIComponent(searchQuery.trim())}`;
+			setSearchOpen(false);
+			setSearchQuery("");
+		}
+	};
+
+	const navClassName = cn(
+		"w-full transition-all duration-300",
+		isScrolled
+			? "bg-black/70 backdrop-blur-md shadow-lg"
+			: "bg-black/30 backdrop-blur-md"
+	);
+
+	// Skeleton for SSR
 	if (!isMounted) {
 		return (
-			<div>
-				<div className="fixed top-0 left-0 z-50 w-full">
-					<nav
-						className="py-2 sm:py-3 transition-all duration-300 bg-secondary"
-					>
-						<div className="_container">
-							<div className="flex bg-none items-center justify-between gap-1 lg:gap-2">
-								<Logo logoUrl={logoUrl} companyName={companyName} />
-								<div className="hidden lg:flex items-center justify-center flex-1" />
-								<div className="hidden lg:flex items-center" />
-								<div className="hidden xl:flex items-center gap-2 shrink-0" />
-								<div className="hidden lg:block">
-									<ProtectedNavbar />
-								</div>
-								<button
-									className="lg:hidden p-0 w-auto h-auto bg-transparent border-0"
-									aria-label="Menu"
-								>
-									<Menu className="h-6 w-6 text-white" />
-								</button>
+			<div className="w-full">
+				<nav className="w-full bg-black/30 backdrop-blur-md py-3">
+					<div className="_container">
+						<div className="flex items-center justify-between gap-2">
+							<Logo logoUrl={logoUrl} companyName={companyName} />
+							<div className="hidden lg:flex items-center justify-center flex-1" />
+							<div className="hidden lg:flex items-center gap-3" />
+							<div className="lg:hidden">
+								<Menu className="h-6 w-6 text-white" />
 							</div>
 						</div>
-					</nav>
-				</div>
+					</div>
+				</nav>
 			</div>
 		);
 	}
 
 	return (
-		<div>
-			<div className="fixed top-0 left-0 z-50 w-full">
-				<nav
-					className={`py-2 sm:py-3 transition-all duration-300 bg-secondary ${
-						isScrolled ? "shadow-lg" : ""
-					}`}
-				>
-					<div className="_container">
-						<div className="flex bg-none items-center justify-between gap-1 lg:gap-2">
-							{/* Logo */}
-							<Logo logoUrl={logoUrl} />
+		<div className="w-full">
+			<nav className={navClassName}>
+				<div className="_container">
+					<div className="flex items-center justify-between gap-1 lg:gap-2 py-2 sm:py-3">
 
-							{/* Desktop Nav */}
-							<div className="hidden lg:flex items-center justify-center flex-1">
-								<NavigationMenu>
-									<NavigationMenuList>
-										{mainNavNew.map((item) => (
-											<NavigationMenuItem key={item.titleKey}>
-												{/* Dynamic Produkter mega-menu */}
-												{item.isDynamic ? (
-													<>
-														<NavigationMenuTrigger
-															className={cn(
-																"bg-transparent! hover:bg-secondary/10! focus:bg-secondary/10! active:bg-secondary/20! data-[state=open]:bg-secondary/10! text-xs font-medium transition-colors h-8 px-2 uppercase",
-																useLightText
-																	? "text-white/90! hover:text-white! focus:text-white! active:text-white! data-[state=open]:text-white!"
-																	: "text-secondary! hover:text-secondary! focus:text-secondary! active:text-primary! data-[state=open]:text-secondary!"
-															)}
-														>
-															<Link href={item.href}>
-																{t(item.titleKey)}
-															</Link>
-														</NavigationMenuTrigger>
-														<NavigationMenuContent className="bg-background/95! border! border-border! ring-0! outline-none! backdrop-blur-xl fixed! left-1/2! -translate-x-1/2! top-[72px]!">
-															<div className="w-[calc(100vw-6rem)] max-w-[1150px] p-4 bg-background/95 backdrop-blur-xl border border-white/20 shadow-sm rounded-sm max-h-[60vh] overflow-y-auto nav-dropdown-scroll">
-																<div className="grid grid-cols-5 gap-x-6 gap-y-3">
-																	{navigationData?.categories.map(
-																		(category) => (
-																			<div
-																				key={category._id}
-																				className="space-y-0"
-																			>
-																				<Link
-																					href={`/products/category/${category.slug}`}
-																					className="block text-sm font-bold text-primary hover:text-primary/80 hover:underline transition-colors"
-																				>
-																					{category.name}
-																				</Link>
-																				{category.products
-																					.length > 0 && (
-																					<ul className="space-y-0">
-																						{category.products.map(
-																							(
-																								product
-																							) => (
-																								<li
-																									key={
-																										product._id
-																									}
-																								>
-																									<Link
-																										href={`/products/category/${product.primaryCategorySlug}/${product.slug}`}
-																										className="block text-sm text-foreground/70 hover:text-secondary transition-colors line-clamp-1 hover:underline"
-																									>
-																										{
-																											product.title
-																										}
-																									</Link>
-																								</li>
-																							)
-																						)}
-																					</ul>
-																				)}
-																			</div>
-																		)
-																	)}
-																	{/* Loading state */}
-																	{!navigationData && (
-																		<div className="col-span-5 py-8 text-center text-foreground/50 text-sm">
-																			{tCommon("loading")}
-																		</div>
-																	)}
-																	{/* Empty state */}
-																	{navigationData &&
-																		navigationData.categories
-																			.length === 0 && (
-																			<div className="col-span-5 py-8 text-center text-foreground/50 text-sm">
-																				{t("noCategories")}
-																			</div>
-																		)}
-																</div>
-															</div>
-														</NavigationMenuContent>
-													</>
-												) : item.items ? (
-													// Static menu items with subitems (Starta Eget, Om Oss)
-													<>
-														<NavigationMenuTrigger
-															className={cn(
-																"bg-transparent! hover:bg-secondary/10! focus:bg-secondary/10! active:bg-secondary/20! data-[state=open]:bg-secondary/10! text-xs font-medium transition-colors h-8 px-2 uppercase",
-																useLightText
-																	? "text-white/90! hover:text-white! focus:text-white! active:text-white! data-[state=open]:text-white!"
-																	: "text-secondary! hover:text-secondary! focus:text-secondary! active:text-primary! data-[state=open]:text-secondary!"
-															)}
-														>
-															<Link href={item.href}>
-																{t(item.titleKey)}
-															</Link>
-														</NavigationMenuTrigger>
-														<NavigationMenuContent className="bg-background/95! border! border-border! ring-0! outline-none! backdrop-blur-xl">
-															<div className="min-w-[180px] p-3 bg-background/95 backdrop-blur-xl border border-white/20 shadow-sm rounded-sm">
-																<div className="space-y-1">
-																	{item.items.map(
-																		(subItem) => (
-																			<Link
-																				key={subItem.titleKey}
-																				href={subItem.href}
-																				className="block text-sm text-foreground/70 hover:text-secondary transition-colors hover:underline py-1.5 px-2 rounded hover:bg-secondary/5"
-																			>
-																				{t(subItem.titleKey)}
-																			</Link>
-																		)
-																	)}
-																</div>
-															</div>
-														</NavigationMenuContent>
-													</>
-												) : (
-													// Simple link items (Nyheter och artiklar, Utbildningar, Kontakt)
-													<NavigationMenuLink
-														href={item.href}
+						{/* Logo */}
+						<Logo logoUrl={logoUrl} companyName={companyName} />
+
+						{/* Desktop Navigation */}
+						<div className="hidden lg:flex items-center justify-center flex-1">
+							<NavigationMenu>
+								<NavigationMenuList>
+									{mainNavNew.map((item) => (
+										<NavigationMenuItem key={item.titleKey}>
+											{item.items ? (
+												<>
+													<NavigationMenuTrigger
 														className={cn(
-															navigationMenuTriggerStyle(),
-															"bg-transparent! hover:bg-secondary/10! focus:bg-secondary/10! active:bg-secondary/20! transition-colors text-xs h-8 px-2 uppercase",
-															useLightText
-																? "text-white/90! hover:text-white! focus:text-white! active:text-white!"
-																: "text-secondary! hover:text-primary! focus:text-primary! active:text-primary!"
+															"bg-transparent! hover:bg-white/10! focus:bg-white/10! data-[state=open]:bg-white/10!",
+															"text-white/90! hover:text-white! focus:text-white! data-[state=open]:text-white!",
+															"text-xs font-medium uppercase h-8 px-2 transition-colors"
 														)}
 													>
-														{t(item.titleKey)}
-													</NavigationMenuLink>
-												)}
-											</NavigationMenuItem>
-										))}
-									</NavigationMenuList>
-								</NavigationMenu>
-							</div>
-
-							{/* Right Actions - Social Icons, Search, Language, User/Dashboard */}
-							<div className="hidden lg:flex items-center gap-4 shrink-0">
-								{/* Social Media Icons */}
-								{socialMedia && (
-									<div className="flex items-center gap-3">
-										{socialMedia.facebook && (
-											<a
-												href={socialMedia.facebook}
-												target="_blank"
-												rel="noopener noreferrer"
-												className={cn(
-													"transition-colors",
-													useLightText
-														? "text-white/70 hover:text-white"
-														: "text-secondary/70 hover:text-secondary"
-												)}
-											>
-												<FaFacebookF className="h-4 w-4" />
-											</a>
-										)}
-										{socialMedia.instagram && (
-											<a
-												href={socialMedia.instagram}
-												target="_blank"
-												rel="noopener noreferrer"
-												className={cn(
-													"transition-colors",
-													useLightText
-														? "text-white/70 hover:text-white"
-														: "text-secondary/70 hover:text-secondary"
-												)}
-											>
-												<FaInstagram className="h-4 w-4" />
-											</a>
-										)}
-										{socialMedia.twitter && (
-											<a
-												href={socialMedia.twitter}
-												target="_blank"
-												rel="noopener noreferrer"
-												className={cn(
-													"transition-colors",
-													useLightText
-														? "text-white/70 hover:text-white"
-														: "text-secondary/70 hover:text-secondary"
-												)}
-											>
-												<FaTwitter className="h-4 w-4" />
-											</a>
-										)}
-										{socialMedia.youtube && (
-											<a
-												href={socialMedia.youtube}
-												target="_blank"
-												rel="noopener noreferrer"
-												className={cn(
-													"transition-colors",
-													useLightText
-														? "text-white/70 hover:text-white"
-														: "text-secondary/70 hover:text-secondary"
-												)}
-											>
-												<FaYoutube className="h-4 w-4" />
-											</a>
-										)}
-									</div>
-								)}
-
-								{/* Divider */}
-								{socialMedia && (
-									<div className={cn(
-										"h-5 w-px",
-										useLightText ? "bg-white/30" : "bg-secondary/20"
-									)} />
-								)}
-
-								{/* Search */}
-								<NavbarSearch useLightText={useLightText} />
-
-								{/* Language Switcher */}
-								<LanguageSwitcher variant="compact" />
-
-								{/* User Account / Dashboard - Show login icon if not logged in, avatar if logged in */}
-								{session ? (
-									<ProtectedNavbar />
-								) : (
-									<Link
-										href="/login"
-										className={cn(
-											"transition-colors",
-											useLightText
-												? "text-white/70 hover:text-white"
-												: "text-secondary/70 hover:text-secondary"
-										)}
-									>
-										<User className="h-5 w-5" />
-									</Link>
-								)}
-							</div>
-
-							{/* Mobile Menu */}
-							<MobileNavbar useLightText={useLightText} />
+														<Link href={item.href}>
+															{t(item.titleKey)}
+														</Link>
+													</NavigationMenuTrigger>
+													<NavigationMenuContent className="bg-black/85! border! border-white/10! backdrop-blur-xl!">
+														<div className="min-w-[200px] py-2 px-1 bg-black/85 backdrop-blur-xl border border-white/10 shadow-xl rounded-sm">
+															{item.items.map((subItem) => (
+																<Link
+																	key={subItem.titleKey}
+																	href={subItem.href}
+																	className="block text-sm text-white/75 hover:text-white hover:bg-white/10 transition-colors py-2 px-3 rounded-sm"
+																>
+																	{t(subItem.titleKey)}
+																</Link>
+															))}
+														</div>
+													</NavigationMenuContent>
+												</>
+											) : (
+												<NavigationMenuLink
+													href={item.href}
+													className={cn(
+														navigationMenuTriggerStyle(),
+														"bg-transparent! hover:bg-white/10! focus:bg-white/10!",
+														"text-white/90! hover:text-white! focus:text-white!",
+														"text-xs font-medium uppercase h-8 px-2 transition-colors"
+													)}
+												>
+													{t(item.titleKey)}
+												</NavigationMenuLink>
+											)}
+										</NavigationMenuItem>
+									))}
+								</NavigationMenuList>
+							</NavigationMenu>
 						</div>
+
+						{/* Right Actions */}
+						<div className="hidden lg:flex items-center gap-3 shrink-0">
+							{/* Search */}
+							{searchOpen ? (
+								<form onSubmit={handleSearch} className="flex items-center gap-1">
+									<input
+										type="text"
+										value={searchQuery}
+										onChange={(e) => setSearchQuery(e.target.value)}
+										placeholder={t("searchPlaceholder")}
+										autoFocus
+										className="bg-white/10 border border-white/20 text-white placeholder-white/50 text-sm rounded px-2 py-1 w-36 outline-none focus:border-white/40"
+									/>
+									<button
+										type="button"
+										onClick={() => { setSearchOpen(false); setSearchQuery(""); }}
+										className="text-white/70 hover:text-white transition-colors"
+										aria-label="Close search"
+									>
+										<X className="h-4 w-4" />
+									</button>
+								</form>
+							) : (
+								<button
+									onClick={() => setSearchOpen(true)}
+									className="text-white/70 hover:text-white transition-colors border border-white/30 rounded p-1.5"
+									aria-label="Search"
+								>
+									<Search className="h-4 w-4" />
+								</button>
+							)}
+
+							{/* Language Switcher */}
+							<LanguageSwitcher variant="compact" />
+
+							{/* User */}
+							{session && <ProtectedNavbar />}
+						</div>
+
+						{/* Mobile Menu */}
+						<MobileNavbar useLightText={true} />
 					</div>
-				</nav>
-			</div>
+				</div>
+			</nav>
 		</div>
 	);
 }

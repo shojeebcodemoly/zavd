@@ -1,59 +1,163 @@
 export interface NavItem {
-	titleKey: string; // Translation key for i18n
-	title?: string; // Fallback title (for backward compatibility)
+	titleKey: string;
+	title?: string;
 	href: string;
 	description?: string;
-	descriptionKey?: string; // Translation key for description
+	descriptionKey?: string;
 	items?: NavItem[];
-	isDynamic?: boolean; // Flag for items that load from database
+	isDynamic?: boolean;
 }
 
 /**
- * Main Navigation Configuration
+ * ZAVD Main Navigation Configuration
  *
- * Navigation Order: Home | About Us | Quality | Products | Our Store | Blog | Become Our Reseller | Contact Us
+ * Navigation: Startseite | Über ZAVD | Projekte | Angebote & Beratung | Themen | Aktuelles | Spenden | Kontakt
  *
  * Uses translation keys from messages/[locale].json -> navigation namespace
+ * Default locale: German (de) — no prefix
+ * Secondary locale: English (en) — /en/ prefix
  */
 export const mainNavNew: NavItem[] = [
 	{
 		titleKey: "home",
-		title: "Home",
+		title: "Startseite",
 		href: "/",
 	},
 	{
-		titleKey: "about",
-		title: "About Us",
-		href: "/about-us",
+		titleKey: "uberZavd",
+		title: "Über ZAVD",
+		href: "/uber-zavd",
+		items: [
+			{
+				titleKey: "missionWerte",
+				title: "Mission & Werte",
+				href: "/uber-zavd/mission-werte",
+			},
+			{
+				titleKey: "vorstandTeam",
+				title: "Vorstand & Team",
+				href: "/uber-zavd/vorstand-team",
+			},
+			{
+				titleKey: "geschichte",
+				title: "Geschichte",
+				href: "/uber-zavd/geschichte",
+			},
+			{
+				titleKey: "satzung",
+				title: "Satzung",
+				href: "/uber-zavd/satzung",
+			},
+		],
 	},
 	{
-		titleKey: "quality",
-		title: "Quality",
-		href: "/quality",
+		titleKey: "projekte",
+		title: "Projekte",
+		href: "/projekte",
+		items: [
+			{
+				titleKey: "patenschaftsprojekt",
+				title: "Patenschaftsprojekt",
+				href: "/projekte/patenschaftsprojekt",
+			},
+			{
+				titleKey: "gemeinsamAktiv",
+				title: "Gemeinsam Aktiv",
+				href: "/projekte/gemeinsam-aktiv",
+			},
+			{
+				titleKey: "gutReinkommen",
+				title: "Gut Reinkommen",
+				href: "/projekte/gut-reinkommen",
+			},
+			{
+				titleKey: "getAktiv",
+				title: "GeT AKTIV",
+				href: "/projekte/get-aktiv",
+			},
+			{
+				titleKey: "ehrenamtEngagement",
+				title: "Ehrenamt & Engagement",
+				href: "/projekte/ehrenamt-engagement",
+			},
+		],
 	},
 	{
-		titleKey: "products",
-		title: "Products",
-		href: "/products",
+		titleKey: "angeboteBeratung",
+		title: "Angebote & Beratung",
+		href: "/angebote-beratung",
+		items: [
+			{
+				titleKey: "fluchtAsyl",
+				title: "Flucht & Asyl",
+				href: "/angebote-beratung/flucht-asyl",
+			},
+			{
+				titleKey: "namensaenderung",
+				title: "Namensänderung",
+				href: "/angebote-beratung/namensaenderung",
+			},
+			{
+				titleKey: "beratungUnterstuetzung",
+				title: "Beratung & Unterstützung",
+				href: "/angebote-beratung/beratung-unterstuetzung",
+			},
+			{
+				titleKey: "wichtigeLinks",
+				title: "Wichtige Links",
+				href: "/angebote-beratung/wichtige-links",
+			},
+		],
 	},
 	{
-		titleKey: "store",
-		title: "Our Store",
-		href: "/our-store",
+		titleKey: "themen",
+		title: "Themen",
+		href: "/themen",
+		items: [
+			{
+				titleKey: "integration",
+				title: "Integration",
+				href: "/themen/integration",
+			},
+			{
+				titleKey: "irakSyrien",
+				title: "Irak & Syrien",
+				href: "/themen/irak-syrien",
+			},
+		],
 	},
 	{
-		titleKey: "blog",
-		title: "Blog",
-		href: "/blog",
+		titleKey: "aktuelles",
+		title: "Aktuelles",
+		href: "/aktuelles",
+		items: [
+			{
+				titleKey: "nachrichten",
+				title: "Nachrichten",
+				href: "/aktuelles/nachrichten",
+			},
+			{
+				titleKey: "veranstaltungen",
+				title: "Veranstaltungen",
+				href: "/aktuelles/veranstaltungen",
+			},
+		],
 	},
 	{
-		titleKey: "becomeReseller",
-		title: "Become Our Reseller",
-		href: "/become-our-reseller",
+		titleKey: "spenden",
+		title: "Spenden",
+		href: "/spenden",
 	},
 	{
-		titleKey: "contact",
-		title: "Contact Us",
-		href: "/contact-us",
+		titleKey: "kontakt",
+		title: "Kontakt",
+		href: "/kontakt",
+		items: [
+			{
+				titleKey: "anfahrtOeffnungszeiten",
+				title: "Anfahrt & Öffnungszeiten",
+				href: "/kontakt/anfahrt-oeffnungszeiten",
+			},
+		],
 	},
 ];

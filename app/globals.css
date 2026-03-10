@@ -2,58 +2,62 @@
 @import "tw-animate-css";
 
 /* ============================================
-   DESIGN TOKENS - GLADA BONDEN BRAND THEME
+   DESIGN TOKENS - ZAVD BRAND THEME
    ============================================ */
 
 :root {
   /* ============================================
-     GLADA BONDEN BRAND COLOR PALETTE
+     ZAVD BRAND COLOR PALETTE
+     (Navy, White, Red — from ZAVD Logo)
      ============================================ */
 
-  /* Primary Action (Ochre Gold) - Used for Buttons, CTAs */
-  --color-primary: #E8A641;
+  /* Primary Action (Red) - Used for Buttons, CTAs, Highlights */
+  --color-primary: #E60000;
   --color-primary-foreground: #FFFFFF;
-  --color-primary-hover: #D4952F;
+  --color-primary-hover: #CC0000;
 
-  /* Secondary (Poster Blue) - Used for Header, Footer, Dark Sections */
-  --color-secondary: #143E6B;
+  /* Secondary (Navy) - Used for Header, Footer, Dark Sections */
+  --color-secondary: #151A22;
   --color-secondary-foreground: #FFFFFF;
 
-  /* Tertiary/Warm Accents */
-  --color-tertiary: #E8A641;
-  --color-tertiary-foreground: #143E6B;
+  /* Accent Colors */
+  --color-accent-blue: #4A90E2;
+  --color-accent-yellow: #F8E71C;
 
-  /* Backgrounds - Dairy Cream */
-  --color-background: #FDF9EF;
-  --color-foreground: #143E6B;
-  /* Primary text is Dark Blue */
+  /* Tertiary */
+  --color-tertiary: #E60000;
+  --color-tertiary-foreground: #FFFFFF;
+
+  /* Backgrounds - Clean White */
+  --color-background: #FFFFFF;
+  --color-foreground: #333333;
 
   /* UI Elements */
-  --color-muted: #F5EFE3;
-  --color-muted-foreground: #143E6B;
+  --color-muted: #F5F5F5;
+  --color-muted-foreground: #666666;
 
   --color-card: #FFFFFF;
-  --color-card-foreground: #143E6B;
+  --color-card-foreground: #333333;
 
   --color-popover: #FFFFFF;
-  --color-popover-foreground: #143E6B;
+  --color-popover-foreground: #333333;
 
-  --color-border: #E0D5C4;
-  --color-input: #E0D5C4;
-  --color-ring: #E8A641;
+  --color-border: #E5E7EB;
+  --color-input: #E5E7EB;
+  --color-ring: #E60000;
 
   /* Status Colors */
   --color-success: #10B981;
-  --color-warning: #E8A641;
-  --color-error: #EF4444;
-  --color-destructive: #EF4444;
+  --color-warning: #F8E71C;
+  --color-error: #E60000;
+  --color-destructive: #E60000;
   --color-destructive-foreground: #FFFFFF;
 
   /* Chart Colors */
-  --chart-1: #E8A641;
-  --chart-2: #143E6B;
-  --chart-3: #D4952F;
-  --chart-4: #1E5A94;
+  --chart-1: #E60000;
+  --chart-2: #151A22;
+  --chart-3: #4A90E2;
+  --chart-4: #F8E71C;
   --chart-5: #64748B;
 
   /* Radius */
@@ -65,14 +69,14 @@
   --radius: 0.5rem;
 
   /* Sidebar (shadcn) */
-  --sidebar-background: #FDF9EF;
-  --sidebar-foreground: #143E6B;
-  --sidebar-primary: #E8A641;
+  --sidebar-background: #F9FAFB;
+  --sidebar-foreground: #333333;
+  --sidebar-primary: #E60000;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #F5EFE3;
-  --sidebar-accent-foreground: #143E6B;
-  --sidebar-border: #E0D5C4;
-  --sidebar-ring: #E8A641;
+  --sidebar-accent: #F5F5F5;
+  --sidebar-accent-foreground: #333333;
+  --sidebar-border: #E5E7EB;
+  --sidebar-ring: #E60000;
 }
 
 
@@ -116,9 +120,9 @@
 
   --color-tertiary: var(--color-tertiary);
 
-  /* Fonts - Glada Bonden Brand Typography */
+  /* Fonts - ZAVD Brand Typography */
   /* Note: Font families are injected by Next.js via CSS variables from layout.tsx */
-  /* --font-sans uses Raleway, --font-heading uses MADE Dillan */
+  /* --font-sans uses Inter, --font-heading uses Montserrat */
 
   /* Radius */
   --radius-sm: var(--radius-sm);
@@ -208,8 +212,8 @@
   h4,
   h5,
   h6 {
-    font-family: var(--font-heading), "MADE Dillan", serif;
-    @apply font-medium tracking-tight;
+    font-family: var(--font-heading), "Montserrat", sans-serif;
+    @apply font-semibold tracking-tight;
   }
 }
 
@@ -218,9 +222,9 @@
    ============================================ */
 
 @layer utilities {
-  /* Font utilities - Glada Bonden Brand Typography */
+  /* Font utilities - ZAVD Brand Typography */
   .font-heading {
-    font-family: var(--font-heading), "MADE Dillan", serif;
+    font-family: var(--font-heading), "Montserrat", sans-serif;
   }
 
   ._container {

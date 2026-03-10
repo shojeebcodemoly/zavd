@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { Raleway } from "next/font/google";
-import localFont from "next/font/local";
+import { Montserrat, Inter } from "next/font/google";
 import Script from "next/script";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import "./globals.css";
@@ -9,32 +8,33 @@ import { FB_PIXEL_ID } from "@/lib/analytics/facebook-pixel";
 import { ToasterProvider } from "@/components/providers/toaster-provider";
 import { getSiteSettings } from "@/lib/services/site-settings.service";
 
-// MADE Dillan - Heritage Header Font for H1, H2, hero titles
-const madeDillan = localFont({
-	src: "../MADE Dillan PERSONAL USE.otf",
+// Montserrat - ZAVD Heading Font (H1, H2, Hero titles) — Weight 600/700
+const montserrat = Montserrat({
+	subsets: ["latin"],
 	variable: "--font-heading",
 	display: "swap",
-	weight: "100 900",
+	weight: ["600", "700"],
 });
 
-// Raleway - Standard Interface Font for navigation, buttons, body text
-const raleway = Raleway({
+// Inter - ZAVD Body Font (navigation, buttons, body text) — Weight 400
+const inter = Inter({
 	subsets: ["latin"],
 	variable: "--font-sans",
 	display: "swap",
+	weight: ["400", "500"],
 });
 
 // Default keywords as fallback
 const DEFAULT_KEYWORDS = [
-	"artisan cheese",
+	"artisan zavd",
 	"dairy farm",
 	"natural dairy products",
-	"handcrafted cheese",
+	"handcrafted zavd",
 	"farm fresh",
 	"organic dairy",
-	"cheese making",
+	"zavd making",
 	"dairy products",
-	"traditional cheese",
+	"traditional zavd",
 ];
 
 /**
@@ -115,7 +115,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="sv" className="overflow-x-hidden">
+		<html lang="de" className="overflow-x-hidden">
 			<head>
 				{/* Google Tag Manager - only loads when GTM_ID is configured */}
 				{GTM_ID && (
@@ -167,7 +167,7 @@ export default function RootLayout({
 				)}
 			</head>
 			<body
-				className={`${raleway.variable} ${madeDillan.variable} antialiased bg-background font-sans overflow-x-hidden`}
+				className={`${inter.variable} ${montserrat.variable} antialiased bg-background font-sans overflow-x-hidden`}
 			>
 				{/* Google Tag Manager (noscript) */}
 				{GTM_ID && (

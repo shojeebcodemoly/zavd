@@ -9,42 +9,39 @@ import {
 	type CookiePreferences,
 } from "@/lib/context/cookie-consent-context";
 import { format } from "date-fns";
-import { sv } from "date-fns/locale";
+import { de } from "date-fns/locale";
+import { useTranslations } from "next-intl";
 
 type CookieCategory = {
 	id: keyof CookiePreferences;
-	label: string;
-	description: string;
+	labelKey: string;
+	descriptionKey: string;
 	required: boolean;
 };
 
 const cookieCategories: CookieCategory[] = [
 	{
 		id: "necessary",
-		label: "Nödvändiga",
-		description:
-			"Dessa cookies är nödvändiga för att webbplatsen ska fungera och kan inte stängas av.",
+		labelKey: "necessary",
+		descriptionKey: "necessaryDesc",
 		required: true,
 	},
 	{
 		id: "settings",
-		label: "Inställningar",
-		description:
-			"Dessa cookies gör det möjligt för webbplatsen att komma ihåg val du gör och ge förbättrade funktioner.",
+		labelKey: "settings",
+		descriptionKey: "settingsDesc",
 		required: false,
 	},
 	{
 		id: "statistics",
-		label: "Statistik",
-		description:
-			"Dessa cookies hjälper oss att förstå hur besökare interagerar med webbplatsen genom att samla in anonym information.",
+		labelKey: "statistics",
+		descriptionKey: "statisticsDesc",
 		required: false,
 	},
 	{
 		id: "marketing",
-		label: "Marknadsföring",
-		description:
-			"Dessa cookies används för att visa annonser som är relevanta för dig och mäta effektiviteten av reklamkampanjer.",
+		labelKey: "marketing",
+		descriptionKey: "marketingDesc",
 		required: false,
 	},
 ];
@@ -62,9 +59,10 @@ function CookieBanner() {
 		marketing: false,
 	});
 	const { acceptSelected } = useCookieConsent();
+	const t = useTranslations("cookieConsent");
 
 	const handleToggle = (id: keyof CookiePreferences) => {
-		if (id === "necessary") return; // Cannot toggle necessary
+		if (id === "necessary") return;
 		setSelectedPreferences((prev) => ({
 			...prev,
 			[id]: !prev[id],
@@ -94,7 +92,7 @@ function CookieBanner() {
 									)}
 									onClick={() => setShowCustomize(false)}
 								>
-									Samtycke
+									{t("tabConsent")}
 								</button>
 								<button
 									className={cn(
@@ -105,7 +103,7 @@ function CookieBanner() {
 									)}
 									onClick={() => setShowCustomize(true)}
 								>
-									Anpassa
+									{t("tabCustomize")}
 								</button>
 							</div>
 						</div>
@@ -116,18 +114,10 @@ function CookieBanner() {
 						{!showCustomize ? (
 							<>
 								<h3 className="text-sm font-semibold text-slate-800 mb-2">
-									Denna webbplats använder cookies
+									{t("bannerTitle")}
 								</h3>
 								<p className="text-sm text-slate-600 leading-relaxed">
-									Vi använder cookies för att anpassa innehållet och
-									annonserna till användarna, tillhandahålla funktioner
-									för sociala medier och analysera vår trafik. Vi
-									vidarebefordrar även sådana identifierare och annan
-									information från din enhet till de sociala medier och
-									annons- och analysföretag som vi samarbetar med.
-									Dessa kan i sin tur kombinera informationen med annan
-									information som du har tillhandahållit eller som de
-									har samlat in när du har använt deras tjänster.
+									{t("bannerText")}
 								</p>
 							</>
 						) : (
@@ -156,14 +146,14 @@ function CookieBanner() {
 										<div className="flex-1 min-w-0">
 											<div className="flex items-center gap-2">
 												<span className="text-sm font-medium text-slate-800">
-													{category.label}
+													{t(category.labelKey)}
 												</span>
 												{category.required && (
 													<Lock className="w-3 h-3 text-slate-400" />
 												)}
 											</div>
 											<p className="text-xs text-slate-500 mt-0.5">
-												{category.description}
+												{t(category.descriptionKey)}
 											</p>
 										</div>
 									</div>
@@ -181,13 +171,13 @@ function CookieBanner() {
 									className="flex-1 h-11 rounded-full border-slate-300 hover:bg-slate-100"
 									onClick={() => setShowCustomize(true)}
 								>
-									Anpassa
+									{t("tabCustomize")}
 								</Button>
 								<Button
 									className="flex-1 h-11 rounded-full bg-primary hover:bg-primary-hover"
 									onClick={acceptAll}
 								>
-									Tillåt alla
+									{t("allowAll")}
 								</Button>
 							</>
 						) : (
@@ -197,13 +187,13 @@ function CookieBanner() {
 									className="flex-1 h-11 rounded-full border-slate-300 hover:bg-slate-100"
 									onClick={() => setShowCustomize(false)}
 								>
-									Tillbaka
+									{t("back")}
 								</Button>
 								<Button
 									className="flex-1 h-11 rounded-full bg-primary hover:bg-primary-hover"
 									onClick={handleAcceptSelected}
 								>
-									Spara inställningar
+									{t("saveSettings")}
 								</Button>
 							</>
 						)}
@@ -214,7 +204,7 @@ function CookieBanner() {
 	);
 }
 
-// Cookie Settings Modal (for managing consent after initial choice)
+// Cookie Settings Modal
 function CookieSettingsModal() {
 	const {
 		showSettings,
@@ -225,6 +215,7 @@ function CookieSettingsModal() {
 		acceptSelected,
 	} = useCookieConsent();
 	const [showDetails, setShowDetails] = React.useState(false);
+	const t = useTranslations("cookieConsent");
 
 	if (!showSettings) return null;
 
@@ -233,24 +224,20 @@ function CookieSettingsModal() {
 	};
 
 	const handleChangeConsent = () => {
-		// Reset and allow user to choose again
 		withdrawConsent();
 	};
 
 	return (
 		<>
-			{/* Backdrop */}
 			<div
 				className="fixed inset-0 z-[70] bg-black/50"
 				onClick={closeSettings}
 			/>
-
-			{/* Modal - positioned bottom-right on mobile (near stacked buttons), bottom-left on desktop */}
 			<div className="fixed right-4 bottom-[160px] md:left-6 md:right-auto md:bottom-20 z-[70] w-[calc(100vw-2rem)] max-w-[340px] max-h-[60vh] md:max-h-[80vh] bg-white rounded-xl shadow-2xl overflow-hidden">
 				{/* Header */}
 				<div className="flex items-center justify-between px-5 py-4 border-b border-slate-200">
 					<h3 className="text-base font-semibold text-slate-800">
-						Cookie-inställningar
+						{t("modalTitle")}
 					</h3>
 					<button
 						onClick={closeSettings}
@@ -262,9 +249,8 @@ function CookieSettingsModal() {
 
 				{/* Content */}
 				<div className="px-5 py-4 max-h-[60vh] overflow-y-auto">
-					<p className="text-sm text-slate-600 mb-4">Dina nuvarande val</p>
+					<p className="text-sm text-slate-600 mb-4">{t("currentChoices")}</p>
 
-					{/* Current preferences */}
 					<div className="space-y-2 mb-4">
 						{cookieCategories.map((category) => (
 							<div key={category.id} className="flex items-center gap-3">
@@ -276,18 +262,17 @@ function CookieSettingsModal() {
 									<X className="w-4 h-4 text-slate-400" />
 								)}
 								<span className="text-sm text-slate-700">
-									{category.label}
+									{t(category.labelKey)}
 								</span>
 							</div>
 						))}
 					</div>
 
-					{/* Show details toggle */}
 					<button
 						onClick={() => setShowDetails(!showDetails)}
 						className="flex items-center gap-1 text-sm text-primary hover:text-primary-hover transition-colors"
 					>
-						Visa detaljer
+						{t("showDetails")}
 						{showDetails ? (
 							<ChevronUp className="w-4 h-4" />
 						) : (
@@ -295,30 +280,25 @@ function CookieSettingsModal() {
 						)}
 					</button>
 
-					{/* Details */}
 					{showDetails && consentData && (
 						<div className="mt-4 p-4 bg-slate-50 rounded-lg text-xs text-slate-600 space-y-2">
 							<div>
 								<span className="font-medium text-slate-700">
-									Samtyckesdatum:
+									{t("consentDate")}:
 								</span>
 								<br />
 								{format(
 									new Date(consentData.consentDate),
 									"d MMM yyyy - HH:mm:ss 'GMT'xxx",
-									{
-										locale: sv,
-									}
+									{ locale: de }
 								)}
 							</div>
 							<div>
 								<span className="font-medium text-slate-700">
-									Ditt samtyckes-ID:
+									{t("consentId")}:
 								</span>
 								<br />
-								<span className="break-all">
-									{consentData.consentId}
-								</span>
+								<span className="break-all">{consentData.consentId}</span>
 							</div>
 						</div>
 					)}
@@ -333,14 +313,14 @@ function CookieSettingsModal() {
 							className="flex-1 h-9 sm:h-10 text-xs sm:text-sm font-medium rounded-full border-slate-300 hover:bg-slate-100 hover:border-slate-400 transition-all px-3 sm:px-4"
 							onClick={handleWithdraw}
 						>
-							Återkalla
+							{t("withdraw")}
 						</Button>
 						<Button
 							size="sm"
 							className="flex-1 h-9 sm:h-10 text-xs sm:text-sm font-medium rounded-full bg-primary hover:bg-primary/90 shadow-sm hover:shadow-md transition-all px-3 sm:px-4"
 							onClick={handleChangeConsent}
 						>
-							Ändra samtycke
+							{t("changeConsent")}
 						</Button>
 					</div>
 				</div>
@@ -350,36 +330,30 @@ function CookieSettingsModal() {
 }
 
 // Floating Cookie Settings Button - Desktop Only
-// On mobile, this is rendered inside CallbackPopup for stacked layout
 function CookieSettingsButton() {
 	const { hasConsented, openSettings } = useCookieConsent();
+	const t = useTranslations("cookieConsent");
 
-	// Only show after user has consented, and only on desktop
 	if (!hasConsented) return null;
 
 	return (
 		<button
 			onClick={openSettings}
 			className={cn(
-				// Hidden on mobile, shown on desktop
 				"hidden md:flex",
-				// Desktop position
 				"fixed bottom-6 left-6 z-50",
-				// Desktop styling
 				"h-11 px-4",
 				"rounded-full",
 				"bg-slate-800",
 				"text-white",
 				"shadow-lg",
-				// Layout
 				"items-center justify-center gap-2",
-				// Transitions
 				"transition-all duration-300 ease-out",
 				"hover:bg-slate-700 hover:scale-105 hover:shadow-xl",
 				"focus:outline-none focus:ring-2 focus:ring-slate-600 focus:ring-offset-2",
 				"active:scale-95"
 			)}
-			aria-label="Cookie-inställningar"
+			aria-label={t("cookieSettings")}
 		>
 			<Cookie className="w-4 h-4" />
 			<span className="text-xs font-medium">Cookies</span>

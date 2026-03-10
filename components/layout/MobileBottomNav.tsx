@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Home, Package, Phone, Info } from "lucide-react";
+import { Home, Newspaper, FolderOpen, Phone } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { cn } from "@/lib/utils/cn";
 import { defaultLocale, type Locale } from "@/i18n/config";
@@ -20,18 +20,18 @@ const navItems: NavItem[] = [
 		icon: Home,
 	},
 	{
-		labelKey: "products",
-		href: "/products",
-		icon: Package,
+		labelKey: "aktuelles",
+		href: "/aktuelles",
+		icon: Newspaper,
 	},
 	{
-		labelKey: "about",
-		href: "/about-us",
-		icon: Info,
+		labelKey: "projekte",
+		href: "/projekte",
+		icon: FolderOpen,
 	},
 	{
-		labelKey: "contact",
-		href: "/contact-us",
+		labelKey: "kontakt",
+		href: "/kontakt",
 		icon: Phone,
 	},
 ];
