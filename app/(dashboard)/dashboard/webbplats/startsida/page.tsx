@@ -155,18 +155,23 @@ const testimonialsSectionSchema = z.object({
 	testimonials: z.array(testimonialItemSchema).optional(),
 });
 
-// Category Showcase Section schema
-const categoryShowcaseSectionSchema = z.object({
-	badge: z.string().optional(),
-	title: z.string().optional(),
-	maxCategories: z.number().min(1).max(12).optional(),
+// Partner Logo schema
+const partnerLogoSchema = z.object({
+	image: z.string().optional(),
+	name: z.string().optional(),
+	href: z.string().optional(),
 });
 
-// Product Carousel Section schema
-const productCarouselSectionSchema = z.object({
+// Intro Section schema
+const introSectionSchema = z.object({
 	badge: z.string().optional(),
 	title: z.string().optional(),
-	maxProducts: z.number().min(3).max(12).optional(),
+	subtitle: z.string().optional(),
+	description: z.string().optional(),
+	ctaText: z.string().optional(),
+	ctaHref: z.string().optional(),
+	image: z.string().optional(),
+	partnerLogos: z.array(partnerLogoSchema).optional(),
 });
 
 // Promo Banner Item schema
@@ -203,18 +208,17 @@ const featureBannerSectionSchema = z.object({
 
 // Section Visibility schema
 const sectionVisibilitySchema = z.object({
-	hero: z.boolean(),
-	categoryShowcase: z.boolean(),
-	productCarousel: z.boolean(),
-	promoBanner: z.boolean(),
-	featureBanner: z.boolean(),
-	features: z.boolean(),
-	productShowcase: z.boolean(),
-	imageGallery: z.boolean(),
-	about: z.boolean(),
-	testimonials: z.boolean(),
-	cta: z.boolean(),
-	richContent: z.boolean(),
+	hero: z.boolean().optional(),
+	introSection: z.boolean().optional(),
+	promoBanner: z.boolean().optional(),
+	featureBanner: z.boolean().optional(),
+	features: z.boolean().optional(),
+	productShowcase: z.boolean().optional(),
+	imageGallery: z.boolean().optional(),
+	about: z.boolean().optional(),
+	testimonials: z.boolean().optional(),
+	cta: z.boolean().optional(),
+	richContent: z.boolean().optional(),
 });
 
 // Form schema - all section fields optional to allow saving empty content
@@ -245,11 +249,8 @@ const homePageFormSchema = z.object({
 		})
 		.optional(),
 
-	// Category Showcase Section
-	categoryShowcase: categoryShowcaseSectionSchema.optional(),
-
-	// Product Carousel Section
-	productCarousel: productCarouselSectionSchema.optional(),
+	// Intro Section
+	introSection: introSectionSchema.optional(),
 
 	// Promo Banner Section
 	promoBanner: promoBannerSectionSchema.optional(),
@@ -322,8 +323,7 @@ export default function StartsidaPage() {
 		defaultValues: {
 			sectionVisibility: {
 				hero: true,
-				categoryShowcase: true,
-				productCarousel: true,
+				introSection: true,
 				promoBanner: true,
 				featureBanner: true,
 				features: true,
@@ -359,15 +359,15 @@ export default function StartsidaPage() {
 					progressPercentage: 0,
 				},
 			},
-			categoryShowcase: {
-				badge: "POPULAR CATEGORIES",
-				title: "Explore Our Categories",
-				maxCategories: 3,
-			},
-			productCarousel: {
-				badge: "BUY ONLINE",
-				title: "Popular Products",
-				maxProducts: 6,
+			introSection: {
+				badge: "",
+				title: "",
+				subtitle: "",
+				description: "",
+				ctaText: "",
+				ctaHref: "",
+				image: "",
+				partnerLogos: [],
 			},
 			promoBanner: {
 				leftBanner: {
@@ -485,6 +485,15 @@ export default function StartsidaPage() {
 		name: "testimonialsSection.testimonials",
 	});
 
+	const {
+		fields: partnerLogoFields,
+		append: appendPartnerLogo,
+		remove: removePartnerLogo,
+	} = useFieldArray({
+		control: form.control,
+		name: "introSection.partnerLogos",
+	});
+
 	// Benefits are simple strings, so we manage them manually
 	const benefits = form.watch("aboutSection.benefits") || [];
 	const addBenefit = () => {
@@ -521,8 +530,7 @@ export default function StartsidaPage() {
 				// Ensure section visibility has proper defaults for each field
 				const defaultVisibility = {
 					hero: true,
-					categoryShowcase: true,
-					productCarousel: true,
+					introSection: true,
 					promoBanner: true,
 					featureBanner: true,
 					features: true,
@@ -535,12 +543,7 @@ export default function StartsidaPage() {
 				};
 				const sectionVisibility = {
 					hero: content.sectionVisibility?.hero ?? defaultVisibility.hero,
-					categoryShowcase:
-						content.sectionVisibility?.categoryShowcase ??
-						defaultVisibility.categoryShowcase,
-					productCarousel:
-						content.sectionVisibility?.productCarousel ??
-						defaultVisibility.productCarousel,
+					introSection: content.sectionVisibility?.introSection ?? true,
 					promoBanner:
 						content.sectionVisibility?.promoBanner ??
 						defaultVisibility.promoBanner,
@@ -605,15 +608,15 @@ export default function StartsidaPage() {
 							progressPercentage: 0,
 						},
 					},
-					categoryShowcase: {
-						badge: content.categoryShowcase?.badge || "POPULAR CATEGORIES",
-						title: content.categoryShowcase?.title || "Explore Our Categories",
-						maxCategories: content.categoryShowcase?.maxCategories || 3,
-					},
-					productCarousel: {
-						badge: content.productCarousel?.badge || "BUY ONLINE",
-						title: content.productCarousel?.title || "Popular Products",
-						maxProducts: content.productCarousel?.maxProducts || 6,
+					introSection: {
+						badge: content.introSection?.badge || "",
+						title: content.introSection?.title || "",
+						subtitle: content.introSection?.subtitle || "",
+						description: content.introSection?.description || "",
+						ctaText: content.introSection?.ctaText || "",
+						ctaHref: content.introSection?.ctaHref || "",
+						image: content.introSection?.image || "",
+						partnerLogos: content.introSection?.partnerLogos || [],
 					},
 					promoBanner: {
 						leftBanner: {
@@ -869,8 +872,7 @@ export default function StartsidaPage() {
 						<TabsList className="flex flex-wrap h-auto gap-1 p-1 justify-start">
 							<TabsTrigger value="settings">Settings</TabsTrigger>
 							<TabsTrigger value="hero">Hero</TabsTrigger>
-							<TabsTrigger value="categories">Categories</TabsTrigger>
-							<TabsTrigger value="product-carousel">Carousel</TabsTrigger>
+							<TabsTrigger value="intro-section">Intro</TabsTrigger>
 							<TabsTrigger value="promo-banner">Banner</TabsTrigger>
 							<TabsTrigger value="feature-banner">Feature Banner</TabsTrigger>
 							<TabsTrigger value="products">Products</TabsTrigger>
@@ -918,37 +920,15 @@ export default function StartsidaPage() {
 										/>
 										<FormField
 											control={form.control}
-											name="sectionVisibility.categoryShowcase"
+											name="sectionVisibility.introSection"
 											render={({ field }) => (
 												<FormItem className="flex items-center justify-between rounded-lg border p-4">
 													<div className="space-y-0.5">
 														<FormLabel className="text-base">
-															Category Showcase
+															Intro Section
 														</FormLabel>
 														<FormDescription>
-															Product categories grid after hero.
-														</FormDescription>
-													</div>
-													<FormControl>
-														<Switch
-															checked={field.value}
-															onCheckedChange={field.onChange}
-														/>
-													</FormControl>
-												</FormItem>
-											)}
-										/>
-										<FormField
-											control={form.control}
-											name="sectionVisibility.productCarousel"
-											render={({ field }) => (
-												<FormItem className="flex items-center justify-between rounded-lg border p-4">
-													<div className="space-y-0.5">
-														<FormLabel className="text-base">
-															Product Carousel
-														</FormLabel>
-														<FormDescription>
-															Popular products carousel section.
+															Two-column intro below hero.
 														</FormDescription>
 													</div>
 													<FormControl>
@@ -1406,162 +1386,201 @@ export default function StartsidaPage() {
 								</Card>
 						</TabsContent>
 
-						{/* Categories Tab */}
-						<TabsContent value="categories" className="space-y-6">
+
+						{/* Intro Section Tab */}
+						<TabsContent value="intro-section" className="space-y-6">
 							<Card>
 								<CardHeader>
-									<CardTitle>Category Showcase Settings</CardTitle>
+									<CardTitle>Intro Section</CardTitle>
 									<CardDescription>
-										Configure the product category showcase section that appears after the hero.
-										Categories are managed in Dashboard → Products → Categories.
+										Two-column section below the hero. Left: text content. Right: image/logo.
 									</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-4">
 									<FormField
 										control={form.control}
-										name="categoryShowcase.badge"
+										name="introSection.badge"
 										render={({ field }) => (
 											<FormItem>
-												<FormLabel>Badge Text</FormLabel>
+												<FormLabel>Badge Label</FormLabel>
 												<FormControl>
-													<Input
-														{...field}
-														value={field.value || ""}
-														placeholder="POPULAR CATEGORIES"
-													/>
+													<Input {...field} value={field.value || ""} placeholder="e.g. Integration" />
 												</FormControl>
-												<FormDescription>
-													Small text displayed above the section title.
-												</FormDescription>
+												<FormDescription>Small label shown above the title with a colored accent line.</FormDescription>
 												<FormMessage />
 											</FormItem>
 										)}
 									/>
 									<FormField
 										control={form.control}
-										name="categoryShowcase.title"
+										name="introSection.title"
 										render={({ field }) => (
 											<FormItem>
-												<FormLabel>Section Title</FormLabel>
+												<FormLabel>Title</FormLabel>
 												<FormControl>
-													<Input
-														{...field}
-														value={field.value || ""}
-														placeholder="Explore Our Categories"
-													/>
+													<Input {...field} value={field.value || ""} placeholder="Integration" />
 												</FormControl>
-												<FormDescription>
-													Main heading for the category showcase section.
-												</FormDescription>
 												<FormMessage />
 											</FormItem>
 										)}
 									/>
 									<FormField
 										control={form.control}
-										name="categoryShowcase.maxCategories"
+										name="introSection.subtitle"
 										render={({ field }) => (
 											<FormItem>
-												<FormLabel>Number of Categories to Display</FormLabel>
+												<FormLabel>Subtitle</FormLabel>
 												<FormControl>
-													<Input
-														type="number"
-														{...field}
-														value={field.value || 3}
-														onChange={(e) => field.onChange(Number(e.target.value))}
-														min={1}
-														max={12}
+													<Input {...field} value={field.value || ""} placeholder="Short bold subtitle..." />
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+									<FormField
+										control={form.control}
+										name="introSection.description"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Description</FormLabel>
+												<FormControl>
+													<Textarea {...field} value={field.value || ""} placeholder="Paragraph text..." rows={4} />
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+									<div className="grid grid-cols-2 gap-4">
+										<FormField
+											control={form.control}
+											name="introSection.ctaText"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>CTA Button Text</FormLabel>
+													<FormControl>
+														<Input {...field} value={field.value || ""} placeholder="Read more..." />
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="introSection.ctaHref"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>CTA Link URL</FormLabel>
+													<FormControl>
+														<Input {...field} value={field.value || ""} placeholder="/about" />
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+									<FormField
+										control={form.control}
+										name="introSection.image"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Right Side Image / Logo</FormLabel>
+												<FormControl>
+													<MediaPicker
+														type="image"
+														value={field.value || ""}
+														onChange={(url) => field.onChange(url || "")}
+														showPreview
 													/>
 												</FormControl>
-												<FormDescription>
-													How many categories to display on the home page (1-12). Categories are ordered by their sort order in the category manager.
-												</FormDescription>
 												<FormMessage />
 											</FormItem>
 										)}
 									/>
 								</CardContent>
 							</Card>
-						</TabsContent>
 
-						{/* Product Carousel Tab */}
-						<TabsContent value="product-carousel" className="space-y-6">
+							{/* Partner Logos Card */}
 							<Card>
 								<CardHeader>
-									<CardTitle>Product Carousel Settings</CardTitle>
+									<CardTitle>Partner Logos</CardTitle>
 									<CardDescription>
-										Configure the product carousel section that shows popular products.
-										Products are fetched automatically from your published products.
+										Logos shown at the bottom of the intro section. Leave image empty to show name as text.
 									</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-4">
-									<FormField
-										control={form.control}
-										name="productCarousel.badge"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Badge Text</FormLabel>
-												<FormControl>
-													<Input
-														{...field}
-														value={field.value || ""}
-														placeholder="BUY ONLINE"
-													/>
-												</FormControl>
-												<FormDescription>
-													Small text displayed above the section title.
-												</FormDescription>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<FormField
-										control={form.control}
-										name="productCarousel.title"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Section Title</FormLabel>
-												<FormControl>
-													<Input
-														{...field}
-														value={field.value || ""}
-														placeholder="Popular Products"
-													/>
-												</FormControl>
-												<FormDescription>
-													Main heading for the product carousel section.
-												</FormDescription>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<FormField
-										control={form.control}
-										name="productCarousel.maxProducts"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Number of Products to Display</FormLabel>
-												<FormControl>
-													<Input
-														type="number"
-														{...field}
-														value={field.value || 6}
-														onChange={(e) => field.onChange(Number(e.target.value))}
-														min={3}
-														max={12}
-													/>
-												</FormControl>
-												<FormDescription>
-													How many products to display in the carousel (3-12). Products are shown in 3 per row.
-												</FormDescription>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
+									{partnerLogoFields.map((logoField, index) => (
+										<div key={logoField.id} className="border rounded-lg p-4 space-y-3 relative">
+											<div className="flex items-center justify-between">
+												<span className="text-sm font-medium text-muted-foreground">Partner {index + 1}</span>
+												<Button
+													type="button"
+													variant="ghost"
+													size="sm"
+													onClick={() => removePartnerLogo(index)}
+													className="text-destructive hover:text-destructive"
+												>
+													Remove
+												</Button>
+											</div>
+											<div className="grid grid-cols-2 gap-3">
+												<FormField
+													control={form.control}
+													name="`introSection.partnerLogos.${index}.name`"
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Name</FormLabel>
+															<FormControl>
+																<Input {...field} value={field.value || ""} placeholder="Partner name" />
+															</FormControl>
+															<FormMessage />
+														</FormItem>
+													)}
+												/>
+												<FormField
+													control={form.control}
+													name="`introSection.partnerLogos.${index}.href`"
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Link URL (optional)</FormLabel>
+															<FormControl>
+																<Input {...field} value={field.value || ""} placeholder="https://..." />
+															</FormControl>
+															<FormMessage />
+														</FormItem>
+													)}
+												/>
+											</div>
+											<FormField
+												control={form.control}
+												name="`introSection.partnerLogos.${index}.image`"
+												render={({ field }) => (
+													<FormItem>
+														<FormLabel>Logo Image</FormLabel>
+														<FormControl>
+															<MediaPicker
+																type="image"
+																value={field.value || ""}
+																onChange={(url) => field.onChange(url || "")}
+																showPreview
+															/>
+														</FormControl>
+														<FormMessage />
+													</FormItem>
+												)}
+											/>
+										</div>
+									))}
+									<Button
+										type="button"
+										variant="outline"
+										size="sm"
+										onClick={() => appendPartnerLogo({ image: "", name: "", href: "" })}
+									>
+										+ Add Partner
+									</Button>
 								</CardContent>
 							</Card>
 						</TabsContent>
-
 						{/* Promo Banner Tab */}
 						<TabsContent value="promo-banner" className="space-y-6">
 							{/* Left Banner */}
@@ -2870,8 +2889,7 @@ export default function StartsidaPage() {
 								<CardHeader>
 									<CardTitle>Section Settings</CardTitle>
 									<CardDescription>
-										Title and description for the testimonials
-										section.
+										Optional heading shown above the partner logos grid.
 									</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-4">
@@ -2885,7 +2903,7 @@ export default function StartsidaPage() {
 													<Input
 														{...field}
 														value={field.value || ""}
-														placeholder="Trusted by Leading Healthcare Providers"
+														placeholder="Our Partners"
 													/>
 												</FormControl>
 												<FormMessage />
@@ -2902,7 +2920,7 @@ export default function StartsidaPage() {
 													<Textarea
 														{...field}
 														value={field.value || ""}
-														placeholder="Hear from healthcare professionals who have transformed their practices..."
+														placeholder="Organizations we work with..."
 														rows={2}
 													/>
 												</FormControl>
@@ -2913,11 +2931,11 @@ export default function StartsidaPage() {
 								</CardContent>
 							</Card>
 
-							{/* Testimonials List */}
+							{/* Partner Logos List */}
 							<Card>
 								<CardHeader>
 									<CardTitle className="flex items-center justify-between">
-										<span>Testimonials</span>
+										<span>Partner Logos</span>
 										<Button
 											type="button"
 											variant="outline"
@@ -2932,18 +2950,17 @@ export default function StartsidaPage() {
 											}
 										>
 											<Plus className="h-4 w-4 mr-1" />
-											Add Testimonial
+											Add Partner
 										</Button>
 									</CardTitle>
 									<CardDescription>
-										Customer testimonials displayed in a carousel.
+										Partner / organization logos displayed in a grid row on the landing page.
 									</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-4">
 									{testimonialFields.length === 0 ? (
 										<div className="text-center py-8 text-muted-foreground">
-											No testimonials added. Click &quot;Add
-											Testimonial&quot; to add one.
+											No partners added yet. Click &quot;Add Partner&quot; to add one.
 										</div>
 									) : (
 										testimonialFields.map((field, index) => (
@@ -2951,7 +2968,7 @@ export default function StartsidaPage() {
 												<CardHeader className="pb-3">
 													<div className="flex items-center justify-between">
 														<CardTitle className="text-base">
-															Testimonial {index + 1}
+															Partner {index + 1}
 														</CardTitle>
 														<Button
 															type="button"
@@ -2959,8 +2976,8 @@ export default function StartsidaPage() {
 															size="sm"
 															onClick={async () => {
 																const confirmed = await confirm({
-																	title: "Remove Testimonial",
-																	description: "Are you sure you want to remove this testimonial?",
+																	title: "Remove Partner",
+																	description: "Are you sure you want to remove this partner?",
 																	confirmText: "Remove",
 																});
 																if (confirmed) removeTestimonial(index);
@@ -2972,77 +2989,40 @@ export default function StartsidaPage() {
 													</div>
 												</CardHeader>
 												<CardContent className="space-y-4">
+													{/* Logo Image */}
 													<FormField
 														control={form.control}
-														name={`testimonialsSection.testimonials.${index}.quote`}
+														name={`testimonialsSection.testimonials.${index}.image`}
 														render={({ field }) => (
 															<FormItem>
-																<FormLabel>Quote</FormLabel>
+																<FormLabel>Logo Image</FormLabel>
 																<FormControl>
-																	<Textarea
-																		{...field}
+																	<MediaPicker
+																		type="image"
 																		value={field.value || ""}
-																		placeholder="Enter the testimonial quote..."
-																		rows={3}
+																		onChange={(url) => field.onChange(url || "")}
+																		showPreview
 																	/>
 																</FormControl>
 																<FormMessage />
 															</FormItem>
 														)}
 													/>
-													<div className="grid gap-4 sm:grid-cols-2">
-														<FormField
-															control={form.control}
-															name={`testimonialsSection.testimonials.${index}.author`}
-															render={({ field }) => (
-																<FormItem>
-																	<FormLabel>
-																		Author Name
-																	</FormLabel>
-																	<FormControl>
-																		<Input
-																			{...field}
-																			value={field.value || ""}
-																			placeholder="Dr. Sarah Chen"
-																		/>
-																	</FormControl>
-																	<FormMessage />
-																</FormItem>
-															)}
-														/>
-														<FormField
-															control={form.control}
-															name={`testimonialsSection.testimonials.${index}.role`}
-															render={({ field }) => (
-																<FormItem>
-																	<FormLabel>Role</FormLabel>
-																	<FormControl>
-																		<Input
-																			{...field}
-																			value={field.value || ""}
-																			placeholder="Chief of Radiology"
-																		/>
-																	</FormControl>
-																	<FormMessage />
-																</FormItem>
-															)}
-														/>
-													</div>
+													{/* Organization Name */}
 													<FormField
 														control={form.control}
-														name={`testimonialsSection.testimonials.${index}.company`}
+														name={`testimonialsSection.testimonials.${index}.author`}
 														render={({ field }) => (
 															<FormItem>
-																<FormLabel>
-																	Company/Hospital
-																</FormLabel>
+																<FormLabel>Organization Name</FormLabel>
 																<FormControl>
 																	<Input
 																		{...field}
 																		value={field.value || ""}
-																		placeholder="St. Mary's General Hospital"
+																		placeholder="Deutsches Rotes Kreuz"
 																	/>
 																</FormControl>
+																<FormDescription>Shown below the logo image (optional).</FormDescription>
 																<FormMessage />
 															</FormItem>
 														)}
@@ -3054,7 +3034,6 @@ export default function StartsidaPage() {
 								</CardContent>
 							</Card>
 						</TabsContent>
-
 						{/* CTA Section Tab */}
 						<TabsContent value="cta" className="space-y-6">
 							<Card>

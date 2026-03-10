@@ -39,6 +39,8 @@ export interface IHeroSlide {
 	backgroundImage?: string;
 	ctaText?: string;
 	ctaHref?: string;
+	ctaText2?: string;
+	ctaHref2?: string;
 	isActive?: boolean;
 }
 
@@ -175,6 +177,7 @@ export interface ITestimonialItem {
 	author?: string;
 	role?: string;
 	company?: string;
+	image?: string;
 }
 
 /**
@@ -245,21 +248,45 @@ export interface IFeatureBannerSection {
 }
 
 /**
+ * Partner Logo item interface
+ */
+export interface IPartnerLogo {
+	image?: string;
+	name?: string;
+	href?: string;
+}
+
+/**
+ * Intro Section interface - two-column text + image section after hero
+ */
+export interface IIntroSection {
+	badge?: string;
+	title?: string;
+	subtitle?: string;
+	description?: string;
+	ctaText?: string;
+	ctaHref?: string;
+	image?: string;
+	partnerLogos?: IPartnerLogo[];
+}
+
+/**
  * Section Visibility Settings interface
  */
 export interface ISectionVisibility {
-	hero: boolean;
-	categoryShowcase: boolean;
-	productCarousel: boolean;
-	promoBanner: boolean;
-	featureBanner: boolean;
-	features: boolean;
-	productShowcase: boolean;
-	imageGallery: boolean;
-	about: boolean;
-	testimonials: boolean;
-	cta: boolean;
-	richContent: boolean;
+	hero?: boolean;
+	introSection?: boolean;
+	categoryShowcase?: boolean;
+	productCarousel?: boolean;
+	promoBanner?: boolean;
+	featureBanner?: boolean;
+	features?: boolean;
+	productShowcase?: boolean;
+	imageGallery?: boolean;
+	about?: boolean;
+	testimonials?: boolean;
+	cta?: boolean;
+	richContent?: boolean;
 }
 
 /**
@@ -283,6 +310,9 @@ export interface IHomePage extends Document {
 
 	// Hero Section
 	hero: IHeroSection;
+
+	// Intro Section (after hero - two column text + image)
+	introSection: IIntroSection;
 
 	// Category Showcase Section (after hero)
 	categoryShowcase: ICategoryShowcaseSection;
@@ -377,6 +407,8 @@ const HeroSlideSchema = new Schema<IHeroSlide>(
 		backgroundImage: { type: String, trim: true },
 		ctaText: { type: String, trim: true },
 		ctaHref: { type: String, trim: true },
+		ctaText2: { type: String, trim: true },
+		ctaHref2: { type: String, trim: true },
 		isActive: { type: Boolean, default: true },
 	},
 	{ _id: false }
@@ -553,6 +585,7 @@ const TestimonialItemSchema = new Schema<ITestimonialItem>(
 		author: { type: String, trim: true },
 		role: { type: String, trim: true },
 		company: { type: String, trim: true },
+		image: { type: String, trim: true },
 	},
 	{ _id: false }
 );
@@ -646,11 +679,41 @@ const FeatureBannerSectionSchema = new Schema<IFeatureBannerSection>(
 );
 
 /**
+ * Partner Logo sub-schema
+ */
+const PartnerLogoSchema = new Schema<IPartnerLogo>(
+	{
+		image: { type: String, trim: true },
+		name: { type: String, trim: true },
+		href: { type: String, trim: true },
+	},
+	{ _id: false }
+);
+
+/**
+ * Intro Section sub-schema
+ */
+const IntroSectionSchema = new Schema<IIntroSection>(
+	{
+		badge: { type: String, trim: true },
+		title: { type: String, trim: true },
+		subtitle: { type: String, trim: true },
+		description: { type: String, trim: true },
+		ctaText: { type: String, trim: true },
+		ctaHref: { type: String, trim: true },
+		image: { type: String, trim: true },
+		partnerLogos: { type: [PartnerLogoSchema], default: [] },
+	},
+	{ _id: false }
+);
+
+/**
  * Section Visibility sub-schema
  */
 const SectionVisibilitySchema = new Schema<ISectionVisibility>(
 	{
 		hero: { type: Boolean, default: true },
+		introSection: { type: Boolean, default: true },
 		categoryShowcase: { type: Boolean, default: true },
 		productCarousel: { type: Boolean, default: true },
 		promoBanner: { type: Boolean, default: true },
@@ -677,6 +740,7 @@ const HomePageSchema = new Schema<IHomePage>(
 			type: SectionVisibilitySchema,
 			default: {
 				hero: true,
+				introSection: true,
 				categoryShowcase: true,
 				productCarousel: true,
 				promoBanner: true,
@@ -692,6 +756,10 @@ const HomePageSchema = new Schema<IHomePage>(
 		},
 		hero: {
 			type: HeroSectionSchema,
+			default: {},
+		},
+		introSection: {
+			type: IntroSectionSchema,
 			default: {},
 		},
 		categoryShowcase: {

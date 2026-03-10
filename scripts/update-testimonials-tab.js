@@ -1,0 +1,190 @@
+const fs = require("fs");
+const file = "d:/zavd/app/(dashboard)/dashboard/webbplats/startsida/page.tsx";
+let content = fs.readFileSync(file, "utf8");
+
+const startMarker = "\t\t\t\t\t\t{/* Testimonials Tab */}";
+const endMarker = "\t\t\t\t\t\t{/* CTA Section Tab */}";
+const startIdx = content.indexOf(startMarker);
+const endIdx = content.indexOf(endMarker);
+
+if (startIdx === -1 || endIdx === -1) {
+  console.error("markers not found", startIdx, endIdx);
+  process.exit(1);
+}
+
+const beforeBlock = content.substring(0, startIdx);
+const afterBlock = content.substring(endIdx);
+
+const NL = "\r\n";
+const t6 = "\t\t\t\t\t\t";
+const t7 = "\t\t\t\t\t\t\t";
+const t8 = "\t\t\t\t\t\t\t\t";
+const t9 = "\t\t\t\t\t\t\t\t\t";
+const t10 = "\t\t\t\t\t\t\t\t\t\t";
+const t11 = "\t\t\t\t\t\t\t\t\t\t\t";
+const t12 = "\t\t\t\t\t\t\t\t\t\t\t\t";
+const t13 = "\t\t\t\t\t\t\t\t\t\t\t\t\t";
+const t14 = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t";
+const t15 = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t";
+const t16 = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t";
+const t17 = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t";
+
+const newBlock = [
+  t6 + "{/* Testimonials Tab */}",
+  t6 + `<TabsContent value="testimonials" className="space-y-6">`,
+  t7 + "{/* Section Settings */}",
+  t7 + "<Card>",
+  t8 + "<CardHeader>",
+  t9 + "<CardTitle>Section Settings</CardTitle>",
+  t9 + "<CardDescription>",
+  t10 + "Optional heading shown above the partner logos grid.",
+  t9 + "</CardDescription>",
+  t8 + "</CardHeader>",
+  t8 + `<CardContent className="space-y-4">`,
+  t9 + "<FormField",
+  t10 + "control={form.control}",
+  t10 + `name="testimonialsSection.title"`,
+  t10 + "render={({ field }) => (",
+  t11 + "<FormItem>",
+  t12 + "<FormLabel>Section Title</FormLabel>",
+  t12 + "<FormControl>",
+  t13 + `<Input`,
+  t14 + "{...field}",
+  t14 + `value={field.value || ""}`,
+  t14 + `placeholder="Our Partners"`,
+  t13 + "/>",
+  t12 + "</FormControl>",
+  t12 + "<FormMessage />",
+  t11 + "</FormItem>",
+  t10 + ")}",
+  t9 + "/>",
+  t9 + "<FormField",
+  t10 + "control={form.control}",
+  t10 + `name="testimonialsSection.subtitle"`,
+  t10 + "render={({ field }) => (",
+  t11 + "<FormItem>",
+  t12 + "<FormLabel>Section Subtitle</FormLabel>",
+  t12 + "<FormControl>",
+  t13 + "<Textarea",
+  t14 + "{...field}",
+  t14 + `value={field.value || ""}`,
+  t14 + `placeholder="Organizations we work with..."`,
+  t14 + "rows={2}",
+  t13 + "/>",
+  t12 + "</FormControl>",
+  t12 + "<FormMessage />",
+  t11 + "</FormItem>",
+  t10 + ")}",
+  t9 + "/>",
+  t8 + "</CardContent>",
+  t7 + "</Card>",
+  "",
+  t7 + "{/* Partner Logos List */}",
+  t7 + "<Card>",
+  t8 + "<CardHeader>",
+  t9 + `<CardTitle className="flex items-center justify-between">`,
+  t10 + "<span>Partner Logos</span>",
+  t10 + "<Button",
+  t11 + `type="button"`,
+  t11 + `variant="outline"`,
+  t11 + `size="sm"`,
+  t11 + "onClick={() =>",
+  t12 + "appendTestimonial({",
+  t13 + `quote: "",`,
+  t13 + `author: "",`,
+  t13 + `role: "",`,
+  t13 + `company: "",`,
+  t12 + "})",
+  t11 + "}",
+  t10 + ">",
+  t11 + `<Plus className="h-4 w-4 mr-1" />`,
+  t11 + "Add Partner",
+  t10 + "</Button>",
+  t9 + "</CardTitle>",
+  t9 + "<CardDescription>",
+  t10 + "Partner / organization logos displayed in a grid row on the landing page.",
+  t9 + "</CardDescription>",
+  t8 + "</CardHeader>",
+  t8 + `<CardContent className="space-y-4">`,
+  t9 + "{testimonialFields.length === 0 ? (",
+  t10 + `<div className="text-center py-8 text-muted-foreground">`,
+  t11 + `No partners added yet. Click &quot;Add Partner&quot; to add one.`,
+  t10 + "</div>",
+  t9 + ") : (",
+  t10 + "testimonialFields.map((field, index) => (",
+  t11 + `<Card key={field.id} className="border-dashed">`,
+  t12 + `<CardHeader className="pb-3">`,
+  t13 + `<div className="flex items-center justify-between">`,
+  t14 + `<CardTitle className="text-base">`,
+  t15 + "Partner {index + 1}",
+  t14 + "</CardTitle>",
+  t14 + "<Button",
+  t15 + `type="button"`,
+  t15 + `variant="ghost"`,
+  t15 + `size="sm"`,
+  t15 + "onClick={async () => {",
+  t16 + "const confirmed = await confirm({",
+  t17 + `title: "Remove Partner",`,
+  t17 + `description: "Are you sure you want to remove this partner?",`,
+  t17 + `confirmText: "Remove",`,
+  t16 + "});",
+  t16 + "if (confirmed) removeTestimonial(index);",
+  t15 + "}}",
+  t15 + `className="text-destructive hover:text-destructive"`,
+  t14 + ">",
+  t15 + `<Trash2 className="h-4 w-4" />`,
+  t14 + "</Button>",
+  t13 + "</div>",
+  t12 + "</CardHeader>",
+  t12 + `<CardContent className="space-y-4">`,
+  t13 + "{/* Logo Image */}",
+  t13 + "<FormField",
+  t14 + "control={form.control}",
+  t14 + "name={`testimonialsSection.testimonials.${index}.image`}",
+  t14 + "render={({ field }) => (",
+  t15 + "<FormItem>",
+  t16 + "<FormLabel>Logo Image</FormLabel>",
+  t16 + "<FormControl>",
+  t17 + "<MediaPicker",
+  t17 + `\ttype="image"`,
+  t17 + `\tvalue={field.value || ""}`,
+  t17 + `\tonChange={(url) => field.onChange(url || "")}`,
+  t17 + "\tshowPreview",
+  t17 + "/>",
+  t16 + "</FormControl>",
+  t16 + "<FormMessage />",
+  t15 + "</FormItem>",
+  t14 + ")}",
+  t13 + "/>",
+  t13 + "{/* Organization Name */}",
+  t13 + "<FormField",
+  t14 + "control={form.control}",
+  t14 + "name={`testimonialsSection.testimonials.${index}.author`}",
+  t14 + "render={({ field }) => (",
+  t15 + "<FormItem>",
+  t16 + "<FormLabel>Organization Name</FormLabel>",
+  t16 + "<FormControl>",
+  t17 + "<Input",
+  t17 + "\t{...field}",
+  t17 + `\tvalue={field.value || ""}`,
+  t17 + `\tplaceholder="Deutsches Rotes Kreuz"`,
+  t17 + "/>",
+  t16 + "</FormControl>",
+  t16 + "<FormDescription>Shown below the logo image (optional).</FormDescription>",
+  t16 + "<FormMessage />",
+  t15 + "</FormItem>",
+  t14 + ")}",
+  t13 + "/>",
+  t12 + "</CardContent>",
+  t11 + "</Card>",
+  t10 + "))",
+  t9 + ")}",
+  t8 + "</CardContent>",
+  t7 + "</Card>",
+  t6 + "</TabsContent>",
+  "",
+].join(NL);
+
+const newContent = beforeBlock + newBlock + afterBlock;
+fs.writeFileSync(file, newContent, "utf8");
+console.log("Testimonials tab updated successfully.");
