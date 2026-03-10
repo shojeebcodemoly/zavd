@@ -27,6 +27,8 @@ export const heroSlideSchema = z.object({
 	backgroundImage: z.string().optional(),
 	ctaText: z.string().max(100).optional(),
 	ctaHref: z.string().max(500).optional(),
+	ctaText2: z.string().max(100).optional(),
+	ctaHref2: z.string().max(500).optional(),
 	isActive: z.boolean().optional(),
 });
 
@@ -196,6 +198,7 @@ export const testimonialItemSchema = z.object({
 	author: z.string().max(100).optional(),
 	role: z.string().max(100).optional(),
 	company: z.string().max(200).optional(),
+	image: z.string().optional(),
 });
 
 /**
@@ -266,21 +269,42 @@ export const featureBannerSectionSchema = z.object({
 });
 
 /**
- * Section Visibility schema
+ * Partner Logo schema
  */
+export const partnerLogoSchema = z.object({
+	image: z.string().optional(),
+	name: z.string().max(100).optional(),
+	href: z.string().max(500).optional(),
+});
+
+/**
+ * Intro Section schema
+ */
+export const introSectionSchema = z.object({
+	badge: z.string().max(100).optional(),
+	title: z.string().max(200).optional(),
+	subtitle: z.string().max(500).optional(),
+	description: z.string().max(2000).optional(),
+	ctaText: z.string().max(100).optional(),
+	ctaHref: z.string().max(500).optional(),
+	image: z.string().optional(),
+	partnerLogos: z.array(partnerLogoSchema).optional(),
+});
+
 export const sectionVisibilitySchema = z.object({
-	hero: z.boolean(),
-	categoryShowcase: z.boolean(),
-	productCarousel: z.boolean(),
-	promoBanner: z.boolean(),
-	featureBanner: z.boolean(),
-	features: z.boolean(),
-	productShowcase: z.boolean(),
-	imageGallery: z.boolean(),
-	about: z.boolean(),
-	testimonials: z.boolean(),
-	cta: z.boolean(),
-	richContent: z.boolean(),
+	hero: z.boolean().optional(),
+	introSection: z.boolean().optional(),
+	categoryShowcase: z.boolean().optional(),
+	productCarousel: z.boolean().optional(),
+	promoBanner: z.boolean().optional(),
+	featureBanner: z.boolean().optional(),
+	features: z.boolean().optional(),
+	productShowcase: z.boolean().optional(),
+	imageGallery: z.boolean().optional(),
+	about: z.boolean().optional(),
+	testimonials: z.boolean().optional(),
+	cta: z.boolean().optional(),
+	richContent: z.boolean().optional(),
 });
 
 /**
@@ -289,6 +313,7 @@ export const sectionVisibilitySchema = z.object({
 export const updateHomePageSchema = z.object({
 	sectionVisibility: sectionVisibilitySchema.optional(),
 	hero: heroSectionExtendedSchema.partial().optional(),
+	introSection: introSectionSchema.partial().optional(),
 	categoryShowcase: categoryShowcaseSectionSchema.partial().optional(),
 	productCarousel: productCarouselSectionSchema.partial().optional(),
 	promoBanner: promoBannerSectionSchema.partial().optional(),

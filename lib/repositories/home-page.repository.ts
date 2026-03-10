@@ -12,6 +12,7 @@ import {
 	type IImageGallerySection,
 	type ISectionVisibility,
 	type ITestimonialsSection,
+	type IIntroSection,
 } from "@/models/home-page.model";
 
 /**
@@ -20,6 +21,7 @@ import {
 export interface UpdateHomePageInput {
 	sectionVisibility?: ISectionVisibility;
 	hero?: Partial<IHeroSection>;
+	introSection?: Partial<IIntroSection>;
 	categoryShowcase?: {
 		badge?: string;
 		title?: string;
@@ -125,6 +127,14 @@ class HomePageRepository {
 			Object.entries(data.hero).forEach(([key, value]) => {
 				if (value !== undefined) {
 					updateData[`hero.${key}`] = value;
+				}
+			});
+		}
+
+		if (data.introSection) {
+			Object.entries(data.introSection).forEach(([key, value]) => {
+				if (value !== undefined) {
+					updateData[`introSection.${key}`] = value;
 				}
 			});
 		}
