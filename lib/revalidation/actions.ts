@@ -321,3 +321,14 @@ export async function revalidateQualityPage(): Promise<void> {
 	revalidatePath(`/en${PATHS.QUALITY}`);
 	revalidatePath(`/sv${PATHS.QUALITY}`);
 }
+
+/**
+ * Revalidate Über ZAVD about page
+ * Call this when uber-zavd page content is updated
+ */
+export async function revalidateUberZavdPage(): Promise<void> {
+	revalidateTag(CACHE_TAGS.UBER_ZAVD_PAGE, "default");
+	revalidatePath(PATHS.UBER_ZAVD);
+	revalidatePath(`/en${PATHS.UBER_ZAVD}`);
+	revalidatePath(`/de${PATHS.UBER_ZAVD}`);
+}

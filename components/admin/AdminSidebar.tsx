@@ -31,6 +31,7 @@ import {
 	Handshake,
 	ChevronDown,
 	ChevronRight,
+	Building2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { authClient } from "@/lib/auth-client";
@@ -71,6 +72,11 @@ const navSections: NavSection[] = [
 				title: "Home Page",
 				href: "/dashboard/webbplats/startsida",
 				icon: Globe,
+			},
+			{
+				title: "Über ZAVD",
+				href: "/dashboard/webbplats/uber-zavd",
+				icon: Building2,
 			},
 			{
 				title: "About Us",

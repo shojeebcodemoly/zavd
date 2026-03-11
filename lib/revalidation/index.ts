@@ -45,6 +45,7 @@ export const CACHE_TAGS = {
 	MINIUTBILDNING_PAGE: "miniutbildning-page",
 	RESELLER_PAGE: "reseller-page",
 	QUALITY_PAGE: "quality-page",
+	UBER_ZAVD_PAGE: "uber-zavd-page",
 
 	// Sitemaps
 	SITEMAPS: "sitemaps",
@@ -81,6 +82,7 @@ export const PATHS = {
 	MINIUTBILDNING: "/starta-eget/miniutbildning",
 	RESELLER: "/aterforsaljare",
 	QUALITY: "/quality",
+	UBER_ZAVD: "/uber-zavd",
 } as const;
 
 // Default revalidation time in seconds (24 hours)

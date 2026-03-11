@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Eye, EyeOff } from "lucide-react";
 
 const formSchema = z.object({
 	email: z.string().email("Invalid email format"),
@@ -27,13 +28,35 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
+function LoginFormSkeleton() {
+	return (
+		<div className="_container padding-top">
+			<div className="max-w-sm mx-auto space-y-6">
+				<Skeleton className="h-9 w-32" />
+				<div className="space-y-6">
+					<div className="space-y-2">
+						<Skeleton className="h-4 w-12" />
+						<Skeleton className="h-10 w-full" />
+					</div>
+					<div className="space-y-2">
+						<Skeleton className="h-4 w-16" />
+						<Skeleton className="h-10 w-full" />
+					</div>
+					<Skeleton className="h-11 w-full" />
+				</div>
+				<Skeleton className="h-4 w-48 mx-auto" />
+			</div>
+		</div>
+	);
+}
+
 function LoginForm() {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const [error, setError] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
+	const [showPassword, setShowPassword] = useState(false);
 
-	// Get callback URL from query params
 	const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
 
 	const form = useForm<FormValues>({
@@ -49,7 +72,6 @@ function LoginForm() {
 			setError(null);
 			setIsLoading(true);
 
-			// Call Better Auth sign in
 			const res = await authClient.signIn.email({
 				email: values.email,
 				password: values.password,
@@ -85,8 +107,8 @@ function LoginForm() {
 					<form
 						onSubmit={form.handleSubmit(onSubmit)}
 						className="space-y-6"
+						suppressHydrationWarning
 					>
-						{/* Email */}
 						<FormField
 							control={form.control}
 							name="email"
@@ -105,7 +127,6 @@ function LoginForm() {
 							)}
 						/>
 
-						{/* Password */}
 						<FormField
 							control={form.control}
 							name="password"
@@ -113,11 +134,21 @@ function LoginForm() {
 								<FormItem>
 									<FormLabel>Password</FormLabel>
 									<FormControl>
-										<Input
-											type="password"
-											placeholder="••••••••"
-											{...field}
-										/>
+										<div className="relative">
+											<Input
+												type={showPassword ? "text" : "password"}
+												placeholder="••••••••"
+												{...field}
+											/>
+											<button
+												type="button"
+												onClick={() => setShowPassword((v) => !v)}
+												className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+												tabIndex={-1}
+											>
+												{showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+											</button>
+										</div>
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -141,28 +172,6 @@ function LoginForm() {
 						Register
 					</a>
 				</p>
-			</div>
-		</div>
-	);
-}
-
-function LoginFormSkeleton() {
-	return (
-		<div className="_container padding-top">
-			<div className="max-w-sm mx-auto space-y-6">
-				<Skeleton className="h-9 w-32" />
-				<div className="space-y-6">
-					<div className="space-y-2">
-						<Skeleton className="h-4 w-12" />
-						<Skeleton className="h-10 w-full" />
-					</div>
-					<div className="space-y-2">
-						<Skeleton className="h-4 w-16" />
-						<Skeleton className="h-10 w-full" />
-					</div>
-					<Skeleton className="h-11 w-full" />
-				</div>
-				<Skeleton className="h-4 w-48 mx-auto" />
 			</div>
 		</div>
 	);

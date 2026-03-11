@@ -1,29 +1,24 @@
+"use client";
+
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { API_ROUTES } from "@/lib/utils/constants";
+import { User, ChevronDown, LayoutDashboard, Users, UserCircle, LogOut, LogIn } from "lucide-react";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const PROTECTED_ROUTES = [
-	{
-		name: "Dashboard",
-		route: "/dashboard",
-	},
-	{
-		name: "Users",
-		route: "/dashboard/users",
-	},
-	{
-		name: "Profile",
-		route: "/dashboard/profile",
-	},
+	{ name: "Dashboard", route: "/dashboard", icon: LayoutDashboard },
+	{ name: "Users", route: "/dashboard/users", icon: Users },
+	{ name: "Profile", route: "/dashboard/profile", icon: UserCircle },
 ];
-
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from "@/components/ui/popover";
 
 interface UserData {
 	name: string;
@@ -37,10 +32,8 @@ const ProtectedNavbar = () => {
 	const [imageKey, setImageKey] = useState(() => Date.now());
 	const { data: session } = authClient.useSession();
 
-	// Fetch user data to get the current profile image
 	useEffect(() => {
 		const userId = session?.user?.id;
-
 		if (userId) {
 			const fetchUserData = async () => {
 				try {
@@ -52,12 +45,10 @@ const ProtectedNavbar = () => {
 							email: data.data.user.email,
 							image: data.data.user.image,
 						});
-						// Update imageKey to bust cache when new image is fetched
 						setImageKey(Date.now());
 					}
 				} catch (error) {
 					console.error("Error fetching user data:", error);
-					// Fallback to session data
 					if (session?.user) {
 						setUserData({
 							name: session.user.name,
@@ -69,17 +60,14 @@ const ProtectedNavbar = () => {
 			};
 			fetchUserData();
 		} else {
-			// Reset user data when session is null (logged out)
 			setUserData(null);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [session?.user?.id]); // Only depend on user ID to avoid unnecessary refetches
+	}, [session?.user?.id]);
 
-	// Listen for avatar updates from other parts of the app
 	useEffect(() => {
 		const handleAvatarUpdate = () => {
 			setImageKey(Date.now());
-			// Re-fetch user data to get new avatar URL
 			if (session?.user?.id) {
 				fetch(API_ROUTES.USER.ME)
 					.then((res) => res.json())
@@ -95,7 +83,6 @@ const ProtectedNavbar = () => {
 					.catch(console.error);
 			}
 		};
-
 		window.addEventListener("avatar-updated", handleAvatarUpdate);
 		return () => window.removeEventListener("avatar-updated", handleAvatarUpdate);
 	}, [session?.user?.id]);
@@ -103,69 +90,86 @@ const ProtectedNavbar = () => {
 	const handleLogout = async () => {
 		try {
 			setIsLoggingOut(true);
-			setUserData(null); // Clear user data immediately
+			setUserData(null);
 			await authClient.signOut();
-			// router.push("/");
 		} catch (error) {
 			console.error("Logout error:", error);
 			setIsLoggingOut(false);
 		} finally {
-			// Reset loading state after sign out completes
 			setIsLoggingOut(false);
 		}
 	};
 
-	if (!session) return null;
-
-	// Use fetched userData if available, otherwise fallback to session
-	const displayName = userData?.name || session.user.name;
-	const displayImage = userData?.image || session.user.image || null;
+	const displayName = session ? (userData?.name || session.user.name) : null;
+	const displayImage = session ? (userData?.image || session.user.image || null) : null;
 
 	return (
-		<div className="flex flex-row flex-wrap items-center gap-12">
-			<Popover>
-				<PopoverTrigger asChild className="cursor-pointer">
-					<Avatar key={imageKey}>
-						<AvatarImage
-							src={
-								displayImage
-									? `${displayImage}${displayImage.includes("?") ? "&" : "?"}t=${imageKey}`
-									: undefined
-							}
-							alt={displayName}
-						/>
-						<AvatarFallback>
-							{displayName.charAt(0).toUpperCase()}
-						</AvatarFallback>
-					</Avatar>
-				</PopoverTrigger>
-				<PopoverContent className="w-[180px]" align="end">
-					<div className="flex items-start flex-col justify-between space-y-5 h-auto">
-						<div className="flex items-start flex-col space-y-2">
-							{PROTECTED_ROUTES.map((pr) => (
-								<Link
-									key={pr.route}
-									href={pr.route}
-									className="hover:underline"
-								>
-									{pr.name}
-								</Link>
-							))}
+		<DropdownMenu modal={false}>
+			<DropdownMenuTrigger asChild>
+				<button className="flex items-center gap-1.5 outline-none cursor-pointer">
+					{session ? (
+						<>
+							<Avatar key={imageKey} className="h-8 w-8">
+								<AvatarImage
+									src={
+										displayImage
+											? `${displayImage}${displayImage.includes("?") ? "&" : "?"}t=${imageKey}`
+											: undefined
+									}
+									alt={displayName ?? ""}
+								/>
+								<AvatarFallback className="text-xs">
+									{displayName?.charAt(0).toUpperCase()}
+								</AvatarFallback>
+							</Avatar>
+							<ChevronDown className="h-3 w-3 text-white/70" />
+						</>
+					) : (
+						<span className="flex items-center gap-1 text-xs font-medium uppercase text-white/90 hover:text-white border border-white/30 hover:border-white/60 px-3 py-1.5 rounded-sm transition-colors">
+							<User className="h-3.5 w-3.5" />
+							Login
+							<ChevronDown className="h-3 w-3 opacity-70" />
+						</span>
+					)}
+				</button>
+			</DropdownMenuTrigger>
+			<DropdownMenuContent align="end" sideOffset={8} collisionPadding={16} className="w-44">
+				{session && (
+					<>
+						<div className="px-2 py-1.5 text-xs text-muted-foreground truncate">
+							{userData?.email || session.user.email}
 						</div>
-
-						<div className="flex items-center space-x-4">
-							<button
-								onClick={handleLogout}
-								disabled={isLoggingOut}
-								className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-md hover:bg-primary-hover disabled:opacity-50 transition-colors"
-							>
-								{isLoggingOut ? "Logging out..." : "Logout"}
-							</button>
-						</div>
-					</div>
-				</PopoverContent>
-			</Popover>
-		</div>
+						<DropdownMenuSeparator />
+					</>
+				)}
+				{PROTECTED_ROUTES.map((pr) => (
+					<DropdownMenuItem key={pr.route} asChild>
+						<Link href={pr.route} className="flex items-center gap-2 cursor-pointer">
+							<pr.icon className="h-4 w-4" />
+							{pr.name}
+						</Link>
+					</DropdownMenuItem>
+				))}
+				<DropdownMenuSeparator />
+				{session ? (
+					<DropdownMenuItem
+						onClick={handleLogout}
+						disabled={isLoggingOut}
+						className="flex items-center gap-2 text-red-600 focus:text-red-600 cursor-pointer"
+					>
+						<LogOut className="h-4 w-4" />
+						{isLoggingOut ? "Logging out..." : "Logout"}
+					</DropdownMenuItem>
+				) : (
+					<DropdownMenuItem asChild>
+						<Link href="/login" className="flex items-center gap-2 cursor-pointer">
+							<LogIn className="h-4 w-4" />
+							Login
+						</Link>
+					</DropdownMenuItem>
+				)}
+			</DropdownMenuContent>
+		</DropdownMenu>
 	);
 };
 

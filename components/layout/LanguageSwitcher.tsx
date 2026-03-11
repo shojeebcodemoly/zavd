@@ -20,6 +20,13 @@ import {
 	type Locale,
 } from "@/i18n/config";
 
+// Paths that don't support locale routing (excluded in middleware)
+const localeExcludedPaths = [
+	"/api", "/dashboard", "/admin",
+	"/login", "/sign-in", "/register",
+	"/storage", "/coming-soon",
+];
+
 interface LanguageSwitcherProps {
 	variant?: "default" | "compact";
 	theme?: "dark" | "light";
@@ -33,6 +40,19 @@ export function LanguageSwitcher({ variant = "default", theme = "dark" }: Langua
 
 	const switchLocale = (newLocale: Locale) => {
 		if (newLocale === locale) return;
+
+		// Set cookie for locale persistence
+		document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=31536000`;
+
+		// Check if current path is excluded from locale routing (e.g. /login)
+		const isExcluded = localeExcludedPaths.some((p) => pathname.startsWith(p));
+		if (isExcluded) {
+			// Can't navigate to /en/login — just reload so the layout picks up new cookie
+			startTransition(() => {
+				router.refresh();
+			});
+			return;
+		}
 
 		startTransition(() => {
 			// Remove current locale prefix from pathname
@@ -51,22 +71,17 @@ export function LanguageSwitcher({ variant = "default", theme = "dark" }: Langua
 			// Build new URL
 			let newUrl: string;
 			if (newLocale === defaultLocale) {
-				// English (default) - no prefix
 				newUrl = pathWithoutLocale || "/";
 			} else {
-				// Other locales - add prefix
 				newUrl = `/${newLocale}${pathWithoutLocale}`;
 			}
-
-			// Set cookie for locale persistence
-			document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=31536000`;
 
 			router.push(newUrl);
 		});
 	};
 
 	return (
-		<DropdownMenu>
+		<DropdownMenu modal={false}>
 			<DropdownMenuTrigger asChild>
 				<Button
 					variant="ghost"

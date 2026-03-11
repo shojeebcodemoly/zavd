@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import {
@@ -19,11 +18,12 @@ import { mainNavNew } from "@/config/navigation-new";
 import { useNavbarVariant } from "@/lib/context/navbar-variant-context";
 import { cn } from "@/lib/utils";
 import type { SiteConfigType } from "@/config/site";
+import dynamic from "next/dynamic";
 import Logo from "../common/logo";
 import MobileNavbar from "./MobileNavbar";
-import ProtectedNavbar from "./ProtectedNavbar";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-import { authClient } from "@/lib/auth-client";
+
+const ProtectedNavbar = dynamic(() => import("./ProtectedNavbar"), { ssr: false });
 
 interface SocialMedia {
 	facebook?: string;
@@ -42,17 +42,10 @@ interface NavbarProps {
 
 export function Navbar({ config, logoUrl, companyName, socialMedia }: NavbarProps) {
 	const [isScrolled, setIsScrolled] = useState(false);
-	const [isMounted, setIsMounted] = useState(false);
 	const t = useTranslations("navigation");
-	const { data: session } = authClient.useSession();
 	const { variant } = useNavbarVariant();
 
-	// "dark-hero": glass over hero image | "default": solid navy
 	const isDarkHero = variant === "dark-hero";
-
-	useEffect(() => {
-		setIsMounted(true);
-	}, []);
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -71,31 +64,11 @@ export function Navbar({ config, logoUrl, companyName, socialMedia }: NavbarProp
 			: "bg-secondary shadow-md"
 	);
 
-	// Skeleton for SSR
-	if (!isMounted) {
-		return (
-			<div className="w-full">
-				<nav className="w-full">
-					<div className="_container">
-						<div className="flex items-center justify-between gap-2 py-3 bg-secondary">
-							<Logo logoUrl={logoUrl} companyName={companyName} />
-							<div className="hidden lg:flex items-center justify-center flex-1" />
-							<div className="hidden lg:flex items-center gap-3" />
-							<div className="lg:hidden">
-								<Menu className="h-6 w-6 text-white" />
-							</div>
-						</div>
-					</div>
-				</nav>
-			</div>
-		);
-	}
-
 	return (
-		<div className="w-full">
+		<div className={cn("w-full", panelClassName)}>
 			<nav className="w-full">
 				<div className="_container">
-					<div className={cn(panelClassName, "flex items-center justify-between gap-1 lg:gap-2 py-2 sm:py-3")}>
+					<div className="flex items-center justify-between gap-1 lg:gap-2 py-2 sm:py-3">
 
 						{/* Logo */}
 						<Logo logoUrl={logoUrl} companyName={companyName} />
@@ -154,11 +127,8 @@ export function Navbar({ config, logoUrl, companyName, socialMedia }: NavbarProp
 
 						{/* Right Actions */}
 						<div className="hidden lg:flex items-center gap-2 shrink-0">
-							{/* Language Switcher */}
 							<LanguageSwitcher variant="compact" />
-
-							{/* User */}
-							{session && <ProtectedNavbar />}
+							<ProtectedNavbar />
 						</div>
 
 						{/* Mobile Menu */}

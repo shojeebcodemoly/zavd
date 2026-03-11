@@ -29,6 +29,7 @@ const localeExcludedPaths = [
 	"/dashboard",
 	"/admin",
 	"/login",
+	"/sign-in",
 	"/register",
 	"/storage",
 	"/coming-soon",

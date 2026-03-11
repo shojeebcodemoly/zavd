@@ -1,3 +1,4 @@
+import { StickyHeader } from "@/components/layout/StickyHeader";
 import { Navbar } from "@/components/layout/Navbar";
 import { TopBar } from "@/components/layout/TopBar";
 import { Footer } from "@/components/layout/Footer";
@@ -46,14 +47,13 @@ export default async function ClientLayout({
 		<CookieConsentProvider>
 			<NavbarVariantProvider>
 				<div className="flex flex-col min-h-screen">
-					{/* Fixed header: TopBar (top-0) + Navbar (top-10) */}
-					<div className="fixed top-0 left-0 z-50 w-full">
+					<StickyHeader>
 						<TopBar
 							facebookUrl={socialMedia?.facebook}
 							youtubeUrl={socialMedia?.youtube}
 						/>
 						<Navbar config={siteConfig} logoUrl={logoUrl} companyName={companyName} socialMedia={socialMedia} />
-					</div>
+					</StickyHeader>
 					<main className="flex-1 w-full">{children}</main>
 					<Footer
 						config={siteConfig}

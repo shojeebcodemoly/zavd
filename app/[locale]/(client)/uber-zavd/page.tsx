@@ -1,12 +1,5 @@
-import { PlaceholderPage } from "@/components/common/PlaceholderPage";
+import { UberZavdPage } from "./_components/uber-zavd-page";
 
-export default function UberZavdPage() {
-	return (
-		<PlaceholderPage
-			titleDe="Über ZAVD"
-			titleEn="About ZAVD"
-			backHref="/"
-			backLabelDe="Zurück zur Startseite"
-		/>
-	);
+export default function UberZavdRoute() {
+	return <UberZavdPage />;
 }
