@@ -21,6 +21,7 @@ import {
 	LayoutGrid,
 	GripVertical,
 	Clock,
+	Heart,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -160,6 +161,16 @@ const settingsFormSchema = z.object({
 		fromEmail: z.string().email().optional().or(z.literal("")),
 		adminNotificationEmail: z.string().email().optional().or(z.literal("")),
 	}).optional(),
+
+	// Donation widget
+	donationWidget: z.object({
+		enabled: z.boolean().optional(),
+		title: z.string().optional(),
+		amountsStr: z.string().optional(), // comma-separated on the form side
+		currency: z.string().optional(),
+		buttonText: z.string().optional(),
+		donationLink: z.string().optional(),
+	}).optional(),
 });
 
 type SettingsFormValues = z.infer<typeof settingsFormSchema>;
@@ -236,6 +247,14 @@ export default function SettingsPage() {
 				fromName: "",
 				fromEmail: "",
 				adminNotificationEmail: "",
+			},
+			donationWidget: {
+				enabled: false,
+				title: "Make a Donation",
+				amountsStr: "5,10,25,50,100,200,300",
+				currency: "€",
+				buttonText: "Donate Now",
+				donationLink: "",
 			},
 		},
 	});
@@ -351,6 +370,14 @@ export default function SettingsPage() {
 						fromEmail: settings.smtp?.fromEmail || "",
 						adminNotificationEmail: settings.smtp?.adminNotificationEmail || "",
 					},
+					donationWidget: {
+						enabled: settings.donationWidget?.enabled ?? false,
+						title: settings.donationWidget?.title || "Make a Donation",
+						amountsStr: (settings.donationWidget?.amounts || [5, 10, 25, 50, 100, 200, 300]).join(","),
+						currency: settings.donationWidget?.currency || "€",
+						buttonText: settings.donationWidget?.buttonText || "Donate Now",
+						donationLink: settings.donationWidget?.donationLink || "",
+					},
 				});
 			} catch (error) {
 				console.error("Error fetching settings:", error);
@@ -368,9 +395,10 @@ export default function SettingsPage() {
 			setSaving(true);
 			console.log("Submitting settings:", values);
 
-			// Filter out empty links from quickLinks and bottomLinks
+			// Filter out empty links; parse amountsStr → amounts for donation widget
+			const { donationWidget, ...restValues } = values;
 			const cleanedValues = {
-				...values,
+				...restValues,
 				footer: {
 					...values.footer,
 					quickLinks: values.footer.quickLinks?.filter(
@@ -380,6 +408,17 @@ export default function SettingsPage() {
 						link => link.label && link.href
 					) || [],
 				},
+				donationWidget: donationWidget ? {
+					enabled: donationWidget.enabled ?? false,
+					title: donationWidget.title,
+					amounts: (donationWidget.amountsStr || "")
+						.split(",")
+						.map((s) => parseFloat(s.trim()))
+						.filter((n) => !isNaN(n)),
+					currency: donationWidget.currency,
+					buttonText: donationWidget.buttonText,
+					donationLink: donationWidget.donationLink,
+				} : undefined,
 			};
 
 			console.log("Cleaned values:", cleanedValues);
@@ -462,7 +501,7 @@ export default function SettingsPage() {
 					className="space-y-6"
 				>
 					<Tabs defaultValue="company" className="space-y-6">
-						<TabsList className="grid w-full grid-cols-8">
+						<TabsList className="grid w-full grid-cols-9">
 							<TabsTrigger value="company" className="flex items-center gap-2">
 								<Building2 className="h-4 w-4" />
 								<span className="hidden sm:inline">Company</span>
@@ -494,6 +533,10 @@ export default function SettingsPage() {
 							<TabsTrigger value="email-smtp" className="flex items-center gap-2">
 								<Mail className="h-4 w-4" />
 								<span className="hidden sm:inline">Email / SMTP</span>
+							</TabsTrigger>
+							<TabsTrigger value="donation" className="flex items-center gap-2">
+								<Heart className="h-4 w-4" />
+								<span className="hidden sm:inline">Donation</span>
 							</TabsTrigger>
 						</TabsList>
 
@@ -1960,6 +2003,115 @@ export default function SettingsPage() {
 										</FormItem>
 									)}
 								/>
+							</CardContent>
+						</Card>
+					</TabsContent>
+
+					{/* Donation Widget Tab */}
+					<TabsContent value="donation" className="space-y-6">
+						<Card>
+							<CardHeader>
+								<CardTitle>Donation Widget</CardTitle>
+								<CardDescription>
+									Configure the donation card shown in the sidebar of project pages.
+								</CardDescription>
+							</CardHeader>
+							<CardContent className="space-y-4">
+								<FormField
+									control={form.control}
+									name="donationWidget.enabled"
+									render={({ field }) => (
+										<FormItem className="flex items-center justify-between rounded-lg border p-4">
+											<div>
+												<FormLabel>Enable Donation Widget</FormLabel>
+												<FormDescription>
+													Show the donation card in project page sidebars.
+												</FormDescription>
+											</div>
+											<FormControl>
+												<Switch
+													checked={field.value ?? false}
+													onCheckedChange={field.onChange}
+												/>
+											</FormControl>
+										</FormItem>
+									)}
+								/>
+								<div className="grid gap-4 sm:grid-cols-2">
+									<FormField
+										control={form.control}
+										name="donationWidget.title"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Widget Title</FormLabel>
+												<FormControl>
+													<Input placeholder="Make a Donation" {...field} />
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+									<FormField
+										control={form.control}
+										name="donationWidget.currency"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Currency Symbol</FormLabel>
+												<FormControl>
+													<Input placeholder="€" {...field} />
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+								</div>
+								<FormField
+									control={form.control}
+									name="donationWidget.amountsStr"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Preset Amounts</FormLabel>
+											<FormControl>
+												<Input placeholder="5,10,25,50,100,200,300" {...field} />
+											</FormControl>
+											<FormDescription>
+												Comma-separated numbers (e.g. 5,10,25,50,100).
+											</FormDescription>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+								<div className="grid gap-4 sm:grid-cols-2">
+									<FormField
+										control={form.control}
+										name="donationWidget.buttonText"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Button Text</FormLabel>
+												<FormControl>
+													<Input placeholder="Donate Now" {...field} />
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+									<FormField
+										control={form.control}
+										name="donationWidget.donationLink"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Donation Link (URL)</FormLabel>
+												<FormControl>
+													<Input placeholder="https://paypal.me/yourorg" {...field} />
+												</FormControl>
+												<FormDescription>
+													External URL where donors are redirected.
+												</FormDescription>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+								</div>
 							</CardContent>
 						</Card>
 					</TabsContent>
