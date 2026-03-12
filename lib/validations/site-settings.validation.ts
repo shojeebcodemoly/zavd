@@ -212,6 +212,18 @@ export const updateSiteSettingsSchema = z.object({
 		})
 		.partial()
 		.optional(),
+
+	// Donation widget
+	donationWidget: z
+		.object({
+			enabled: z.boolean().optional(),
+			title: z.string().max(100).optional(),
+			amounts: z.array(z.number()).optional(),
+			currency: z.string().max(10).optional(),
+			buttonText: z.string().max(50).optional(),
+			donationLink: z.string().optional(),
+		})
+		.optional(),
 });
 
 // Type exports

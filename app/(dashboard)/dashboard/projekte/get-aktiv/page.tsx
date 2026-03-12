@@ -1,0 +1,713 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { toast } from "sonner";
+import { Loader2, ExternalLink, Plus, Trash2, Link2 } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+	FormDescription,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import { MediaPicker } from "@/components/storage/media-picker";
+import { CMSPageSkeleton } from "@/components/admin/CMSPageSkeleton";
+import { useConfirmModal } from "@/components/ui/confirm-modal";
+
+const formSchema = z.object({
+	hero: z.object({
+		backgroundImage: z.string().optional(),
+		titleDe: z.string().optional(),
+		titleEn: z.string().optional(),
+		breadcrumb: z.string().optional(),
+	}),
+	content: z.object({
+		title: z.string().optional(),
+		body: z.string().optional(),
+		image: z.string().optional(),
+		blocks: z.array(z.object({
+			heading: z.string().optional(),
+			body: z.string().optional(),
+		})),
+	}),
+	gallery: z.object({
+		title: z.string().optional(),
+		subtitle: z.string().optional(),
+		images: z.array(
+			z.object({
+				url: z.string().min(1, "Image is required"),
+				alt: z.string().optional(),
+				caption: z.string().optional(),
+			})
+		),
+	}),
+	partners: z.object({
+		heading: z.string().optional(),
+		logos: z.array(
+			z.object({
+				image: z.string().optional(),
+				name: z.string().optional(),
+				href: z.string().optional(),
+			})
+		),
+	}),
+});
+
+type FormValues = z.infer<typeof formSchema>;
+
+export default function GetAktivDashboardPage() {
+	const [loading, setLoading] = useState(true);
+	const [saving, setSaving] = useState(false);
+	const { confirm, ConfirmModal } = useConfirmModal({ variant: "destructive" });
+
+	const form = useForm<FormValues>({
+		resolver: zodResolver(formSchema),
+		defaultValues: {
+			hero: {
+				backgroundImage: "",
+				titleDe: "GeT AKTIV",
+				titleEn: "Get Active Program",
+				breadcrumb: "GeT AKTIV",
+			},
+			content: { title: "", body: "", image: "", blocks: [] },
+			gallery: { title: "", subtitle: "", images: [] },
+			partners: { heading: "", logos: [] },
+		},
+	});
+
+	const { fields: blockFields, append: appendBlock, remove: removeBlock } =
+		useFieldArray({ control: form.control, name: "content.blocks" });
+
+	const { fields: imageFields, append: appendImage, remove: removeImage } =
+		useFieldArray({ control: form.control, name: "gallery.images" });
+
+	const { fields: logoFields, append: appendLogo, remove: removeLogo } =
+		useFieldArray({ control: form.control, name: "partners.logos" });
+
+	useEffect(() => {
+		const fetchContent = async () => {
+			try {
+				setLoading(true);
+				const response = await fetch("/api/get-aktiv-page");
+				const data = await response.json();
+				if (!response.ok) throw new Error(data.message || "Failed to fetch content");
+				const content = data.data;
+				form.reset({
+					hero: {
+						backgroundImage: content.hero?.backgroundImage || "",
+						titleDe: content.hero?.titleDe || "GeT AKTIV",
+						titleEn: content.hero?.titleEn || "Get Active Program",
+						breadcrumb: content.hero?.breadcrumb || "GeT AKTIV",
+					},
+					content: {
+						title: content.content?.title || "",
+						body: content.content?.body || "",
+						image: content.content?.image || "",
+						blocks: content.content?.blocks || [],
+					},
+					gallery: {
+						title: content.gallery?.title || "",
+						subtitle: content.gallery?.subtitle || "",
+						images: content.gallery?.images || [],
+					},
+					partners: {
+						heading: content.partners?.heading || "",
+						logos: content.partners?.logos || [],
+					},
+				});
+			} catch (error) {
+				console.error("Error fetching content:", error);
+				toast.error("Failed to load content");
+			} finally {
+				setLoading(false);
+			}
+		};
+		fetchContent();
+	}, [form]);
+
+	const onSubmit = async (values: FormValues) => {
+		try {
+			setSaving(true);
+			const response = await fetch("/api/get-aktiv-page", {
+				method: "PUT",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(values),
+			});
+			const data = await response.json();
+			if (!response.ok) throw new Error(data.message || "Failed to save content");
+			toast.success("GeT AKTIV page saved successfully");
+		} catch (error) {
+			console.error("Error saving content:", error);
+			toast.error(error instanceof Error ? error.message : "Failed to save content");
+		} finally {
+			setSaving(false);
+		}
+	};
+
+	if (loading) return <CMSPageSkeleton />;
+
+	return (
+		<div className="space-y-6">
+			<div className="flex items-start justify-between">
+				<div>
+					<h1 className="text-3xl font-medium tracking-tight">GeT AKTIV</h1>
+					<p className="text-muted-foreground">Manage the Get Active Program page content.</p>
+				</div>
+				<a
+					href="/projekte/get-aktiv"
+					target="_blank"
+					rel="noopener noreferrer"
+					className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"
+				>
+					<ExternalLink className="h-4 w-4" />
+					<span>View page</span>
+				</a>
+			</div>
+
+			<Form {...form}>
+				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+					<Tabs defaultValue="hero" className="space-y-6">
+						<TabsList>
+							<TabsTrigger value="hero">Hero</TabsTrigger>
+							<TabsTrigger value="content">Content</TabsTrigger>
+							<TabsTrigger value="gallery">Gallery</TabsTrigger>
+							<TabsTrigger value="partners">Partners</TabsTrigger>
+						</TabsList>
+
+						{/* ── Hero Tab ── */}
+						<TabsContent value="hero" className="space-y-6">
+							<Card>
+								<CardHeader>
+									<CardTitle>Hero Section</CardTitle>
+									<CardDescription>The banner at the top of the GeT AKTIV page.</CardDescription>
+								</CardHeader>
+								<CardContent className="space-y-6">
+									<FormField
+										control={form.control}
+										name="hero.backgroundImage"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Background Image</FormLabel>
+												<FormControl>
+													<MediaPicker
+														type="image"
+														value={field.value || null}
+														onChange={(url) => field.onChange(url || "")}
+														placeholder="Select background image"
+														galleryTitle="Select Hero Background"
+													/>
+												</FormControl>
+												<FormDescription>Full-width background image for the hero banner.</FormDescription>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+									<div className="grid gap-4 sm:grid-cols-2">
+										<FormField
+											control={form.control}
+											name="hero.titleDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Title (German)</FormLabel>
+													<FormControl>
+														<Input {...field} value={field.value || ""} placeholder="GeT AKTIV" />
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="hero.titleEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Title (English)</FormLabel>
+													<FormControl>
+														<Input {...field} value={field.value || ""} placeholder="Get Active Program" />
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+									<FormField
+										control={form.control}
+										name="hero.breadcrumb"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Breadcrumb Text</FormLabel>
+												<FormControl>
+													<Input {...field} value={field.value || ""} placeholder="GeT AKTIV" />
+												</FormControl>
+												<FormDescription>Text shown after &quot;Home / Projekte /&quot;</FormDescription>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+								</CardContent>
+							</Card>
+						</TabsContent>
+
+						{/* ── Content Tab ── */}
+						<TabsContent value="content" className="space-y-6">
+							<Card>
+								<CardHeader>
+									<CardTitle>Content Section</CardTitle>
+									<CardDescription>
+										Main content displayed on the left side, with latest press and contact on the right.
+									</CardDescription>
+								</CardHeader>
+								<CardContent className="space-y-6">
+									<FormField
+										control={form.control}
+										name="content.title"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Section Title</FormLabel>
+												<FormControl>
+													<Input {...field} value={field.value || ""} placeholder="Introduction" />
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+									<FormField
+										control={form.control}
+										name="content.body"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Body Content (HTML)</FormLabel>
+												<FormControl>
+													<Textarea
+														{...field}
+														value={field.value || ""}
+														placeholder="<p>Write your content here...</p>"
+														rows={14}
+														className="font-mono text-sm"
+													/>
+												</FormControl>
+												<FormDescription>
+													Supports HTML tags: &lt;p&gt;, &lt;h3&gt;, &lt;strong&gt;, &lt;ul&gt;, &lt;ol&gt;, &lt;li&gt;, &lt;a&gt;
+												</FormDescription>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+									<FormField
+										control={form.control}
+										name="content.image"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Content Image (optional)</FormLabel>
+												<FormControl>
+													<MediaPicker
+														type="image"
+														value={field.value || null}
+														onChange={(url) => field.onChange(url || "")}
+														placeholder="Select content image"
+														galleryTitle="Select Content Image"
+													/>
+												</FormControl>
+												<FormDescription>
+													Displayed on the right side of the content text.
+												</FormDescription>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+								</CardContent>
+							</Card>
+
+							{/* Content Blocks */}
+							<Card>
+								<CardHeader>
+									<CardTitle className="flex items-center justify-between">
+										<span>Content Blocks</span>
+										<Button
+											type="button"
+											variant="outline"
+											size="sm"
+											onClick={() => appendBlock({ heading: "", body: "" })}
+										>
+											<Plus className="h-4 w-4 mr-1" />
+											Add Block
+										</Button>
+									</CardTitle>
+									<CardDescription>
+										Additional Q&amp;A or info sections displayed below the intro content.
+									</CardDescription>
+								</CardHeader>
+								<CardContent className="space-y-4">
+									{blockFields.length === 0 ? (
+										<div className="text-center py-10 text-muted-foreground border-2 border-dashed rounded-lg">
+											No blocks yet. Click &quot;Add Block&quot; to get started.
+										</div>
+									) : (
+										blockFields.map((field, index) => (
+											<Card key={field.id} className="border-dashed">
+												<CardHeader className="pb-3">
+													<div className="flex items-center justify-between">
+														<CardTitle className="text-base">Block {index + 1}</CardTitle>
+														<Button
+															type="button"
+															variant="ghost"
+															size="sm"
+															onClick={async () => {
+																const confirmed = await confirm({
+																	title: "Remove Block",
+																	description: "Are you sure you want to remove this block?",
+																	confirmText: "Remove",
+																});
+																if (confirmed) removeBlock(index);
+															}}
+															className="text-destructive hover:text-destructive"
+														>
+															<Trash2 className="h-4 w-4" />
+														</Button>
+													</div>
+												</CardHeader>
+												<CardContent className="space-y-4">
+													<FormField
+														control={form.control}
+														name={`content.blocks.${index}.heading`}
+														render={({ field }) => (
+															<FormItem>
+																<FormLabel>Heading</FormLabel>
+																<FormControl>
+																	<Input {...field} value={field.value || ""} placeholder="Block heading..." />
+																</FormControl>
+																<FormMessage />
+															</FormItem>
+														)}
+													/>
+													<FormField
+														control={form.control}
+														name={`content.blocks.${index}.body`}
+														render={({ field }) => (
+															<FormItem>
+																<FormLabel>Body</FormLabel>
+																<FormControl>
+																	<Textarea {...field} value={field.value || ""} placeholder="Write paragraph content..." rows={5} />
+																</FormControl>
+																<FormMessage />
+															</FormItem>
+														)}
+													/>
+												</CardContent>
+											</Card>
+										))
+									)}
+								</CardContent>
+							</Card>
+						</TabsContent>
+
+						{/* ── Gallery Tab ── */}
+						<TabsContent value="gallery" className="space-y-6">
+							<Card>
+								<CardHeader>
+									<CardTitle>Gallery Section</CardTitle>
+									<CardDescription>Image carousel displayed on the page.</CardDescription>
+								</CardHeader>
+								<CardContent className="space-y-4">
+									<div className="grid gap-4 sm:grid-cols-2">
+										<FormField
+											control={form.control}
+											name="gallery.title"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Section Title</FormLabel>
+													<FormControl>
+														<Input {...field} value={field.value || ""} placeholder="Our Gallery" />
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="gallery.subtitle"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Section Subtitle</FormLabel>
+													<FormControl>
+														<Input {...field} value={field.value || ""} placeholder="A glimpse into our work..." />
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+								</CardContent>
+							</Card>
+
+							<Card>
+								<CardHeader>
+									<CardTitle className="flex items-center justify-between">
+										<span>Images</span>
+										<Button
+											type="button"
+											variant="outline"
+											size="sm"
+											onClick={() => appendImage({ url: "", alt: "", caption: "" })}
+										>
+											<Plus className="h-4 w-4 mr-1" />
+											Add Image
+										</Button>
+									</CardTitle>
+									<CardDescription>
+										Images appear in a 3-column carousel. Recommended aspect ratio: 4:3.
+									</CardDescription>
+								</CardHeader>
+								<CardContent className="space-y-4">
+									{imageFields.length === 0 ? (
+										<div className="text-center py-10 text-muted-foreground border-2 border-dashed rounded-lg">
+											No images yet. Click &quot;Add Image&quot; to get started.
+										</div>
+									) : (
+										imageFields.map((field, index) => (
+											<Card key={field.id} className="border-dashed">
+												<CardHeader className="pb-3">
+													<div className="flex items-center justify-between">
+														<CardTitle className="text-base">Image {index + 1}</CardTitle>
+														<Button
+															type="button"
+															variant="ghost"
+															size="sm"
+															onClick={async () => {
+																const confirmed = await confirm({
+																	title: "Remove Image",
+																	description: "Are you sure you want to remove this image?",
+																	confirmText: "Remove",
+																});
+																if (confirmed) removeImage(index);
+															}}
+															className="text-destructive hover:text-destructive"
+														>
+															<Trash2 className="h-4 w-4" />
+														</Button>
+													</div>
+												</CardHeader>
+												<CardContent className="space-y-4">
+													<FormField
+														control={form.control}
+														name={`gallery.images.${index}.url`}
+														render={({ field }) => (
+															<FormItem>
+																<FormLabel>Image</FormLabel>
+																<FormControl>
+																	<MediaPicker
+																		type="image"
+																		value={field.value || null}
+																		onChange={(url) => field.onChange(url || "")}
+																		placeholder="Select image"
+																		galleryTitle="Select Gallery Image"
+																	/>
+																</FormControl>
+																<FormMessage />
+															</FormItem>
+														)}
+													/>
+													<div className="grid gap-4 sm:grid-cols-2">
+														<FormField
+															control={form.control}
+															name={`gallery.images.${index}.alt`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Alt Text</FormLabel>
+																	<FormControl>
+																		<Input {...field} value={field.value || ""} placeholder="Image description" />
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+														<FormField
+															control={form.control}
+															name={`gallery.images.${index}.caption`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Caption (hover)</FormLabel>
+																	<FormControl>
+																		<Input {...field} value={field.value || ""} placeholder="Short caption..." />
+																	</FormControl>
+																	<FormDescription>Shown on hover over the image.</FormDescription>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+													</div>
+												</CardContent>
+											</Card>
+										))
+									)}
+								</CardContent>
+							</Card>
+						</TabsContent>
+
+						{/* ── Partners Tab ── */}
+						<TabsContent value="partners" className="space-y-6">
+							<Card>
+								<CardHeader>
+									<CardTitle>Partners Section</CardTitle>
+									<CardDescription>Logo slider displayed on the page.</CardDescription>
+								</CardHeader>
+								<CardContent>
+									<FormField
+										control={form.control}
+										name="partners.heading"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Section Heading</FormLabel>
+												<FormControl>
+													<Input {...field} value={field.value || ""} placeholder="Our Partners" />
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+								</CardContent>
+							</Card>
+
+							<Card>
+								<CardHeader>
+									<CardTitle className="flex items-center justify-between">
+										<span>Partner Logos</span>
+										<Button
+											type="button"
+											variant="outline"
+											size="sm"
+											onClick={() => appendLogo({ image: "", name: "", href: "" })}
+										>
+											<Plus className="h-4 w-4 mr-1" />
+											Add Logo
+										</Button>
+									</CardTitle>
+									<CardDescription>
+										Logos appear in a scrolling carousel strip.
+									</CardDescription>
+								</CardHeader>
+								<CardContent className="space-y-4">
+									{logoFields.length === 0 ? (
+										<div className="text-center py-10 text-muted-foreground border-2 border-dashed rounded-lg">
+											No logos yet. Click &quot;Add Logo&quot; to get started.
+										</div>
+									) : (
+										logoFields.map((field, index) => (
+											<Card key={field.id} className="border-dashed">
+												<CardHeader className="pb-3">
+													<div className="flex items-center justify-between">
+														<CardTitle className="text-base">Logo {index + 1}</CardTitle>
+														<Button
+															type="button"
+															variant="ghost"
+															size="sm"
+															onClick={async () => {
+																const confirmed = await confirm({
+																	title: "Remove Logo",
+																	description: "Are you sure you want to remove this logo?",
+																	confirmText: "Remove",
+																});
+																if (confirmed) removeLogo(index);
+															}}
+															className="text-destructive hover:text-destructive"
+														>
+															<Trash2 className="h-4 w-4" />
+														</Button>
+													</div>
+												</CardHeader>
+												<CardContent className="space-y-4">
+													<FormField
+														control={form.control}
+														name={`partners.logos.${index}.image`}
+														render={({ field }) => (
+															<FormItem>
+																<FormLabel>Logo Image</FormLabel>
+																<FormControl>
+																	<MediaPicker
+																		type="image"
+																		value={field.value || null}
+																		onChange={(url) => field.onChange(url || "")}
+																		placeholder="Select logo image"
+																		galleryTitle="Select Partner Logo"
+																	/>
+																</FormControl>
+																<FormMessage />
+															</FormItem>
+														)}
+													/>
+													<div className="grid gap-4 sm:grid-cols-2">
+														<FormField
+															control={form.control}
+															name={`partners.logos.${index}.name`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Partner Name</FormLabel>
+																	<FormControl>
+																		<Input {...field} value={field.value || ""} placeholder="Partner name" />
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+														<FormField
+															control={form.control}
+															name={`partners.logos.${index}.href`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Link URL</FormLabel>
+																	<FormControl>
+																		<div className="relative">
+																			<Link2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+																			<Input {...field} value={field.value || ""} placeholder="https://..." className="pl-9" />
+																		</div>
+																	</FormControl>
+																	<FormDescription>Optional link when clicking the logo.</FormDescription>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+													</div>
+												</CardContent>
+											</Card>
+										))
+									)}
+								</CardContent>
+							</Card>
+						</TabsContent>
+					</Tabs>
+
+					<div className="flex justify-end">
+						<Button type="submit" disabled={saving} size="lg">
+							{saving ? (
+								<>
+									<Loader2 className="h-4 w-4 mr-2 animate-spin" />
+									Saving...
+								</>
+							) : (
+								"Save Changes"
+							)}
+						</Button>
+					</div>
+				</form>
+			</Form>
+			<ConfirmModal />
+		</div>
+	);
+}

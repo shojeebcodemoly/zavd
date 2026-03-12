@@ -12,6 +12,7 @@ import {
 	type IFooterSettings,
 	type IComingSoonSettings,
 	type ISmtpSettings,
+	type IDonationWidget,
 } from "@/models/site-settings.model";
 
 /**
@@ -31,6 +32,7 @@ export interface UpdateSiteSettingsInput {
 	footer?: Partial<IFooterSettings>;
 	comingSoon?: Partial<IComingSoonSettings>;
 	smtp?: Partial<ISmtpSettings>;
+	donationWidget?: Partial<IDonationWidget>;
 }
 
 /**
@@ -111,7 +113,8 @@ class SiteSettingsRepository {
 				data.branding !== undefined ||
 				data.footer !== undefined ||
 				data.comingSoon !== undefined ||
-				data.smtp !== undefined;
+				data.smtp !== undefined ||
+				data.donationWidget !== undefined;
 
 			const existing = needsExisting ? await this.get() : null;
 
@@ -154,6 +157,13 @@ class SiteSettingsRepository {
 				updateData.smtp = {
 					...existing!.smtp,
 					...data.smtp,
+				};
+			}
+
+			if (data.donationWidget !== undefined) {
+				updateData.donationWidget = {
+					...existing!.donationWidget,
+					...data.donationWidget,
 				};
 			}
 

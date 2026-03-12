@@ -102,6 +102,18 @@ export interface IComingSoonSettings {
 }
 
 /**
+ * Donation widget settings interface
+ */
+export interface IDonationWidget {
+	enabled: boolean;
+	title?: string;
+	amounts: number[];
+	currency?: string;
+	buttonText?: string;
+	donationLink?: string;
+}
+
+/**
  * SMTP / Email notification settings interface
  */
 export interface ISmtpSettings {
@@ -153,6 +165,9 @@ export interface ISiteSettings extends Document {
 
 	// SMTP / Email notifications
 	smtp: ISmtpSettings;
+
+	// Donation widget (shown in project page sidebars)
+	donationWidget: IDonationWidget;
 
 	// Timestamps
 	updatedAt: Date;
@@ -421,6 +436,21 @@ const SmtpSettingsSchema = new Schema<ISmtpSettings>(
 );
 
 /**
+ * Donation widget sub-schema
+ */
+const DonationWidgetSchema = new Schema<IDonationWidget>(
+	{
+		enabled: { type: Boolean, default: false },
+		title: { type: String, default: "Make a Donation" },
+		amounts: { type: [Number], default: [5, 10, 25, 50, 100, 200, 300] },
+		currency: { type: String, default: "€" },
+		buttonText: { type: String, default: "Donate Now" },
+		donationLink: { type: String, default: "" },
+	},
+	{ _id: false }
+);
+
+/**
  * SiteSettings Schema
  * Singleton model - only one document should exist
  */
@@ -501,6 +531,10 @@ const SiteSettingsSchema = new Schema<ISiteSettings>(
 		},
 		smtp: {
 			type: SmtpSettingsSchema,
+			default: {},
+		},
+		donationWidget: {
+			type: DonationWidgetSchema,
 			default: {},
 		},
 	},

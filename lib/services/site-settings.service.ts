@@ -24,7 +24,19 @@ export const SITE_SETTINGS_CACHE_TAG = "site-settings";
  */
 export const getSiteSettings = unstable_cache(
 	async (): Promise<SiteSettingsData> => {
-		return siteSettingsRepository.get();
+		const settings = await siteSettingsRepository.get();
+		// Ensure donationWidget has defaults if missing from old DB document
+		if (!settings.donationWidget) {
+			(settings as Record<string, unknown>).donationWidget = {
+				enabled: false,
+				title: "Make a Donation",
+				amounts: [5, 10, 25, 50, 100, 200, 300],
+				currency: "€",
+				buttonText: "Donate Now",
+				donationLink: "",
+			};
+		}
+		return settings;
 	},
 	["site-settings"],
 	{

@@ -1,12 +1,61 @@
-import { PlaceholderPage } from "@/components/common/PlaceholderPage";
+import { getGetAktivPage } from "@/lib/services/get-aktiv-page.service";
+import { getSiteSettings } from "@/lib/services/site-settings.service";
+import { blogPostService } from "@/lib/services/blog-post.service";
+import { ProjectHero } from "@/components/shared/ProjectHero";
+import { ProjectContentSection } from "@/components/shared/ProjectContentSection";
+import { ProjectGallery } from "@/components/shared/ProjectGallery";
+import { ProjectPartnersCarousel } from "@/components/shared/ProjectPartnersCarousel";
 
-export default function GetAktivPage() {
+interface Props {
+	params: Promise<{ locale: string }>;
+}
+
+export default async function GetAktivPage({ params }: Props) {
+	const { locale } = await params;
+
+	const [page, siteSettings, latestPosts] = await Promise.all([
+		getGetAktivPage(),
+		getSiteSettings(),
+		blogPostService.getPublishedPosts({ page: 1, limit: 3 }),
+	]);
+
+	const isEn = locale === "en";
+	const heroTitle = isEn
+		? (page.hero.titleEn || "Get Active Program")
+		: (page.hero.titleDe || "GeT AKTIV");
+
+	const pressItems = (latestPosts.data ?? []).map((p) => ({
+		title: p.title,
+		slug: p.slug,
+		publishedAt: p.publishedAt ?? p.createdAt,
+	}));
+
 	return (
-		<PlaceholderPage
-			titleDe="GeT AKTIV"
-			titleEn="Get Active Program"
-			backHref="/projekte"
-			backLabelDe="Zurück zu Projekte"
-		/>
+		<div className="flex flex-col min-h-screen">
+			<ProjectHero
+				data={{ ...page.hero, title: heroTitle }}
+				defaultTitle={isEn ? "Get Active Program" : "GeT AKTIV"}
+				defaultBreadcrumb="GeT AKTIV"
+			/>
+			<ProjectGallery
+				title={page.gallery?.title}
+				subtitle={page.gallery?.subtitle}
+				images={page.gallery?.images ?? []}
+			/>
+			<ProjectContentSection
+				title={page.content?.title}
+				body={page.content?.body}
+				image={page.content?.image}
+				blocks={page.content?.blocks ?? []}
+				pressItems={pressItems}
+				phone={siteSettings.phone}
+				email={siteSettings.email}
+				donationWidget={siteSettings.donationWidget}
+			/>
+			<ProjectPartnersCarousel
+				heading={page.partners?.heading}
+				logos={page.partners?.logos ?? []}
+			/>
+		</div>
 	);
 }

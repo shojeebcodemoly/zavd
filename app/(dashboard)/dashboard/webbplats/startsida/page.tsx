@@ -117,12 +117,6 @@ const imageGallerySectionSchema = z.object({
 	ctaButtonText: z.string().optional(),
 });
 
-// About Certification Badge schema
-const aboutCertificationBadgeSchema = z.object({
-	title: z.string().optional(),
-	description: z.string().optional(),
-});
-
 // Testimonial Item schema - optional fields
 const testimonialItemSchema = z.object({
 	title: z.string().optional(),
@@ -143,18 +137,6 @@ const partnerLogoSchema = z.object({
 	image: z.string().optional(),
 	name: z.string().optional(),
 	href: z.string().optional(),
-});
-
-// Intro Section schema
-const introSectionSchema = z.object({
-	badge: z.string().optional(),
-	title: z.string().optional(),
-	subtitle: z.string().optional(),
-	description: z.string().optional(),
-	ctaText: z.string().optional(),
-	ctaHref: z.string().optional(),
-	image: z.string().optional(),
-	partnerLogos: z.array(partnerLogoSchema).optional(),
 });
 
 // Integration Section schema
@@ -189,51 +171,14 @@ const partnersCarouselSectionSchema = z.object({
 	logos: z.array(partnerLogoSchema).optional(),
 });
 
-// Promo Banner Item schema
-const promoBannerItemSchema = z.object({
-	badge: z.string().optional(),
-	title: z.string().optional(),
-	subtitle: z.string().optional(),
-	description: z.string().optional(),
-	image: z.string().optional(),
-	ctaText: z.string().optional(),
-	ctaHref: z.string().optional(),
-});
-
-// Promo Banner Section schema
-const promoBannerSectionSchema = z.object({
-	leftBanner: promoBannerItemSchema.optional(),
-	rightBanner: promoBannerItemSchema.optional(),
-});
-
-// Feature Banner Item schema
-const featureBannerItemSchema = z.object({
-	icon: z.string().optional(),
-	title: z.string().optional(),
-	description: z.string().optional(),
-});
-
-// Feature Banner Section schema
-const featureBannerSectionSchema = z.object({
-	image: z.string().optional(),
-	title: z.string().optional(),
-	titleHighlight: z.string().optional(),
-	features: z.array(featureBannerItemSchema).optional(),
-});
-
 // Section Visibility schema
 const sectionVisibilitySchema = z.object({
 	hero: z.boolean().optional(),
-	introSection: z.boolean().optional(),
 	integrationSection: z.boolean().optional(),
 	sponsorsSection: z.boolean().optional(),
 	volunteeringSection: z.boolean().optional(),
 	partnersCarousel: z.boolean().optional(),
-	promoBanner: z.boolean().optional(),
-	featureBanner: z.boolean().optional(),
-	features: z.boolean().optional(),
 	imageGallery: z.boolean().optional(),
-	about: z.boolean().optional(),
 	testimonials: z.boolean().optional(),
 	cta: z.boolean().optional(),
 	richContent: z.boolean().optional(),
@@ -267,9 +212,6 @@ const homePageFormSchema = z.object({
 		})
 		.optional(),
 
-	// Intro Section
-	introSection: introSectionSchema.optional(),
-
 	// Integration Section
 	integrationSection: integrationSectionSchema.optional(),
 
@@ -282,31 +224,8 @@ const homePageFormSchema = z.object({
 	// Partners Carousel Section
 	partnersCarouselSection: partnersCarouselSectionSchema.optional(),
 
-	// Promo Banner Section
-	promoBanner: promoBannerSectionSchema.optional(),
-
-	// Feature Banner Section
-	featureBanner: featureBannerSectionSchema.optional(),
-
-	// Product Showcase
-
 	// Image Gallery
 	imageGallery: imageGallerySectionSchema.optional(),
-
-	// About Section - all fields optional
-	aboutSection: z
-		.object({
-			badge: z.string().optional(),
-			title: z.string().optional(),
-			titleHighlight: z.string().optional(),
-			content: z.string().optional(),
-			image: z.string().optional(),
-			benefits: z.array(z.string()).optional(),
-			primaryCta: ctaButtonSchema.optional(),
-			secondaryCta: ctaButtonSchema.optional(),
-			certificationBadge: aboutCertificationBadgeSchema.optional(),
-		})
-		.optional(),
 
 	// Testimonials Section
 	testimonialsSection: testimonialsSectionSchema.optional(),
@@ -353,15 +272,11 @@ export default function StartsidaPage() {
 		defaultValues: {
 			sectionVisibility: {
 				hero: true,
-				introSection: true,
 				integrationSection: true,
 				sponsorsSection: true,
 				volunteeringSection: true,
-				promoBanner: true,
-				featureBanner: true,
-				features: true,
+				partnersCarousel: true,
 				imageGallery: true,
-				about: true,
 				testimonials: true,
 				cta: true,
 				richContent: false,
@@ -391,16 +306,6 @@ export default function StartsidaPage() {
 					progressPercentage: 0,
 				},
 			},
-			introSection: {
-				badge: "",
-				title: "",
-				subtitle: "",
-				description: "",
-				ctaText: "",
-				ctaHref: "",
-				image: "",
-				partnerLogos: [],
-			},
 			integrationSection: {
 				heading: "",
 				quote: "",
@@ -425,32 +330,6 @@ export default function StartsidaPage() {
 				heading: "",
 				logos: [],
 			},
-			promoBanner: {
-				leftBanner: {
-					badge: "",
-					title: "",
-					subtitle: "",
-					description: "",
-					image: "",
-					ctaText: "",
-					ctaHref: "",
-				},
-				rightBanner: {
-					badge: "",
-					title: "",
-					subtitle: "",
-					description: "",
-					image: "",
-					ctaText: "",
-					ctaHref: "",
-				},
-			},
-			featureBanner: {
-				image: "",
-				title: "",
-				titleHighlight: "",
-				features: [],
-			},
 			imageGallery: {
 				badge: "",
 				title: "",
@@ -459,17 +338,6 @@ export default function StartsidaPage() {
 				ctaTitle: "",
 				ctaSubtitle: "",
 				ctaButtonText: "",
-			},
-			aboutSection: {
-				badge: "",
-				title: "",
-				titleHighlight: "",
-				content: "",
-				image: "",
-				benefits: [],
-				primaryCta: { text: "", href: "", variant: "secondary" },
-				secondaryCta: { text: "", href: "", variant: "outline" },
-				certificationBadge: { title: "", description: "" },
 			},
 			testimonialsSection: {
 				title: "",
@@ -527,15 +395,6 @@ export default function StartsidaPage() {
 	});
 
 	const {
-		fields: partnerLogoFields,
-		append: appendPartnerLogo,
-		remove: removePartnerLogo,
-	} = useFieldArray({
-		control: form.control,
-		name: "introSection.partnerLogos",
-	});
-
-	const {
 		fields: integrationLogoFields,
 		append: appendIntegrationLogo,
 		remove: removeIntegrationLogo,
@@ -571,21 +430,6 @@ export default function StartsidaPage() {
 		name: "partnersCarouselSection.logos",
 	});
 
-	// Benefits are simple strings, so we manage them manually
-	const benefits = form.watch("aboutSection.benefits") || [];
-	const addBenefit = () => {
-		form.setValue("aboutSection.benefits", [...benefits, ""]);
-	};
-	const removeBenefit = (index: number) => {
-		const newBenefits = benefits.filter((_, i) => i !== index);
-		form.setValue("aboutSection.benefits", newBenefits);
-	};
-	const updateBenefit = (index: number, value: string) => {
-		const newBenefits = [...benefits];
-		newBenefits[index] = value;
-		form.setValue("aboutSection.benefits", newBenefits);
-	};
-
 	// Fetch home page content on mount
 	useEffect(() => {
 		const fetchContent = async () => {
@@ -607,41 +451,24 @@ export default function StartsidaPage() {
 				// Ensure section visibility has proper defaults for each field
 				const defaultVisibility = {
 					hero: true,
-					introSection: true,
 					integrationSection: true,
 					sponsorsSection: true,
 					volunteeringSection: true,
 					partnersCarousel: true,
-					promoBanner: true,
-					featureBanner: true,
-					features: true,
 					imageGallery: true,
-					about: true,
 					testimonials: true,
 					cta: true,
 					richContent: false,
 				};
 				const sectionVisibility = {
 					hero: content.sectionVisibility?.hero ?? defaultVisibility.hero,
-					introSection: content.sectionVisibility?.introSection ?? true,
 					integrationSection: content.sectionVisibility?.integrationSection ?? true,
 					sponsorsSection: content.sectionVisibility?.sponsorsSection ?? true,
 					volunteeringSection: content.sectionVisibility?.volunteeringSection ?? true,
 					partnersCarousel: content.sectionVisibility?.partnersCarousel ?? true,
-					promoBanner:
-						content.sectionVisibility?.promoBanner ??
-						defaultVisibility.promoBanner,
-					featureBanner:
-						content.sectionVisibility?.featureBanner ??
-						defaultVisibility.featureBanner,
-					features:
-						content.sectionVisibility?.features ??
-						defaultVisibility.features,
 					imageGallery:
 						content.sectionVisibility?.imageGallery ??
 						defaultVisibility.imageGallery,
-					about:
-						content.sectionVisibility?.about ?? defaultVisibility.about,
 					testimonials:
 						content.sectionVisibility?.testimonials ??
 						defaultVisibility.testimonials,
@@ -689,16 +516,6 @@ export default function StartsidaPage() {
 							progressPercentage: 0,
 						},
 					},
-					introSection: {
-						badge: content.introSection?.badge || "",
-						title: content.introSection?.title || "",
-						subtitle: content.introSection?.subtitle || "",
-						description: content.introSection?.description || "",
-						ctaText: content.introSection?.ctaText || "",
-						ctaHref: content.introSection?.ctaHref || "",
-						image: content.introSection?.image || "",
-						partnerLogos: content.introSection?.partnerLogos || [],
-					},
 					integrationSection: {
 						heading: content.integrationSection?.heading || "",
 						quote: content.integrationSection?.quote || "",
@@ -723,32 +540,6 @@ export default function StartsidaPage() {
 						heading: content.partnersCarouselSection?.heading || "",
 						logos: content.partnersCarouselSection?.logos || [],
 					},
-					promoBanner: {
-						leftBanner: {
-							badge: content.promoBanner?.leftBanner?.badge || "",
-							title: content.promoBanner?.leftBanner?.title || "",
-							subtitle: content.promoBanner?.leftBanner?.subtitle || "",
-							description: content.promoBanner?.leftBanner?.description || "",
-							image: content.promoBanner?.leftBanner?.image || "",
-							ctaText: content.promoBanner?.leftBanner?.ctaText || "",
-							ctaHref: content.promoBanner?.leftBanner?.ctaHref || "",
-						},
-						rightBanner: {
-							badge: content.promoBanner?.rightBanner?.badge || "",
-							title: content.promoBanner?.rightBanner?.title || "",
-							subtitle: content.promoBanner?.rightBanner?.subtitle || "",
-							description: content.promoBanner?.rightBanner?.description || "",
-							image: content.promoBanner?.rightBanner?.image || "",
-							ctaText: content.promoBanner?.rightBanner?.ctaText || "",
-							ctaHref: content.promoBanner?.rightBanner?.ctaHref || "",
-						},
-					},
-					featureBanner: {
-						image: content.featureBanner?.image || "",
-						title: content.featureBanner?.title || "",
-						titleHighlight: content.featureBanner?.titleHighlight || "",
-						features: content.featureBanner?.features || [],
-					},
 					imageGallery: {
 						badge: content.imageGallery?.badge || "",
 						title: content.imageGallery?.title || "",
@@ -757,29 +548,6 @@ export default function StartsidaPage() {
 						ctaTitle: content.imageGallery?.ctaTitle || "",
 						ctaSubtitle: content.imageGallery?.ctaSubtitle || "",
 						ctaButtonText: content.imageGallery?.ctaButtonText || "",
-					},
-					aboutSection: {
-						badge: content.aboutSection?.badge || "",
-						title: content.aboutSection?.title || "",
-						titleHighlight: content.aboutSection?.titleHighlight || "",
-						content: content.aboutSection?.content || "",
-						image: content.aboutSection?.image || "",
-						benefits: content.aboutSection?.benefits || [],
-						primaryCta: content.aboutSection?.primaryCta || {
-							text: "",
-							href: "",
-							variant: "secondary",
-						},
-						secondaryCta: content.aboutSection?.secondaryCta || {
-							text: "",
-							href: "",
-							variant: "outline",
-						},
-						certificationBadge: content.aboutSection
-							?.certificationBadge || {
-							title: "",
-							description: "",
-						},
 					},
 					testimonialsSection: {
 						title: content.testimonialsSection?.title ?? "",
@@ -970,16 +738,12 @@ export default function StartsidaPage() {
 						<TabsList className="flex flex-wrap h-auto gap-1 p-1 justify-start">
 							<TabsTrigger value="settings">Settings</TabsTrigger>
 							<TabsTrigger value="hero">Hero</TabsTrigger>
-							<TabsTrigger value="intro-section">Intro</TabsTrigger>
-							<TabsTrigger value="integration">Integration</TabsTrigger>
+								<TabsTrigger value="integration">Integration</TabsTrigger>
 							<TabsTrigger value="sponsors">Sponsors</TabsTrigger>
 							<TabsTrigger value="volunteering">Volunteering</TabsTrigger>
 							<TabsTrigger value="partners-carousel">Partners</TabsTrigger>
-							<TabsTrigger value="promo-banner">Banner</TabsTrigger>
-							<TabsTrigger value="feature-banner">Feature Banner</TabsTrigger>
 							<TabsTrigger value="gallery">Gallery</TabsTrigger>
-							<TabsTrigger value="about">About</TabsTrigger>
-							<TabsTrigger value="testimonials">Testimonials</TabsTrigger>
+								<TabsTrigger value="testimonials">Testimonials</TabsTrigger>
 							<TabsTrigger value="cta">CTA</TabsTrigger>
 							{/* <TabsTrigger value="rich-content">Rich Content</TabsTrigger> */}
 							<TabsTrigger value="seo">SEO</TabsTrigger>
@@ -1019,29 +783,7 @@ export default function StartsidaPage() {
 												</FormItem>
 											)}
 										/>
-										<FormField
-											control={form.control}
-											name="sectionVisibility.introSection"
-											render={({ field }) => (
-												<FormItem className="flex items-center justify-between rounded-lg border p-4">
-													<div className="space-y-0.5">
-														<FormLabel className="text-base">
-															Intro Section
-														</FormLabel>
-														<FormDescription>
-															Two-column intro below hero.
-														</FormDescription>
-													</div>
-													<FormControl>
-														<Switch
-															checked={field.value}
-															onCheckedChange={field.onChange}
-														/>
-													</FormControl>
-												</FormItem>
-											)}
-										/>
-										<FormField
+																				<FormField
 											control={form.control}
 											name="sectionVisibility.integrationSection"
 											render={({ field }) => (
@@ -1129,51 +871,7 @@ export default function StartsidaPage() {
 									</FormItem>
 								)}
 							/>
-							<FormField
-											control={form.control}
-											name="sectionVisibility.promoBanner"
-											render={({ field }) => (
-												<FormItem className="flex items-center justify-between rounded-lg border p-4">
-													<div className="space-y-0.5">
-														<FormLabel className="text-base">
-															Promo Banner
-														</FormLabel>
-														<FormDescription>
-															1:2 promotional banners section.
-														</FormDescription>
-													</div>
-													<FormControl>
-														<Switch
-															checked={field.value}
-															onCheckedChange={field.onChange}
-														/>
-													</FormControl>
-												</FormItem>
-											)}
-										/>
-										<FormField
-											control={form.control}
-											name="sectionVisibility.featureBanner"
-											render={({ field }) => (
-												<FormItem className="flex items-center justify-between rounded-lg border p-4">
-													<div className="space-y-0.5">
-														<FormLabel className="text-base">
-															Feature Banner
-														</FormLabel>
-														<FormDescription>
-															Image with highlighted title and feature cards.
-														</FormDescription>
-													</div>
-													<FormControl>
-														<Switch
-															checked={field.value}
-															onCheckedChange={field.onChange}
-														/>
-													</FormControl>
-												</FormItem>
-											)}
-										/>
-										<FormField
+																				<FormField
 											control={form.control}
 											name="sectionVisibility.imageGallery"
 											render={({ field }) => (
@@ -1195,29 +893,7 @@ export default function StartsidaPage() {
 												</FormItem>
 											)}
 										/>
-										<FormField
-											control={form.control}
-											name="sectionVisibility.about"
-											render={({ field }) => (
-												<FormItem className="flex items-center justify-between rounded-lg border p-4">
-													<div className="space-y-0.5">
-														<FormLabel className="text-base">
-															About Section
-														</FormLabel>
-														<FormDescription>
-															Why choose us section.
-														</FormDescription>
-													</div>
-													<FormControl>
-														<Switch
-															checked={field.value}
-															onCheckedChange={field.onChange}
-														/>
-													</FormControl>
-												</FormItem>
-											)}
-										/>
-										<FormField
+																				<FormField
 											control={form.control}
 											name="sectionVisibility.testimonials"
 											render={({ field }) => (
@@ -1555,202 +1231,6 @@ export default function StartsidaPage() {
 									</CardContent>
 								</Card>
 						</TabsContent>
-
-
-						{/* Intro Section Tab */}
-						<TabsContent value="intro-section" className="space-y-6">
-							<Card>
-								<CardHeader>
-									<CardTitle>Intro Section</CardTitle>
-									<CardDescription>
-										Two-column section below the hero. Left: text content. Right: image/logo.
-									</CardDescription>
-								</CardHeader>
-								<CardContent className="space-y-4">
-									<FormField
-										control={form.control}
-										name="introSection.badge"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Badge Label</FormLabel>
-												<FormControl>
-													<Input {...field} value={field.value || ""} placeholder="e.g. Integration" />
-												</FormControl>
-												<FormDescription>Small label shown above the title with a colored accent line.</FormDescription>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<FormField
-										control={form.control}
-										name="introSection.title"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Title</FormLabel>
-												<FormControl>
-													<Input {...field} value={field.value || ""} placeholder="Integration" />
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<FormField
-										control={form.control}
-										name="introSection.subtitle"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Subtitle</FormLabel>
-												<FormControl>
-													<Input {...field} value={field.value || ""} placeholder="Short bold subtitle..." />
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<FormField
-										control={form.control}
-										name="introSection.description"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Description</FormLabel>
-												<FormControl>
-													<Textarea {...field} value={field.value || ""} placeholder="Paragraph text..." rows={4} />
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<div className="grid grid-cols-2 gap-4">
-										<FormField
-											control={form.control}
-											name="introSection.ctaText"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>CTA Button Text</FormLabel>
-													<FormControl>
-														<Input {...field} value={field.value || ""} placeholder="Read more..." />
-													</FormControl>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-										<FormField
-											control={form.control}
-											name="introSection.ctaHref"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>CTA Link URL</FormLabel>
-													<FormControl>
-														<Input {...field} value={field.value || ""} placeholder="/about" />
-													</FormControl>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-									</div>
-									<FormField
-										control={form.control}
-										name="introSection.image"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Right Side Image / Logo</FormLabel>
-												<FormControl>
-													<MediaPicker
-														type="image"
-														value={field.value || ""}
-														onChange={(url) => field.onChange(url || "")}
-														showPreview
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-								</CardContent>
-							</Card>
-
-							{/* Partner Logos Card */}
-							<Card>
-								<CardHeader>
-									<CardTitle>Partner Logos</CardTitle>
-									<CardDescription>
-										Logos shown at the bottom of the intro section. Leave image empty to show name as text.
-									</CardDescription>
-								</CardHeader>
-								<CardContent className="space-y-4">
-									{partnerLogoFields.map((logoField, index) => (
-										<div key={logoField.id} className="border rounded-lg p-4 space-y-3 relative">
-											<div className="flex items-center justify-between">
-												<span className="text-sm font-medium text-muted-foreground">Partner {index + 1}</span>
-												<Button
-													type="button"
-													variant="ghost"
-													size="sm"
-													onClick={() => removePartnerLogo(index)}
-													className="text-destructive hover:text-destructive"
-												>
-													Remove
-												</Button>
-											</div>
-											<div className="grid grid-cols-2 gap-3">
-												<FormField
-													control={form.control}
-													name="`introSection.partnerLogos.${index}.name`"
-													render={({ field }) => (
-														<FormItem>
-															<FormLabel>Name</FormLabel>
-															<FormControl>
-																<Input {...field} value={field.value || ""} placeholder="Partner name" />
-															</FormControl>
-															<FormMessage />
-														</FormItem>
-													)}
-												/>
-												<FormField
-													control={form.control}
-													name="`introSection.partnerLogos.${index}.href`"
-													render={({ field }) => (
-														<FormItem>
-															<FormLabel>Link URL (optional)</FormLabel>
-															<FormControl>
-																<Input {...field} value={field.value || ""} placeholder="https://..." />
-															</FormControl>
-															<FormMessage />
-														</FormItem>
-													)}
-												/>
-											</div>
-											<FormField
-												control={form.control}
-												name="`introSection.partnerLogos.${index}.image`"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel>Logo Image</FormLabel>
-														<FormControl>
-															<MediaPicker
-																type="image"
-																value={field.value || ""}
-																onChange={(url) => field.onChange(url || "")}
-																showPreview
-															/>
-														</FormControl>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
-										</div>
-									))}
-									<Button
-										type="button"
-										variant="outline"
-										size="sm"
-										onClick={() => appendPartnerLogo({ image: "", name: "", href: "" })}
-									>
-										+ Add Partner
-									</Button>
-								</CardContent>
-							</Card>
-						</TabsContent>
 						{/* Integration Section Tab */}
 						<TabsContent value="integration" className="space-y-6">
 							<Card>
@@ -2083,408 +1563,6 @@ export default function StartsidaPage() {
 							</Card>
 						</TabsContent>
 
-						{/* Promo Banner Tab */}
-						<TabsContent value="promo-banner" className="space-y-6">
-							{/* Left Banner */}
-							<Card>
-								<CardHeader>
-									<CardTitle>Left Banner</CardTitle>
-									<CardDescription>
-										Image banner with text overlay. This takes up half the width on desktop.
-									</CardDescription>
-								</CardHeader>
-								<CardContent className="space-y-4">
-									<FormField
-										control={form.control}
-										name="promoBanner.leftBanner.image"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Background Image</FormLabel>
-												<FormControl>
-													<MediaPicker
-														type="image"
-														value={field.value || ""}
-														onChange={(url) => field.onChange(url || "")}
-														showPreview
-													/>
-												</FormControl>
-												<FormDescription>
-													Full background image for the left banner.
-												</FormDescription>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<FormField
-										control={form.control}
-										name="promoBanner.leftBanner.badge"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Badge Text</FormLabel>
-												<FormControl>
-													<Input
-														{...field}
-														value={field.value || ""}
-														placeholder="NEW ARRIVAL"
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<FormField
-										control={form.control}
-										name="promoBanner.leftBanner.title"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Title</FormLabel>
-												<FormControl>
-													<Input
-														{...field}
-														value={field.value || ""}
-														placeholder="ZAVD Community Programs"
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<FormField
-										control={form.control}
-										name="promoBanner.leftBanner.description"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Description</FormLabel>
-												<FormControl>
-													<Textarea
-														{...field}
-														value={field.value || ""}
-														placeholder="Handcrafted with care from locally sourced milk..."
-														rows={2}
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-								</CardContent>
-							</Card>
-
-							{/* Right Banner */}
-							<Card>
-								<CardHeader>
-									<CardTitle>Right Banner</CardTitle>
-									<CardDescription>
-										Feature/award style banner with CTA button. This takes up half the width on desktop.
-									</CardDescription>
-								</CardHeader>
-								<CardContent className="space-y-4">
-									<FormField
-										control={form.control}
-										name="promoBanner.rightBanner.image"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Background Image</FormLabel>
-												<FormControl>
-													<MediaPicker
-														type="image"
-														value={field.value || ""}
-														onChange={(url) => field.onChange(url || "")}
-														showPreview
-													/>
-												</FormControl>
-												<FormDescription>
-													Full background image for the right banner.
-												</FormDescription>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<FormField
-										control={form.control}
-										name="promoBanner.rightBanner.badge"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Badge Text</FormLabel>
-												<FormControl>
-													<Input
-														{...field}
-														value={field.value || ""}
-														placeholder="Award Winning"
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<FormField
-										control={form.control}
-										name="promoBanner.rightBanner.subtitle"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Subtitle</FormLabel>
-												<FormControl>
-													<Input
-														{...field}
-														value={field.value || ""}
-														placeholder="2024"
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<FormField
-										control={form.control}
-										name="promoBanner.rightBanner.title"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Title</FormLabel>
-												<FormControl>
-													<Input
-														{...field}
-														value={field.value || ""}
-														placeholder="Leading Community Organization"
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<div className="grid gap-4 sm:grid-cols-2">
-										<FormField
-											control={form.control}
-											name="promoBanner.rightBanner.ctaText"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>Button Text</FormLabel>
-													<FormControl>
-														<Input
-															{...field}
-															value={field.value || ""}
-															placeholder="LEARN MORE"
-														/>
-													</FormControl>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-										<FormField
-											control={form.control}
-											name="promoBanner.rightBanner.ctaHref"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>Button Link</FormLabel>
-													<FormControl>
-														<Input
-															{...field}
-															value={field.value || ""}
-															placeholder="/about"
-														/>
-													</FormControl>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-									</div>
-								</CardContent>
-							</Card>
-						</TabsContent>
-
-						{/* Feature Banner Tab */}
-						<TabsContent value="feature-banner" className="space-y-6">
-							<Card>
-								<CardHeader>
-									<CardTitle>Feature Banner Settings</CardTitle>
-									<CardDescription>
-										Configure the feature banner section with image, title (with highlight), and feature cards.
-									</CardDescription>
-								</CardHeader>
-								<CardContent className="space-y-4">
-									<FormField
-										control={form.control}
-										name="featureBanner.image"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Banner Image</FormLabel>
-												<FormControl>
-													<MediaPicker
-														type="image"
-														value={field.value || ""}
-														onChange={(url) => field.onChange(url || "")}
-														showPreview
-													/>
-												</FormControl>
-												<FormDescription>
-													Main image displayed at the top of the section.
-												</FormDescription>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<FormField
-										control={form.control}
-										name="featureBanner.title"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Title</FormLabel>
-												<FormControl>
-													<Textarea
-														{...field}
-														value={field.value || ""}
-														placeholder="Our organization uses modern approaches and best practices to maximize community impact."
-														rows={2}
-													/>
-												</FormControl>
-												<FormDescription>
-													Main title text. Include the highlight text within this title.
-												</FormDescription>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<FormField
-										control={form.control}
-										name="featureBanner.titleHighlight"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Title Highlight</FormLabel>
-												<FormControl>
-													<Input
-														{...field}
-														value={field.value || ""}
-														placeholder="eco-friendly"
-													/>
-												</FormControl>
-												<FormDescription>
-													The text within the title that should be highlighted in a different color.
-												</FormDescription>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-								</CardContent>
-							</Card>
-
-							{/* Feature Banner Features */}
-							<Card>
-								<CardHeader>
-									<CardTitle className="flex items-center justify-between">
-										<span>Feature Cards</span>
-										<Button
-											type="button"
-											variant="outline"
-											size="sm"
-											onClick={() => {
-												const current = form.getValues("featureBanner.features") || [];
-												form.setValue("featureBanner.features", [
-													...current,
-													{ icon: "Leaf", title: "", description: "" },
-												]);
-											}}
-										>
-											<Plus className="h-4 w-4 mr-1" />
-											Add Feature
-										</Button>
-									</CardTitle>
-									<CardDescription>
-										Feature cards displayed below the title. Recommended: 4 features.
-									</CardDescription>
-								</CardHeader>
-								<CardContent className="space-y-4">
-									{(form.watch("featureBanner.features") || []).length === 0 ? (
-										<div className="text-center py-8 text-muted-foreground">
-											No features added. Click &quot;Add Feature&quot; to add one.
-										</div>
-									) : (
-										(form.watch("featureBanner.features") || []).map((_, index) => (
-											<Card key={index} className="border-dashed">
-												<CardHeader className="pb-3">
-													<div className="flex items-center justify-between">
-														<CardTitle className="text-base">
-															Feature {index + 1}
-														</CardTitle>
-														<Button
-															type="button"
-															variant="ghost"
-															size="sm"
-															onClick={() => {
-																const current = form.getValues("featureBanner.features") || [];
-																form.setValue(
-																	"featureBanner.features",
-																	current.filter((_, i) => i !== index)
-																);
-															}}
-															className="text-destructive hover:text-destructive"
-														>
-															<Trash2 className="h-4 w-4" />
-														</Button>
-													</div>
-												</CardHeader>
-												<CardContent className="space-y-4">
-													<FormField
-														control={form.control}
-														name={`featureBanner.features.${index}.icon`}
-														render={({ field }) => (
-															<FormItem>
-																<FormLabel>Icon Name</FormLabel>
-																<FormControl>
-																	<Input
-																		{...field}
-																		value={field.value || ""}
-																		placeholder="Leaf, MilkOff, Package, Box, Sun, Snowflake, ShieldCheck, Droplet, Tag"
-																	/>
-																</FormControl>
-																<FormDescription>
-																	Available icons: Leaf, MilkOff, Package, Box, Sun, Snowflake, ShieldCheck, Droplet, Tag
-																</FormDescription>
-																<FormMessage />
-															</FormItem>
-														)}
-													/>
-													<FormField
-														control={form.control}
-														name={`featureBanner.features.${index}.title`}
-														render={({ field }) => (
-															<FormItem>
-																<FormLabel>Title</FormLabel>
-																<FormControl>
-																	<Input
-																		{...field}
-																		value={field.value || ""}
-																		placeholder="100% Organic Product"
-																	/>
-																</FormControl>
-																<FormMessage />
-															</FormItem>
-														)}
-													/>
-													<FormField
-														control={form.control}
-														name={`featureBanner.features.${index}.description`}
-														render={({ field }) => (
-															<FormItem>
-																<FormLabel>Description</FormLabel>
-																<FormControl>
-																	<Textarea
-																		{...field}
-																		value={field.value || ""}
-																		placeholder="Committed to serving our community with integrity and care"
-																		rows={2}
-																	/>
-																</FormControl>
-																<FormMessage />
-															</FormItem>
-														)}
-													/>
-												</CardContent>
-											</Card>
-										))
-									)}
-								</CardContent>
-							</Card>
-						</TabsContent>
-
 						{/* Products Tab */}
 						{/* Gallery Tab */}
 						<TabsContent value="gallery" className="space-y-6">
@@ -2737,356 +1815,6 @@ export default function StartsidaPage() {
 											</Card>
 										))
 									)}
-								</CardContent>
-							</Card>
-						</TabsContent>
-
-						{/* About Section Tab */}
-						<TabsContent value="about" className="space-y-6">
-							<Card>
-								<CardHeader>
-									<CardTitle>About Section</CardTitle>
-									<CardDescription>
-										Section describing the company and its benefits.
-									</CardDescription>
-								</CardHeader>
-								<CardContent className="space-y-6">
-									<FormField
-										control={form.control}
-										name="aboutSection.badge"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Badge Text</FormLabel>
-												<FormControl>
-													<Input
-														{...field}
-														value={field.value || ""}
-														placeholder="Why choose Zavd"
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-
-									<div className="grid gap-4 sm:grid-cols-2">
-										<FormField
-											control={form.control}
-											name="aboutSection.title"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>Title</FormLabel>
-													<FormControl>
-														<Input
-															{...field}
-															value={field.value || ""}
-															placeholder="Empowering healthcare with"
-														/>
-													</FormControl>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-										<FormField
-											control={form.control}
-											name="aboutSection.titleHighlight"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>Title (highlight)</FormLabel>
-													<FormControl>
-														<Input
-															{...field}
-															value={field.value || ""}
-															placeholder="precision technology"
-														/>
-													</FormControl>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-									</div>
-
-									<FormField
-										control={form.control}
-										name="aboutSection.content"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Content</FormLabel>
-												<FormControl>
-													<Textarea
-														{...field}
-														value={field.value || ""}
-														placeholder="At Zavd Medical we bridge..."
-														rows={4}
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-
-									<FormField
-										control={form.control}
-										name="aboutSection.image"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Image</FormLabel>
-												<FormControl>
-													<MediaPicker
-														type="image"
-														value={field.value || null}
-														onChange={(url) =>
-															field.onChange(url || "")
-														}
-														placeholder="Select image for the about section"
-														galleryTitle="Select About Image"
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-
-									{/* Benefits */}
-									<div className="space-y-4">
-										<div className="flex items-center justify-between">
-											<h4 className="font-medium">Benefits</h4>
-											<Button
-												type="button"
-												variant="outline"
-												size="sm"
-												onClick={addBenefit}
-											>
-												<Plus className="h-4 w-4 mr-1" />
-												Add
-											</Button>
-										</div>
-										{benefits.map((benefit, index) => (
-											<div
-												key={index}
-												className="flex gap-2 items-center"
-											>
-												<Input
-													className="flex-1"
-													placeholder="MDR certified equipment"
-													value={benefit}
-													onChange={(e) =>
-														updateBenefit(index, e.target.value)
-													}
-												/>
-												<Button
-													type="button"
-													variant="ghost"
-													size="sm"
-													onClick={async () => {
-														const confirmed = await confirm({
-															title: "Remove Benefit",
-															description: "Are you sure you want to remove this benefit?",
-															confirmText: "Remove",
-														});
-														if (confirmed) removeBenefit(index);
-													}}
-													className="text-destructive hover:text-destructive"
-												>
-													<Trash2 className="h-4 w-4" />
-												</Button>
-											</div>
-										))}
-									</div>
-
-									{/* About Section CTAs */}
-									<div className="border rounded-lg p-4 space-y-4">
-										<h4 className="font-medium">Primary Button</h4>
-										<div className="grid gap-4 sm:grid-cols-3">
-											<FormField
-												control={form.control}
-												name="aboutSection.primaryCta.text"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel>Text</FormLabel>
-														<FormControl>
-															<Input
-																{...field}
-																value={field.value || ""}
-																placeholder="Learn more about us"
-															/>
-														</FormControl>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
-											<FormField
-												control={form.control}
-												name="aboutSection.primaryCta.href"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel>Link</FormLabel>
-														<FormControl>
-															<Input
-																{...field}
-																value={field.value || ""}
-																placeholder="/about"
-															/>
-														</FormControl>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
-											<FormField
-												control={form.control}
-												name="aboutSection.primaryCta.variant"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel>Style</FormLabel>
-														<Select
-															onValueChange={field.onChange}
-															value={field.value}
-														>
-															<FormControl>
-																<SelectTrigger>
-																	<SelectValue placeholder="Select style" />
-																</SelectTrigger>
-															</FormControl>
-															<SelectContent>
-																<SelectItem value="primary">
-																	Primary
-																</SelectItem>
-																<SelectItem value="secondary">
-																	Secondary
-																</SelectItem>
-																<SelectItem value="outline">
-																	Outline
-																</SelectItem>
-															</SelectContent>
-														</Select>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
-										</div>
-									</div>
-
-									{/* Secondary Button */}
-									<div className="border rounded-lg p-4 space-y-4">
-										<h4 className="font-medium">Secondary Button</h4>
-										<div className="grid gap-4 sm:grid-cols-3">
-											<FormField
-												control={form.control}
-												name="aboutSection.secondaryCta.text"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel>Text</FormLabel>
-														<FormControl>
-															<Input
-																{...field}
-																value={field.value || ""}
-																placeholder="Contact us"
-															/>
-														</FormControl>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
-											<FormField
-												control={form.control}
-												name="aboutSection.secondaryCta.href"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel>Link</FormLabel>
-														<FormControl>
-															<Input
-																{...field}
-																value={field.value || ""}
-																placeholder="/kontakt"
-															/>
-														</FormControl>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
-											<FormField
-												control={form.control}
-												name="aboutSection.secondaryCta.variant"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel>Style</FormLabel>
-														<Select
-															onValueChange={field.onChange}
-															value={field.value}
-														>
-															<FormControl>
-																<SelectTrigger>
-																	<SelectValue placeholder="Select style" />
-																</SelectTrigger>
-															</FormControl>
-															<SelectContent>
-																<SelectItem value="primary">
-																	Primary
-																</SelectItem>
-																<SelectItem value="secondary">
-																	Secondary
-																</SelectItem>
-																<SelectItem value="outline">
-																	Outline
-																</SelectItem>
-															</SelectContent>
-														</Select>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
-										</div>
-									</div>
-
-									{/* Certification Badge */}
-									<div className="border rounded-lg p-4 space-y-4">
-										<h4 className="font-medium">
-											Certification Badge (on image)
-										</h4>
-										<FormField
-											control={form.control}
-											name="aboutSection.certificationBadge.title"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>Badge Title</FormLabel>
-													<FormControl>
-														<Input
-															{...field}
-															value={field.value || ""}
-															placeholder="ISO 13485 Certified"
-														/>
-													</FormControl>
-													<FormDescription>
-														Title displayed on the certification
-														badge overlay.
-													</FormDescription>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-										<FormField
-											control={form.control}
-											name="aboutSection.certificationBadge.description"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>Badge Description</FormLabel>
-													<FormControl>
-														<Textarea
-															{...field}
-															value={field.value || ""}
-															placeholder="Setting the gold standard in medical technology distribution."
-															rows={2}
-														/>
-													</FormControl>
-													<FormDescription>
-														Short text displayed below the badge
-														title.
-													</FormDescription>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-									</div>
 								</CardContent>
 							</Card>
 						</TabsContent>
