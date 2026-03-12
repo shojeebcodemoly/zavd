@@ -1,3 +1,5 @@
+"use client";
+
 import { Twitter, Facebook, Linkedin, Instagram, Youtube } from "lucide-react";
 import type { IKontaktConnectSection } from "@/models/kontakt-page.model";
 

@@ -1,12 +1,5 @@
-import { PlaceholderPage } from "@/components/common/PlaceholderPage";
+import { GeschichtePage } from "./_components/geschichte-page";
 
-export default function GeschichtePage() {
-	return (
-		<PlaceholderPage
-			titleDe="Geschichte"
-			titleEn="History"
-			backHref="/uber-zavd"
-			backLabelDe="Zurück zu Über ZAVD"
-		/>
-	);
+export default function GeschichteRoute() {
+	return <GeschichtePage />;
 }

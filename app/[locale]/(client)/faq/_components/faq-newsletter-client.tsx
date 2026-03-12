@@ -1,6 +1,6 @@
 "use client";
 
-import { JSX, useState } from "react";
+import { JSX, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Mail, Send, CheckCircle2, AlertCircle } from "lucide-react";
 import type { IFAQNewsletterSection } from "@/models/faq-page.model";
@@ -15,6 +15,11 @@ export function FAQNewsletterClient({ data }: FAQNewsletterClientProps) {
 		"idle" | "loading" | "success" | "error"
 	>("idle");
 	const [message, setMessage] = useState("");
+	const [mounted, setMounted] = useState(false);
+
+	useEffect(() => {
+		setMounted(true);
+	}, []);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -41,8 +46,8 @@ export function FAQNewsletterClient({ data }: FAQNewsletterClientProps) {
 
 	return (
 		<section className="py-20 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
-			{/* Triangulated Particles Animation */}
-			<div className="absolute inset-0 opacity-30">
+			{/* Triangulated Particles Animation - client-only to avoid hydration mismatch from Math.random() */}
+			{mounted && <div className="absolute inset-0 opacity-30">
 				<svg
 					className="absolute top-0 left-0 w-full h-full"
 					viewBox="0 0 1440 800"
@@ -171,7 +176,7 @@ export function FAQNewsletterClient({ data }: FAQNewsletterClientProps) {
 						);
 					})()}
 				</svg>
-			</div>
+			</div>}
 
 			<div className="_container relative z-10">
 				<div className="max-w-4xl mx-auto">

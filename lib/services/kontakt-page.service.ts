@@ -16,19 +16,11 @@ import type {
 export const KONTAKT_PAGE_CACHE_TAG = "kontakt-page";
 
 /**
- * Get kontakt page content with caching
- * Cached for 1 hour, revalidated on-demand when content is updated
+ * Get kontakt page content (always fresh — revalidated by revalidateTag on update)
  */
-export const getKontaktPage = unstable_cache(
-	async (): Promise<KontaktPageData> => {
-		return kontaktPageRepository.get();
-	},
-	["kontakt-page"],
-	{
-		tags: [KONTAKT_PAGE_CACHE_TAG],
-		revalidate: 3600, // 1 hour
-	}
-);
+export async function getKontaktPage(): Promise<KontaktPageData> {
+	return kontaktPageRepository.get();
+}
 
 /**
  * Get hero section only

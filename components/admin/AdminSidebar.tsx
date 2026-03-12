@@ -44,6 +44,7 @@ interface NavItem {
 	href: string;
 	icon: React.ComponentType<{ className?: string }>;
 	badge?: string;
+	children?: NavItem[];
 }
 
 interface NavSection {
@@ -77,6 +78,28 @@ const navSections: NavSection[] = [
 				title: "Über ZAVD",
 				href: "/dashboard/webbplats/uber-zavd",
 				icon: Building2,
+				children: [
+					{
+						title: "Mission & Values",
+						href: "/dashboard/webbplats/mission-werte",
+						icon: ChevronRight,
+					},
+					{
+						title: "Board & Team",
+						href: "/dashboard/webbplats/vorstand-team",
+						icon: ChevronRight,
+					},
+					{
+						title: "History",
+						href: "/dashboard/webbplats/geschichte",
+						icon: ChevronRight,
+					},
+					{
+						title: "Statutes",
+						href: "/dashboard/webbplats/satzung",
+						icon: ChevronRight,
+					},
+				],
 			},
 			{
 				title: "About Us",
@@ -215,6 +238,9 @@ export function AdminSidebar({ className }: AdminSidebarProps) {
 		});
 		return initial;
 	});
+	const [expandedNavItems, setExpandedNavItems] = useState<Record<string, boolean>>({
+		"/dashboard/webbplats/uber-zavd": true,
+	});
 	const [logoUrl, setLogoUrl] = useState<string | null>(null);
 	const [companyName, setCompanyName] = useState<string>("Milatte");
 	const [isLogoLoading, setIsLogoLoading] = useState(true);
@@ -260,9 +286,15 @@ export function AdminSidebar({ className }: AdminSidebarProps) {
 		return pathname.startsWith(href);
 	};
 
-	// Check if any item in a section is active
+	// Check if any item in a section is active (including children)
 	const isSectionActive = (section: NavSection) => {
-		return section.items.some((item) => isActive(item.href));
+		return section.items.some((item) =>
+			isActive(item.href) || item.children?.some((child) => isActive(child.href))
+		);
+	};
+
+	const toggleNavItem = (href: string) => {
+		setExpandedNavItems((prev) => ({ ...prev, [href]: !prev[href] }));
 	};
 
 	const handleSignOut = async () => {
@@ -274,6 +306,78 @@ export function AdminSidebar({ className }: AdminSidebarProps) {
 
 	const renderNavLink = (item: NavItem) => {
 		const active = isActive(item.href);
+		const hasChildren = item.children && item.children.length > 0;
+		const isItemExpanded = expandedNavItems[item.href] ?? false;
+		const hasActiveChild = item.children?.some((child) => isActive(child.href)) ?? false;
+
+		if (hasChildren) {
+			return (
+				<div key={item.href}>
+					<div
+						className={cn(
+							"flex items-center rounded-lg text-sm font-medium transition-all duration-200",
+							active || hasActiveChild
+								? "bg-primary/10 text-primary"
+								: "text-slate-600 hover:text-slate-900 hover:bg-primary/10"
+						)}
+					>
+						<Link
+							href={item.href}
+							onClick={closeMobile}
+							className="flex items-center gap-3 flex-1 px-3 py-2 min-w-0"
+						>
+							<item.icon
+								className={cn(
+									"h-4.5 w-4.5 shrink-0",
+									active || hasActiveChild ? "text-primary" : "text-slate-500"
+								)}
+							/>
+							{!isCollapsed && <span className="truncate">{item.title}</span>}
+						</Link>
+						{!isCollapsed && (
+							<button
+								onClick={() => toggleNavItem(item.href)}
+								className="px-2 py-2 shrink-0"
+								aria-label="Toggle submenu"
+							>
+								{isItemExpanded
+									? <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
+									: <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
+								}
+							</button>
+						)}
+					</div>
+					{!isCollapsed && (
+						<div
+							className={cn(
+								"overflow-hidden transition-all duration-200 ml-3 pl-3 border-l border-slate-200",
+								isItemExpanded ? "max-h-[400px] opacity-100 mt-0.5" : "max-h-0 opacity-0"
+							)}
+						>
+							{item.children!.map((child) => {
+								const childActive = isActive(child.href);
+								return (
+									<Link
+										key={child.href}
+										href={child.href}
+										onClick={closeMobile}
+										className={cn(
+											"flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-all duration-200",
+											childActive
+												? "bg-primary text-white shadow-sm shadow-primary/20 font-medium"
+												: "text-slate-500 hover:text-slate-900 hover:bg-primary/10"
+										)}
+									>
+										<span className={cn("w-1.5 h-1.5 rounded-full shrink-0", childActive ? "bg-white" : "bg-slate-300")} />
+										<span className="truncate">{child.title}</span>
+									</Link>
+								);
+							})}
+						</div>
+					)}
+				</div>
+			);
+		}
 
 		return (
 			<Link

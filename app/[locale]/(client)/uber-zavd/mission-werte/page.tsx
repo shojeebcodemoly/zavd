@@ -1,12 +1,5 @@
-import { PlaceholderPage } from "@/components/common/PlaceholderPage";
+import { MissionWertePage } from "./_components/mission-werte-page";
 
-export default function MissionWertePage() {
-	return (
-		<PlaceholderPage
-			titleDe="Mission & Werte"
-			titleEn="Mission & Values"
-			backHref="/uber-zavd"
-			backLabelDe="Zurück zu Über ZAVD"
-		/>
-	);
+export default function MissionWerteRoute() {
+	return <MissionWertePage />;
 }

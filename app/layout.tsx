@@ -113,7 +113,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="de" className="overflow-x-hidden">
+		<html lang="de" className="overflow-x-hidden" suppressHydrationWarning>
 			<head>
 				{/* Google Tag Manager - only loads when GTM_ID is configured */}
 				{GTM_ID && (

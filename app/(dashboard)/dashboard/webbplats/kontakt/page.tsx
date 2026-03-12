@@ -55,7 +55,9 @@ const kontaktPageFormSchema = z.object({
 		addressLabel: z.string().optional(),
 		address: z.string().optional(),
 		emailLabel: z.string().optional(),
+		email: z.string().optional(),
 		phoneLabel: z.string().optional(),
+		phone: z.string().optional(),
 	}),
 
 	// Form Section
@@ -116,7 +118,9 @@ export default function KontaktPage() {
 				addressLabel: "Our Address",
 				address: "",
 				emailLabel: "Email Address",
+				email: "",
 				phoneLabel: "Phone Number",
+				phone: "",
 			},
 			formSection: {
 				heading: "Have Any Question?",
@@ -171,7 +175,9 @@ export default function KontaktPage() {
 						addressLabel: content.contactInfo?.addressLabel || "Our Address",
 						address: content.contactInfo?.address || "",
 						emailLabel: content.contactInfo?.emailLabel || "Email Address",
+						email: content.contactInfo?.email || "",
 						phoneLabel: content.contactInfo?.phoneLabel || "Phone Number",
+						phone: content.contactInfo?.phone || "",
 					},
 					formSection: {
 						heading: content.formSection?.heading || "Have Any Question?",
@@ -449,6 +455,44 @@ export default function KontaktPage() {
 															{...field}
 															value={field.value || ""}
 															placeholder="Email Address"
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+
+									<div className="grid gap-4 sm:grid-cols-2">
+										<FormField
+											control={form.control}
+											name="contactInfo.email"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Email Address</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="info@example.com"
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+
+										<FormField
+											control={form.control}
+											name="contactInfo.phone"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Phone Number</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="+49 000 000 00 00"
 														/>
 													</FormControl>
 													<FormMessage />

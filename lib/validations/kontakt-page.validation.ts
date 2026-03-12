@@ -31,7 +31,9 @@ export const kontaktContactInfoSchema = z.object({
 	addressLabel: z.string().max(100).optional(),
 	address: z.string().max(500).optional(),
 	emailLabel: z.string().max(100).optional(),
+	email: z.string().max(200).optional(),
 	phoneLabel: z.string().max(100).optional(),
+	phone: z.string().max(50).optional(),
 });
 
 /**

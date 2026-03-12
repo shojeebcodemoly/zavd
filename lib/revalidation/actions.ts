@@ -332,3 +332,47 @@ export async function revalidateUberZavdPage(): Promise<void> {
 	revalidatePath(`/en${PATHS.UBER_ZAVD}`);
 	revalidatePath(`/de${PATHS.UBER_ZAVD}`);
 }
+
+/**
+ * Revalidate Vorstand & Team page
+ * Call this when vorstand-team page content is updated
+ */
+export async function revalidateVorstandTeamPage(): Promise<void> {
+	revalidateTag(CACHE_TAGS.VORSTAND_TEAM_PAGE, "default");
+	revalidatePath(PATHS.VORSTAND_TEAM);
+	revalidatePath(`/en${PATHS.VORSTAND_TEAM}`);
+	revalidatePath(`/de${PATHS.VORSTAND_TEAM}`);
+}
+
+/**
+ * Revalidate Geschichte (History) page
+ * Call this when geschichte page content is updated
+ */
+export async function revalidateGeschichtePage(): Promise<void> {
+	revalidateTag(CACHE_TAGS.GESCHICHTE_PAGE, "default");
+	revalidatePath(PATHS.GESCHICHTE);
+	revalidatePath(`/en${PATHS.GESCHICHTE}`);
+	revalidatePath(`/de${PATHS.GESCHICHTE}`);
+}
+
+/**
+ * Revalidate Mission & Werte page
+ * Call this when mission-werte page content is updated
+ */
+export async function revalidateMissionWertePage(): Promise<void> {
+	revalidateTag(CACHE_TAGS.MISSION_WERTE_PAGE, "default");
+	revalidatePath(PATHS.MISSION_WERTE);
+	revalidatePath(`/en${PATHS.MISSION_WERTE}`);
+	revalidatePath(`/de${PATHS.MISSION_WERTE}`);
+}
+
+/**
+ * Revalidate Satzung (Statutes) page
+ * Call this when satzung page content is updated
+ */
+export async function revalidateSatzungPage(): Promise<void> {
+	revalidateTag(CACHE_TAGS.SATZUNG_PAGE, "default");
+	revalidatePath(PATHS.SATZUNG);
+	revalidatePath(`/en${PATHS.SATZUNG}`);
+	revalidatePath(`/de${PATHS.SATZUNG}`);
+}

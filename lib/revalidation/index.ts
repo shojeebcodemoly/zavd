@@ -46,6 +46,10 @@ export const CACHE_TAGS = {
 	RESELLER_PAGE: "reseller-page",
 	QUALITY_PAGE: "quality-page",
 	UBER_ZAVD_PAGE: "uber-zavd-page",
+	VORSTAND_TEAM_PAGE: "vorstand-team-page",
+	GESCHICHTE_PAGE: "geschichte-page",
+	MISSION_WERTE_PAGE: "mission-werte-page",
+	SATZUNG_PAGE: "satzung-page",
 
 	// Sitemaps
 	SITEMAPS: "sitemaps",
@@ -83,6 +87,10 @@ export const PATHS = {
 	RESELLER: "/aterforsaljare",
 	QUALITY: "/quality",
 	UBER_ZAVD: "/uber-zavd",
+	VORSTAND_TEAM: "/uber-zavd/vorstand-team",
+	GESCHICHTE: "/uber-zavd/geschichte",
+	MISSION_WERTE: "/uber-zavd/mission-werte",
+	SATZUNG: "/uber-zavd/satzung",
 } as const;
 
 // Default revalidation time in seconds (24 hours)

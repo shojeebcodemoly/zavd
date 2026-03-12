@@ -18,12 +18,10 @@ import { mainNavNew } from "@/config/navigation-new";
 import { useNavbarVariant } from "@/lib/context/navbar-variant-context";
 import { cn } from "@/lib/utils";
 import type { SiteConfigType } from "@/config/site";
-import dynamic from "next/dynamic";
 import Logo from "../common/logo";
 import MobileNavbar from "./MobileNavbar";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-
-const ProtectedNavbar = dynamic(() => import("./ProtectedNavbar"), { ssr: false });
+import ProtectedNavbar from "./ProtectedNavbar";
 
 interface SocialMedia {
 	facebook?: string;

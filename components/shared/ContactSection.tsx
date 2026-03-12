@@ -17,6 +17,8 @@ export function ContactSection({
 	phone,
 	email,
 }: ContactSectionProps) {
+	const resolvedPhone = contactInfo.phone || phone;
+	const resolvedEmail = contactInfo.email || email;
 	return (
 		<section className="w-full py-16 lg:py-24 bg-gray-50">
 			<div className="_container">
@@ -58,7 +60,7 @@ export function ContactSection({
 							)}
 
 							{/* Email */}
-							{email && (
+							{resolvedEmail && (
 								<div className="flex items-start gap-5">
 									<div className="w-12 h-12 rounded-full bg-white/15 flex items-center justify-center shrink-0">
 										<Mail className="w-5 h-5 text-white" />
@@ -68,17 +70,17 @@ export function ContactSection({
 											{contactInfo.emailLabel || "Email Address"}
 										</p>
 										<a
-											href={`mailto:${email}`}
+											href={`mailto:${resolvedEmail}`}
 											className="text-white/70 text-sm hover:text-white transition-colors"
 										>
-											{email}
+											{resolvedEmail}
 										</a>
 									</div>
 								</div>
 							)}
 
 							{/* Phone */}
-							{phone && (
+							{resolvedPhone && (
 								<div className="flex items-start gap-5">
 									<div className="w-12 h-12 rounded-full bg-white/15 flex items-center justify-center shrink-0">
 										<Phone className="w-5 h-5 text-white" />
@@ -88,10 +90,10 @@ export function ContactSection({
 											{contactInfo.phoneLabel || "Phone Number"}
 										</p>
 										<a
-											href={`tel:${phone.replace(/\s/g, "")}`}
+											href={`tel:${resolvedPhone.replace(/\s/g, "")}`}
 											className="text-white/70 text-sm hover:text-white transition-colors"
 										>
-											{phone}
+											{resolvedPhone}
 										</a>
 									</div>
 								</div>

@@ -1,4 +1,3 @@
-import { StickyHeader } from "@/components/layout/StickyHeader";
 import { Navbar } from "@/components/layout/Navbar";
 import { TopBar } from "@/components/layout/TopBar";
 import { Footer } from "@/components/layout/Footer";
@@ -7,6 +6,7 @@ import { CallbackPopup } from "@/components/callback/CallbackPopup";
 import { CookieConsent } from "@/components/cookie/CookieConsent";
 import { CookieConsentProvider } from "@/lib/context/cookie-consent-context";
 import { NavbarVariantProvider } from "@/lib/context/navbar-variant-context";
+import { ScrollHideEffect } from "@/components/layout/ScrollHideEffect";
 import { setRequestLocale } from "next-intl/server";
 import {
 	getLegacySiteConfig,
@@ -16,12 +16,6 @@ import {
 	getSiteSettings,
 } from "@/lib/services/site-settings.service";
 
-/**
- * Client Layout - Public pages with Navbar and Footer
- * This wraps all public-facing pages
- * Now fetches dynamic settings from database
- * NextIntlClientProvider is already provided by parent [locale]/layout.tsx
- */
 export default async function ClientLayout({
 	children,
 	params,
@@ -31,7 +25,6 @@ export default async function ClientLayout({
 }) {
 	const { locale } = await params;
 	setRequestLocale(locale);
-	// Fetch site settings from database in parallel
 	const [siteConfig, brandingSettings, footerSettings, socialMedia, siteSettings] = await Promise.all([
 		getLegacySiteConfig(),
 		getBrandingSettings(),
@@ -47,13 +40,17 @@ export default async function ClientLayout({
 		<CookieConsentProvider>
 			<NavbarVariantProvider>
 				<div className="flex flex-col min-h-screen">
-					<StickyHeader>
+					<div
+						id="sticky-header"
+						className="fixed top-0 left-0 z-50 w-full transition-transform duration-300"
+					>
 						<TopBar
 							facebookUrl={socialMedia?.facebook}
 							youtubeUrl={socialMedia?.youtube}
 						/>
 						<Navbar config={siteConfig} logoUrl={logoUrl} companyName={companyName} socialMedia={socialMedia} />
-					</StickyHeader>
+					</div>
+					<ScrollHideEffect />
 					<main className="flex-1 w-full">{children}</main>
 					<Footer
 						config={siteConfig}

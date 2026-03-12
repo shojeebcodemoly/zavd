@@ -70,8 +70,11 @@ export async function PUT(request: NextRequest) {
 		// Revalidate cache tag for all kontakt page queries
 		revalidateTag(KONTAKT_PAGE_CACHE_TAG, "default");
 
-		// Revalidate kontakt page
-		revalidatePath("/kontakt", "page");
+		// Revalidate contact page for all locales
+		revalidatePath("/contact-us", "page");
+		revalidatePath("/en/contact-us", "page");
+		revalidatePath("/de/contact-us", "page");
+		revalidatePath("/ar/contact-us", "page");
 
 		return successResponse(kontaktPage, "Kontakt page content updated successfully");
 	} catch (error: unknown) {

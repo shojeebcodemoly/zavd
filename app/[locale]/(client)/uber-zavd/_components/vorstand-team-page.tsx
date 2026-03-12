@@ -1,0 +1,449 @@
+"use client";
+
+import { useLocale } from "next-intl";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { Mail } from "lucide-react";
+import { useSetNavbarVariant } from "@/lib/context/navbar-variant-context";
+import { useEffect, useState } from "react";
+import { KontaktInfoSection } from "@/app/[locale]/(client)/kontakt/_components/kontakt-info-section";
+
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+interface VorstandMember {
+	nameDe?: string;
+	nameEn?: string;
+	roleDe?: string;
+	roleEn?: string;
+	phone?: string;
+	email?: string;
+	image?: string;
+}
+
+interface TeamMember {
+	nameDe?: string;
+	nameEn?: string;
+	roleDe?: string;
+	roleEn?: string;
+	bioDe?: string;
+	bioEn?: string;
+	phone?: string;
+	email?: string;
+	image?: string;
+}
+
+interface PageData {
+	hero: {
+		taglineDe?: string;
+		taglineEn?: string;
+		titleDe?: string;
+		titleEn?: string;
+		subtitleDe?: string;
+		subtitleEn?: string;
+		image?: string;
+	};
+	vorstand: {
+		sectionLabelDe?: string;
+		sectionLabelEn?: string;
+		headingDe?: string;
+		headingEn?: string;
+		members?: VorstandMember[];
+	};
+	team: {
+		sectionLabelDe?: string;
+		sectionLabelEn?: string;
+		headingDe?: string;
+		headingEn?: string;
+		descriptionDe?: string;
+		descriptionEn?: string;
+		members?: TeamMember[];
+	};
+}
+
+// ─── Static fallback data ─────────────────────────────────────────────────────
+
+const fallbackData: PageData = {
+	hero: {
+		taglineDe: "Unsere Leute",
+		taglineEn: "Our People",
+		titleDe: "Vorstand & Team",
+		titleEn: "Board & Team",
+		subtitleDe: "Die Menschen, die ZAVD gestalten und leiten – engagiert, erfahren und leidenschaftlich.",
+		subtitleEn: "The people who shape and guide ZAVD – committed, experienced, and passionate.",
+		image: "/images/about/aboutbanner.jpg",
+	},
+	vorstand: {
+		sectionLabelDe: "Vorstand",
+		sectionLabelEn: "Executive Board",
+		headingDe: "Unsere Führung",
+		headingEn: "Our Leadership",
+		members: [
+			{
+				nameDe: "Dr. Ahmad Al-Hassan",
+				nameEn: "Dr. Ahmad Al-Hassan",
+				roleDe: "1. Vorsitzender",
+				roleEn: "1st Chairman",
+				phone: "+49 (0) 524 1 – 123 456",
+				email: "a.alhassan@zavd.de",
+				image: "/images/about/zavd-team.jpg",
+			},
+			{
+				nameDe: "Khalid Ibrahim",
+				nameEn: "Khalid Ibrahim",
+				roleDe: "Stellvertretender Vorsitzender",
+				roleEn: "Deputy Chairman",
+				phone: "+49 (0) 524 1 – 123 456",
+				email: "k.ibrahim@zavd.de",
+				image: "/images/about/office1pg.jpg",
+			},
+			{
+				nameDe: "Layla Nasser",
+				nameEn: "Layla Nasser",
+				roleDe: "Schatzmeisterin",
+				roleEn: "Treasurer",
+				phone: "+49 (0) 524 1 – 123 456",
+				email: "l.nasser@zavd.de",
+				image: "/images/about/office2.jpg",
+			},
+		],
+	},
+	team: {
+		sectionLabelDe: "Unser Team",
+		sectionLabelEn: "Team",
+		headingDe: "Leitende Köpfe",
+		headingEn: "Leading Heads",
+		descriptionDe: "Hinter jeder großartigen Organisation stehen engagierte Menschen, die durch täglichen Einsatz und Fachkompetenz Visionen Wirklichkeit werden lassen.",
+		descriptionEn: "Behind every great organization are the dedicated individuals who bring vision to life through daily commitment and expertise.",
+		members: [
+			{
+				nameDe: "Omar Khalil",
+				nameEn: "Omar Khalil",
+				roleDe: "Projektleiter Integration",
+				roleEn: "Integration Project Lead",
+				bioDe: "Seit über 10 Jahren engagiert sich Omar für die Integrationsprojekte des Verbands in Nordrhein-Westfalen.",
+				bioEn: "Omar has been dedicated to the association's integration projects in North Rhine-Westphalia for over 10 years.",
+				phone: "+49 (0) 524 1 – 123 456",
+				email: "o.khalil@zavd.de",
+				image: "/images/about/office3.jpg",
+			},
+			{
+				nameDe: "Hana Mahmoud",
+				nameEn: "Hana Mahmoud",
+				roleDe: "Öffentlichkeitsarbeit",
+				roleEn: "Public Relations",
+				bioDe: "Hana koordiniert die Kommunikation zwischen den Mitgliedsvereinen und der Öffentlichkeit.",
+				bioEn: "Hana coordinates communication between member associations and the public.",
+				phone: "+49 (0) 524 1 – 123 456",
+				email: "h.mahmoud@zavd.de",
+				image: "/images/about/office4.jpg",
+			},
+			{
+				nameDe: "Yusuf Al-Amin",
+				nameEn: "Yusuf Al-Amin",
+				roleDe: "Kulturbeauftragter",
+				roleEn: "Cultural Officer",
+				bioDe: "Yusuf organisiert kulturelle Veranstaltungen und fördert den interkulturellen Dialog in Deutschland.",
+				bioEn: "Yusuf organizes cultural events and promotes intercultural dialogue throughout Germany.",
+				phone: "+49 (0) 524 1 – 123 456",
+				email: "y.alamin@zavd.de",
+				image: "/images/about/office1pg.jpg",
+			},
+			{
+				nameDe: "Sara Bishara",
+				nameEn: "Sara Bishara",
+				roleDe: "Jugend & Bildung",
+				roleEn: "Youth & Education",
+				bioDe: "Sara leitet die Bildungsprogramme für Jugendliche und unterstützt junge Mitglieder im Verband.",
+				bioEn: "Sara leads educational programs for young people and supports young members within the association.",
+				phone: "+49 (0) 524 1 – 123 456",
+				email: "s.bishara@zavd.de",
+				image: "/images/about/office2.jpg",
+			},
+		],
+	},
+};
+
+// ─── Sub-components ───────────────────────────────────────────────────────────
+
+function SectionTag({ label }: { label: string }) {
+	return (
+		<div className="inline-flex items-center gap-2 mb-4">
+			<span className="w-6 h-px bg-primary" />
+			<span className="text-primary text-xs font-semibold uppercase tracking-[0.15em]">
+				{label}
+			</span>
+		</div>
+	);
+}
+
+// ─── Main Component ───────────────────────────────────────────────────────────
+
+export function VorstandTeamPage() {
+	useSetNavbarVariant("transparent");
+	const locale = useLocale();
+	const isEn = locale === "en";
+	const [data, setData] = useState<PageData>(fallbackData);
+
+	useEffect(() => {
+		fetch("/api/vorstand-team-page")
+			.then((res) => (res.ok ? res.json() : null))
+			.then((json) => {
+				if (json) {
+					setData({
+						hero: { ...fallbackData.hero, ...json.hero },
+						vorstand: {
+							...fallbackData.vorstand,
+							...json.vorstand,
+							members:
+								json.vorstand?.members?.length
+									? json.vorstand.members
+									: fallbackData.vorstand.members,
+						},
+						team: {
+							...fallbackData.team,
+							...json.team,
+							members:
+								json.team?.members?.length
+									? json.team.members
+									: fallbackData.team.members,
+						},
+					});
+				}
+			})
+			.catch(() => {/* keep fallback */});
+	}, []);
+
+	const [sitePhone, setSitePhone] = useState("");
+	const [siteEmail, setSiteEmail] = useState("");
+
+	useEffect(() => {
+		fetch("/api/site-settings")
+			.then((res) => (res.ok ? res.json() : null))
+			.then((json) => {
+				if (json) {
+					setSitePhone(json.phone || "");
+					setSiteEmail(json.email || "");
+				}
+			})
+			.catch(() => {});
+	}, []);
+
+	const { hero, vorstand, team } = data;
+
+	return (
+		<div className="min-h-screen bg-white">
+
+			{/* ─── Hero Banner ─── */}
+			<section className="relative h-[420px] md:h-[500px] overflow-hidden">
+				<motion.div
+					className="absolute inset-0"
+					initial={{ scale: 1 }}
+					animate={{ scale: 1.08 }}
+					transition={{ duration: 10, ease: "easeOut" }}
+				>
+					<Image
+						src={hero.image || "/images/about/aboutbanner.jpg"}
+						alt={isEn ? (hero.titleEn || "Board & Team") : (hero.titleDe || "Vorstand & Team")}
+						fill
+						className="object-cover"
+						priority
+					/>
+				</motion.div>
+				<div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/25" />
+
+				<div className="absolute inset-0 flex items-center justify-center">
+					<motion.div
+						initial={{ opacity: 0, y: 30 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.7 }}
+						className="text-center px-4"
+					>
+						<motion.span
+							initial={{ opacity: 0, y: -10 }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.5 }}
+							className="inline-flex items-center gap-2 text-primary text-xs font-semibold uppercase tracking-[0.2em] mb-5"
+						>
+							<span className="w-5 h-px bg-primary" />
+							{isEn ? (hero.taglineEn || "Our People") : (hero.taglineDe || "Unsere Leute")}
+							<span className="w-5 h-px bg-primary" />
+						</motion.span>
+						<h1 className="text-5xl md:text-6xl font-extrabold text-white leading-none mb-5 tracking-tight">
+							{isEn ? (hero.titleEn || "Board & Team") : (hero.titleDe || "Vorstand & Team")}
+						</h1>
+						<p className="text-white/70 text-sm md:text-base max-w-xl mx-auto leading-relaxed">
+							{isEn ? hero.subtitleEn : hero.subtitleDe}
+						</p>
+					</motion.div>
+				</div>
+			</section>
+
+			{/* ─── Board Section (Vorstand) ─── */}
+			<section className="py-20 md:py-28 bg-white">
+				<div className="_container">
+					<motion.div
+						initial={{ opacity: 0, y: 20 }}
+						whileInView={{ opacity: 1, y: 0 }}
+						viewport={{ once: true }}
+						transition={{ duration: 0.6 }}
+						className="text-center mb-14"
+					>
+						<SectionTag label={isEn ? (vorstand.sectionLabelEn || "Executive Board") : (vorstand.sectionLabelDe || "Vorstand")} />
+						<h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+							{isEn ? (vorstand.headingEn || "Our Leadership") : (vorstand.headingDe || "Unsere Führung")}
+						</h2>
+					</motion.div>
+
+					<div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+						{(vorstand.members || []).map((member, i) => (
+							<motion.div
+								key={i}
+								initial={{ opacity: 0, y: 30 }}
+								whileInView={{ opacity: 1, y: 0 }}
+								viewport={{ once: true }}
+								transition={{ duration: 0.5, delay: i * 0.1 }}
+								className="group relative flex flex-col items-center text-center pt-10 pb-8 px-8 bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden"
+							>
+								{/* Top accent line */}
+								<div className="absolute top-0 left-0 right-0 h-1 bg-primary" />
+
+								{/* Circular photo */}
+								<div className="relative w-36 h-36 rounded-full overflow-hidden mb-5 shrink-0 ring-4 ring-primary/10 group-hover:ring-primary/30 transition-all duration-300">
+									<Image
+										src={member.image || "/images/about/zavd-team.jpg"}
+										alt={isEn ? (member.nameEn || "") : (member.nameDe || "")}
+										fill
+										className="object-cover group-hover:scale-110 transition-transform duration-500"
+									/>
+								</div>
+
+								<h3 className="font-bold text-gray-900 text-sm leading-tight mb-1">
+									{isEn ? member.nameEn : member.nameDe}
+								</h3>
+								<p className="text-primary text-[10px] font-semibold uppercase tracking-widest mb-5">
+									{isEn ? member.roleEn : member.roleDe}
+								</p>
+
+								<div className="w-8 h-px bg-gray-200 mb-4" />
+
+								{member.phone && (
+									<a
+										href={`tel:${member.phone.replace(/\s/g, "")}`}
+										className="text-primary text-xs font-semibold hover:underline mb-4"
+									>
+										{member.phone}
+									</a>
+								)}
+
+								{member.email && (
+									<a
+										href={`mailto:${member.email}`}
+										className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 group-hover:bg-primary group-hover:text-white transition-all duration-300"
+										aria-label="Email"
+									>
+										<Mail className="w-3.5 h-3.5" />
+									</a>
+								)}
+							</motion.div>
+						))}
+					</div>
+				</div>
+			</section>
+
+			{/* ─── Team Section (Leading Heads) ─── */}
+			<section className="py-20 md:py-28 bg-gray-50">
+				<div className="_container">
+					<motion.div
+						initial={{ opacity: 0, y: 20 }}
+						whileInView={{ opacity: 1, y: 0 }}
+						viewport={{ once: true }}
+						transition={{ duration: 0.6 }}
+						className="text-center mb-14 max-w-2xl mx-auto"
+					>
+						<SectionTag label={isEn ? (team.sectionLabelEn || "Team") : (team.sectionLabelDe || "Unser Team")} />
+						<h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+							{isEn ? (team.headingEn || "Leading Heads") : (team.headingDe || "Leitende Köpfe")}
+						</h2>
+						{(team.descriptionDe || team.descriptionEn) && (
+							<p className="text-gray-500 text-base leading-relaxed">
+								{isEn ? team.descriptionEn : team.descriptionDe}
+							</p>
+						)}
+					</motion.div>
+
+					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+						{(team.members || []).map((member, i) => (
+							<motion.div
+								key={i}
+								initial={{ opacity: 0, y: 30 }}
+								whileInView={{ opacity: 1, y: 0 }}
+								viewport={{ once: true }}
+								transition={{ duration: 0.5, delay: i * 0.08 }}
+								className="p-6 flex flex-col items-center text-center hover:bg-white hover:scale-105 transition-all duration-300"
+							>
+								{/* Circular photo */}
+								<div className="relative w-20 h-20 rounded-full overflow-hidden mb-4 shrink-0">
+									<Image
+										src={member.image || "/images/about/zavd-team.jpg"}
+										alt={isEn ? (member.nameEn || "") : (member.nameDe || "")}
+										fill
+										className="object-cover"
+									/>
+								</div>
+
+								<h3 className="font-bold text-gray-900 text-sm uppercase tracking-wide leading-tight mb-1">
+									{isEn ? member.nameEn : member.nameDe}
+								</h3>
+								<p className="text-primary text-xs font-semibold uppercase tracking-wide mb-4">
+									{isEn ? member.roleEn : member.roleDe}
+								</p>
+
+								{(member.bioDe || member.bioEn) && (
+									<p className="text-gray-500 text-xs leading-relaxed mb-5 flex-1">
+										{isEn ? member.bioEn : member.bioDe}
+									</p>
+								)}
+
+								{member.phone && (
+									<a
+										href={`tel:${member.phone.replace(/\s/g, "")}`}
+										className="text-primary text-xs font-semibold hover:underline mb-3"
+									>
+										{member.phone}
+									</a>
+								)}
+
+								{member.email && (
+									<a
+										href={`mailto:${member.email}`}
+										className="text-gray-400 hover:text-primary transition-colors text-xs flex items-center gap-1.5"
+									>
+										<Mail className="w-3.5 h-3.5" />
+										{member.email}
+									</a>
+								)}
+							</motion.div>
+						))}
+					</div>
+				</div>
+			</section>
+
+		{/* ─── Contact Section ─── */}
+		<KontaktInfoSection
+			contactInfo={{
+				badge: isEn ? "Contact" : "Kontakt",
+				heading: isEn ? "Get in Touch" : "Kontakt aufnehmen",
+				phoneLabel: isEn ? "Phone Number" : "Telefonnummer",
+				emailLabel: isEn ? "Email Address" : "E-Mail-Adresse",
+				addressLabel: isEn ? "Our Address" : "Unsere Adresse",
+			}}
+			formSection={{
+				heading: isEn ? "Have Any Question?" : "Haben Sie eine Frage?",
+			}}
+			phone={sitePhone}
+			email={siteEmail}
+		/>
+
+		</div>
+	);
+}

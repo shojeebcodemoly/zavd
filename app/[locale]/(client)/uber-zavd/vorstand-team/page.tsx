@@ -1,12 +1,5 @@
-import { PlaceholderPage } from "@/components/common/PlaceholderPage";
+import { VorstandTeamPage } from "../_components/vorstand-team-page";
 
-export default function VorstandTeamPage() {
-	return (
-		<PlaceholderPage
-			titleDe="Vorstand & Team"
-			titleEn="Board & Team"
-			backHref="/uber-zavd"
-			backLabelDe="Zurück zu Über ZAVD"
-		/>
-	);
+export default function VorstandTeamRoute() {
+	return <VorstandTeamPage />;
 }

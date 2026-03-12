@@ -1,12 +1,5 @@
-import { PlaceholderPage } from "@/components/common/PlaceholderPage";
+import { SatzungPage } from "./_components/satzung-page";
 
-export default function SatzungPage() {
-	return (
-		<PlaceholderPage
-			titleDe="Satzung"
-			titleEn="Statutes / Constitution"
-			backHref="/uber-zavd"
-			backLabelDe="Zurück zu Über ZAVD"
-		/>
-	);
+export default function SatzungRoute() {
+	return <SatzungPage />;
 }

@@ -32,7 +32,9 @@ export interface IKontaktContactInfo {
 	addressLabel?: string;
 	address?: string;
 	emailLabel?: string;
+	email?: string;
 	phoneLabel?: string;
+	phone?: string;
 }
 
 /**
@@ -197,7 +199,9 @@ const KontaktContactInfoSchema = new Schema<IKontaktContactInfo>(
 		addressLabel: { type: String, trim: true },
 		address: { type: String, trim: true },
 		emailLabel: { type: String, trim: true },
+		email: { type: String, trim: true },
 		phoneLabel: { type: String, trim: true },
+		phone: { type: String, trim: true },
 	},
 	{ _id: false }
 );
