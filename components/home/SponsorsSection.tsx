@@ -20,40 +20,48 @@ export function SponsorsSection({ data }: SponsorsSectionProps) {
 	const sponsors = data?.sponsors || [];
 
 	return (
-		<section className="w-full border-y border-[#e8dfc8] py-10 lg:py-14 relative overflow-hidden">
-			{/* Background image via next/image for proper optimization */}
-			{backgroundImage ? (
-				<>
-					<ImageComponent
-						src={backgroundImage}
-						alt="Sponsors section background"
-						fill
-						className="object-cover object-center"
-						showLoader={false}
-					/>
-					<div className="absolute inset-0 bg-black/35" />
-				</>
-			) : (
-				<div className="absolute inset-0 bg-[#f5f0e8]" />
-			)}
+		<section className="w-full border-y border-[#e8dfc8] py-10 lg:py-14 relative">
+			{/* Background — overflow-hidden scoped here only, so logos are never clipped */}
+			<div className="absolute inset-0 overflow-hidden">
+				{backgroundImage ? (
+					<>
+						<ImageComponent
+							src={backgroundImage}
+							alt="Sponsors section background"
+							fill
+							className="object-cover object-center"
+							showLoader={false}
+						/>
+						<div className="absolute inset-0 bg-black/35" />
+					</>
+				) : (
+					<div className="absolute inset-0 bg-[#f5f0e8]" />
+				)}
+			</div>
 
 			<div className="_container relative z-10">
 				<div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
 					{/* Left: Heading + label */}
-					<motion.div
-						initial={{ opacity: 0, x: -20 }}
-						whileInView={{ opacity: 1, x: 0 }}
-						viewport={{ once: true }}
-						transition={{ duration: 0.5 }}
-						className="text-center lg:text-left w-full lg:w-[45%] lg:flex-shrink-0"
-					>
-						<p className={`text-xs tracking-[0.2em] uppercase font-medium mb-1 ${backgroundImage ? "text-white/70" : "text-foreground/50"}`}>
+					<div className="text-center lg:text-left w-full lg:w-[45%] lg:flex-shrink-0">
+						<motion.p
+							initial={{ opacity: 0, x: -30 }}
+							whileInView={{ opacity: 1, x: 0 }}
+							viewport={{ once: true }}
+							transition={{ duration: 0.55, ease: "easeOut" }}
+							className={`text-sm tracking-wide font-normal leading-relaxed mb-3 ${backgroundImage ? "text-white/75" : "text-foreground/60"}`}
+						>
 							{description}
-						</p>
-						<h2 className={`text-2xl lg:text-3xl font-bold font-heading ${backgroundImage ? "text-white" : "text-secondary"}`}>
+						</motion.p>
+						<motion.h2
+							initial={{ opacity: 0, x: 30 }}
+							whileInView={{ opacity: 1, x: 0 }}
+							viewport={{ once: true }}
+							transition={{ duration: 0.55, ease: "easeOut", delay: 0.1 }}
+							className={`text-2xl lg:text-3xl font-bold font-heading capitalize ${backgroundImage ? "text-white" : "text-secondary"}`}
+						>
 							{heading}
-						</h2>
-					</motion.div>
+						</motion.h2>
+					</div>
 
 					{/* Divider */}
 					<div className={`hidden lg:block w-px h-16 flex-shrink-0 ${backgroundImage ? "bg-white/30" : "bg-foreground/20"}`} />
@@ -75,13 +83,14 @@ export function SponsorsSection({ data }: SponsorsSectionProps) {
 									title={sponsor.name}
 								>
 									{sponsor.image && (
-										<div className="h-14 w-32 flex items-center justify-center grayscale group-hover:grayscale-0 opacity-60 group-hover:opacity-100 transition-all duration-300">
+										<div className="h-24 w-36 flex items-center justify-center">
 											<ImageComponent
 												src={sponsor.image}
 												alt={sponsor.name || "Sponsor logo"}
-												height={56}
-												width={128}
+												width={144}
+												height={96}
 												className="max-w-full max-h-full object-contain"
+												showLoader={false}
 											/>
 										</div>
 									)}

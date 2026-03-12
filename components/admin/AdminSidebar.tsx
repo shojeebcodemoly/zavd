@@ -32,6 +32,11 @@ import {
 	ChevronDown,
 	ChevronRight,
 	Building2,
+	Heart,
+	Users2,
+	Award,
+	Zap,
+	HandHeart,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { authClient } from "@/lib/auth-client";
@@ -140,6 +145,37 @@ const navSections: NavSection[] = [
 				title: "Reseller",
 				href: "/dashboard/webbplats/reseller",
 				icon: Handshake,
+			},
+		],
+	},
+	{
+		title: "Projekte",
+		collapsible: true,
+		items: [
+			{
+				title: "Patenschaftsprojekt",
+				href: "/dashboard/projekte/patenschaftsprojekt",
+				icon: Heart,
+			},
+			{
+				title: "Gemeinsam Aktiv",
+				href: "/dashboard/projekte/gemeinsam-aktiv",
+				icon: Users2,
+			},
+			{
+				title: "Successful Integration",
+				href: "/dashboard/projekte/gut-reinkommen",
+				icon: Award,
+			},
+			{
+				title: "GeT AKTIV",
+				href: "/dashboard/projekte/get-aktiv",
+				icon: Zap,
+			},
+			{
+				title: "Ehrenamt & Engagement",
+				href: "/dashboard/projekte/ehrenamt-engagement",
+				icon: HandHeart,
 			},
 		],
 	},
