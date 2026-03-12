@@ -5,7 +5,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
-import { Loader2, Plus, Trash2, Phone, Mail, MessageCircle, ExternalLink } from "lucide-react";
+import { Loader2, Plus, Trash2, ExternalLink } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -27,41 +27,10 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
 import { MediaPicker } from "@/components/storage/media-picker";
 import { SeoPreview } from "@/components/admin/seo/SeoPreview";
 import { CMSPageSkeleton } from "@/components/admin/CMSPageSkeleton";
 import { useConfirmModal } from "@/components/ui/confirm-modal";
-
-// Available Lucide icons for selection
-const AVAILABLE_ICONS = [
-	"Phone",
-	"Mail",
-	"MessageCircle",
-	"Clock",
-	"CheckCircle",
-	"CheckCircle2",
-	"MapPin",
-	"Building",
-	"Send",
-	"Users",
-	"Globe",
-	"Star",
-	"Heart",
-];
-
-// Contact Card schema
-const contactCardSchema = z.object({
-	icon: z.string().min(1, "Icon is required"),
-	title: z.string().min(1, "Title is required"),
-	subtitle: z.string().optional(),
-});
 
 // FAQ Item schema
 const faqItemSchema = z.object({
@@ -73,32 +42,40 @@ const faqItemSchema = z.object({
 const kontaktPageFormSchema = z.object({
 	// Hero Section
 	hero: z.object({
-		badge: z.string().optional(),
+		backgroundImage: z.string().optional(),
+		breadcrumb: z.string().optional(),
 		title: z.string().min(1, "Title is required"),
 		subtitle: z.string().min(1, "Subtitle is required"),
-		responseTime: z.string().optional(),
-		officeLocationsText: z.string().optional(),
 	}),
 
-	// Contact Cards
-	phoneCard: contactCardSchema,
-	emailCard: contactCardSchema,
-	socialCard: contactCardSchema,
+	// Contact Info (left column)
+	contactInfo: z.object({
+		badge: z.string().optional(),
+		heading: z.string().optional(),
+		addressLabel: z.string().optional(),
+		address: z.string().optional(),
+		emailLabel: z.string().optional(),
+		phoneLabel: z.string().optional(),
+	}),
 
 	// Form Section
 	formSection: z.object({
-		badge: z.string().optional(),
+		heading: z.string().optional(),
 		title: z.string().min(1, "Title is required"),
 		subtitle: z.string().min(1, "Subtitle is required"),
 	}),
 
-	// Office Section
-	officeSection: z.object({
+	// Map Section
+	mapSection: z.object({
+		embedUrl: z.string().optional(),
+	}),
+
+	// Connect Section
+	connectSection: z.object({
 		badge: z.string().optional(),
-		title: z.string().min(1, "Title is required"),
-		subtitle: z.string().min(1, "Subtitle is required"),
-		openingHours: z.string().optional(),
-		closedText: z.string().optional(),
+		backgroundImage: z.string().optional(),
+		heading: z.string().optional(),
+		description: z.string().optional(),
 	}),
 
 	// FAQ Section
@@ -128,22 +105,32 @@ export default function KontaktPage() {
 		resolver: zodResolver(kontaktPageFormSchema),
 		defaultValues: {
 			hero: {
-				badge: "",
-				title: "",
-				subtitle: "",
-				responseTime: "",
-				officeLocationsText: "",
+				backgroundImage: "",
+				breadcrumb: "Contact Us",
+				title: "Contact Us",
+				subtitle: "Get in touch with us. We are here to help you.",
 			},
-			phoneCard: { icon: "Phone", title: "", subtitle: "" },
-			emailCard: { icon: "Mail", title: "", subtitle: "" },
-			socialCard: { icon: "MessageCircle", title: "", subtitle: "" },
-			formSection: { badge: "", title: "", subtitle: "" },
-			officeSection: {
-				badge: "",
+			contactInfo: {
+				badge: "Contact",
+				heading: "Get in Touch",
+				addressLabel: "Our Address",
+				address: "",
+				emailLabel: "Email Address",
+				phoneLabel: "Phone Number",
+			},
+			formSection: {
+				heading: "Have Any Question?",
 				title: "",
 				subtitle: "",
-				openingHours: "",
-				closedText: "",
+			},
+			mapSection: {
+				embedUrl: "",
+			},
+			connectSection: {
+				badge: "Connect With Us",
+				backgroundImage: "",
+				heading: "GET IN TOUCH",
+				description: "",
 			},
 			faqSection: { badge: "", title: "", subtitle: "", faqs: [] },
 			seo: { title: "", description: "", ogImage: "" },
@@ -171,41 +158,34 @@ export default function KontaktPage() {
 
 				const content = data.data;
 
-				// Reset form with fetched data
 				form.reset({
 					hero: {
-						badge: content.hero?.badge || "",
-						title: content.hero?.title || "",
+						backgroundImage: content.hero?.backgroundImage || "",
+						breadcrumb: content.hero?.breadcrumb || "Contact Us",
+						title: content.hero?.title || "Contact Us",
 						subtitle: content.hero?.subtitle || "",
-						responseTime: content.hero?.responseTime || "",
-						officeLocationsText: content.hero?.officeLocationsText || "",
 					},
-					phoneCard: {
-						icon: content.phoneCard?.icon || "Phone",
-						title: content.phoneCard?.title || "",
-						subtitle: content.phoneCard?.subtitle || "",
-					},
-					emailCard: {
-						icon: content.emailCard?.icon || "Mail",
-						title: content.emailCard?.title || "",
-						subtitle: content.emailCard?.subtitle || "",
-					},
-					socialCard: {
-						icon: content.socialCard?.icon || "MessageCircle",
-						title: content.socialCard?.title || "",
-						subtitle: content.socialCard?.subtitle || "",
+					contactInfo: {
+						badge: content.contactInfo?.badge || "Contact",
+						heading: content.contactInfo?.heading || "Get in Touch",
+						addressLabel: content.contactInfo?.addressLabel || "Our Address",
+						address: content.contactInfo?.address || "",
+						emailLabel: content.contactInfo?.emailLabel || "Email Address",
+						phoneLabel: content.contactInfo?.phoneLabel || "Phone Number",
 					},
 					formSection: {
-						badge: content.formSection?.badge || "",
+						heading: content.formSection?.heading || "Have Any Question?",
 						title: content.formSection?.title || "",
 						subtitle: content.formSection?.subtitle || "",
 					},
-					officeSection: {
-						badge: content.officeSection?.badge || "",
-						title: content.officeSection?.title || "",
-						subtitle: content.officeSection?.subtitle || "",
-						openingHours: content.officeSection?.openingHours || "",
-						closedText: content.officeSection?.closedText || "",
+					mapSection: {
+						embedUrl: content.mapSection?.embedUrl || "",
+					},
+					connectSection: {
+						badge: content.connectSection?.badge || "Connect With Us",
+						backgroundImage: content.connectSection?.backgroundImage || "",
+						heading: content.connectSection?.heading || "GET IN TOUCH",
+						description: content.connectSection?.description || "",
 					},
 					faqSection: {
 						badge: content.faqSection?.badge || "",
@@ -271,7 +251,7 @@ export default function KontaktPage() {
 					</p>
 				</div>
 				<a
-					href="/kontakt"
+					href="/contact-us"
 					target="_blank"
 					rel="noopener noreferrer"
 					className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"
@@ -286,9 +266,10 @@ export default function KontaktPage() {
 					<Tabs defaultValue="hero" className="space-y-6">
 						<TabsList className="flex flex-wrap h-auto gap-1 p-1 justify-start">
 							<TabsTrigger value="hero">Hero</TabsTrigger>
-							<TabsTrigger value="cards">Cards</TabsTrigger>
+							<TabsTrigger value="contact-info">Contact Info</TabsTrigger>
 							<TabsTrigger value="form">Form</TabsTrigger>
-							<TabsTrigger value="offices">Offices</TabsTrigger>
+							<TabsTrigger value="map">Map</TabsTrigger>
+							<TabsTrigger value="connect">Connect</TabsTrigger>
 							<TabsTrigger value="faq">FAQ</TabsTrigger>
 							<TabsTrigger value="seo">SEO</TabsTrigger>
 						</TabsList>
@@ -299,48 +280,73 @@ export default function KontaktPage() {
 								<CardHeader>
 									<CardTitle>Hero Section</CardTitle>
 									<CardDescription>
-										The main section displayed at the top of the contact page.
+										The banner at the top of the contact page with background image.
 									</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-6">
 									<FormField
 										control={form.control}
-										name="hero.badge"
+										name="hero.backgroundImage"
 										render={({ field }) => (
 											<FormItem>
-												<FormLabel>Badge Text</FormLabel>
+												<FormLabel>Background Image</FormLabel>
 												<FormControl>
-													<Input
-														{...field}
-														value={field.value || ""}
-														placeholder="We're here for you"
+													<MediaPicker
+														type="image"
+														value={field.value || null}
+														onChange={(url) => field.onChange(url || "")}
+														placeholder="Select background image"
+														galleryTitle="Select Hero Background"
 													/>
 												</FormControl>
 												<FormDescription>
-													Small text displayed above the title.
+													Full-width background image for the hero banner.
 												</FormDescription>
 												<FormMessage />
 											</FormItem>
 										)}
 									/>
 
-									<FormField
-										control={form.control}
-										name="hero.title"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Title</FormLabel>
-												<FormControl>
-													<Input
-														{...field}
-														value={field.value || ""}
-														placeholder="Let's talk about your project"
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
+									<div className="grid gap-4 sm:grid-cols-2">
+										<FormField
+											control={form.control}
+											name="hero.title"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Title</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="Contact Us"
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+
+										<FormField
+											control={form.control}
+											name="hero.breadcrumb"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Breadcrumb Text</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="Contact Us"
+														/>
+													</FormControl>
+													<FormDescription>
+														Text shown after &quot;Home /&quot; in the breadcrumb.
+													</FormDescription>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
 
 									<FormField
 										control={form.control}
@@ -352,203 +358,59 @@ export default function KontaktPage() {
 													<Textarea
 														{...field}
 														value={field.value || ""}
-														placeholder="Do you have questions about our products..."
-														rows={3}
+														placeholder="Get in touch with us..."
+														rows={2}
 													/>
 												</FormControl>
 												<FormMessage />
 											</FormItem>
 										)}
 									/>
-
-									<div className="grid gap-4 sm:grid-cols-2">
-										<FormField
-											control={form.control}
-											name="hero.responseTime"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>Response Time Text</FormLabel>
-													<FormControl>
-														<Input
-															{...field}
-															value={field.value || ""}
-															placeholder="Response within 24 hours"
-														/>
-													</FormControl>
-													<FormDescription>
-														Displayed as an informational text.
-													</FormDescription>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-										<FormField
-											control={form.control}
-											name="hero.officeLocationsText"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>Office Locations Text</FormLabel>
-													<FormControl>
-														<Input
-															{...field}
-															value={field.value || ""}
-															placeholder="Offices in Stockholm & Linköping"
-														/>
-													</FormControl>
-													<FormDescription>
-														Information about office locations.
-													</FormDescription>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-									</div>
 								</CardContent>
 							</Card>
 						</TabsContent>
 
-						{/* Contact Cards Tab */}
-						<TabsContent value="cards" className="space-y-6">
-							{/* Phone Card */}
+						{/* Contact Info Tab */}
+						<TabsContent value="contact-info" className="space-y-6">
 							<Card>
 								<CardHeader>
-									<CardTitle className="flex items-center gap-2">
-										<Phone className="h-5 w-5" />
-										Phone Card
-									</CardTitle>
+									<CardTitle>Contact Information</CardTitle>
 									<CardDescription>
-										Card for phone contact. The actual phone number is fetched from
-										site settings.
+										Left column content: heading and contact details displayed with icons.
+										Phone and email values come from Site Settings.
 									</CardDescription>
 								</CardHeader>
-								<CardContent className="space-y-4">
-									<div className="grid gap-4 sm:grid-cols-3">
+								<CardContent className="space-y-6">
+									<div className="grid gap-4 sm:grid-cols-2">
 										<FormField
 											control={form.control}
-											name="phoneCard.icon"
+											name="contactInfo.badge"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Icon</FormLabel>
-													<Select
-														onValueChange={field.onChange}
-														defaultValue={field.value}
-													>
-														<FormControl>
-															<SelectTrigger>
-																<SelectValue placeholder="Select icon" />
-															</SelectTrigger>
-														</FormControl>
-														<SelectContent>
-															{AVAILABLE_ICONS.map((icon) => (
-																<SelectItem key={icon} value={icon}>
-																	{icon}
-																</SelectItem>
-															))}
-														</SelectContent>
-													</Select>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-										<FormField
-											control={form.control}
-											name="phoneCard.title"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>Title</FormLabel>
-													<FormControl>
-														<Input {...field} value={field.value || ""} placeholder="Phone" />
-													</FormControl>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-										<FormField
-											control={form.control}
-											name="phoneCard.subtitle"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>Subtitle</FormLabel>
+													<FormLabel>Badge Text</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
 															value={field.value || ""}
-															placeholder="Mon-Fri 09:00-17:00"
+															placeholder="Contact"
 														/>
 													</FormControl>
 													<FormMessage />
 												</FormItem>
 											)}
 										/>
-									</div>
-								</CardContent>
-							</Card>
 
-							{/* Email Card */}
-							<Card>
-								<CardHeader>
-									<CardTitle className="flex items-center gap-2">
-										<Mail className="h-5 w-5" />
-										Email Card
-									</CardTitle>
-									<CardDescription>
-										Card for email contact. The actual email address is fetched from
-										site settings.
-									</CardDescription>
-								</CardHeader>
-								<CardContent className="space-y-4">
-									<div className="grid gap-4 sm:grid-cols-3">
 										<FormField
 											control={form.control}
-											name="emailCard.icon"
+											name="contactInfo.heading"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Icon</FormLabel>
-													<Select
-														onValueChange={field.onChange}
-														defaultValue={field.value}
-													>
-														<FormControl>
-															<SelectTrigger>
-																<SelectValue placeholder="Select icon" />
-															</SelectTrigger>
-														</FormControl>
-														<SelectContent>
-															{AVAILABLE_ICONS.map((icon) => (
-																<SelectItem key={icon} value={icon}>
-																	{icon}
-																</SelectItem>
-															))}
-														</SelectContent>
-													</Select>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-										<FormField
-											control={form.control}
-											name="emailCard.title"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>Title</FormLabel>
-													<FormControl>
-														<Input {...field} value={field.value || ""} placeholder="Email" />
-													</FormControl>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-										<FormField
-											control={form.control}
-											name="emailCard.subtitle"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>Subtitle</FormLabel>
+													<FormLabel>Heading</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
 															value={field.value || ""}
-															placeholder="Response within 24 hours"
+															placeholder="Get in Touch"
 														/>
 													</FormControl>
 													<FormMessage />
@@ -556,74 +418,37 @@ export default function KontaktPage() {
 											)}
 										/>
 									</div>
-								</CardContent>
-							</Card>
 
-							{/* Social Media Card */}
-							<Card>
-								<CardHeader>
-									<CardTitle className="flex items-center gap-2">
-										<MessageCircle className="h-5 w-5" />
-										Social Media Card
-									</CardTitle>
-									<CardDescription>
-										Card for social media. The actual links are fetched from
-										site settings.
-									</CardDescription>
-								</CardHeader>
-								<CardContent className="space-y-4">
-									<div className="grid gap-4 sm:grid-cols-3">
+									<div className="grid gap-4 sm:grid-cols-2">
 										<FormField
 											control={form.control}
-											name="socialCard.icon"
+											name="contactInfo.addressLabel"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Icon</FormLabel>
-													<Select
-														onValueChange={field.onChange}
-														defaultValue={field.value}
-													>
-														<FormControl>
-															<SelectTrigger>
-																<SelectValue placeholder="Select icon" />
-															</SelectTrigger>
-														</FormControl>
-														<SelectContent>
-															{AVAILABLE_ICONS.map((icon) => (
-																<SelectItem key={icon} value={icon}>
-																	{icon}
-																</SelectItem>
-															))}
-														</SelectContent>
-													</Select>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-										<FormField
-											control={form.control}
-											name="socialCard.title"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>Title</FormLabel>
+													<FormLabel>Address Label</FormLabel>
 													<FormControl>
-														<Input {...field} value={field.value || ""} placeholder="Social Media" />
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="Our Address"
+														/>
 													</FormControl>
 													<FormMessage />
 												</FormItem>
 											)}
 										/>
+
 										<FormField
 											control={form.control}
-											name="socialCard.subtitle"
+											name="contactInfo.emailLabel"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Subtitle</FormLabel>
+													<FormLabel>Email Label</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
 															value={field.value || ""}
-															placeholder="Follow us for updates"
+															placeholder="Email Address"
 														/>
 													</FormControl>
 													<FormMessage />
@@ -631,6 +456,48 @@ export default function KontaktPage() {
 											)}
 										/>
 									</div>
+
+									<div className="grid gap-4 sm:grid-cols-2">
+										<FormField
+											control={form.control}
+											name="contactInfo.phoneLabel"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Phone Label</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="Phone Number"
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+
+									<FormField
+										control={form.control}
+										name="contactInfo.address"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Address</FormLabel>
+												<FormControl>
+													<Textarea
+														{...field}
+														value={field.value || ""}
+														placeholder="Street, City, Country"
+														rows={2}
+													/>
+												</FormControl>
+												<FormDescription>
+													Physical address shown in the contact info panel.
+												</FormDescription>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
 								</CardContent>
 							</Card>
 						</TabsContent>
@@ -641,18 +508,22 @@ export default function KontaktPage() {
 								<CardHeader>
 									<CardTitle>Form Section</CardTitle>
 									<CardDescription>
-										Text displayed above the contact form.
+										Right column heading and subtitle above the contact form.
 									</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-6">
 									<FormField
 										control={form.control}
-										name="formSection.badge"
+										name="formSection.heading"
 										render={({ field }) => (
 											<FormItem>
-												<FormLabel>Badge Text</FormLabel>
+												<FormLabel>Heading</FormLabel>
 												<FormControl>
-													<Input {...field} value={field.value || ""} placeholder="Send Message" />
+													<Input
+														{...field}
+														value={field.value || ""}
+														placeholder="Have Any Question?"
+													/>
 												</FormControl>
 												<FormMessage />
 											</FormItem>
@@ -699,57 +570,107 @@ export default function KontaktPage() {
 							</Card>
 						</TabsContent>
 
-						{/* Office Section Tab */}
-						<TabsContent value="offices" className="space-y-6">
+						{/* Map Tab */}
+						<TabsContent value="map" className="space-y-6">
 							<Card>
 								<CardHeader>
-									<CardTitle>Office Section</CardTitle>
+									<CardTitle>Google Map</CardTitle>
 									<CardDescription>
-										Text displayed above the office locations. Actual addresses
-										are fetched from site settings.
+										Full-width map displayed at the bottom of the contact page.
+									</CardDescription>
+								</CardHeader>
+								<CardContent className="space-y-4">
+									<FormField
+										control={form.control}
+										name="mapSection.embedUrl"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Google Maps Embed URL</FormLabel>
+												<FormControl>
+													<Input
+														{...field}
+														value={field.value || ""}
+														placeholder="https://www.google.com/maps/embed?pb=..."
+													/>
+												</FormControl>
+												<FormDescription>
+													Go to Google Maps → Share → Embed a map → copy the src URL from the iframe code.
+												</FormDescription>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+								</CardContent>
+							</Card>
+						</TabsContent>
+
+						{/* Connect Tab */}
+						<TabsContent value="connect" className="space-y-6">
+							<Card>
+								<CardHeader>
+									<CardTitle>Connect With Us Section</CardTitle>
+									<CardDescription>
+										Two-part section: a primary-color banner with a centered badge on top,
+										and a dark background section with heading and social media links below.
+										Social media URLs are managed in Site Settings.
 									</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-6">
 									<FormField
 										control={form.control}
-										name="officeSection.badge"
+										name="connectSection.badge"
 										render={({ field }) => (
 											<FormItem>
 												<FormLabel>Badge Text</FormLabel>
 												<FormControl>
-													<Input {...field} value={field.value || ""} placeholder="Our Offices" />
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-
-									<FormField
-										control={form.control}
-										name="officeSection.title"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Title</FormLabel>
-												<FormControl>
-													<Input {...field} value={field.value || ""} placeholder="Visit Us" />
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-
-									<FormField
-										control={form.control}
-										name="officeSection.subtitle"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Subtitle</FormLabel>
-												<FormControl>
-													<Textarea
+													<Input
 														{...field}
 														value={field.value || ""}
-														placeholder="We have offices in Stockholm and Linköping..."
-														rows={2}
+														placeholder="Connect With Us"
+													/>
+												</FormControl>
+												<FormDescription>
+													Text shown inside the bordered rectangle on the primary-color banner.
+												</FormDescription>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+
+									<FormField
+										control={form.control}
+										name="connectSection.backgroundImage"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Background Image</FormLabel>
+												<FormControl>
+													<MediaPicker
+														type="image"
+														value={field.value || null}
+														onChange={(url) => field.onChange(url || "")}
+														placeholder="Select background image (city/landscape photo)"
+														galleryTitle="Select Connect Section Background"
+													/>
+												</FormControl>
+												<FormDescription>
+													Dark overlay is applied automatically. Works best with a city or landscape photo.
+												</FormDescription>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+
+									<FormField
+										control={form.control}
+										name="connectSection.heading"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Heading</FormLabel>
+												<FormControl>
+													<Input
+														{...field}
+														value={field.value || ""}
+														placeholder="GET IN TOUCH"
 													/>
 												</FormControl>
 												<FormMessage />
@@ -757,38 +678,24 @@ export default function KontaktPage() {
 										)}
 									/>
 
-									<div className="grid gap-4 sm:grid-cols-2">
-										<FormField
-											control={form.control}
-											name="officeSection.openingHours"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>Opening Hours</FormLabel>
-													<FormControl>
-														<Input
-															{...field}
-															value={field.value || ""}
-															placeholder="Mon-Fri 09:00-17:00"
-														/>
-													</FormControl>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-										<FormField
-											control={form.control}
-											name="officeSection.closedText"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>Closed Text</FormLabel>
-													<FormControl>
-														<Input {...field} value={field.value || ""} placeholder="Weekends closed" />
-													</FormControl>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-									</div>
+									<FormField
+										control={form.control}
+										name="connectSection.description"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Description</FormLabel>
+												<FormControl>
+													<Textarea
+														{...field}
+														value={field.value || ""}
+														placeholder="Connect with us on social media..."
+														rows={2}
+													/>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
 								</CardContent>
 							</Card>
 						</TabsContent>
@@ -799,7 +706,7 @@ export default function KontaktPage() {
 								<CardHeader>
 									<CardTitle>FAQ Section</CardTitle>
 									<CardDescription>
-										Frequently asked questions displayed at the bottom of the contact page.
+										Frequently asked questions (optional — not shown in current design).
 									</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-6">
@@ -841,7 +748,7 @@ export default function KontaktPage() {
 													<Textarea
 														{...field}
 														value={field.value || ""}
-														placeholder="Here you'll find answers to the most common questions..."
+														placeholder="Here you'll find answers..."
 														rows={2}
 													/>
 												</FormControl>
@@ -867,15 +774,11 @@ export default function KontaktPage() {
 											Add
 										</Button>
 									</CardTitle>
-									<CardDescription>
-										Add frequently asked questions and answers.
-									</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-4">
 									{faqFields.length === 0 ? (
 										<div className="text-center py-8 text-muted-foreground">
-											No questions added. Click &quot;Add&quot; to
-											add a question.
+											No questions added. Click &quot;Add&quot; to add a question.
 										</div>
 									) : (
 										faqFields.map((field, index) => (
@@ -914,7 +817,7 @@ export default function KontaktPage() {
 																	<Input
 																		{...field}
 																		value={field.value || ""}
-																		placeholder="How quickly will I get a response?"
+																		placeholder="Your question..."
 																	/>
 																</FormControl>
 																<FormMessage />
@@ -931,7 +834,7 @@ export default function KontaktPage() {
 																	<Textarea
 																		{...field}
 																		value={field.value || ""}
-																		placeholder="We strive to respond..."
+																		placeholder="Answer..."
 																		rows={2}
 																	/>
 																</FormControl>
@@ -968,12 +871,9 @@ export default function KontaktPage() {
 														<Input
 															{...field}
 															value={field.value || ""}
-															placeholder="Contact Us - Zavd Medical"
+															placeholder="Contact Us - ZAVD"
 														/>
 													</FormControl>
-													<FormDescription>
-														Displayed in the browser tab and search results.
-													</FormDescription>
 													<FormMessage />
 												</FormItem>
 											)}
@@ -989,13 +889,10 @@ export default function KontaktPage() {
 														<Textarea
 															{...field}
 															value={field.value || ""}
-															placeholder="Contact Zavd Medical for questions..."
+															placeholder="Contact ZAVD for questions..."
 															rows={3}
 														/>
 													</FormControl>
-													<FormDescription>
-														Short description displayed in search results.
-													</FormDescription>
 													<FormMessage />
 												</FormItem>
 											)}
@@ -1012,13 +909,10 @@ export default function KontaktPage() {
 															type="image"
 															value={field.value || null}
 															onChange={(url) => field.onChange(url || "")}
-															placeholder="Select OG image (1200x630px recommended)"
+															placeholder="Select OG image (1200x630px)"
 															galleryTitle="Select OG Image"
 														/>
 													</FormControl>
-													<FormDescription>
-														Image displayed when sharing on social media.
-													</FormDescription>
 													<FormMessage />
 												</FormItem>
 											)}
@@ -1029,24 +923,16 @@ export default function KontaktPage() {
 								<Card>
 									<CardHeader>
 										<CardTitle>Preview</CardTitle>
-										<CardDescription>
-											See how the contact page appears in search results and social
-											media.
-										</CardDescription>
 									</CardHeader>
 									<CardContent>
 										<SeoPreview
 											data={{
-												title:
-													form.watch("seo.title") ||
-													"Contact Us - Zavd Medical",
-												description:
-													form.watch("seo.description") ||
-													"Add a description",
-												slug: "kontakt",
+												title: form.watch("seo.title") || "Contact Us - ZAVD",
+												description: form.watch("seo.description") || "Add a description",
+												slug: "contact-us",
 												ogImage: form.watch("seo.ogImage") || null,
-												siteName: "Zavd Medical",
-												siteUrl: "www.zavd.se",
+												siteName: "ZAVD",
+												siteUrl: "www.zavd.de",
 											}}
 										/>
 									</CardContent>

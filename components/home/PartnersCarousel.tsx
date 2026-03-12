@@ -53,7 +53,7 @@ export function PartnersCarousel({ data }: PartnersCarouselProps) {
 									title={logo.name}
 								>
 									{logo.image ? (
-										<div className="relative h-12 w-full flex items-center justify-center grayscale group-hover:grayscale-0 opacity-50 group-hover:opacity-100 transition-all duration-300">
+										<div className="relative h-12 w-full flex items-center justify-center opacity-90 group-hover:opacity-100 transition-all duration-300">
 											<ImageComponent
 												src={logo.image}
 												alt={logo.name || "Partner logo"}
@@ -71,7 +71,7 @@ export function PartnersCarousel({ data }: PartnersCarouselProps) {
 							) : (
 								<div className="flex items-center justify-center h-16" title={logo.name}>
 									{logo.image ? (
-										<div className="relative h-12 w-full flex items-center justify-center grayscale opacity-50 transition-all duration-300">
+										<div className="relative h-12 w-full flex items-center justify-center opacity-90 transition-all duration-300">
 											<ImageComponent
 												src={logo.image}
 												alt={logo.name || "Partner logo"}

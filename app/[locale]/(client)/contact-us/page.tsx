@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { AnimatedHero } from "./_components/animated-hero";
-import { AnimatedContactCards } from "./_components/animated-contact-cards";
-import { AnimatedFormSection } from "./_components/animated-form-section";
-import { AnimatedOfficeLocations } from "./_components/animated-office-locations";
-import { AnimatedFAQ } from "./_components/animated-faq";
+import { ContactSection } from "@/components/shared/ContactSection";
+import { ContactMap } from "@/components/shared/ContactMap";
 import {
 	getKontaktPage,
 	getKontaktPageSeo,
@@ -42,59 +40,26 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ContactUsPage() {
-	// Fetch CMS data
 	const [kontaktPage, siteSettings] = await Promise.all([
 		getKontaktPage(),
 		getSiteSettings(),
 	]);
 
-	// Filter visible offices
-	const visibleOffices = siteSettings.offices.filter(
-		(office) => office.isVisible !== false
-	);
-
 	return (
-		<div className="bg-primary/50 w-full">
+		<div className="flex flex-col min-h-screen">
 			{/* Hero Section */}
-			<AnimatedHero
-				data={kontaktPage.hero}
+			<AnimatedHero data={kontaktPage.hero} />
+
+			{/* Contact Info + Form (two columns) */}
+			<ContactSection
+				contactInfo={kontaktPage.contactInfo ?? {}}
+				formSection={kontaktPage.formSection}
 				phone={siteSettings.phone}
 				email={siteSettings.email}
 			/>
 
-			{/* Contact Methods Section */}
-			<AnimatedContactCards
-				phoneCard={kontaktPage.phoneCard}
-				emailCard={kontaktPage.emailCard}
-				socialCard={kontaktPage.socialCard}
-				phone={siteSettings.phone}
-				email={siteSettings.email}
-				facebookUrl={siteSettings.socialMedia?.facebook || ""}
-				instagramUrl={siteSettings.socialMedia?.instagram || ""}
-				linkedinUrl={siteSettings.socialMedia?.linkedin || ""}
-			/>
-
-			{/* Contact Form Section */}
-			<section className="section-padding bg-background">
-				<div className="_container">
-					<div className="mx-auto max-w-3xl">
-						<AnimatedFormSection data={kontaktPage.formSection} />
-					</div>
-				</div>
-			</section>
-
-			{/* Office Locations Section */}
-			<section className="section-padding bg-muted">
-				<div className="_container overflow-hidden">
-					<AnimatedOfficeLocations
-						data={kontaktPage.officeSection}
-						addresses={visibleOffices}
-					/>
-				</div>
-			</section>
-
-			{/* FAQ Section */}
-			<AnimatedFAQ data={kontaktPage.faqSection} />
+			{/* Google Map */}
+			<ContactMap embedUrl={kontaktPage.mapSection?.embedUrl} />
 		</div>
 	);
 }

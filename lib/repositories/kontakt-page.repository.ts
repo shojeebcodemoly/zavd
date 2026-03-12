@@ -4,8 +4,11 @@ import {
 	getKontaktPageModelSync,
 	type IKontaktPage,
 	type IKontaktHero,
+	type IKontaktContactInfo,
 	type IContactCard,
 	type IKontaktFormSection,
+	type IKontaktMapSection,
+	type IKontaktConnectSection,
 	type IKontaktOfficeSection,
 	type IKontaktFaqSection,
 	type IKontaktPageSeo,
@@ -16,10 +19,13 @@ import {
  */
 export interface UpdateKontaktPageInput {
 	hero?: Partial<IKontaktHero>;
+	contactInfo?: Partial<IKontaktContactInfo>;
 	phoneCard?: Partial<IContactCard>;
 	emailCard?: Partial<IContactCard>;
 	socialCard?: Partial<IContactCard>;
 	formSection?: Partial<IKontaktFormSection>;
+	mapSection?: Partial<IKontaktMapSection>;
+	connectSection?: Partial<IKontaktConnectSection>;
 	officeSection?: Partial<IKontaktOfficeSection>;
 	faqSection?: Partial<IKontaktFaqSection>;
 	seo?: Partial<IKontaktPageSeo>;
@@ -77,6 +83,14 @@ class KontaktPageRepository {
 			});
 		}
 
+		if (data.contactInfo) {
+			Object.entries(data.contactInfo).forEach(([key, value]) => {
+				if (value !== undefined) {
+					updateData[`contactInfo.${key}`] = value;
+				}
+			});
+		}
+
 		if (data.phoneCard) {
 			Object.entries(data.phoneCard).forEach(([key, value]) => {
 				if (value !== undefined) {
@@ -105,6 +119,22 @@ class KontaktPageRepository {
 			Object.entries(data.formSection).forEach(([key, value]) => {
 				if (value !== undefined) {
 					updateData[`formSection.${key}`] = value;
+				}
+			});
+		}
+
+		if (data.mapSection) {
+			Object.entries(data.mapSection).forEach(([key, value]) => {
+				if (value !== undefined) {
+					updateData[`mapSection.${key}`] = value;
+				}
+			});
+		}
+
+		if (data.connectSection) {
+			Object.entries(data.connectSection).forEach(([key, value]) => {
+				if (value !== undefined) {
+					updateData[`connectSection.${key}`] = value;
 				}
 			});
 		}
@@ -153,8 +183,6 @@ class KontaktPageRepository {
 
 	/**
 	 * Replace entire kontakt page content
-	 * Used when you want to completely replace the content
-	 * Returns plain JavaScript object to avoid circular reference issues
 	 */
 	async replace(data: UpdateKontaktPageInput): Promise<KontaktPageData> {
 		await connectMongoose();

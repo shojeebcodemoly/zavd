@@ -4,6 +4,8 @@ import { z } from "zod";
  * Hero Section schema
  */
 export const kontaktHeroSchema = z.object({
+	backgroundImage: z.string().optional(),
+	breadcrumb: z.string().max(200).optional(),
 	badge: z.string().max(100).optional(),
 	title: z.string().min(1, "Title is required").max(200),
 	subtitle: z.string().min(1, "Subtitle is required").max(500),
@@ -21,12 +23,42 @@ export const contactCardSchema = z.object({
 });
 
 /**
+ * Contact Info schema (left column)
+ */
+export const kontaktContactInfoSchema = z.object({
+	badge: z.string().max(100).optional(),
+	heading: z.string().max(200).optional(),
+	addressLabel: z.string().max(100).optional(),
+	address: z.string().max(500).optional(),
+	emailLabel: z.string().max(100).optional(),
+	phoneLabel: z.string().max(100).optional(),
+});
+
+/**
  * Form Section schema
  */
 export const kontaktFormSectionSchema = z.object({
 	badge: z.string().max(100).optional(),
+	heading: z.string().max(200).optional(),
 	title: z.string().min(1, "Title is required").max(200),
 	subtitle: z.string().min(1, "Subtitle is required").max(500),
+});
+
+/**
+ * Map Section schema
+ */
+export const kontaktMapSectionSchema = z.object({
+	embedUrl: z.string().optional(),
+});
+
+/**
+ * Connect Section schema
+ */
+export const kontaktConnectSectionSchema = z.object({
+	badge: z.string().max(100).optional(),
+	backgroundImage: z.string().optional(),
+	heading: z.string().max(200).optional(),
+	description: z.string().max(500).optional(),
 });
 
 /**
@@ -72,10 +104,13 @@ export const kontaktPageSeoSchema = z.object({
  */
 export const updateKontaktPageSchema = z.object({
 	hero: kontaktHeroSchema.partial().optional(),
+	contactInfo: kontaktContactInfoSchema.partial().optional(),
 	phoneCard: contactCardSchema.partial().optional(),
 	emailCard: contactCardSchema.partial().optional(),
 	socialCard: contactCardSchema.partial().optional(),
 	formSection: kontaktFormSectionSchema.partial().optional(),
+	mapSection: kontaktMapSectionSchema.partial().optional(),
+	connectSection: kontaktConnectSectionSchema.partial().optional(),
 	officeSection: kontaktOfficeSectionSchema.partial().optional(),
 	faqSection: kontaktFaqSectionSchema.partial().optional(),
 	seo: kontaktPageSeoSchema.partial().optional(),
@@ -84,7 +119,10 @@ export const updateKontaktPageSchema = z.object({
 // Type exports
 export type KontaktHeroInput = z.infer<typeof kontaktHeroSchema>;
 export type ContactCardInput = z.infer<typeof contactCardSchema>;
+export type KontaktContactInfoInput = z.infer<typeof kontaktContactInfoSchema>;
 export type KontaktFormSectionInput = z.infer<typeof kontaktFormSectionSchema>;
+export type KontaktMapSectionInput = z.infer<typeof kontaktMapSectionSchema>;
+export type KontaktConnectSectionInput = z.infer<typeof kontaktConnectSectionSchema>;
 export type KontaktOfficeSectionInput = z.infer<typeof kontaktOfficeSectionSchema>;
 export type KontaktFaqItemInput = z.infer<typeof kontaktFaqItemSchema>;
 export type KontaktFaqSectionInput = z.infer<typeof kontaktFaqSectionSchema>;

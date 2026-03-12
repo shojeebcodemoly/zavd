@@ -5,6 +5,8 @@ import { connectMongoose } from "@/lib/db/db-connect";
  * Hero Section interface
  */
 export interface IKontaktHero {
+	backgroundImage?: string;
+	breadcrumb?: string;
 	badge?: string;
 	title: string;
 	subtitle: string;
@@ -22,12 +24,42 @@ export interface IContactCard {
 }
 
 /**
+ * Contact Info Section interface (left column)
+ */
+export interface IKontaktContactInfo {
+	badge?: string;
+	heading?: string;
+	addressLabel?: string;
+	address?: string;
+	emailLabel?: string;
+	phoneLabel?: string;
+}
+
+/**
  * Form Section interface
  */
 export interface IKontaktFormSection {
 	badge?: string;
+	heading?: string;
 	title: string;
 	subtitle: string;
+}
+
+/**
+ * Map Section interface
+ */
+export interface IKontaktMapSection {
+	embedUrl?: string;
+}
+
+/**
+ * Connect Section interface (top cyan banner + dark social section)
+ */
+export interface IKontaktConnectSection {
+	badge?: string;
+	backgroundImage?: string;
+	heading?: string;
+	description?: string;
 }
 
 /**
@@ -93,6 +125,9 @@ export interface IKontaktPage extends Document {
 	// Hero Section
 	hero: IKontaktHero;
 
+	// Contact Info (left column)
+	contactInfo: IKontaktContactInfo;
+
 	// Contact Cards (labels/titles only - actual contact info from SiteSettings)
 	phoneCard: IContactCard;
 	emailCard: IContactCard;
@@ -100,6 +135,12 @@ export interface IKontaktPage extends Document {
 
 	// Form Section
 	formSection: IKontaktFormSection;
+
+	// Map Section
+	mapSection: IKontaktMapSection;
+
+	// Connect Section
+	connectSection: IKontaktConnectSection;
 
 	// Office Section
 	officeSection: IKontaktOfficeSection;
@@ -123,6 +164,8 @@ export interface IKontaktPage extends Document {
  */
 const KontaktHeroSchema = new Schema<IKontaktHero>(
 	{
+		backgroundImage: { type: String, trim: true },
+		breadcrumb: { type: String, trim: true },
 		badge: { type: String, trim: true },
 		title: { type: String, required: true, trim: true },
 		subtitle: { type: String, required: true, trim: true },
@@ -145,13 +188,52 @@ const ContactCardSchema = new Schema<IContactCard>(
 );
 
 /**
+ * Contact Info sub-schema
+ */
+const KontaktContactInfoSchema = new Schema<IKontaktContactInfo>(
+	{
+		badge: { type: String, trim: true },
+		heading: { type: String, trim: true },
+		addressLabel: { type: String, trim: true },
+		address: { type: String, trim: true },
+		emailLabel: { type: String, trim: true },
+		phoneLabel: { type: String, trim: true },
+	},
+	{ _id: false }
+);
+
+/**
  * Form Section sub-schema
  */
 const KontaktFormSectionSchema = new Schema<IKontaktFormSection>(
 	{
 		badge: { type: String, trim: true },
+		heading: { type: String, trim: true },
 		title: { type: String, required: true, trim: true },
 		subtitle: { type: String, required: true, trim: true },
+	},
+	{ _id: false }
+);
+
+/**
+ * Map Section sub-schema
+ */
+const KontaktMapSectionSchema = new Schema<IKontaktMapSection>(
+	{
+		embedUrl: { type: String, trim: true },
+	},
+	{ _id: false }
+);
+
+/**
+ * Connect Section sub-schema
+ */
+const KontaktConnectSectionSchema = new Schema<IKontaktConnectSection>(
+	{
+		badge: { type: String, trim: true },
+		backgroundImage: { type: String, trim: true },
+		heading: { type: String, trim: true },
+		description: { type: String, trim: true },
 	},
 	{ _id: false }
 );
@@ -242,12 +324,24 @@ const KontaktPageSchema = new Schema<IKontaktPage>(
 			type: KontaktHeroSchema,
 			required: true,
 			default: {
-				badge: "We're here for you",
-				title: "Let's talk about your project",
-				subtitle:
-					"Do you have questions about our products, training or want to know more about how to start your own clinic? Our team is here to help you.",
-				responseTime: "Response within 24 hours",
-				officeLocationsText: "Offices in Stockholm & Linköping",
+				backgroundImage: "",
+				breadcrumb: "Home > Contact Us",
+				badge: "Contact",
+				title: "Contact Us",
+				subtitle: "Get in touch with us. We are here to help you.",
+				responseTime: "",
+				officeLocationsText: "",
+			},
+		},
+		contactInfo: {
+			type: KontaktContactInfoSchema,
+			default: {
+				badge: "Contact",
+				heading: "Get in Touch",
+				addressLabel: "Our Address",
+				address: "",
+				emailLabel: "Email Address",
+				phoneLabel: "Phone Number",
 			},
 		},
 		phoneCard: {
@@ -282,9 +376,26 @@ const KontaktPageSchema = new Schema<IKontaktPage>(
 			required: true,
 			default: {
 				badge: "Send Message",
+				heading: "Have Any Question?",
 				title: "Tell us about your project",
 				subtitle:
 					"Fill out the form and we'll get back to you as soon as possible.",
+			},
+		},
+		mapSection: {
+			type: KontaktMapSectionSchema,
+			default: {
+				embedUrl: "",
+			},
+		},
+		connectSection: {
+			type: KontaktConnectSectionSchema,
+			default: {
+				badge: "Connect With Us",
+				backgroundImage: "",
+				heading: "GET IN TOUCH",
+				description:
+					"Connect with us on social media and stay updated with our latest news and events.",
 			},
 		},
 		officeSection: {
@@ -307,28 +418,7 @@ const KontaktPageSchema = new Schema<IKontaktPage>(
 				title: "Have Questions?",
 				subtitle:
 					"Here you'll find answers to the most common questions. Can't find an answer? Feel free to contact us!",
-				faqs: [
-					{
-						question: "How quickly will I get a response?",
-						answer:
-							"We strive to respond to all inquiries within 24 hours on business days.",
-					},
-					{
-						question: "Can I book a meeting?",
-						answer:
-							"Absolutely! Indicate in your message that you'd like to book a meeting and we'll get back to you with suggested times.",
-					},
-					{
-						question: "Do you offer demonstrations?",
-						answer:
-							"Yes, we offer free product demonstrations at our offices or at your location.",
-					},
-					{
-						question: "Are you available on-site?",
-						answer:
-							"We recommend booking an appointment before visiting to ensure the right person is available.",
-					},
-				],
+				faqs: [],
 			},
 		},
 		richContent: {
@@ -338,9 +428,9 @@ const KontaktPageSchema = new Schema<IKontaktPage>(
 		seo: {
 			type: KontaktPageSeoSchema,
 			default: {
-				title: "Contact Us - Zavd Medical",
+				title: "Contact Us - ZAVD",
 				description:
-					"Contact Zavd Medical for questions about medical equipment, training or starting your own clinic. We're located in Stockholm and Linköping.",
+					"Contact ZAVD for questions about our community programs, services, or organization.",
 			},
 		},
 	},
@@ -369,6 +459,10 @@ KontaktPageSchema.set("toObject", { virtuals: true });
 export const getKontaktPageModel = async (): Promise<Model<IKontaktPage>> => {
 	await connectMongoose();
 
+	if (process.env.NODE_ENV !== "production" && mongoose.models.KontaktPage) {
+		mongoose.deleteModel("KontaktPage");
+	}
+
 	return (
 		(mongoose.models.KontaktPage as Model<IKontaktPage>) ||
 		mongoose.model<IKontaktPage>("KontaktPage", KontaktPageSchema)
@@ -380,6 +474,10 @@ export const getKontaktPageModel = async (): Promise<Model<IKontaktPage>> => {
  * Note: Ensure connectMongoose is called before using this
  */
 export function getKontaktPageModelSync(): Model<IKontaktPage> {
+	if (process.env.NODE_ENV !== "production" && mongoose.models.KontaktPage) {
+		mongoose.deleteModel("KontaktPage");
+	}
+
 	return (
 		(mongoose.models.KontaktPage as Model<IKontaktPage>) ||
 		mongoose.model<IKontaktPage>("KontaktPage", KontaktPageSchema)

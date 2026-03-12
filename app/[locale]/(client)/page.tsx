@@ -1,12 +1,8 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Hero } from "@/components/home/Hero";
-import { IntroSection } from "@/components/home/IntroSection";
-import { PromoBanner } from "@/components/home/PromoBanner";
-import { FeatureBanner } from "@/components/home/FeatureBanner";
 import { ImageGallery } from "@/components/home/ImageGallery";
 import { Testimonials } from "@/components/home/Testimonials";
-import AboutSection from "@/components/home/AboutSection";
 import CtaSection from "@/components/home/CtaSection";
 import { IntegrationSection } from "@/components/home/IntegrationSection";
 import { SponsorsSection } from "@/components/home/SponsorsSection";
@@ -106,23 +102,17 @@ export default async function Home({ searchParams }: HomeProps) {
 	// Section visibility settings (defaults to all visible if not set)
 	const defaultVisibility = {
 		hero: true,
-		introSection: true,
 		integrationSection: true,
 		sponsorsSection: true,
 		volunteeringSection: true,
 		partnersCarousel: true,
-		promoBanner: true,
-		featureBanner: true,
 		imageGallery: true,
-		about: true,
 		testimonials: true,
 		cta: true,
 	};
 	const visibility = {
 		...defaultVisibility,
 		...homePage.sectionVisibility,
-		promoBanner: homePage.sectionVisibility?.promoBanner ?? true,
-		featureBanner: homePage.sectionVisibility?.featureBanner ?? true,
 		integrationSection: homePage.sectionVisibility?.integrationSection ?? true,
 		sponsorsSection: homePage.sectionVisibility?.sponsorsSection ?? true,
 		volunteeringSection: homePage.sectionVisibility?.volunteeringSection ?? true,
