@@ -251,7 +251,7 @@ class SiteSettingsRepository {
 		const settings = await this.get();
 		return (
 			settings.branding || {
-				logoUrl: "/storage/zavd-logo-beige-glow.svg",
+				logoUrl: "/storage/zavd-logo-mobile-2000x485.png",
 			}
 		);
 	}

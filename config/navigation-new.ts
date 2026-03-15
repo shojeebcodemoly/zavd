@@ -152,12 +152,5 @@ export const mainNavNew: NavItem[] = [
 		titleKey: "kontakt",
 		title: "Kontakt",
 		href: "/kontakt",
-		items: [
-			{
-				titleKey: "anfahrtOeffnungszeiten",
-				title: "Anfahrt & Öffnungszeiten",
-				href: "/kontakt/anfahrt-oeffnungszeiten",
-			},
-		],
 	},
 ];

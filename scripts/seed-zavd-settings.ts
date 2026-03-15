@@ -48,7 +48,7 @@ if (!MONGODB_URI) {
 
 const zavdSettings = {
 	// ── Company Info ──────────────────────────────────────────
-	companyName: "ZAVD",
+	companyName: "Central Association of Assyrian Associations in Germany and European Sections eV",
 	orgNumber: "VR 3456",
 	vatNumber: "",
 
@@ -92,7 +92,7 @@ const zavdSettings = {
 
 	// ── Branding ──────────────────────────────────────────────
 	branding: {
-		logoUrl: "/storage/zavd-logo-beige-glow.svg",
+		logoUrl: "/storage/zavd-logo-mobile-2000x485.png",
 		faviconUrl: "/favicon.ico",
 	},
 

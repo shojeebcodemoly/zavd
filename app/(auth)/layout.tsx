@@ -35,7 +35,7 @@ export default async function AuthLayout({
 		getMessages({ locale }),
 	]);
 
-	const logoUrl = brandingSettings?.logoUrl || undefined;
+	const logoUrl = "/storage/zavd-logo-mobile-2000x485.png";
 
 	return (
 		<NextIntlClientProvider locale={locale} messages={messages}>

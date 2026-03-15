@@ -140,7 +140,7 @@ const defaultValues: FormData = {
 		tagDe: "Satzung",
 		tagEn: "Statutes",
 		headingDe: "Häufig gestellte Fragen",
-		headingEn: "Frequently Asked Questions",
+		headingEn: "Frequently Asked Questions(FAQ)",
 		descriptionDe: "Hier finden Sie Antworten auf häufige Fragen zur ZAVD-Satzung und ihrer Organisationsstruktur.",
 		descriptionEn: "Find answers to common questions about the ZAVD statutes and its governing structure.",
 		items: defaultFaqItems,

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { MapPin, Phone, Mail, ArrowRight, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useSetNavbarVariant } from "@/lib/context/navbar-variant-context";
+import { FaqSection, FaqItem } from "@/components/common/FaqSection";
 
 // ─── Static fallback content ─────────────────────────────────────────────────
 
@@ -14,6 +15,79 @@ const staticOfficeImages = [
 	"/images/about/office2.jpg",
 	"/images/about/office3.jpg",
 	"/images/about/office4.jpg",
+];
+
+const staticFaqItems: FaqItem[] = [
+	{
+		id: 1,
+		titleDe: "Was ist ZAVD?",
+		titleEn: "What is ZAVD?",
+		contentDe:
+			"ZAVD – Zentralverband Arabischer und Deutsch-Arabischer Vereine in Deutschland e.V. ist ein gemeinnütziger Dachverband, der arabische und deutsch-arabische Vereine in ganz Deutschland vereint.",
+		contentEn:
+			"ZAVD is a non-profit umbrella organization uniting Arab and German-Arab associations throughout Germany, promoting integration and cultural exchange.",
+	},
+	{
+		id: 2,
+		titleDe: "Wann wurde ZAVD gegründet?",
+		titleEn: "When was ZAVD founded?",
+		contentDe:
+			"ZAVD wurde gegründet, um die Interessen arabischer und deutsch-arabischer Vereine in Deutschland zu bündeln und gemeinsam gegenüber Politik und Öffentlichkeit zu vertreten.",
+		contentEn:
+			"ZAVD was established to represent the collective interests of Arab and German-Arab associations in Germany before policymakers and the public.",
+	},
+	{
+		id: 3,
+		titleDe: "Welche Ziele verfolgt ZAVD?",
+		titleEn: "What are ZAVD's goals?",
+		contentDe: [
+			"Förderung der Integration arabischer Menschen in Deutschland",
+			"Kultureller Austausch zwischen arabischen und deutschen Gemeinschaften",
+			"Vertretung der Interessen arabischer Vereine gegenüber der Politik",
+			"Unterstützung sozialer und humanitärer Projekte",
+		],
+		contentEn: [
+			"Promoting the integration of Arab people in Germany",
+			"Cultural exchange between Arab and German communities",
+			"Representing the interests of Arab associations before policymakers",
+			"Supporting social and humanitarian projects",
+		],
+	},
+	{
+		id: 4,
+		titleDe: "Wie kann ich Mitglied werden?",
+		titleEn: "How can I become a member?",
+		contentDe:
+			"Vereine und Organisationen können eine Mitgliedschaft beim ZAVD beantragen. Nehmen Sie einfach Kontakt zu uns auf – wir begleiten Sie durch den Aufnahmeprozess.",
+		contentEn:
+			"Associations and organizations can apply for membership with ZAVD. Simply contact us and we will guide you through the application process.",
+	},
+	{
+		id: 5,
+		titleDe: "Wo befindet sich die Bundesgeschäftsstelle?",
+		titleEn: "Where is the federal office located?",
+		contentDe:
+			"Die Bundesgeschäftsstelle des ZAVD befindet sich seit 2014 in Gütersloh. Das Büro verfügt über einen Seminarraum für bis zu 70 Personen sowie eine kulturelle Ausstellung im Foyer.",
+		contentEn:
+			"The federal office of ZAVD has been located in Gütersloh since 2014. The office features a seminar room for up to 70 people and a cultural exhibition in the foyer.",
+	},
+	{
+		id: 6,
+		titleDe: "Welche Veranstaltungen organisiert ZAVD?",
+		titleEn: "What events does ZAVD organize?",
+		contentDe: [
+			"Kulturelle Veranstaltungen und Festivals",
+			"Bildungsprojekte und Seminare",
+			"Integrationsprogramme",
+			"Politische Dialogveranstaltungen",
+		],
+		contentEn: [
+			"Cultural events and festivals",
+			"Educational projects and seminars",
+			"Integration programs",
+			"Political dialogue events",
+		],
+	},
 ];
 
 const staticGalleryImages = [
@@ -645,6 +719,19 @@ export function UberZavdPage() {
 					</motion.div>
 				</div>
 			</section>
+
+			{/* ─── FAQ ─── */}
+			<FaqSection
+				items={staticFaqItems}
+				tag={isEn ? "FAQ" : "Häufige Fragen"}
+				heading={isEn ? "Frequently Asked Questions" : "Häufig gestellte Fragen"}
+				description={
+					isEn
+						? "Everything you need to know about ZAVD and our work."
+						: "Alles, was Sie über ZAVD und unsere Arbeit wissen müssen."
+				}
+				isEn={isEn}
+			/>
 
 			{/* ─── Gallery ─── */}
 			<section className="py-20 md:py-28 bg-white">

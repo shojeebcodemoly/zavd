@@ -33,7 +33,7 @@ export default async function ClientLayout({
 		getSiteSettings(),
 	]);
 
-	const logoUrl = brandingSettings?.logoUrl;
+	const logoUrl = "/storage/zavd-logo-mobile-2000x485.png";
 	const companyName = siteSettings?.companyName || "ZAVD";
 
 	return (

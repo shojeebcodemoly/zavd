@@ -4,6 +4,11 @@ import {
 	type IMissionWerteHero,
 	type IMissionWerteIntro,
 	type IMissionWerteValue,
+	type IMissionWerteStats,
+	type IMissionWerteTeam,
+	type IMissionWerteGoals,
+	type IMissionWerteApproach,
+	type IMissionWertePartners,
 } from "@/models/mission-werte-page.model";
 
 function toPlainObject<T>(data: T): T {
@@ -15,6 +20,11 @@ export interface MissionWertePageData {
 	hero: IMissionWerteHero;
 	intro: IMissionWerteIntro;
 	values: IMissionWerteValue[];
+	stats: IMissionWerteStats;
+	team: IMissionWerteTeam;
+	goals: IMissionWerteGoals;
+	approach: IMissionWerteApproach;
+	partners: IMissionWertePartners;
 	updatedAt: Date;
 	createdAt: Date;
 }
@@ -23,6 +33,11 @@ export interface UpdateMissionWertePageInput {
 	hero?: Partial<IMissionWerteHero>;
 	intro?: Partial<IMissionWerteIntro>;
 	values?: IMissionWerteValue[];
+	stats?: Partial<IMissionWerteStats>;
+	team?: Partial<IMissionWerteTeam>;
+	goals?: Partial<IMissionWerteGoals>;
+	approach?: Partial<IMissionWerteApproach>;
+	partners?: Partial<IMissionWertePartners>;
 }
 
 class MissionWertePageRepository {
@@ -49,6 +64,11 @@ class MissionWertePageRepository {
 		if (data.hero) updateData.hero = data.hero;
 		if (data.intro) updateData.intro = data.intro;
 		if (data.values !== undefined) updateData.values = data.values;
+		if (data.stats) updateData.stats = data.stats;
+		if (data.team) updateData.team = data.team;
+		if (data.goals) updateData.goals = data.goals;
+		if (data.approach) updateData.approach = data.approach;
+		if (data.partners) updateData.partners = data.partners;
 
 		const page = await Model.findOneAndUpdate(
 			{},

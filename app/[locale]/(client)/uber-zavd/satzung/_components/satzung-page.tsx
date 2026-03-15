@@ -5,25 +5,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useSetNavbarVariant } from "@/lib/context/navbar-variant-context";
 import { KontaktInfoSection } from "@/app/[locale]/(client)/kontakt/_components/kontakt-info-section";
+import { FaqSection } from "@/components/common/FaqSection";
 import { useState, useMemo, useEffect } from "react";
-import {
-	MapPin,
-	Target,
-	Heart,
-	Users,
-	CreditCard,
-	GitBranch,
-	Users2,
-	Key,
-	Star,
-	Briefcase,
-	Eye,
-	FileCheck,
-	CheckSquare,
-	XCircle,
-	ChevronDown,
-	Search,
-} from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -33,7 +17,6 @@ interface SatzungItem {
 	titleEn: string;
 	contentDe: string | string[];
 	contentEn: string | string[];
-	icon: React.ElementType;
 }
 
 interface Testimonial {
@@ -86,8 +69,6 @@ interface FaqSectionData {
 
 // ─── Icon list for CMS FAQ items ─────────────────────────────────────────────
 
-const faqIconList = [MapPin, Target, Heart, Users, CreditCard, GitBranch, Users2, Key, Star, Briefcase, Eye, FileCheck, CheckSquare, XCircle];
-
 // ─── Satzung Sections Data (fallback) ────────────────────────────────────────
 
 const satzungItems: SatzungItem[] = [
@@ -95,7 +76,6 @@ const satzungItems: SatzungItem[] = [
 		id: 1,
 		titleDe: "Name und Sitz",
 		titleEn: "Name and Registered Office",
-		icon: MapPin,
 		contentDe:
 			`Der Verband f\u00FChrt den Namen \u201EZentralverband der Assyrischen Vereinigungen in Deutschland e.V.\u201C (ZAVD). Der Sitz des Verbands ist in G\u00FCtersloh. Der Verband ist im Vereinsregister eingetragen.`,
 		contentEn:
@@ -105,7 +85,6 @@ const satzungItems: SatzungItem[] = [
 		id: 2,
 		titleDe: "Verbandszweck und -ziele",
 		titleEn: "Association Purpose and Objectives",
-		icon: Target,
 		contentDe: [
 			"Der Verband ist eine Dachorganisation seiner in Deutschland, \u00D6sterreich und der Schweiz bestehenden assyrischen Vereinigungen.",
 			"1. Zweck des Verbandes ist es, den Assyrern, die in Assyrien (auch als Mesopotamien bekannt; umfasst Teile der heutigen Staaten Irak, Iran, Syrien und der T\u00FCrkei) als ethnische und christlich-religi\u00F6se Minderheit diskriminiert und verfolgt werden, zu helfen.",
@@ -131,7 +110,6 @@ const satzungItems: SatzungItem[] = [
 		id: 3,
 		titleDe: "Gemeinn\u00FCtzigkeit",
 		titleEn: "Non-Profit Status",
-		icon: Heart,
 		contentDe:
 			`Der Verband verfolgt ausschlie\u00DFlich und unmittelbar gemeinn\u00FCtzige Zwecke im Sinne des Abschnitts \u201ESteuerbeg\u00FCnstigte Zwecke\u201C der Abgabenordnung. Der Verband ist selbstlos t\u00E4tig; er verfolgt nicht in erster Linie eigenwirtschaftliche Zwecke. Mittel des Verbands d\u00FCrfen nur f\u00FCr die satzungsm\u00E4\u00DFigen Zwecke verwendet werden. Die Mitglieder erhalten keine Zuwendungen aus Mitteln des Verbands.`,
 		contentEn:
@@ -141,7 +119,6 @@ const satzungItems: SatzungItem[] = [
 		id: 4,
 		titleDe: "Mitgliedschaft",
 		titleEn: "Membership",
-		icon: Users,
 		contentDe:
 			"Mitglied des Verbandes kann jeder assyrische Verein in Deutschland, \u00D6sterreich und der Schweiz werden, der die Ziele des Verbandes anerkennt und dessen Satzung nicht im Widerspruch zur Satzung des Verbandes steht. \u00DCber die Aufnahme entscheidet der Vorstand. Die Mitgliedschaft endet durch Austritt, Ausschluss oder Aufl\u00F6sung des Mitgliedsvereins. Ein Ausschluss kann erfolgen, wenn ein Mitglied den Zielen des Verbandes zuwider handelt.",
 		contentEn:
@@ -151,7 +128,6 @@ const satzungItems: SatzungItem[] = [
 		id: 5,
 		titleDe: "Mitgliedsbeitr\u00E4ge und Mittel",
 		titleEn: "Membership Fees and Resources",
-		icon: CreditCard,
 		contentDe:
 			"Die Mitgliedsvereine zahlen einen Jahresbeitrag. Die H\u00F6he des Jahresbeitrags wird von der Delegiertenversammlung festgesetzt. Die Mittel des Verbandes d\u00FCrfen nur f\u00FCr die in der Satzung genannten Zwecke verwendet werden. Es darf keine Person durch Ausgaben, die dem Zweck des Verbandes fremd sind, oder durch unverh\u00E4ltnism\u00E4\u00DFig hohe Verg\u00FCtungen beg\u00FCnstigt werden.",
 		contentEn:
@@ -161,7 +137,6 @@ const satzungItems: SatzungItem[] = [
 		id: 6,
 		titleDe: "Organe",
 		titleEn: "Governing Bodies",
-		icon: GitBranch,
 		contentDe:
 			"Die Organe des Verbandes sind: 1. Die Delegiertenversammlung, 2. Der Vorstand, 3. Der gesch\u00E4ftsf\u00FChrende Vorstand, 4. Der Aufsichtsrat. Die Organe f\u00FChren ihre T\u00E4tigkeiten ehrenamtlich durch, sofern die Delegiertenversammlung keine andere Regelung trifft.",
 		contentEn:
@@ -171,7 +146,6 @@ const satzungItems: SatzungItem[] = [
 		id: 7,
 		titleDe: "Delegiertenversammlung",
 		titleEn: "Delegates' Assembly",
-		icon: Users2,
 		contentDe:
 			"Die Delegiertenversammlung ist das h\u00F6chste Organ des Verbandes. Sie tritt mindestens einmal j\u00E4hrlich zusammen. Die Einladung erfolgt mindestens vier Wochen vorher schriftlich durch den gesch\u00E4ftsf\u00FChrenden Vorstand unter Bekanntgabe der Tagesordnung. Die Delegiertenversammlung ist zust\u00E4ndig f\u00FCr: Entgegennahme des Jahresberichts, Entlastung des Vorstands, Wahl des Vorstands, Festsetzung der Mitgliedsbeitr\u00E4ge, Satzungs\u00E4nderungen und Aufl\u00F6sung des Verbandes.",
 		contentEn:
@@ -181,7 +155,6 @@ const satzungItems: SatzungItem[] = [
 		id: 8,
 		titleDe: "Delegiertenschl\u00FCssel",
 		titleEn: "Delegate Allocation",
-		icon: Key,
 		contentDe:
 			"Jeder Mitgliedsverein entsendet Delegierte zur Delegiertenversammlung. Der Schl\u00FCssel f\u00FCr die Anzahl der Delegierten wird von der Delegiertenversammlung festgelegt und richtet sich nach der Mitgliederzahl der jeweiligen Mitgliedsvereine. Jeder Mitgliedsverein hat mindestens eine Stimme.",
 		contentEn:
@@ -191,7 +164,6 @@ const satzungItems: SatzungItem[] = [
 		id: 9,
 		titleDe: "Vorstand",
 		titleEn: "Board of Directors",
-		icon: Star,
 		contentDe:
 			"Der Vorstand besteht aus dem gesch\u00E4ftsf\u00FChrenden Vorstand und weiteren Mitgliedern. Er wird von der Delegiertenversammlung f\u00FCr eine Amtszeit von vier Jahren gew\u00E4hlt. Der Vorstand f\u00FChrt die Beschl\u00FCsse der Delegiertenversammlung aus und verwaltet das Verm\u00F6gen des Verbandes. Er tritt nach Bedarf, mindestens jedoch zweimal j\u00E4hrlich, zusammen.",
 		contentEn:
@@ -201,7 +173,6 @@ const satzungItems: SatzungItem[] = [
 		id: 10,
 		titleDe: "Gesch\u00E4ftsf\u00FChrender Vorstand",
 		titleEn: "Managing Board",
-		icon: Briefcase,
 		contentDe:
 			"Der gesch\u00E4ftsf\u00FChrende Vorstand besteht aus dem 1. Vorsitzenden, dem 2. Vorsitzenden, dem Schatzmeister und dem Schriftf\u00FChrer. Er ist der gesetzliche Vertreter des Verbandes im Sinne des \u00A7 26 BGB. Je zwei Mitglieder des gesch\u00E4ftsf\u00FChrenden Vorstands vertreten den Verband gemeinsam. Der gesch\u00E4ftsf\u00FChrende Vorstand ist f\u00FCr alle Angelegenheiten des Verbandes zust\u00E4ndig, die nicht durch die Satzung einem anderen Organ des Verbandes \u00FCbertragen sind.",
 		contentEn:
@@ -211,7 +182,6 @@ const satzungItems: SatzungItem[] = [
 		id: 11,
 		titleDe: "Aufsichtsrat",
 		titleEn: "Supervisory Board",
-		icon: Eye,
 		contentDe:
 			"Der Aufsichtsrat besteht aus drei Mitgliedern, die von der Delegiertenversammlung f\u00FCr eine Amtszeit von vier Jahren gew\u00E4hlt werden. Der Aufsichtsrat \u00FCberwacht die T\u00E4tigkeit des Vorstands. Er hat das Recht, die B\u00FCcher und Unterlagen des Verbandes einzusehen. Der Aufsichtsrat erstattet der Delegiertenversammlung Bericht.",
 		contentEn:
@@ -221,7 +191,6 @@ const satzungItems: SatzungItem[] = [
 		id: 12,
 		titleDe: "Beschl\u00FCsse",
 		titleEn: "Resolutions",
-		icon: FileCheck,
 		contentDe:
 			"Beschl\u00FCsse der Delegiertenversammlung werden mit einfacher Mehrheit der anwesenden stimmberechtigten Delegierten gefasst, sofern die Satzung nichts anderes bestimmt. Bei Stimmengleichheit gilt ein Antrag als abgelehnt. Satzungs\u00E4nderungen bed\u00FCrfen einer Zweidrittelmehrheit. Die Aufl\u00F6sung des Verbandes bedarf einer Dreiviertelmehrheit.",
 		contentEn:
@@ -231,7 +200,6 @@ const satzungItems: SatzungItem[] = [
 		id: 13,
 		titleDe: "Wahlen",
 		titleEn: "Elections",
-		icon: CheckSquare,
 		contentDe:
 			"Wahlen werden grunds\u00E4tzlich geheim durchgef\u00FChrt. Auf Antrag kann offen gew\u00E4hlt werden, wenn kein Mitglied widerspricht. Gew\u00E4hlt ist, wer die meisten Stimmen auf sich vereinigt. Bei Stimmengleichheit findet eine Stichwahl statt. Ist auch diese unentschieden, entscheidet das Los.",
 		contentEn:
@@ -241,7 +209,6 @@ const satzungItems: SatzungItem[] = [
 		id: 14,
 		titleDe: "Aufl\u00F6sung",
 		titleEn: "Dissolution",
-		icon: XCircle,
 		contentDe:
 			"Die Aufl\u00F6sung des Verbandes kann nur von einer zu diesem Zweck einberufenen au\u00DFerordentlichen Delegiertenversammlung mit einer Dreiviertelmehrheit beschlossen werden. Bei Aufl\u00F6sung des Verbandes oder bei Wegfall steuerbeg\u00FCnstigter Zwecke f\u00E4llt das Verm\u00F6gen des Verbandes an eine juristische Person des \u00F6ffentlichen Rechts oder eine andere steuerbeg\u00FCnstigte K\u00F6rperschaft zwecks Verwendung f\u00FCr die F\u00F6rderung der assyrischen Kultur und Sprache.",
 		contentEn:
@@ -307,8 +274,6 @@ export function SatzungPage() {
 	useSetNavbarVariant("transparent");
 	const locale = useLocale();
 	const isEn = locale === "en";
-	const [searchQuery, setSearchQuery] = useState("");
-	const [activeId, setActiveId] = useState<number | null>(null);
 	const [activeTestimonial, setActiveTestimonial] = useState(0);
 	const [direction, setDirection] = useState(1);
 	const [sitePhone, setSitePhone] = useState("");
@@ -318,7 +283,6 @@ export function SatzungPage() {
 	const [faqSectionData, setFaqSectionData] = useState<FaqSectionData>({});
 	const [faqLoaded, setFaqLoaded] = useState(false);
 	const [testimonialsData, setTestimonialsData] = useState<Testimonial[]>([]);
-	const [pageHasBeenSaved, setPageHasBeenSaved] = useState(false);
 
 	useEffect(() => {
 		fetch("/api/site-settings")
@@ -342,9 +306,6 @@ export function SatzungPage() {
 					// Always update faqSection from API, even if items is empty
 					setFaqSectionData(json.faqSection || {});
 					setFaqLoaded(true);
-				if (json.updatedAt && json.createdAt) {
-					setPageHasBeenSaved(new Date(json.updatedAt).getTime() > new Date(json.createdAt).getTime());
-				}
 					if (json.testimonials?.items?.length) {
 						setTestimonialsData(json.testimonials.items);
 					}
@@ -353,36 +314,19 @@ export function SatzungPage() {
 			.catch(() => {});
 	}, []);
 
-	// Active FAQ items: use CMS data once loaded, otherwise show hardcoded fallback
+	// Active FAQ items: use CMS data if non-empty, otherwise show hardcoded fallback
 	const activeFaqItems = useMemo(() => {
-		if (faqLoaded) {
-			// User has explicitly saved at least once → trust DB items (even if empty)
-			if (pageHasBeenSaved) {
-				return (faqSectionData.items || []).map((item, i) => ({
-					id: i + 1,
-					titleDe: item.titleDe || "",
-					titleEn: item.titleEn || "",
-					contentDe: item.contentDe || [],
-					contentEn: item.contentEn || [],
-					icon: faqIconList[i % faqIconList.length],
-				}));
-			}
-			// Never explicitly saved → use hardcoded defaults (or DB items if non-empty)
-			if (faqSectionData.items && faqSectionData.items.length > 0) {
-				return faqSectionData.items.map((item, i) => ({
-					id: i + 1,
-					titleDe: item.titleDe || "",
-					titleEn: item.titleEn || "",
-					contentDe: item.contentDe || [],
-					contentEn: item.contentEn || [],
-					icon: faqIconList[i % faqIconList.length],
-				}));
-			}
-			return satzungItems;
+		if (faqLoaded && faqSectionData.items && faqSectionData.items.length > 0) {
+			return faqSectionData.items.map((item, i) => ({
+				id: i + 1,
+				titleDe: item.titleDe || "",
+				titleEn: item.titleEn || "",
+				contentDe: item.contentDe || [],
+				contentEn: item.contentEn || [],
+			}));
 		}
-		// Still loading → show hardcoded defaults
 		return satzungItems;
-	}, [faqSectionData.items, faqLoaded, pageHasBeenSaved]);
+	}, [faqSectionData.items, faqLoaded]);
 
 	// Merge API data with fallback testimonials
 	const activeTestimonials = testimonialsData.length > 0 ? testimonialsData : testimonials;
@@ -391,19 +335,6 @@ export function SatzungPage() {
 		setDirection(dir);
 		setActiveTestimonial(index);
 	};
-
-	const filtered = useMemo(() => {
-		if (!searchQuery.trim()) return activeFaqItems;
-		const q = searchQuery.toLowerCase();
-		return activeFaqItems.filter((item) => {
-			const title = isEn ? item.titleEn : item.titleDe;
-			const content = isEn ? item.contentEn : item.contentDe;
-			const contentStr = Array.isArray(content) ? content.join(" ") : (content as string);
-			return title.toLowerCase().includes(q) || contentStr.toLowerCase().includes(q);
-		});
-	}, [searchQuery, isEn, activeFaqItems]);
-
-	const toggle = (id: number) => setActiveId((prev) => (prev === id ? null : id));
 
 	return (
 		<div className="min-h-screen bg-white">
@@ -458,192 +389,35 @@ export function SatzungPage() {
 			{/* ─── 2. Search Section ─── */}
 			<section className="py-16 bg-gray-50 border-b border-gray-100">
 				<div className="_container">
-					<div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
-						{/* Left: intro text */}
-						<motion.div
-							initial={{ opacity: 0, x: -20 }}
-							whileInView={{ opacity: 1, x: 0 }}
-							viewport={{ once: true }}
-							transition={{ duration: 0.6 }}
-							className="max-w-lg"
-						>
-							<SectionTag label={isEn ? (searchSectionData.tagEn || "Constitution") : (searchSectionData.tagDe || "Verfassung")} />
-							<h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 leading-snug">
-								{isEn ? (searchSectionData.headingEn || "Explore All 14 Sections") : (searchSectionData.headingDe || "Alle 14 Abschnitte erkunden")}
-							</h2>
-							<p className="text-gray-500 text-sm md:text-base leading-relaxed">
-								{isEn
-									? (searchSectionData.descriptionEn || "Browse through the complete statutes of the ZAVD. Use the search to quickly find the section you need.")
-									: (searchSectionData.descriptionDe || "Durchsuchen Sie die vollst\u00E4ndige Satzung des ZAVD. Nutzen Sie die Suche, um den gew\u00FCnschten Abschnitt schnell zu finden.")}
-							</p>
-						</motion.div>
-
-						{/* Right: search input */}
-						<motion.div
-							initial={{ opacity: 0, x: 20 }}
-							whileInView={{ opacity: 1, x: 0 }}
-							viewport={{ once: true }}
-							transition={{ duration: 0.6, delay: 0.1 }}
-							className="w-full md:w-80 flex-shrink-0"
-						>
-							<div className="relative">
-								<Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
-								<input
-									type="text"
-									value={searchQuery}
-									onChange={(e) => setSearchQuery(e.target.value)}
-									placeholder={isEn ? (searchSectionData.placeholderEn || "Search sections\u2026") : (searchSectionData.placeholderDe || "Abschnitte suchen\u2026")}
-									className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 bg-white text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all shadow-sm"
-								/>
-							</div>
-							{searchQuery && (
-								<p className="text-xs text-gray-400 mt-2 ml-1">
-									{filtered.length}{" "}
-									{isEn ? "result(s) found" : "Ergebnis(se) gefunden"}
-								</p>
-							)}
-						</motion.div>
-					</div>
-				</div>
-			</section>
-
-			{/* ─── 3. Modern FAQ / Accordion ─── */}
-			<section className="py-24 bg-white">
-				<div className="_container">
-					{/* Section heading */}
 					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						whileInView={{ opacity: 1, y: 0 }}
+						initial={{ opacity: 0, x: -20 }}
+						whileInView={{ opacity: 1, x: 0 }}
 						viewport={{ once: true }}
 						transition={{ duration: 0.6 }}
-						className="text-center mb-14"
 					>
-						<SectionTag label={isEn ? (faqSectionData.tagEn || "Statutes") : (faqSectionData.tagDe || "Satzung")} />
-						<h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-							{isEn ? (faqSectionData.headingEn || "Frequently Asked Questions") : (faqSectionData.headingDe || "H\u00E4ufig gestellte Fragen")}
+						<SectionTag label={isEn ? (searchSectionData.tagEn || "Constitution") : (searchSectionData.tagDe || "Verfassung")} />
+						<h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 leading-snug">
+							{isEn ? (searchSectionData.headingEn || "Explore All 14 Sections") : (searchSectionData.headingDe || "Alle 14 Abschnitte erkunden")}
 						</h2>
-						<p className="text-gray-400 text-base max-w-xl mx-auto leading-relaxed">
+						<p className="text-gray-500 text-sm md:text-base leading-relaxed max-w-lg">
 							{isEn
-								? (faqSectionData.descriptionEn || "Find answers to common questions about the ZAVD statutes and its governing structure.")
-								: (faqSectionData.descriptionDe || "Hier finden Sie Antworten auf h\u00E4ufige Fragen zur ZAVD-Satzung und ihrer Organisationsstruktur.")}
+								? (searchSectionData.descriptionEn || "Browse through the complete statutes of the ZAVD. Use the search to quickly find the section you need.")
+								: (searchSectionData.descriptionDe || "Durchsuchen Sie die vollständige Satzung des ZAVD. Nutzen Sie die Suche, um den gewünschten Abschnitt schnell zu finden.")}
 						</p>
 					</motion.div>
-
-					{filtered.length === 0 ? (
-						<motion.div
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-							className="text-center py-20 text-gray-300"
-						>
-							<Search className="w-10 h-10 mx-auto mb-3" />
-							<p className="text-sm text-gray-400">
-								{isEn
-									? "No sections match your search."
-									: "Keine Abschnitte entsprechen Ihrer Suche."}
-							</p>
-						</motion.div>
-					) : (
-						<div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-							{filtered.map((item, i) => {
-								const Icon = item.icon;
-								const title = isEn ? item.titleEn : item.titleDe;
-								const content = isEn ? item.contentEn : item.contentDe;
-								const isOpen = activeId === item.id;
-
-								return (
-									<motion.div
-										key={item.id}
-										initial={{ opacity: 0, y: 18 }}
-										whileInView={{ opacity: 1, y: 0 }}
-										viewport={{ once: true }}
-										transition={{ duration: 0.4, delay: i * 0.035 }}
-										className={`rounded-2xl overflow-hidden transition-all duration-300 ${
-											isOpen
-												? "shadow-lg ring-1 ring-primary/20 bg-white"
-												: "bg-gray-50 hover:bg-white hover:shadow-md"
-										}`}
-									>
-										<button
-											onClick={() => toggle(item.id)}
-											className="w-full flex items-center gap-4 px-6 py-5 text-left group"
-										>
-											{/* Icon circle */}
-											<div
-												className={`flex-shrink-0 w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300 ${
-													isOpen
-														? "bg-primary text-white shadow-md shadow-primary/30"
-														: "bg-white text-gray-400 shadow-sm group-hover:text-primary group-hover:shadow-primary/20"
-												}`}
-											>
-												<Icon className="w-4.5 h-4.5" style={{ width: 18, height: 18 }} />
-											</div>
-
-											{/* Title block */}
-											<div className="flex-1 min-w-0">
-												<span className="text-[10px] font-bold text-gray-300 uppercase tracking-widest">
-													\u00A7 {item.id}
-												</span>
-												<p
-													className={`text-sm font-semibold leading-snug mt-0.5 transition-colors duration-200 ${
-														isOpen ? "text-primary" : "text-gray-800 group-hover:text-gray-900"
-													}`}
-												>
-													{title}
-												</p>
-											</div>
-
-											{/* Chevron in circle */}
-											<div
-												className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-all duration-300 ${
-													isOpen
-														? "bg-primary/10 text-primary rotate-180"
-														: "bg-white text-gray-300 group-hover:text-gray-400 shadow-sm"
-												}`}
-											>
-												<ChevronDown className="w-3.5 h-3.5" />
-											</div>
-										</button>
-
-										<AnimatePresence initial={false}>
-											{isOpen && (
-												<motion.div
-													key="panel"
-													initial={{ height: 0, opacity: 0 }}
-													animate={{ height: "auto", opacity: 1 }}
-													exit={{ height: 0, opacity: 0 }}
-													transition={{ duration: 0.3, ease: "easeInOut" }}
-													className="overflow-hidden"
-												>
-													<div className="px-6 pb-6 pt-0">
-														<div className="w-full h-px bg-gray-100 mb-4" />
-														{Array.isArray(content) ? (
-															<ul className="space-y-2.5 pl-1">
-																{content.map((line, j) => (
-																	<li
-																		key={j}
-																		className="text-gray-500 text-sm leading-relaxed flex gap-2"
-																	>
-																		<span className="text-primary/40 mt-1 flex-shrink-0">&bull;</span>
-																		<span>{line}</span>
-																	</li>
-																))}
-															</ul>
-														) : (
-															<p className="text-gray-500 text-sm leading-relaxed">
-																{content}
-															</p>
-														)}
-													</div>
-												</motion.div>
-											)}
-										</AnimatePresence>
-									</motion.div>
-								);
-							})}
-						</div>
-					)}
 				</div>
 			</section>
+
+			{/* ─── 3. FAQ / Accordion ─── */}
+			<FaqSection
+				items={activeFaqItems}
+				tag={isEn ? (faqSectionData.tagEn || "Statutes") : (faqSectionData.tagDe || "Satzung")}
+				heading={isEn ? (faqSectionData.headingEn || "Frequently Asked Questions(FAQ)") : (faqSectionData.headingDe || "Häufig gestellte Fragen")}
+				description={isEn
+					? (faqSectionData.descriptionEn || "Find answers to common questions about the ZAVD statutes and its governing structure.")
+					: (faqSectionData.descriptionDe || "Hier finden Sie Antworten auf häufige Fragen zur ZAVD-Satzung und ihrer Organisationsstruktur.")}
+				isEn={isEn}
+			/>
 
 			{/* ─── 4. Modern Testimonial Section ─── */}
 			<section className="py-24 bg-gray-50 overflow-hidden">

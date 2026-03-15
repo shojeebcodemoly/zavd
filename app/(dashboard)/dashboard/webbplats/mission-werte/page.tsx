@@ -25,6 +25,9 @@ import {
 	Image as ImageIcon,
 	AlignLeft,
 	Star,
+	BarChart2,
+	Target,
+	ListOrdered,
 } from "lucide-react";
 import { toast } from "sonner";
 import { CMSPageSkeleton } from "@/components/admin/CMSPageSkeleton";
@@ -61,10 +64,52 @@ const valueSchema = z.object({
 	image: z.string().optional(),
 });
 
+const statItemSchema = z.object({
+	value: z.coerce.number().min(0).default(0),
+	suffix: z.string().max(10).optional(),
+	labelDe: z.string().max(200).optional(),
+	labelEn: z.string().max(200).optional(),
+});
+
+const statsSchema = z.object({
+	headingDe: z.string().max(300).optional(),
+	headingEn: z.string().max(300).optional(),
+	items: z.array(statItemSchema),
+});
+
+const goalItemSchema = z.object({
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	descriptionDe: z.string().optional(),
+	descriptionEn: z.string().optional(),
+});
+
+const goalsSchema = z.object({
+	headingDe: z.string().max(300).optional(),
+	headingEn: z.string().max(300).optional(),
+	items: z.array(goalItemSchema),
+});
+
+const approachStepSchema = z.object({
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	descriptionDe: z.string().optional(),
+	descriptionEn: z.string().optional(),
+});
+
+const approachSchema = z.object({
+	headingDe: z.string().max(300).optional(),
+	headingEn: z.string().max(300).optional(),
+	steps: z.array(approachStepSchema),
+});
+
 const formSchema = z.object({
 	hero: heroSchema,
 	intro: introSchema,
 	values: z.array(valueSchema),
+	stats: statsSchema,
+	goals: goalsSchema,
+	approach: approachSchema,
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -82,12 +127,15 @@ const defaultValues: FormData = {
 	intro: {
 		taglineDe: "",
 		taglineEn: "",
-		headingDe: "Unsere Mission",
-		headingEn: "Our Mission",
+		headingDe: "We Working For",
+		headingEn: "We Working For",
 		paragraphDe: "",
 		paragraphEn: "",
 	},
 	values: [],
+	stats: { headingDe: "Zahlen & Fakten", headingEn: "Facts & Figures", items: [] },
+	goals: { headingDe: "Unsere Ziele", headingEn: "Our Goals", items: [] },
+	approach: { headingDe: "Unser Ansatz", headingEn: "Our Approach", steps: [] },
 };
 
 export default function MissionWerteAdminPage() {
@@ -101,6 +149,9 @@ export default function MissionWerteAdminPage() {
 	});
 
 	const valuesArray = useFieldArray({ control: form.control, name: "values" });
+	const statsItemsArray = useFieldArray({ control: form.control, name: "stats.items" });
+	const goalItemsArray = useFieldArray({ control: form.control, name: "goals.items" });
+	const approachStepsArray = useFieldArray({ control: form.control, name: "approach.steps" });
 
 	useEffect(() => {
 		async function fetchData() {
@@ -112,6 +163,9 @@ export default function MissionWerteAdminPage() {
 						hero: { ...defaultValues.hero, ...data.hero },
 						intro: { ...defaultValues.intro, ...data.intro },
 						values: data.values || [],
+						stats: { ...defaultValues.stats, ...data.stats, items: data.stats?.items || [] },
+						goals: { ...defaultValues.goals, ...data.goals, items: data.goals?.items || [] },
+						approach: { ...defaultValues.approach, ...data.approach, steps: data.approach?.steps || [] },
 					});
 				}
 			} catch (error) {
@@ -203,6 +257,18 @@ export default function MissionWerteAdminPage() {
 							<Star className="h-4 w-4" />
 							Values
 						</TabsTrigger>
+						<TabsTrigger value="stats" className="gap-2">
+							<BarChart2 className="h-4 w-4" />
+							Stats
+						</TabsTrigger>
+						<TabsTrigger value="goals" className="gap-2">
+							<Target className="h-4 w-4" />
+							Goals
+						</TabsTrigger>
+						<TabsTrigger value="approach" className="gap-2">
+							<ListOrdered className="h-4 w-4" />
+							Approach
+						</TabsTrigger>
 					</TabsList>
 
 					{/* ── HERO TAB ── */}
@@ -278,11 +344,11 @@ export default function MissionWerteAdminPage() {
 								<div className="grid gap-4 md:grid-cols-2">
 									<div className="space-y-2">
 										<Label>Heading (DE)</Label>
-										<Input {...form.register("intro.headingDe")} value={form.watch("intro.headingDe") || ""} placeholder="Unsere Mission" />
+										<Input {...form.register("intro.headingDe")} value={form.watch("intro.headingDe") || ""} placeholder="We Working For" />
 									</div>
 									<div className="space-y-2">
 										<Label>Heading (EN)</Label>
-										<Input {...form.register("intro.headingEn")} value={form.watch("intro.headingEn") || ""} placeholder="Our Mission" />
+										<Input {...form.register("intro.headingEn")} value={form.watch("intro.headingEn") || ""} placeholder="We Working For" />
 									</div>
 								</div>
 								<div className="grid gap-4 md:grid-cols-2">
@@ -295,6 +361,16 @@ export default function MissionWerteAdminPage() {
 										<Textarea {...form.register("intro.paragraphEn")} value={form.watch("intro.paragraphEn") || ""} rows={6} />
 									</div>
 								</div>
+							<div className="space-y-2">
+								<Label>Section Image</Label>
+								<MediaPicker
+									type="image"
+									value={form.watch("intro.image") || null}
+									onChange={(url) => form.setValue("intro.image", url || "")}
+									placeholder="Select intro section image"
+									galleryTitle="Select Intro Image"
+								/>
+							</div>
 							</CardContent>
 						</Card>
 					</TabsContent>
@@ -304,9 +380,7 @@ export default function MissionWerteAdminPage() {
 						<Card>
 							<CardHeader>
 								<CardTitle>Values</CardTitle>
-								<CardDescription>
-									Each value card has a title, description, and optional image. Displayed in a grid on the page.
-								</CardDescription>
+								<CardDescription>Each value card has a title, description, and optional image.</CardDescription>
 							</CardHeader>
 							<CardContent className="space-y-4">
 								{valuesArray.fields.map((field, index) => (
@@ -351,8 +425,8 @@ export default function MissionWerteAdminPage() {
 											variant="ghost"
 											size="icon"
 											onClick={async () => {
-												const confirmed = await confirm({ title: "Remove Value", description: "Remove this value item?", confirmText: "Remove" });
-												if (confirmed) valuesArray.remove(index);
+												const ok = await confirm({ title: "Remove Value", description: "Remove this value item?", confirmText: "Remove" });
+												if (ok) valuesArray.remove(index);
 											}}
 										>
 											<Trash2 className="h-4 w-4 text-destructive" />
@@ -370,6 +444,226 @@ export default function MissionWerteAdminPage() {
 							</CardContent>
 						</Card>
 					</TabsContent>
+
+					{/* ── STATS TAB ── */}
+					<TabsContent value="stats">
+						<Card>
+							<CardHeader>
+								<CardTitle>Zahlen &amp; Fakten — Impact Stats</CardTitle>
+								<CardDescription>Animated counters showing key figures (refugees helped, countries, years, etc.).</CardDescription>
+							</CardHeader>
+							<CardContent className="space-y-6">
+								<div className="grid gap-4 md:grid-cols-2">
+									<div className="space-y-2">
+										<Label>Section Heading (DE)</Label>
+										<Input {...form.register("stats.headingDe")} value={form.watch("stats.headingDe") || ""} placeholder="Zahlen & Fakten" />
+									</div>
+									<div className="space-y-2">
+										<Label>Section Heading (EN)</Label>
+										<Input {...form.register("stats.headingEn")} value={form.watch("stats.headingEn") || ""} placeholder="Facts & Figures" />
+									</div>
+								</div>
+
+								<div className="space-y-4">
+									{statsItemsArray.fields.map((field, index) => (
+										<div key={field.id} className="flex items-start gap-4 p-4 border rounded-lg">
+											<div className="flex items-center text-muted-foreground pt-2">
+												<GripVertical className="h-5 w-5" />
+											</div>
+											<div className="flex-1 space-y-4">
+												<div className="grid gap-4 md:grid-cols-3">
+													<div className="space-y-2">
+														<Label>Number</Label>
+														<Input type="number" min={0} {...form.register(`stats.items.${index}.value`)} value={form.watch(`stats.items.${index}.value`) ?? 0} placeholder="500" />
+													</div>
+													<div className="space-y-2">
+														<Label>Suffix (e.g. +, %)</Label>
+														<Input {...form.register(`stats.items.${index}.suffix`)} value={form.watch(`stats.items.${index}.suffix`) || ""} placeholder="+" />
+													</div>
+												</div>
+												<div className="grid gap-4 md:grid-cols-2">
+													<div className="space-y-2">
+														<Label>Label (DE)</Label>
+														<Input {...form.register(`stats.items.${index}.labelDe`)} value={form.watch(`stats.items.${index}.labelDe`) || ""} placeholder="Geflüchtete unterstützt" />
+													</div>
+													<div className="space-y-2">
+														<Label>Label (EN)</Label>
+														<Input {...form.register(`stats.items.${index}.labelEn`)} value={form.watch(`stats.items.${index}.labelEn`) || ""} placeholder="Refugees supported" />
+													</div>
+												</div>
+											</div>
+											<Button
+												type="button"
+												variant="ghost"
+												size="icon"
+												onClick={async () => {
+													const ok = await confirm({ title: "Remove Stat", description: "Remove this stat?", confirmText: "Remove" });
+													if (ok) statsItemsArray.remove(index);
+												}}
+											>
+												<Trash2 className="h-4 w-4 text-destructive" />
+											</Button>
+										</div>
+									))}
+									<Button
+										type="button"
+										variant="outline"
+										onClick={() => statsItemsArray.append({ value: 0, suffix: "+", labelDe: "", labelEn: "" })}
+									>
+										<Plus className="mr-2 h-4 w-4" />
+										Add Stat
+									</Button>
+								</div>
+							</CardContent>
+						</Card>
+					</TabsContent>
+
+					{/* ── GOALS TAB ── */}
+					<TabsContent value="goals">
+						<Card>
+							<CardHeader>
+								<CardTitle>Ziele — Goals</CardTitle>
+								<CardDescription>List of specific goals/objectives with checkmark icons.</CardDescription>
+							</CardHeader>
+							<CardContent className="space-y-6">
+								<div className="grid gap-4 md:grid-cols-2">
+									<div className="space-y-2">
+										<Label>Section Heading (DE)</Label>
+										<Input {...form.register("goals.headingDe")} value={form.watch("goals.headingDe") || ""} placeholder="Unsere Ziele" />
+									</div>
+									<div className="space-y-2">
+										<Label>Section Heading (EN)</Label>
+										<Input {...form.register("goals.headingEn")} value={form.watch("goals.headingEn") || ""} placeholder="Our Goals" />
+									</div>
+								</div>
+
+								<div className="space-y-4">
+									{goalItemsArray.fields.map((field, index) => (
+										<div key={field.id} className="flex items-start gap-4 p-4 border rounded-lg">
+											<div className="flex items-center text-muted-foreground pt-2">
+												<GripVertical className="h-5 w-5" />
+											</div>
+											<div className="flex-1 space-y-4">
+												<div className="grid gap-4 md:grid-cols-2">
+													<div className="space-y-2">
+														<Label>Title (DE)</Label>
+														<Input {...form.register(`goals.items.${index}.titleDe`)} value={form.watch(`goals.items.${index}.titleDe`) || ""} placeholder="Integration fördern" />
+													</div>
+													<div className="space-y-2">
+														<Label>Title (EN)</Label>
+														<Input {...form.register(`goals.items.${index}.titleEn`)} value={form.watch(`goals.items.${index}.titleEn`) || ""} placeholder="Promote integration" />
+													</div>
+												</div>
+												<div className="grid gap-4 md:grid-cols-2">
+													<div className="space-y-2">
+														<Label>Description (DE)</Label>
+														<Textarea {...form.register(`goals.items.${index}.descriptionDe`)} value={form.watch(`goals.items.${index}.descriptionDe`) || ""} rows={3} />
+													</div>
+													<div className="space-y-2">
+														<Label>Description (EN)</Label>
+														<Textarea {...form.register(`goals.items.${index}.descriptionEn`)} value={form.watch(`goals.items.${index}.descriptionEn`) || ""} rows={3} />
+													</div>
+												</div>
+											</div>
+											<Button
+												type="button"
+												variant="ghost"
+												size="icon"
+												onClick={async () => {
+													const ok = await confirm({ title: "Remove Goal", description: "Remove this goal?", confirmText: "Remove" });
+													if (ok) goalItemsArray.remove(index);
+												}}
+											>
+												<Trash2 className="h-4 w-4 text-destructive" />
+											</Button>
+										</div>
+									))}
+									<Button
+										type="button"
+										variant="outline"
+										onClick={() => goalItemsArray.append({ titleDe: "", titleEn: "", descriptionDe: "", descriptionEn: "" })}
+									>
+										<Plus className="mr-2 h-4 w-4" />
+										Add Goal
+									</Button>
+								</div>
+							</CardContent>
+						</Card>
+					</TabsContent>
+
+					{/* ── APPROACH TAB ── */}
+					<TabsContent value="approach">
+						<Card>
+							<CardHeader>
+								<CardTitle>Unser Ansatz — Approach</CardTitle>
+								<CardDescription>Step-by-step explanation of how the organization works.</CardDescription>
+							</CardHeader>
+							<CardContent className="space-y-6">
+								<div className="grid gap-4 md:grid-cols-2">
+									<div className="space-y-2">
+										<Label>Section Heading (DE)</Label>
+										<Input {...form.register("approach.headingDe")} value={form.watch("approach.headingDe") || ""} placeholder="Unser Ansatz" />
+									</div>
+									<div className="space-y-2">
+										<Label>Section Heading (EN)</Label>
+										<Input {...form.register("approach.headingEn")} value={form.watch("approach.headingEn") || ""} placeholder="Our Approach" />
+									</div>
+								</div>
+
+								<div className="space-y-4">
+									{approachStepsArray.fields.map((field, index) => (
+										<div key={field.id} className="flex items-start gap-4 p-4 border rounded-lg">
+											<div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mt-1">
+												<span className="text-primary text-sm font-bold">{index + 1}</span>
+											</div>
+											<div className="flex-1 space-y-4">
+												<div className="grid gap-4 md:grid-cols-2">
+													<div className="space-y-2">
+														<Label>Title (DE)</Label>
+														<Input {...form.register(`approach.steps.${index}.titleDe`)} value={form.watch(`approach.steps.${index}.titleDe`) || ""} placeholder="Erstberatung" />
+													</div>
+													<div className="space-y-2">
+														<Label>Title (EN)</Label>
+														<Input {...form.register(`approach.steps.${index}.titleEn`)} value={form.watch(`approach.steps.${index}.titleEn`) || ""} placeholder="Initial Consultation" />
+													</div>
+												</div>
+												<div className="grid gap-4 md:grid-cols-2">
+													<div className="space-y-2">
+														<Label>Description (DE)</Label>
+														<Textarea {...form.register(`approach.steps.${index}.descriptionDe`)} value={form.watch(`approach.steps.${index}.descriptionDe`) || ""} rows={3} />
+													</div>
+													<div className="space-y-2">
+														<Label>Description (EN)</Label>
+														<Textarea {...form.register(`approach.steps.${index}.descriptionEn`)} value={form.watch(`approach.steps.${index}.descriptionEn`) || ""} rows={3} />
+													</div>
+												</div>
+											</div>
+											<Button
+												type="button"
+												variant="ghost"
+												size="icon"
+												onClick={async () => {
+													const ok = await confirm({ title: "Remove Step", description: "Remove this step?", confirmText: "Remove" });
+													if (ok) approachStepsArray.remove(index);
+												}}
+											>
+												<Trash2 className="h-4 w-4 text-destructive" />
+											</Button>
+										</div>
+									))}
+									<Button
+										type="button"
+										variant="outline"
+										onClick={() => approachStepsArray.append({ titleDe: "", titleEn: "", descriptionDe: "", descriptionEn: "" })}
+									>
+										<Plus className="mr-2 h-4 w-4" />
+										Add Step
+									</Button>
+								</div>
+							</CardContent>
+						</Card>
+					</TabsContent>
+
 				</Tabs>
 
 				{/* Save Button */}

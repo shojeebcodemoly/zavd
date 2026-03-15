@@ -33,7 +33,7 @@ import {
 	ChevronRight,
 	Building2,
 	Heart,
-	Users2,
+	UserCheck,
 	Award,
 	Zap,
 	HandHeart,
@@ -42,7 +42,6 @@ import { cn } from "@/lib/utils";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/common/logo";
-import { ImageComponent } from "@/components/common/image-component";
 
 interface NavItem {
 	title: string;
@@ -160,7 +159,7 @@ const navSections: NavSection[] = [
 			{
 				title: "Gemeinsam Aktiv",
 				href: "/dashboard/projekte/gemeinsam-aktiv",
-				icon: Users2,
+				icon: UserCheck,
 			},
 			{
 				title: "Successful Integration",
@@ -278,7 +277,7 @@ export function AdminSidebar({ className }: AdminSidebarProps) {
 		"/dashboard/webbplats/uber-zavd": true,
 	});
 	const [logoUrl, setLogoUrl] = useState<string | null>(null);
-	const [companyName, setCompanyName] = useState<string>("Milatte");
+	const [companyName, setCompanyName] = useState<string>("ZAVD");
 	const [isLogoLoading, setIsLogoLoading] = useState(true);
 
 	// Fetch site settings for logo and company name
@@ -289,7 +288,8 @@ export function AdminSidebar({ className }: AdminSidebarProps) {
 				const data = await response.json();
 				if (response.ok && data.data) {
 					// Use dashboardLogoUrl if set, otherwise fallback to logoUrl
-					setLogoUrl(data.data.branding?.dashboardLogoUrl || data.data.branding?.logoUrl || null);
+					const fetched = data.data.branding?.dashboardLogoUrl || data.data.branding?.logoUrl || null;
+					setLogoUrl("/storage/zavd-logo-mobile-2000x485.png");
 					setCompanyName(data.data.companyName || "Zavd");
 				}
 			} catch (error) {
@@ -505,19 +505,13 @@ export function AdminSidebar({ className }: AdminSidebarProps) {
 						</div>
 					) : isLogoLoading ? (
 						<div className="h-14 w-40 bg-slate-100 rounded animate-pulse" />
-					) : logoUrl ? (
-						<ImageComponent
-							src={logoUrl}
-							alt={companyName}
-							width={0}
-							height={0}
-							sizes="100vw"
-							className="h-12 w-32 sm:h-14 sm:w-40 lg:h-14 lg:w-40 p-2 py-1.5 rounded"
-						/>
 					) : (
-						<div className="text-lg font-bold text-primary">
-							{companyName}
-						</div>
+						// eslint-disable-next-line @next/next/no-img-element
+						<img
+							src={logoUrl || "/storage/zavd-logo-mobile-2000x485.png"}
+							alt={companyName}
+							className="h-12 w-auto max-w-[160px] object-contain"
+						/>
 					)}
 				</Link>
 			</div>

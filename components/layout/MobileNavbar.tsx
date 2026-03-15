@@ -41,9 +41,10 @@ import {
 
 interface MobileNavbarProps {
 	useLightText?: boolean;
+	logoUrl?: string;
 }
 
-const MobileNavbar = ({ useLightText = false }: MobileNavbarProps) => {
+const MobileNavbar = ({ useLightText = false, logoUrl }: MobileNavbarProps) => {
 	const router = useRouter();
 	const pathname = usePathname();
 	const locale = useLocale() as Locale;
@@ -131,7 +132,7 @@ const MobileNavbar = ({ useLightText = false }: MobileNavbarProps) => {
 					{/* Compact Header */}
 					<div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-gray-100">
 						<div onClick={() => setOpen(false)}>
-							<Logo textClassName="text-secondary" />
+							<Logo logoUrl={logoUrl} textClassName="text-secondary" />
 						</div>
 						<SheetClose asChild>
 							<button className="p-2 rounded-full hover:bg-gray-100 transition-colors">

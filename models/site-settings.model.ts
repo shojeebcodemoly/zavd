@@ -271,7 +271,7 @@ const BrandingSettingsSchema = new Schema<IBrandingSettings>(
 		logoUrl: {
 			type: String,
 			trim: true,
-			default: "/storage/logo.svg",
+			default: "/storage/zavd-logo-mobile-2000x485.png",
 		},
 		faviconUrl: { type: String, trim: true },
 		dashboardLogoUrl: { type: String, trim: true },
@@ -326,7 +326,7 @@ const FooterSettingsSchema = new Schema<IFooterSettings>(
 			type: FooterBannerSchema,
 			default: {
 				enabled: true,
-				badge: "DAIRY FARM",
+				badge: "ZAVD",
 				title: "We make the creative solutions for modern brands.",
 				ctaText: "About Us",
 				ctaHref: "/about",

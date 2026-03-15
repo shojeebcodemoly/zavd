@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import dynamic from "next/dynamic";
 
 import {
 	NavigationMenu,
@@ -21,7 +22,8 @@ import type { SiteConfigType } from "@/config/site";
 import Logo from "../common/logo";
 import MobileNavbar from "./MobileNavbar";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-import ProtectedNavbar from "./ProtectedNavbar";
+
+const ProtectedNavbar = dynamic(() => import("./ProtectedNavbar"), { ssr: false });
 
 interface SocialMedia {
 	facebook?: string;
@@ -130,7 +132,7 @@ export function Navbar({ config, logoUrl, companyName, socialMedia }: NavbarProp
 						</div>
 
 						{/* Mobile Menu */}
-						<MobileNavbar useLightText={true} />
+						<MobileNavbar useLightText={true} logoUrl={logoUrl} />
 					</div>
 				</div>
 			</nav>

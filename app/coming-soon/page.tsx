@@ -13,7 +13,7 @@ export default async function ComingSoonPage() {
 
 	return (
 		<ComingSoonClient
-			logoUrl={branding?.logoUrl || null}
+			logoUrl={(!branding?.logoUrl || branding.logoUrl === "/storage/zavd-logo-beige-glow.svg" || branding.logoUrl === "/storage/logo.svg") ? "/storage/zavd-logo-mobile-2000x485.png" : branding.logoUrl}
 			siteName={config.name}
 			socialLinks={{
 				twitter: config.links.twitter || null,

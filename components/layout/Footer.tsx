@@ -242,21 +242,11 @@ export function Footer({ config, footerSettings, logoUrl, companyName }: FooterP
 			<div>
 				<div className="_container py-5 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-3">
 					<p className="text-xs text-white/45">
-						&copy; {currentYear}{" "}
-						<span className="text-primary font-semibold">{config.company.name}</span>
-						{" | "}{t("copyright")}
+						<span className="text-white/45">{config.company.name}</span>
 					</p>
-					<div className="flex items-center gap-5">
-						{bottomLinks.map((link, i) => (
-							<Link
-								key={i}
-								href={link.href}
-								className="text-xs text-white/45 hover:text-white transition-colors duration-200"
-							>
-								{link.label}
-							</Link>
-						))}
-					</div>
+					<p className="text-xs text-white/45">
+						Copyright &copy; {currentYear}. All rights reserved | Designed by <span className="text-primary">DigiGate</span>
+					</p>
 				</div>
 			</div>
 		</footer>

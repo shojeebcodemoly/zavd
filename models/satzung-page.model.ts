@@ -93,7 +93,7 @@ const SatzungFaqSectionSchema = new Schema<ISatzungFaqSection>(
 		tagDe: { type: String, default: "Satzung" },
 		tagEn: { type: String, default: "Statutes" },
 		headingDe: { type: String, default: "Häufig gestellte Fragen" },
-		headingEn: { type: String, default: "Frequently Asked Questions" },
+		headingEn: { type: String, default: "Frequently Asked Questions(FAQ)" },
 		descriptionDe: { type: String, default: "Hier finden Sie Antworten auf häufige Fragen zur ZAVD-Satzung und ihrer Organisationsstruktur." },
 		descriptionEn: { type: String, default: "Find answers to common questions about the ZAVD statutes and its governing structure." },
 		items: { type: [SatzungFaqItemSchema], default: [] },

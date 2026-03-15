@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Heart, Users2, Award, Zap, HandHeart } from "lucide-react";
+import { Heart, UserCheck, Award, Zap, HandHeart } from "lucide-react";
 
 const projects = [
 	{
@@ -12,7 +12,7 @@ const projects = [
 		title: "Gemeinsam Aktiv",
 		subtitle: "Active Together",
 		href: "/dashboard/projekte/gemeinsam-aktiv",
-		icon: Users2,
+		icon: UserCheck,
 	},
 	{
 		title: "Successful Integration",
