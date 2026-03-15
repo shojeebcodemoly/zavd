@@ -9,8 +9,9 @@ interface SponsorsSectionProps {
 }
 
 const DEFAULTS = {
-	heading: "Unsere Förderer",
-	description: "Gefördert durch",
+	heading: "Sponsors",
+	description:
+		"We offer the opportunity to sponsor the association. Various options are available, such as sponsoring events or the association itself. Simply contact us at info@zavd.de",
 };
 
 export function SponsorsSection({ data }: SponsorsSectionProps) {
@@ -21,7 +22,7 @@ export function SponsorsSection({ data }: SponsorsSectionProps) {
 
 	return (
 		<section className="w-full border-y border-[#e8dfc8] py-10 lg:py-14 relative">
-			{/* Background — overflow-hidden scoped here only, so logos are never clipped */}
+			{/* Background */}
 			<div className="absolute inset-0 overflow-hidden">
 				{backgroundImage ? (
 					<>
@@ -40,35 +41,32 @@ export function SponsorsSection({ data }: SponsorsSectionProps) {
 			</div>
 
 			<div className="_container relative z-10">
-				<div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
-					{/* Left: Heading + label */}
-					<div className="text-center lg:text-left w-full lg:w-[45%] lg:flex-shrink-0">
-						<motion.p
-							initial={{ opacity: 0, x: -30 }}
-							whileInView={{ opacity: 1, x: 0 }}
-							viewport={{ once: true }}
-							transition={{ duration: 0.55, ease: "easeOut" }}
-							className={`text-sm tracking-wide font-normal leading-relaxed mb-3 ${backgroundImage ? "text-white/75" : "text-foreground/60"}`}
-						>
-							{description}
-						</motion.p>
-						<motion.h2
-							initial={{ opacity: 0, x: 30 }}
-							whileInView={{ opacity: 1, x: 0 }}
-							viewport={{ once: true }}
-							transition={{ duration: 0.55, ease: "easeOut", delay: 0.1 }}
-							className={`text-2xl lg:text-3xl font-bold font-heading capitalize ${backgroundImage ? "text-white" : "text-secondary"}`}
-						>
-							{heading}
-						</motion.h2>
-					</div>
+				<div className="flex flex-col items-center text-center gap-4">
+					{/* Heading */}
+					<motion.h2
+						initial={{ opacity: 0, y: 20 }}
+						whileInView={{ opacity: 1, y: 0 }}
+						viewport={{ once: true }}
+						transition={{ duration: 0.55, ease: "easeOut" }}
+						className={`text-2xl lg:text-3xl font-bold font-heading capitalize ${backgroundImage ? "text-white" : "text-secondary"}`}
+					>
+						{heading}
+					</motion.h2>
 
-					{/* Divider */}
-					<div className={`hidden lg:block w-px h-16 flex-shrink-0 ${backgroundImage ? "bg-white/30" : "bg-foreground/20"}`} />
+					{/* Description */}
+					<motion.p
+						initial={{ opacity: 0, y: 20 }}
+						whileInView={{ opacity: 1, y: 0 }}
+						viewport={{ once: true }}
+						transition={{ duration: 0.55, ease: "easeOut", delay: 0.1 }}
+						className={`text-sm leading-relaxed max-w-xl ${backgroundImage ? "text-white/75" : "text-foreground/60"}`}
+					>
+						{description}
+					</motion.p>
 
 					{/* Sponsor logos */}
-					{sponsors.length > 0 ? (
-						<div className="flex flex-wrap justify-center lg:justify-start items-center gap-8 lg:gap-12 flex-1">
+					{sponsors.length > 0 && (
+						<div className="flex flex-wrap justify-center items-center gap-8 lg:gap-12 mt-4">
 							{sponsors.map((sponsor, index) => (
 								<motion.a
 									key={index}
@@ -102,7 +100,7 @@ export function SponsorsSection({ data }: SponsorsSectionProps) {
 								</motion.a>
 							))}
 						</div>
-					) : null}
+					)}
 				</div>
 			</div>
 		</section>

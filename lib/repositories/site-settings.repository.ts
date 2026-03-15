@@ -33,6 +33,7 @@ export interface UpdateSiteSettingsInput {
 	comingSoon?: Partial<IComingSoonSettings>;
 	smtp?: Partial<ISmtpSettings>;
 	donationWidget?: Partial<IDonationWidget>;
+	contactBackground?: string;
 }
 
 /**
@@ -105,6 +106,8 @@ class SiteSettingsRepository {
 			if (data.noreplyEmail !== undefined)
 				updateData.noreplyEmail = data.noreplyEmail;
 			if (data.offices !== undefined) updateData.offices = data.offices;
+		if (data.contactBackground !== undefined)
+			updateData.contactBackground = data.contactBackground;
 
 			// Nested objects - single DB fetch, then merge
 			const needsExisting =

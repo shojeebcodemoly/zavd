@@ -73,6 +73,11 @@ export async function PUT(request: NextRequest) {
 		// Revalidate the root layout - this affects navbar/footer on all pages
 		revalidatePath("/", "layout");
 
+		// Revalidate all project pages (sidebar uses contactBackground + donationWidget from siteSettings)
+		revalidatePath("/projekte", "layout");
+		revalidatePath("/de/projekte", "layout");
+		revalidatePath("/en/projekte", "layout");
+
 		// Revalidate favicon/icon routes (they have their own ISR cache)
 		revalidatePath("/icon");
 		revalidatePath("/apple-icon");
@@ -91,6 +96,9 @@ export async function PUT(request: NextRequest) {
 			"/faq",
 			"/integritetspolicy",
 			"/villkor",
+			"/projekte",
+			"/de/projekte",
+			"/en/projekte",
 		];
 
 		for (const path of pathsToRevalidate) {

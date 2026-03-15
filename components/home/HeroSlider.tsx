@@ -53,7 +53,7 @@ export function HeroSlider({ data }: HeroSliderProps) {
 	const activeSlide = slides[currentSlide];
 
 	return (
-		<section className="relative w-full h-[75vh] overflow-hidden bg-black">
+		<section className="relative w-full h-[90vh] overflow-hidden bg-black">
 			{/* Background Image */}
 			<AnimatePresence mode="wait">
 				<motion.div
@@ -82,7 +82,7 @@ export function HeroSlider({ data }: HeroSliderProps) {
 			</AnimatePresence>
 
 			{/* Content - left aligned */}
-			<div className="relative z-10 h-full flex items-center">
+			<div className="relative z-10 h-full flex items-center pt-20 lg:pt-24">
 				<div className="w-full pl-[5%] sm:pl-[8%] lg:pl-[16%] xl:pl-[18%] pr-6 sm:pr-10">
 					<div className="max-w-xl">
 						<AnimatePresence mode="wait">

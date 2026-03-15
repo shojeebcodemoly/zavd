@@ -213,6 +213,9 @@ export const updateSiteSettingsSchema = z.object({
 		.partial()
 		.optional(),
 
+	// Contact card background image
+	contactBackground: z.string().optional(),
+
 	// Donation widget
 	donationWidget: z
 		.object({

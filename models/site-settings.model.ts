@@ -166,6 +166,9 @@ export interface ISiteSettings extends Document {
 	// SMTP / Email notifications
 	smtp: ISmtpSettings;
 
+	// Contact card background image (shown in project page sidebars)
+	contactBackground?: string;
+
 	// Donation widget (shown in project page sidebars)
 	donationWidget: IDonationWidget;
 
@@ -533,6 +536,10 @@ const SiteSettingsSchema = new Schema<ISiteSettings>(
 			type: SmtpSettingsSchema,
 			default: {},
 		},
+		contactBackground: {
+			type: String,
+			default: "",
+		},
 		donationWidget: {
 			type: DonationWidgetSchema,
 			default: {},
@@ -558,10 +565,16 @@ SiteSettingsSchema.set("toObject", { virtuals: true });
 
 /**
  * Get SiteSettings Model
- * Uses function to prevent model overwrite during hot reload
+ * In dev, always delete the cached model so schema changes (e.g. new fields)
+ * are picked up on the next request without needing a full server restart.
+ * In production the model is compiled once on startup and reused.
  */
 export const getSiteSettingsModel = async (): Promise<Model<ISiteSettings>> => {
 	await connectMongoose();
+
+	if (process.env.NODE_ENV !== "production" && mongoose.models.SiteSettings) {
+		delete (mongoose.models as Record<string, unknown>).SiteSettings;
+	}
 
 	return (
 		(mongoose.models.SiteSettings as Model<ISiteSettings>) ||

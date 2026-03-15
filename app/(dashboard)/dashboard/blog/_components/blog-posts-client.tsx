@@ -299,13 +299,13 @@ export function BlogPostsClient({
 				{/* Header */}
 				<div className="flex justify-between items-center">
 					<div>
-						<h1 className="text-3xl font-medium">Blog Posts</h1>
-						<p className="text-slate-600">Manage your blog content</p>
+						<h1 className="text-3xl font-medium">All News</h1>
+						<p className="text-slate-600">Manage your news content</p>
 					</div>
 					<Link href="/dashboard/blog/new">
 						<Button>
 							<Plus className="h-4 w-4 mr-2" />
-							Add Post
+							Create News
 						</Button>
 					</Link>
 				</div>
@@ -349,9 +349,9 @@ export function BlogPostsClient({
 				{/* Filters */}
 				<Card>
 					<CardHeader>
-						<CardTitle>Blog Posts</CardTitle>
+						<CardTitle>All News</CardTitle>
 						<CardDescription>
-							View and manage your blog posts
+							View and manage your news
 						</CardDescription>
 					</CardHeader>
 					<CardContent>
@@ -465,9 +465,7 @@ export function BlogPostsClient({
 												</span>
 												<span>•</span>
 												<span>
-													{new Date(
-														post.updatedAt
-													).toLocaleDateString()}
+													{new Date(post.updatedAt).toLocaleDateString("en-GB")}
 												</span>
 											</div>
 										</div>

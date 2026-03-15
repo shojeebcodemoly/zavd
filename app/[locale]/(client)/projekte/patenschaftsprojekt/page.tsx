@@ -39,7 +39,9 @@ export default async function PatenschaftsprojektPage() {
 				pressItems={pressItems}
 				phone={siteSettings.phone}
 				email={siteSettings.email}
+				contactBackground={siteSettings.contactBackground}
 				donationWidget={siteSettings.donationWidget}
+				socialMedia={siteSettings.socialMedia}
 			/>
 			<ProjectPartnersCarousel
 				heading={page.partners?.heading}

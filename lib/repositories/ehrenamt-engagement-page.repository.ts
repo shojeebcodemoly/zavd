@@ -4,10 +4,16 @@ import {
 	getEhrenamtEngagementPageModelSync,
 	type IEhrenamtEngagementPage,
 	type IEhrenamtEngagementHero,
+	type IEhrenamtEngagementGallery,
+	type IEhrenamtEngagementContent,
+	type IEhrenamtEngagementPartners,
 } from "@/models/ehrenamt-engagement-page.model";
 
 export interface UpdateEhrenamtEngagementPageInput {
 	hero?: Partial<IEhrenamtEngagementHero>;
+	gallery?: Partial<IEhrenamtEngagementGallery>;
+	content?: Partial<IEhrenamtEngagementContent>;
+	partners?: Partial<IEhrenamtEngagementPartners>;
 }
 
 export type EhrenamtEngagementPageData = Omit<
@@ -42,6 +48,24 @@ class EhrenamtEngagementPageRepository {
 			Object.entries(data.hero).forEach(([key, value]) => {
 				if (value !== undefined) updateData[`hero.${key}`] = value;
 			});
+		}
+
+		if (data.gallery !== undefined) {
+			if (data.gallery.images !== undefined) updateData["gallery.images"] = data.gallery.images;
+			if (data.gallery.title !== undefined) updateData["gallery.title"] = data.gallery.title;
+			if (data.gallery.subtitle !== undefined) updateData["gallery.subtitle"] = data.gallery.subtitle;
+		}
+
+		if (data.content !== undefined) {
+			if (data.content.blocks !== undefined) updateData["content.blocks"] = data.content.blocks;
+			if (data.content.title !== undefined) updateData["content.title"] = data.content.title;
+			if (data.content.body !== undefined) updateData["content.body"] = data.content.body;
+			if (data.content.image !== undefined) updateData["content.image"] = data.content.image;
+		}
+
+		if (data.partners !== undefined) {
+			if (data.partners.logos !== undefined) updateData["partners.logos"] = data.partners.logos;
+			if (data.partners.heading !== undefined) updateData["partners.heading"] = data.partners.heading;
 		}
 
 		const page = await Model.findOneAndUpdate(
