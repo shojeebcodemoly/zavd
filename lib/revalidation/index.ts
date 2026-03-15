@@ -50,6 +50,9 @@ export const CACHE_TAGS = {
 	GESCHICHTE_PAGE: "geschichte-page",
 	MISSION_WERTE_PAGE: "mission-werte-page",
 	SATZUNG_PAGE: "satzung-page",
+	SPENDEN_PAGE: "spenden-page",
+	HUMANITAERE_HILFE_PAGE: "humanitaere-hilfe-page",
+	ZAVD_SPENDENKONTO_PAGE: "zavd-spendenkonto-page",
 
 	// Sitemaps
 	SITEMAPS: "sitemaps",
@@ -91,6 +94,9 @@ export const PATHS = {
 	GESCHICHTE: "/uber-zavd/geschichte",
 	MISSION_WERTE: "/uber-zavd/mission-werte",
 	SATZUNG: "/uber-zavd/satzung",
+	SPENDEN: "/spenden",
+	HUMANITAERE_HILFE: "/spenden/humanitaere-hilfe",
+	ZAVD_SPENDENKONTO: "/spenden/zavd-spendenkonto",
 } as const;
 
 // Default revalidation time in seconds (24 hours)

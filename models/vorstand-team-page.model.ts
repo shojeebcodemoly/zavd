@@ -38,6 +38,10 @@ export interface IVorstandMember {
 	phone?: string;
 	email?: string;
 	image?: string;
+	facebook?: string;
+	twitter?: string;
+	linkedin?: string;
+	instagram?: string;
 }
 
 const VorstandMemberSchema = new Schema<IVorstandMember>(
@@ -49,6 +53,10 @@ const VorstandMemberSchema = new Schema<IVorstandMember>(
 		phone: { type: String },
 		email: { type: String },
 		image: { type: String },
+		facebook: { type: String },
+		twitter: { type: String },
+		linkedin: { type: String },
+		instagram: { type: String },
 	},
 	{ _id: false }
 );
@@ -88,6 +96,10 @@ export interface ITeamMember {
 	phone?: string;
 	email?: string;
 	image?: string;
+	facebook?: string;
+	twitter?: string;
+	linkedin?: string;
+	instagram?: string;
 }
 
 const TeamMemberSchema = new Schema<ITeamMember>(
@@ -101,6 +113,10 @@ const TeamMemberSchema = new Schema<ITeamMember>(
 		phone: { type: String },
 		email: { type: String },
 		image: { type: String },
+		facebook: { type: String },
+		twitter: { type: String },
+		linkedin: { type: String },
+		instagram: { type: String },
 	},
 	{ _id: false }
 );

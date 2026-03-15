@@ -376,3 +376,24 @@ export async function revalidateSatzungPage(): Promise<void> {
 	revalidatePath(`/en${PATHS.SATZUNG}`);
 	revalidatePath(`/de${PATHS.SATZUNG}`);
 }
+
+export async function revalidateSpendenPage(): Promise<void> {
+	revalidateTag(CACHE_TAGS.SPENDEN_PAGE, "default");
+	revalidatePath(PATHS.SPENDEN);
+	revalidatePath(`/en${PATHS.SPENDEN}`);
+	revalidatePath(`/de${PATHS.SPENDEN}`);
+}
+
+export async function revalidateHumanitaereHilfePage(): Promise<void> {
+	revalidateTag(CACHE_TAGS.HUMANITAERE_HILFE_PAGE, "default");
+	revalidatePath(PATHS.HUMANITAERE_HILFE);
+	revalidatePath(`/en${PATHS.HUMANITAERE_HILFE}`);
+	revalidatePath(`/de${PATHS.HUMANITAERE_HILFE}`);
+}
+
+export async function revalidateZavdSpendenkontoPage(): Promise<void> {
+	revalidateTag(CACHE_TAGS.ZAVD_SPENDENKONTO_PAGE, "default");
+	revalidatePath(PATHS.ZAVD_SPENDENKONTO);
+	revalidatePath(`/en${PATHS.ZAVD_SPENDENKONTO}`);
+	revalidatePath(`/de${PATHS.ZAVD_SPENDENKONTO}`);
+}

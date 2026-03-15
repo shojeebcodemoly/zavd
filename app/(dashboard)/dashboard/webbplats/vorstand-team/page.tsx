@@ -52,6 +52,10 @@ const memberSchema = z.object({
 	phone: z.string().max(100).optional(),
 	email: z.string().max(200).optional(),
 	image: z.string().optional(),
+	facebook: z.string().max(500).optional(),
+	twitter: z.string().max(500).optional(),
+	linkedin: z.string().max(500).optional(),
+	instagram: z.string().max(500).optional(),
 });
 
 const vorstandSectionSchema = z.object({
@@ -453,6 +457,42 @@ export default function VorstandTeamAdminPage() {
 														/>
 													</div>
 												</div>
+												<div className="grid gap-4 md:grid-cols-2">
+													<div className="space-y-2">
+														<Label>Facebook URL</Label>
+														<Input
+															{...form.register(`vorstand.members.${index}.facebook`)}
+															value={form.watch(`vorstand.members.${index}.facebook`) || ""}
+															placeholder="https://facebook.com/..."
+														/>
+													</div>
+													<div className="space-y-2">
+														<Label>X (Twitter) URL</Label>
+														<Input
+															{...form.register(`vorstand.members.${index}.twitter`)}
+															value={form.watch(`vorstand.members.${index}.twitter`) || ""}
+															placeholder="https://x.com/..."
+														/>
+													</div>
+												</div>
+												<div className="grid gap-4 md:grid-cols-2">
+													<div className="space-y-2">
+														<Label>LinkedIn URL</Label>
+														<Input
+															{...form.register(`vorstand.members.${index}.linkedin`)}
+															value={form.watch(`vorstand.members.${index}.linkedin`) || ""}
+															placeholder="https://linkedin.com/in/..."
+														/>
+													</div>
+													<div className="space-y-2">
+														<Label>Instagram URL</Label>
+														<Input
+															{...form.register(`vorstand.members.${index}.instagram`)}
+															value={form.watch(`vorstand.members.${index}.instagram`) || ""}
+															placeholder="https://instagram.com/..."
+														/>
+													</div>
+												</div>
 												<div className="space-y-2">
 													<Label>Photo</Label>
 													<MediaPicker
@@ -495,6 +535,10 @@ export default function VorstandTeamAdminPage() {
 												phone: "",
 												email: "",
 												image: "",
+												facebook: "",
+												twitter: "",
+												linkedin: "",
+												instagram: "",
 											})
 										}
 									>
@@ -656,6 +700,42 @@ export default function VorstandTeamAdminPage() {
 														/>
 													</div>
 												</div>
+																								<div className="grid gap-4 md:grid-cols-2">
+													<div className="space-y-2">
+														<Label>Facebook URL</Label>
+														<Input
+															{...form.register(`team.members.${index}.facebook`)}
+															value={form.watch(`team.members.${index}.facebook`) || ""}
+															placeholder="https://facebook.com/..."
+														/>
+													</div>
+													<div className="space-y-2">
+														<Label>X (Twitter) URL</Label>
+														<Input
+															{...form.register(`team.members.${index}.twitter`)}
+															value={form.watch(`team.members.${index}.twitter`) || ""}
+															placeholder="https://x.com/..."
+														/>
+													</div>
+												</div>
+												<div className="grid gap-4 md:grid-cols-2">
+													<div className="space-y-2">
+														<Label>LinkedIn URL</Label>
+														<Input
+															{...form.register(`team.members.${index}.linkedin`)}
+															value={form.watch(`team.members.${index}.linkedin`) || ""}
+															placeholder="https://linkedin.com/in/..."
+														/>
+													</div>
+													<div className="space-y-2">
+														<Label>Instagram URL</Label>
+														<Input
+															{...form.register(`team.members.${index}.instagram`)}
+															value={form.watch(`team.members.${index}.instagram`) || ""}
+															placeholder="https://instagram.com/..."
+														/>
+													</div>
+												</div>
 												<div className="space-y-2">
 													<Label>Photo</Label>
 													<MediaPicker
@@ -700,6 +780,10 @@ export default function VorstandTeamAdminPage() {
 												phone: "",
 												email: "",
 												image: "",
+												facebook: "",
+												twitter: "",
+												linkedin: "",
+												instagram: "",
 											})
 										}
 									>

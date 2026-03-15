@@ -106,6 +106,23 @@ const navSections: NavSection[] = [
 				],
 			},
 			{
+				title: "Spenden",
+				href: "/dashboard/webbplats/spenden",
+				icon: Heart,
+				children: [
+					{
+						title: "Humanitäre Hilfe",
+						href: "/dashboard/webbplats/humanitaere-hilfe",
+						icon: ChevronRight,
+					},
+					{
+						title: "ZAVD Spendenkonto",
+						href: "/dashboard/webbplats/zavd-spendenkonto",
+						icon: ChevronRight,
+					},
+				],
+			},
+			{
 				title: "About Us",
 				href: "/dashboard/webbplats/om-oss",
 				icon: Info,
