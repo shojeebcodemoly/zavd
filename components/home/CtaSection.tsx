@@ -1,9 +1,8 @@
 "use client";
 
-import { Phone, Mail, ArrowRight, MapPin } from "lucide-react";
+import { Phone, Mail, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
 import type { ICtaSection } from "@/models/home-page.model";
 
 interface CtaSectionProps {
@@ -14,80 +13,81 @@ interface CtaSectionProps {
 
 const CtaSection = ({ data, phone, email }: CtaSectionProps) => {
 	return (
-		<section className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-100 py-20 lg:py-28">
-			{/* Decorative background elements */}
-			<div className="absolute top-0 left-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2" />
-			<div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-primary/8 rounded-full blur-[100px] translate-x-1/3 translate-y-1/3" />
-			<div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[1px] bg-gradient-to-r from-transparent via-border to-transparent" />
+		<section className="relative overflow-hidden bg-[#0d1b2a] py-20 lg:py-28">
+			{/* Background glows */}
+			<div className="absolute top-0 left-0 w-[600px] h-[600px] bg-primary/15 rounded-full blur-[140px] -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+			<div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] translate-x-1/3 translate-y-1/3 pointer-events-none" />
+			{/* Subtle grid pattern */}
+			<div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
 
 			<div className="_container relative z-10">
-				<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+				<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-					{/* Left: Text + Contact Info */}
+					{/* Left: Text + Contact */}
 					<motion.div
-						initial={{ opacity: 0, y: 30 }}
-						whileInView={{ opacity: 1, y: 0 }}
+						initial={{ opacity: 0, x: -30 }}
+						whileInView={{ opacity: 1, x: 0 }}
 						viewport={{ once: true }}
-						transition={{ duration: 0.6 }}
+						transition={{ duration: 0.65, ease: [0.25, 0.46, 0.45, 0.94] }}
 						className="flex flex-col gap-8"
 					>
 						{/* Tag */}
 						<div className="flex items-center gap-3">
 							<span className="w-8 h-px bg-primary block" />
-							<span className="text-primary text-sm font-semibold tracking-widest uppercase">
+							<span className="text-primary text-xs font-bold tracking-[0.2em] uppercase">
 								Contact
 							</span>
 						</div>
 
 						{/* Heading */}
-						<div>
-							<h2 className="text-4xl lg:text-5xl font-bold text-secondary font-heading leading-tight mb-4">
+						<div className="flex flex-col gap-3">
+							<h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-white font-heading leading-[1.1]">
 								{data.title || "Get in Touch With Us"}
 							</h2>
-							<p className="text-foreground/60 text-lg leading-relaxed">
+							<p className="text-white/50 text-base lg:text-lg leading-relaxed">
 								{data.subtitle || "We're here to help. Reach out to us anytime."}
 							</p>
 						</div>
 
 						{/* Contact Cards */}
-						<div className="flex flex-col gap-4">
+						<div className="flex flex-col gap-3">
 							{phone && (
 								<a
 									href={`tel:${phone}`}
-									className="group flex items-center gap-5 p-5 bg-white rounded-2xl border border-border/50 shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-300"
+									className="group flex items-center gap-4 p-4 bg-white/5 hover:bg-white/10 rounded-2xl border border-white/10 hover:border-primary/40 transition-all duration-300"
 								>
-									<div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-all duration-300">
+									<div className="w-12 h-12 rounded-xl bg-primary/20 group-hover:bg-primary flex items-center justify-center shrink-0 transition-all duration-300">
 										<Phone className="w-5 h-5 text-primary group-hover:text-white transition-colors" />
 									</div>
-									<div>
-										<p className="text-xs text-foreground/50 uppercase tracking-widest font-medium mb-0.5">
+									<div className="flex-1 min-w-0">
+										<p className="text-xs text-white/40 uppercase tracking-widest font-medium mb-0.5">
 											{data.phoneTitle || "Call Us"}
 										</p>
-										<p className="text-base font-bold text-secondary group-hover:text-primary transition-colors">
+										<p className="text-base font-bold text-white truncate">
 											{phone}
 										</p>
 									</div>
-									<ArrowRight className="w-4 h-4 text-foreground/30 group-hover:text-primary ml-auto transition-all group-hover:translate-x-1" />
+									<ArrowRight className="w-4 h-4 text-white/20 group-hover:text-primary group-hover:translate-x-1 transition-all duration-200 shrink-0" />
 								</a>
 							)}
 
 							{email && (
 								<a
 									href={`mailto:${email}`}
-									className="group flex items-center gap-5 p-5 bg-white rounded-2xl border border-border/50 shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-300"
+									className="group flex items-center gap-4 p-4 bg-white/5 hover:bg-white/10 rounded-2xl border border-white/10 hover:border-primary/40 transition-all duration-300"
 								>
-									<div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-all duration-300">
+									<div className="w-12 h-12 rounded-xl bg-primary/20 group-hover:bg-primary flex items-center justify-center shrink-0 transition-all duration-300">
 										<Mail className="w-5 h-5 text-primary group-hover:text-white transition-colors" />
 									</div>
-									<div>
-										<p className="text-xs text-foreground/50 uppercase tracking-widest font-medium mb-0.5">
+									<div className="flex-1 min-w-0">
+										<p className="text-xs text-white/40 uppercase tracking-widest font-medium mb-0.5">
 											{data.emailTitle || "Email Us"}
 										</p>
-										<p className="text-base font-bold text-secondary group-hover:text-primary transition-colors">
+										<p className="text-base font-bold text-white truncate">
 											{email}
 										</p>
 									</div>
-									<ArrowRight className="w-4 h-4 text-foreground/30 group-hover:text-primary ml-auto transition-all group-hover:translate-x-1" />
+									<ArrowRight className="w-4 h-4 text-white/20 group-hover:text-primary group-hover:translate-x-1 transition-all duration-200 shrink-0" />
 								</a>
 							)}
 						</div>
@@ -95,63 +95,56 @@ const CtaSection = ({ data, phone, email }: CtaSectionProps) => {
 
 					{/* Right: CTA Card */}
 					<motion.div
-						initial={{ opacity: 0, y: 30 }}
-						whileInView={{ opacity: 1, y: 0 }}
+						initial={{ opacity: 0, x: 30 }}
+						whileInView={{ opacity: 1, x: 0 }}
 						viewport={{ once: true }}
-						transition={{ duration: 0.6, delay: 0.2 }}
+						transition={{ duration: 0.65, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.15 }}
 					>
-						<div className="relative bg-secondary rounded-3xl p-8 lg:p-12 overflow-hidden">
-							{/* Card decorative */}
-							<div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/4" />
-							<div className="absolute bottom-0 left-0 w-32 h-32 bg-primary/20 rounded-full translate-y-1/2 -translate-x-1/4" />
+						<div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 lg:p-10 overflow-hidden">
+							{/* Card inner glow */}
+							<div className="absolute -top-16 -right-16 w-48 h-48 bg-primary/20 rounded-full blur-3xl pointer-events-none" />
+							<div className="absolute -bottom-12 -left-12 w-40 h-40 bg-white/5 rounded-full blur-2xl pointer-events-none" />
 
-							<div className="relative z-10 flex flex-col gap-6">
-								<div>
-									<p className="text-primary text-sm font-semibold tracking-widest uppercase mb-3">
+							<div className="relative z-10 flex flex-col gap-7">
+								{/* Card header */}
+								<div className="flex flex-col gap-2">
+									<span className="text-primary text-xs font-bold tracking-[0.2em] uppercase">
 										{data.formTitle || "Ready to Start?"}
-									</p>
-									<h3 className="text-3xl lg:text-4xl font-bold text-white font-heading leading-tight">
+									</span>
+									<h3 className="text-2xl lg:text-3xl font-bold text-white font-heading leading-snug">
 										{data.title || "Let's Work Together"}
 									</h3>
+									<p className="text-white/45 text-sm leading-relaxed">
+										{data.formSubtitle || "Fill out the form and we'll get back to you within 24 hours."}
+									</p>
 								</div>
 
-								<p className="text-white/60 leading-relaxed">
-									{data.formSubtitle || "Fill out the form and we'll get back to you within 24 hours."}
-								</p>
+								{/* CTA Button */}
+								<Link
+									href={data.formCtaHref || "/kontakt"}
+									className="group flex items-center justify-center gap-2 w-full bg-primary hover:bg-primary/90 text-white font-semibold text-base py-4 px-6 rounded-2xl shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all duration-300"
+								>
+									{data.formCtaText || "Contact Us"}
+									<ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
+								</Link>
 
-								<div className="pt-2">
-									<Button
-										asChild
-										size="lg"
-										className="w-full bg-primary hover:bg-primary/90 text-white rounded-xl py-6 text-base font-semibold shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all duration-300"
-									>
-										<Link href={data.formCtaHref || "/kontakt"}>
-											{data.formCtaText || "Send Message"}
-											<ArrowRight className="ml-2 h-5 w-5" />
-										</Link>
-									</Button>
-								</div>
-
-								{/* Stats row */}
-								<div className="flex items-center gap-6 pt-4 border-t border-white/10">
-									<div className="text-center">
-										<p className="text-2xl font-bold text-white">24h</p>
-										<p className="text-white/50 text-xs">Response time</p>
-									</div>
-									<div className="w-px h-10 bg-white/10" />
-									<div className="text-center">
-										<p className="text-2xl font-bold text-white">100%</p>
-										<p className="text-white/50 text-xs">Free advice</p>
-									</div>
-									<div className="w-px h-10 bg-white/10" />
-									<div className="text-center">
-										<p className="text-2xl font-bold text-white">DE</p>
-										<p className="text-white/50 text-xs">Germany wide</p>
-									</div>
+								{/* Stats */}
+								<div className="grid grid-cols-3 gap-2 pt-6 border-t border-white/10">
+									{[
+										{ value: "24h", label: "Response time" },
+										{ value: "100%", label: "Free advice" },
+										{ value: "DE", label: "Germany wide" },
+									].map((stat, i) => (
+										<div key={i} className="text-center">
+											<p className="text-xl lg:text-2xl font-bold text-white">{stat.value}</p>
+											<p className="text-white/35 text-xs mt-0.5">{stat.label}</p>
+										</div>
+									))}
 								</div>
 							</div>
 						</div>
 					</motion.div>
+
 				</div>
 			</div>
 		</section>

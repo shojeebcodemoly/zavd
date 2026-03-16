@@ -17,9 +17,9 @@ export async function PUT(request: Request) {
 		const page = await nachrichtenPageRepository.update(body);
 
 		revalidateTag("nachrichten-page");
-		revalidatePath("/aktuelles/nachrichten", "layout");
-		revalidatePath("/de/aktuelles/nachrichten", "layout");
-		revalidatePath("/en/aktuelles/nachrichten", "layout");
+		revalidatePath("/aktuelles/nachrichten");
+		revalidatePath("/de/aktuelles/nachrichten");
+		revalidatePath("/en/aktuelles/nachrichten");
 
 		return NextResponse.json({ data: page });
 	} catch (error) {

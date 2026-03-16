@@ -29,6 +29,8 @@ export interface IBlogSeo {
 /**
  * Blog Post interface extending Mongoose Document
  */
+export type BlogPostType = "news" | "event";
+
 export interface IBlogPost extends Document {
 	_id: mongoose.Types.ObjectId;
 	title: string;
@@ -45,6 +47,15 @@ export interface IBlogPost extends Document {
 	publishedAt?: Date;
 	createdAt: Date;
 	updatedAt: Date;
+	// Post type
+	postType: BlogPostType;
+	// Event-specific fields
+	eventDate?: Date;
+	eventTime?: string;
+	eventCity?: string;
+	eventVenue?: string;
+	eventCountry?: string;
+	galleryImages?: string[];
 }
 
 /**
@@ -185,6 +196,37 @@ const BlogPostSchema = new Schema<IBlogPost>(
 			type: Date,
 			default: null,
 		},
+		postType: {
+			type: String,
+			enum: ["news", "event"],
+			default: "news",
+		},
+		eventDate: {
+			type: Date,
+			default: null,
+		},
+		eventTime: {
+			type: String,
+			default: "",
+		},
+		eventCity: {
+			type: String,
+			default: "",
+		},
+		eventVenue: {
+			type: String,
+			default: "",
+		},
+		eventCountry: {
+			type: String,
+			default: "",
+		},
+		galleryImages: [
+			{
+				type: String,
+				trim: true,
+			},
+		],
 	},
 	{
 		timestamps: true,
@@ -237,6 +279,10 @@ BlogPostSchema.set("toObject", { virtuals: true });
 export const getBlogPostModel = async (): Promise<Model<IBlogPost>> => {
 	await connectMongoose();
 
+	if (process.env.NODE_ENV !== "production" && mongoose.models.BlogPost) {
+		delete mongoose.models.BlogPost;
+	}
+
 	return (
 		(mongoose.models.BlogPost as Model<IBlogPost>) ||
 		mongoose.model<IBlogPost>("BlogPost", BlogPostSchema)
@@ -248,6 +294,9 @@ export const getBlogPostModel = async (): Promise<Model<IBlogPost>> => {
  * Note: Ensure connectMongoose is called before using this
  */
 export function getBlogPostModelSync(): Model<IBlogPost> {
+	if (process.env.NODE_ENV !== "production" && mongoose.models.BlogPost) {
+		delete mongoose.models.BlogPost;
+	}
 	return (
 		(mongoose.models.BlogPost as Model<IBlogPost>) ||
 		mongoose.model<IBlogPost>("BlogPost", BlogPostSchema)

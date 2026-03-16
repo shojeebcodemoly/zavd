@@ -277,6 +277,7 @@ export const partnerLogoSchema = z.object({
 	image: z.string().optional(),
 	name: z.string().max(100).optional(),
 	href: z.string().max(500).optional(),
+	description: z.string().max(500).optional(),
 });
 
 /**

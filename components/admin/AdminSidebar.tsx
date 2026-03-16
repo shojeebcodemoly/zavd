@@ -267,12 +267,12 @@ const navSections: NavSection[] = [
 			},
 			{
 				title: "All Events",
-				href: "/dashboard/blog",
+				href: "/dashboard/blog?postType=event",
 				icon: CalendarDays,
 			},
 			{
 				title: "Create Event",
-				href: "/dashboard/blog/new",
+				href: "/dashboard/blog/new?postType=event",
 				icon: FileText,
 			},
 		],
@@ -371,17 +371,18 @@ export function AdminSidebar({ className }: AdminSidebarProps) {
 	};
 
 	const isActive = (href: string) => {
-		if (href === "/dashboard") {
+		const hrefPath = href.split("?")[0];
+		if (hrefPath === "/dashboard") {
 			return pathname === "/dashboard";
 		}
 		// For /dashboard/blog, only match exact path to avoid matching /dashboard/blog/categories
-		if (href === "/dashboard/blog") {
+		if (hrefPath === "/dashboard/blog") {
 			return (
 				pathname === "/dashboard/blog" ||
 				pathname.startsWith("/dashboard/blog/posts")
 			);
 		}
-		return pathname.startsWith(href);
+		return pathname.startsWith(hrefPath);
 	};
 
 	// Check if any item in a section is active (including children)

@@ -104,6 +104,13 @@ export const createBlogPostSchema = z.object({
 	tags: z.array(z.string().max(50)).optional().default([]),
 	seo: blogSeoSchema.optional(),
 	publishType: z.enum(["publish", "draft", "private"]).default("draft"),
+	postType: z.enum(["news", "event"]).default("news"),
+	eventDate: z.string().optional(),
+	eventTime: z.string().optional(),
+	eventCity: z.string().optional(),
+	eventVenue: z.string().optional(),
+	eventCountry: z.string().optional(),
+	galleryImages: z.array(z.string()).optional().default([]),
 });
 
 /**
@@ -121,6 +128,13 @@ export const updateBlogPostSchema = z.object({
 	seo: blogSeoSchema.optional(),
 	publishType: z.enum(["publish", "draft", "private"]).optional(),
 	publishedAt: z.coerce.date().optional(),
+	postType: z.enum(["news", "event"]).optional(),
+	eventDate: z.string().optional(),
+	eventTime: z.string().optional(),
+	eventCity: z.string().optional(),
+	eventVenue: z.string().optional(),
+	eventCountry: z.string().optional(),
+	galleryImages: z.array(z.string()).optional(),
 });
 
 /**

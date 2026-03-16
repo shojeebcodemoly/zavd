@@ -137,6 +137,7 @@ const partnerLogoSchema = z.object({
 	image: z.string().optional(),
 	name: z.string().optional(),
 	href: z.string().optional(),
+	description: z.string().optional(),
 });
 
 // Integration Section schema
@@ -1318,6 +1319,13 @@ export default function StartsidaPage() {
 													<FormItem>
 														<FormLabel>Link URL</FormLabel>
 														<FormControl><Input placeholder="https://..." {...field} /></FormControl>
+														<FormMessage />
+													</FormItem>
+												)} />
+												<FormField control={form.control} name={`integrationSection.partnerLogos.${index}.description`} render={({ field }) => (
+													<FormItem>
+														<FormLabel>Description</FormLabel>
+														<FormControl><Input placeholder="Short description..." {...field} /></FormControl>
 														<FormMessage />
 													</FormItem>
 												)} />

@@ -253,6 +253,7 @@ export interface IPartnerLogo {
 	image?: string;
 	name?: string;
 	href?: string;
+	description?: string;
 }
 
 /**
@@ -731,6 +732,7 @@ const PartnerLogoSchema = new Schema<IPartnerLogo>(
 		image: { type: String, trim: true },
 		name: { type: String, trim: true },
 		href: { type: String, trim: true },
+		description: { type: String, trim: true },
 	},
 	{ _id: false }
 );

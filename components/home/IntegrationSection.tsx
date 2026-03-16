@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ImageComponent } from "../common/image-component";
+import Image from "next/image";
 import type { IIntegrationSection } from "@/models/home-page.model";
 
 interface IntegrationSectionProps {
@@ -52,39 +52,42 @@ export function IntegrationSection({ data }: IntegrationSectionProps) {
 		<section className="w-full bg-white pt-8 pb-16 lg:pb-24 overflow-visible relative z-10">
 			<div className="_container">
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-32 items-stretch">
-					{/* Left: Text Content */}
-					<motion.div
-						variants={textContainerVariants}
-						initial="hidden"
-						whileInView="visible"
-						viewport={{ once: true, amount: 0.2 }}
-						className="flex flex-col gap-6"
-					>
-						<motion.h2
-							variants={textItemVariants}
-							className="text-3xl lg:text-4xl font-bold text-secondary font-heading"
+					{/* Left: Text Content + Partner Logos */}
+					<div className="flex flex-col gap-6">
+						{/* Animated text block */}
+						<motion.div
+							variants={textContainerVariants}
+							initial="hidden"
+							whileInView="visible"
+							viewport={{ once: true, amount: 0.2 }}
+							className="flex flex-col gap-6"
 						>
-							{heading}
-						</motion.h2>
+							<motion.h2
+								variants={textItemVariants}
+								className="text-3xl lg:text-4xl font-bold text-secondary font-heading"
+							>
+								{heading}
+							</motion.h2>
 
-						<motion.p
-							variants={textItemVariants}
-							className="text-base lg:text-lg font-semibold text-foreground/80 leading-relaxed"
-						>
-							{quote}
-						</motion.p>
+							<motion.p
+								variants={textItemVariants}
+								className="text-base lg:text-lg font-semibold text-foreground/80 leading-relaxed"
+							>
+								{quote}
+							</motion.p>
 
-						<motion.p
-							variants={textItemVariants}
-							className="text-sm lg:text-base text-foreground/70 leading-relaxed"
-						>
-							{description}
-						</motion.p>
+							<motion.p
+								variants={textItemVariants}
+								className="text-sm lg:text-base text-foreground/70 leading-relaxed"
+							>
+								{description}
+							</motion.p>
+						</motion.div>
 
-						{/* Partner Logos — 2-column grid, no individual motion to avoid clip */}
+						{/* Partner Logos — outside motion context to prevent compositing clip */}
 						{partnerLogos.length > 0 && (
-							<motion.div variants={textItemVariants} className="pt-2">
-								<div className="grid grid-cols-2 gap-x-8 gap-y-6">
+							<div className="pt-2">
+								<div className="grid grid-cols-2 gap-x-8 gap-y-8">
 									{partnerLogos.map((partner, index) => (
 										<a
 											key={index}
@@ -94,27 +97,33 @@ export function IntegrationSection({ data }: IntegrationSectionProps) {
 											className="flex flex-col items-center gap-2 group hover:opacity-80 transition-opacity"
 										>
 											{partner.image && (
-												<div className="w-24 h-16 flex items-center justify-center">
-													<ImageComponent
+												<div className="w-36 h-24 flex items-center justify-center flex-shrink-0">
+													<Image
 														src={partner.image}
 														alt={partner.name || "Partner logo"}
-														height={64}
-														width={96}
+														height={96}
+														width={144}
 														className="max-w-full max-h-full object-contain"
+														unoptimized
 													/>
 												</div>
 											)}
 											{partner.name && (
-												<span className="text-xs text-foreground/60 text-center leading-normal">
+												<span className="text-xs text-foreground/70 text-center leading-normal font-semibold">
 													{partner.name}
+												</span>
+											)}
+											{partner.description && (
+												<span className="text-xs text-foreground/50 text-center leading-snug">
+													{partner.description}
 												</span>
 											)}
 										</a>
 									))}
 								</div>
-							</motion.div>
+							</div>
 						)}
-					</motion.div>
+					</div>
 
 					{/* Right: Image */}
 					<motion.div
@@ -137,12 +146,12 @@ export function IntegrationSection({ data }: IntegrationSectionProps) {
 								className="relative w-full rounded-lg overflow-hidden shadow-lg"
 								style={{ transition: "box-shadow 0.3s ease" }}
 							>
-								<ImageComponent
+								<Image
 									src={image}
 									alt={heading}
 									fill
 									className="object-cover object-center"
-									showLoader={false}
+									unoptimized
 								/>
 							</motion.div>
 						) : (

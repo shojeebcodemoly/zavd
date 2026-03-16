@@ -139,11 +139,6 @@ export default async function Home({ searchParams }: HomeProps) {
 				<VolunteeringSection data={homePage.volunteeringSection} />
 			)}
 
-			{/* Testimonials */}
-			{visibility.testimonials &&
-				(homePage.testimonialsSection?.testimonials?.length ?? 0) > 0 && (
-					<Testimonials data={homePage.testimonialsSection} />
-				)}
 
 			{/* Partners Carousel Section */}
 			{visibility.partnersCarousel && (
@@ -159,7 +154,13 @@ export default async function Home({ searchParams }: HomeProps) {
 				/>
 			)}
 
-			{/* Image Gallery — after CTA */}
+			{/* Testimonials — after CTA */}
+			{visibility.testimonials &&
+				(homePage.testimonialsSection?.testimonials?.length ?? 0) > 0 && (
+					<Testimonials data={homePage.testimonialsSection} />
+				)}
+
+				{/* Image Gallery */}
 			{visibility.imageGallery &&
 				(homePage.imageGallery?.images?.length ?? 0) > 0 && (
 					<ImageGallery data={homePage.imageGallery} />
