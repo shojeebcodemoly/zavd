@@ -237,7 +237,7 @@ export default function SettingsPage() {
 				newsletterDescription: "Prenumerera för att hålla dig uppdaterad om ny webbdesign och senaste uppdateringar. Låt oss göra det!",
 				emailPlaceholder: "E-postadress",
 				buttonText: "Skicka",
-				designedBy: "Designad av Nordigate",
+				designedBy: "ZAVD - Zentralverband Assyrischer Vereinigungen in Deutschland",
 			},
 			smtp: {
 				enabled: false,
@@ -360,7 +360,7 @@ export default function SettingsPage() {
 						newsletterDescription: settings.comingSoon?.newsletterDescription || "Prenumerera för att hålla dig uppdaterad om ny webbdesign och senaste uppdateringar. Låt oss göra det!",
 						emailPlaceholder: settings.comingSoon?.emailPlaceholder || "E-postadress",
 						buttonText: settings.comingSoon?.buttonText || "Skicka",
-						designedBy: settings.comingSoon?.designedBy || "Designad av Nordigate",
+						designedBy: settings.comingSoon?.designedBy || "ZAVD - Zentralverband Assyrischer Vereinigungen in Deutschland",
 					},
 					smtp: {
 						enabled: settings.smtp?.enabled ?? false,
@@ -1837,7 +1837,7 @@ export default function SettingsPage() {
 										<FormItem>
 											<FormLabel>Designed By Text</FormLabel>
 											<FormControl>
-												<Input placeholder="Designad av Nordigate" {...field} />
+												<Input placeholder="ZAVD - Zentralverband Assyrischer Vereinigungen in Deutschland" {...field} />
 											</FormControl>
 											<FormMessage />
 										</FormItem>

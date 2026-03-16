@@ -298,15 +298,15 @@ class SiteSettingsRepository {
 		return (
 			settings.comingSoon || {
 				enabled: false,
-				heading: "Kommer snart",
+				heading: "Demnächst verfügbar",
 				description:
-					"Något nytt är på väg… Vi förbereder lanseringen av något spännande. Vi finjusterar detaljerna och ses snart!",
-				newsletterTitle: "Nyhetsbrev",
+					"Wir arbeiten an etwas Besonderem für die assyrische Gemeinschaft. Unsere neue Website wird in Kürze online gehen – bleiben Sie gespannt!",
+				newsletterTitle: "Newsletter",
 				newsletterDescription:
-					"Prenumerera för att hålla dig uppdaterad om ny webbdesign och senaste uppdateringar. Låt oss göra det!",
-				emailPlaceholder: "E-postadress",
-				buttonText: "Skicka",
-				designedBy: "Designad av Nordigate",
+					"Abonnieren Sie unseren Newsletter und bleiben Sie über die neuesten Nachrichten und Veranstaltungen von ZAVD informiert.",
+				emailPlaceholder: "E-Mail-Adresse",
+				buttonText: "Anmelden",
+				designedBy: "ZAVD – Zentralverband Assyrischer Vereinigungen in Deutschland",
 			}
 		);
 	}

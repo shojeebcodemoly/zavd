@@ -98,7 +98,7 @@ export interface IComingSoonSettings {
 	newsletterDescription: string; // Newsletter sub-text
 	emailPlaceholder: string; // "E-postadress"
 	buttonText: string; // "Skicka"
-	designedBy: string; // "Designad av Nordigate"
+	designedBy: string; // "ZAVD - Zentralverband Assyrischer Vereinigungen in Deutschland"
 }
 
 /**
@@ -411,7 +411,7 @@ const ComingSoonSettingsSchema = new Schema<IComingSoonSettings>(
 		},
 		emailPlaceholder: { type: String, trim: true, default: "E-postadress" },
 		buttonText: { type: String, trim: true, default: "Skicka" },
-		designedBy: { type: String, trim: true, default: "Designad av Nordigate" },
+		designedBy: { type: String, trim: true, default: "ZAVD - Zentralverband Assyrischer Vereinigungen in Deutschland" },
 	},
 	{ _id: false }
 );

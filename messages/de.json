@@ -87,6 +87,7 @@
     "description": "Zentralverband der Assyrischen Vereinigungen in Deutschland und europäischen Sektionen.",
     "quickLinks": "Über ZAVD",
     "usefulLinks": "Angebote & Beratung",
+    "contactWithUs": "Kontakt",
     "projekte": "Projekte",
     "contact": "Kontakt",
     "followUs": "Folgen Sie uns",
@@ -435,5 +436,17 @@
       "paypalText": "Mit PayPal besteht die Möglichkeit einer schnellen, unkomplizierten und sicheren Spende über PayPal, Kreditkarte oder EC-Karte. Klicken Sie einfach auf den unteren Button und befolgen Sie die nächsten Schritte.",
       "paypalButton": "Jetzt Spenden!"
     }
+  },
+  "comingSoon": {
+    "heading": "Demnächst verfügbar",
+    "description": "Wir arbeiten an etwas Besonderem für die assyrische Gemeinschaft. Unsere neue Website wird in Kürze online gehen – bleiben Sie gespannt!",
+    "newsletterTitle": "Newsletter",
+    "newsletterDescription": "Abonnieren Sie unseren Newsletter und bleiben Sie über die neuesten Nachrichten und Veranstaltungen von ZAVD informiert.",
+    "emailPlaceholder": "E-Mail-Adresse",
+    "buttonText": "Anmelden",
+    "designedBy": "ZAVD – Zentralverband Assyrischer Vereinigungen in Deutschland",
+    "thankYou": "Vielen Dank! Sie sind jetzt angemeldet.",
+    "errorMessage": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+    "loginButton": "Anmelden"
   }
 }

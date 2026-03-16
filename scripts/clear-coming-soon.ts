@@ -1,8 +1,6 @@
 /**
- * Clear Database Script
- * Removes all existing data from all collections
- * ZAVD NGO project - fresh start
- * Run with: npx tsx scripts/clear-database.ts
+ * Clear comingSoon field from site_settings
+ * Run with: npx tsx scripts/clear-coming-soon.ts
  */
 
 import mongoose from "mongoose";
@@ -43,59 +41,19 @@ if (!MONGODB_URI) {
 	process.exit(1);
 }
 
-const COLLECTIONS_TO_CLEAR = [
-	"home_page",
-	"about_page",
-	"products",
-	"categories",
-	"site_settings",
-	"blog_posts",
-	"blog_categories",
-	"faq_page",
-	"kontakt_page",
-	"legal_page",
-	"privacy_page",
-	"team_page",
-	"form_submissions",
-	"reseller_page",
-	"store_page",
-	"training_page",
-	"starta_eget_page",
-	"careers_page",
-	"kopguide_page",
-	"miniutbildning_page",
-	"varfor_valja_zavd_page",
-	"session",
-	"account",
-	"profile",
-	"profiles",
-];
-
 async function main() {
 	console.log("Connecting to MongoDB...");
 	await mongoose.connect(MONGODB_URI!);
 	console.log("Connected!\n");
 
 	const db = mongoose.connection.db!;
+	const result = await db
+		.collection("site_settings")
+		.updateMany({}, { $unset: { comingSoon: "" } });
 
-	// List actual collections
-	const existing = await db.listCollections().toArray();
-	const existingNames = existing.map((c) => c.name);
+	console.log(`✓ comingSoon field removed from ${result.modifiedCount} document(s)`);
+	console.log("Fallback defaults will now be used until new data is saved via CMS.");
 
-	console.log("=== Clearing all collections ===");
-	for (const col of existingNames) {
-		const count = await db.collection(col).countDocuments();
-		await db.collection(col).deleteMany({});
-		console.log(`✓ ${col}: deleted ${count} documents`);
-	}
-
-	console.log("\n=== Verification ===");
-	for (const col of existingNames) {
-		const count = await db.collection(col).countDocuments();
-		console.log(`${col}: ${count} documents`);
-	}
-
-	console.log("\nDatabase cleared successfully!");
 	await mongoose.disconnect();
 }
 

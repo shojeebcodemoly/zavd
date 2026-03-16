@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { useLocale } from "next-intl";
 import { useSession } from "@/lib/auth-client";
 import { FaTwitter, FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 
@@ -22,21 +23,28 @@ interface ComingSoonClientProps {
 	emailPlaceholder?: string;
 	buttonText?: string;
 	designedBy?: string;
+	translations: {
+		thankYou: string;
+		errorMessage: string;
+		loginButton: string;
+	};
 }
 
 export function ComingSoonClient({
 	logoUrl,
 	siteName,
 	socialLinks,
-	heading = "Demnächst verfügbar",
-	description = "Wir arbeiten an etwas Besonderem für die assyrische Gemeinschaft. Unsere neue Website wird in Kürze online gehen – bleiben Sie gespannt!",
-	newsletterTitle = "Newsletter",
-	newsletterDescription = "Abonnieren Sie unseren Newsletter und bleiben Sie über die neuesten Nachrichten und Veranstaltungen von ZAVD informiert.",
-	emailPlaceholder = "E-Mail-Adresse",
-	buttonText = "Anmelden",
-	designedBy = "ZAVD – Zentralverband Assyrischer Vereinigungen in Deutschland",
+	heading,
+	description,
+	newsletterTitle,
+	newsletterDescription,
+	emailPlaceholder,
+	buttonText,
+	designedBy,
+	translations,
 }: ComingSoonClientProps) {
 	const router = useRouter();
+	const locale = useLocale();
 	const { data: session, isPending } = useSession();
 	const [email, setEmail] = useState("");
 	const [submitting, setSubmitting] = useState(false);
@@ -58,10 +66,10 @@ export function ComingSoonClient({
 				setEmail("");
 			} else {
 				const data = await res.json();
-				setError(data.message || "Något gick fel, försök igen.");
+				setError(data.message || translations.errorMessage);
 			}
 		} catch {
-			setError("Något gick fel, försök igen.");
+			setError(translations.errorMessage);
 		} finally {
 			setSubmitting(false);
 		}
@@ -73,31 +81,16 @@ export function ComingSoonClient({
 		}
 	}, [session, isPending, router]);
 
-	if (isPending) {
-		return (
-			<div
-				className="min-h-screen flex items-center justify-center"
-				style={{ background: "#151A22" }}
-			>
-				<div
-					className="w-6 h-6 rounded-full animate-spin"
-					style={{
-						border: "2px solid rgba(230,0,0,0.2)",
-						borderTopColor: "#E60000",
-					}}
-				/>
-			</div>
-		);
-	}
-
 	if (session) return null;
 
 	const hasSocials =
 		socialLinks.twitter || socialLinks.facebook || socialLinks.linkedin;
 
+	const otherLocale = locale === "de" ? "en" : "de";
+	const otherLocaleLabel = locale === "de" ? "EN" : "DE";
+
 	return (
 		<>
-			{/* Import Poppins font */}
 			<style>{`
 				@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 				.cs-wrap * { font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
@@ -105,14 +98,28 @@ export function ComingSoonClient({
 				.cs-social-link:hover { background: #E60000 !important; border-color: transparent !important; }
 				.cs-email-input:focus { outline: none; border-color: #E60000 !important; background: rgba(255,255,255,0.15) !important; }
 				.cs-submit-btn:hover { background: #CC0000 !important; box-shadow: 0 0 30px rgba(230,0,0,0.5) !important; }
+				.cs-lang-btn:hover { background-color: rgba(230,0,0,0.15) !important; border-color: #E60000 !important; color: #E60000 !important; }
 			`}</style>
 
 			<div
 				className="cs-wrap min-h-screen text-white flex flex-col"
 				style={{ background: "#151A22" }}
 			>
-				{/* Login button - fixed top right */}
-				<div className="fixed top-5 right-5 z-50">
+				{/* Top right buttons */}
+				<div className="fixed top-5 right-5 z-50 flex items-center gap-2">
+					{/* Language switcher */}
+					<Link
+						href={`/${otherLocale}/coming-soon`}
+						className="cs-lang-btn inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-white text-sm font-semibold no-underline transition-all duration-300"
+						style={{
+							background: "rgba(255,255,255,0.08)",
+							border: "1px solid rgba(255,255,255,0.22)",
+						}}
+					>
+						{otherLocaleLabel}
+					</Link>
+
+					{/* Login button */}
 					<Link
 						href="/login"
 						className="cs-login-btn inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-white text-sm font-semibold no-underline transition-all duration-300"
@@ -136,7 +143,7 @@ export function ComingSoonClient({
 							<polyline points="10 17 15 12 10 7" />
 							<line x1="15" y1="12" x2="3" y2="12" />
 						</svg>
-						Logga in
+						{translations.loginButton}
 					</Link>
 				</div>
 
@@ -146,7 +153,7 @@ export function ComingSoonClient({
 						{/* Logo */}
 						<div className="mb-10">
 							<Image
-								src="/storage/zavd-logo-beige-glow.svg"
+								src={logoUrl || "/storage/zavd-logo-mobile-2000x485.png"}
 								alt={siteName}
 								width={250}
 								height={100}
@@ -244,35 +251,6 @@ export function ComingSoonClient({
 							</ul>
 						)}
 
-						{/* Fallback social icons if none in DB */}
-						{!hasSocials && (
-							<ul className="flex gap-4 mb-10 justify-center list-none p-0">
-								{[
-									{ icon: <FaTwitter />, label: "Twitter" },
-									{ icon: <FaFacebookF />, label: "Facebook" },
-									{ icon: <FaLinkedinIn />, label: "LinkedIn" },
-								].map(({ icon, label }) => (
-									<li key={label}>
-										<a
-											href="#"
-											className="cs-social-link inline-flex items-center justify-center transition-all duration-500"
-											style={{
-												height: 40,
-												width: 40,
-												borderRadius: 10,
-												border: "1px solid rgba(255,255,255,0.22)",
-												color: "#fff",
-												fontSize: 16,
-											}}
-											aria-label={label}
-										>
-											{icon}
-										</a>
-									</li>
-								))}
-							</ul>
-						)}
-
 						{/* Newsletter */}
 						<div className="mb-10">
 							<h4
@@ -281,10 +259,7 @@ export function ComingSoonClient({
 							>
 								{newsletterTitle}
 							</h4>
-							<p
-								className="mb-5"
-								style={{ fontSize: 15, color: "#dedede" }}
-							>
+							<p className="mb-5" style={{ fontSize: 15, color: "#dedede" }}>
 								{newsletterDescription}
 							</p>
 							<div
@@ -293,7 +268,7 @@ export function ComingSoonClient({
 							>
 								{submitted ? (
 									<p style={{ color: "#E60000", fontSize: 15, fontWeight: 500 }}>
-										Tack! Du är nu prenumerant.
+										{translations.thankYou}
 									</p>
 								) : (
 									<>
@@ -334,10 +309,8 @@ export function ComingSoonClient({
 							)}
 						</div>
 
-						{/* Copyright */}
-						<p style={{ fontSize: 14, color: "#dedede" }}>
-							{designedBy}
-						</p>
+						{/* Footer */}
+						<p style={{ fontSize: 14, color: "#dedede" }}>{designedBy}</p>
 					</div>
 				</div>
 			</div>

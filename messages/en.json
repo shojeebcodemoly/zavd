@@ -97,6 +97,7 @@
     "description": "Central Association of Assyrian Associations in Germany and European Sections.",
     "quickLinks": "About ZAVD",
     "usefulLinks": "Offers & Advice",
+    "contactWithUs": "Contact With Us",
     "projekte": "Projects",
     "contact": "Contact",
     "followUs": "Follow Us",
@@ -499,5 +500,17 @@
       "paypalText": "With PayPal, you can make a quick, easy and secure donation via PayPal, credit card or debit card. Simply click the button below and follow the next steps.",
       "paypalButton": "Donate Now!"
     }
+  },
+  "comingSoon": {
+    "heading": "Coming Soon",
+    "description": "We are working on something special for the Assyrian community. Our new website will be online soon – stay tuned!",
+    "newsletterTitle": "Newsletter",
+    "newsletterDescription": "Subscribe to our newsletter and stay informed about the latest news and events from ZAVD.",
+    "emailPlaceholder": "Email address",
+    "buttonText": "Subscribe",
+    "designedBy": "ZAVD – Zentralverband Assyrischer Vereinigungen in Deutschland",
+    "thankYou": "Thank you! You are now subscribed.",
+    "errorMessage": "Something went wrong. Please try again.",
+    "loginButton": "Log in"
   }
 }

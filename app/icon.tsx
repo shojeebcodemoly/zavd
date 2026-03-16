@@ -1,17 +1,16 @@
-import { ImageResponse } from "next/og";
 import fs from "fs";
 import path from "path";
 import { getBrandingSettings } from "@/lib/services/site-settings.service";
 
 export const size = { width: 32, height: 32 };
-export const contentType = "image/png";
+export const contentType = "image/svg+xml";
 export const revalidate = 0;
 
 /**
  * Dynamic Favicon Generator
  *
  * If a custom favicon URL is set in the database, it will proxy that image.
- * Otherwise, renders the Glada Bonden Mejeri SVG logo on a dark background.
+ * Otherwise, renders the ZAVD SVG logo on a dark background.
  */
 export default async function Icon() {
 	const brandingSettings = await getBrandingSettings();
@@ -42,26 +41,14 @@ export default async function Icon() {
 		}
 	}
 
-	// Fallback: render SVG logo in black (replace white fill with black)
-	const svgPath = path.join(process.cwd(), "public", "storage", "glada-bonden-mejeri-w.svg");
-	const svgBlack = fs.readFileSync(svgPath, "utf8").replace(/fill:\s*#fff/g, "fill: #1a1a1a");
-	const svgBase64 = `data:image/svg+xml;base64,${Buffer.from(svgBlack).toString("base64")}`;
+	// Fallback: serve ZAVD SVG logo directly
+	const svgPath = path.join(process.cwd(), "public", "storage", "zavd-logo-beige-glow.svg");
+	const svgContent = fs.readFileSync(svgPath, "utf8");
 
-	return new ImageResponse(
-		(
-			<div
-				style={{
-					width: "100%",
-					height: "100%",
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "center",
-				}}
-			>
-				{/* eslint-disable-next-line @next/next/no-img-element */}
-				<img src={svgBase64} width={32} height={32} alt="" />
-			</div>
-		),
-		{ ...size }
-	);
+	return new Response(svgContent, {
+		headers: {
+			"Content-Type": "image/svg+xml",
+			"Cache-Control": "public, max-age=3600, s-maxage=3600",
+		},
+	});
 }

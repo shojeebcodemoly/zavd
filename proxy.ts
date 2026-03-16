@@ -32,7 +32,6 @@ const localeExcludedPaths = [
 	"/sign-in",
 	"/register",
 	"/storage",
-	"/coming-soon",
 	"/icon",
 	"/apple-icon",
 ];
@@ -101,7 +100,10 @@ export async function proxy(request: NextRequest) {
 	// =============================================
 	// 1. COMING SOON MODE REDIRECT
 	// =============================================
-	const isExcluded = pathStartsWith(pathname, localeExcludedPaths);
+	const isComingSoonPage =
+		pathname === "/coming-soon" ||
+		locales.some((l) => pathname === `/${l}/coming-soon`);
+	const isExcluded = pathStartsWith(pathname, localeExcludedPaths) || isComingSoonPage;
 	if (!isExcluded) {
 		// Check auth - authenticated admins bypass coming soon
 		const sessionToken =
@@ -112,7 +114,11 @@ export async function proxy(request: NextRequest) {
 			const comingSoon = await isComingSoonEnabled(baseUrl);
 			if (comingSoon) {
 				logger.debug("Coming soon mode active — redirecting", { pathname });
-				return NextResponse.redirect(new URL("/coming-soon", request.url));
+				const localeFromPath = getLocaleFromPath(pathname);
+				const localeFromCookie = request.cookies.get("NEXT_LOCALE")?.value as Locale | undefined;
+				const locale = localeFromPath || (locales.includes(localeFromCookie as Locale) ? localeFromCookie as Locale : defaultLocale);
+				const redirectPath = locale === defaultLocale ? "/coming-soon" : `/${locale}/coming-soon`;
+				return NextResponse.redirect(new URL(redirectPath, request.url));
 			}
 		}
 	}

@@ -24,7 +24,7 @@ import {
 const localeExcludedPaths = [
 	"/api", "/dashboard", "/admin",
 	"/login", "/sign-in", "/register",
-	"/storage", "/coming-soon",
+	"/storage",
 ];
 
 interface LanguageSwitcherProps {

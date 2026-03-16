@@ -44,14 +44,6 @@ export function Footer({ config, footerSettings, logoUrl, companyName }: FooterP
 		{ label: nav("satzung"), href: "/uber-zavd/satzung" },
 	];
 
-	// Col 3 — Angebote & Beratung
-	const angeboteLinks = [
-		{ label: nav("fluchtAsyl"), href: "/angebote-beratung/flucht-asyl" },
-		{ label: nav("beratungUnterstuetzung"), href: "/angebote-beratung/beratung-unterstuetzung" },
-		{ label: nav("namensaenderung"), href: "/angebote-beratung/namensaenderung" },
-		{ label: nav("wichtigeLinks"), href: "/angebote-beratung/wichtige-links" },
-	];
-
 	// Col 4 — Projekte
 	const projekteLinks = [
 		{ label: nav("patenschaftsprojekt"), href: "/projekte/patenschaftsprojekt" },
@@ -97,38 +89,6 @@ export function Footer({ config, footerSettings, logoUrl, companyName }: FooterP
 						<div className="mb-7">
 							<Logo logoUrl={logoUrl} companyName={companyName} />
 						</div>
-						<ul className="space-y-3.5 mb-7">
-							{primaryAddress && (
-								<>
-									<li className="flex items-start gap-2.5">
-										<Phone className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-										<a
-											href={`tel:${config.company.phone.replace(/\s/g, "")}`}
-											className="text-sm text-white/65 hover:text-white transition-colors duration-200"
-										>
-											{config.company.phone}
-										</a>
-									</li>
-									<li className="flex items-start gap-2.5">
-										<MapPin className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-										<span className="text-sm text-white/65 leading-snug">
-											{primaryAddress.street},{" "}
-											{primaryAddress.postalCode} {primaryAddress.city}
-										</span>
-									</li>
-								</>
-							)}
-							<li className="flex items-center gap-2.5">
-								<Mail className="h-4 w-4 text-primary shrink-0" />
-								<a
-									href={`mailto:${config.company.email}`}
-									className="text-sm text-white/65 hover:text-white transition-colors duration-200"
-								>
-									{config.company.email}
-								</a>
-							</li>
-						</ul>
-
 						{/* Follow Us — flat icons */}
 						<div>
 							<p className="text-sm font-semibold text-white mb-3">
@@ -168,20 +128,40 @@ export function Footer({ config, footerSettings, logoUrl, companyName }: FooterP
 						</ul>
 					</div>
 
-					{/* Col 3: Angebote & Beratung */}
+					{/* Col 3: Contact With Us */}
 					<div>
 						<h4 className="text-xs font-semibold uppercase tracking-widest text-white mb-3">
-							{t("usefulLinks")}
+							{t("contactWithUs")}
 						</h4>
 						<div className="w-8 h-0.5 bg-primary mb-6" />
 						<ul className="space-y-3.5">
-							{angeboteLinks.map((link, i) => (
-								<li key={i}>
-									<Link href={link.href} className={linkClass}>
-										{link.label}
-									</Link>
+							{primaryAddress && (
+								<li className="flex items-start gap-2.5">
+									<MapPin className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+									<span className="text-sm text-white/65 leading-snug">
+										{primaryAddress.street},{" "}
+										{primaryAddress.postalCode} {primaryAddress.city}
+									</span>
 								</li>
-							))}
+							)}
+							<li className="flex items-start gap-2.5">
+								<Phone className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+								<a
+									href={`tel:${config.company.phone.replace(/\s/g, "")}`}
+									className="text-sm text-white/65 hover:text-white transition-colors duration-200"
+								>
+									{config.company.phone}
+								</a>
+							</li>
+							<li className="flex items-center gap-2.5">
+								<Mail className="h-4 w-4 text-primary shrink-0" />
+								<a
+									href={`mailto:${config.company.email}`}
+									className="text-sm text-white/65 hover:text-white transition-colors duration-200"
+								>
+									{config.company.email}
+								</a>
+							</li>
 						</ul>
 					</div>
 
