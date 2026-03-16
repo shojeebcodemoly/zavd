@@ -34,8 +34,7 @@ import type { ICategory } from "@/models/category.model";
  * Shows all published products with category sidebar filter
  */
 
-// ISR: Revalidate every 24 hours
-export const revalidate = 86400;
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
 	const siteConfig = await getSiteConfig();

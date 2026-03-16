@@ -16,11 +16,7 @@ import type { Article, Author } from "@/types/article";
  * Uses ISR for optimal performance.
  */
 
-// ISR: Revalidate every 24 hours
-export const revalidate = 86400;
-
-// Allow new authors to be generated on-demand
-export const dynamicParams = true;
+export const dynamic = "force-dynamic";
 
 /**
  * Generate static params for all authors at build time

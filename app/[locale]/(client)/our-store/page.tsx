@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { getStorePage, getStorePageSeo } from "@/lib/services/store-page.service";
 import { StorePageClient } from "./_components/store-page-client";
 
-// ISR: Revalidate every 24 hours
-export const revalidate = 86400;
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
 	const seo = await getStorePageSeo();

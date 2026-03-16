@@ -20,11 +20,7 @@ import { BlogComments } from "../_components/blog-comments";
  * Uses ISR for optimal performance with fresh content.
  */
 
-// ISR: Revalidate every 24 hours
-export const revalidate = 86400;
-
-// Allow new posts to be generated on-demand
-export const dynamicParams = true;
+export const dynamic = "force-dynamic";
 
 /**
  * Generate static params for all published blog posts at build time

@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { getLegalPage } from "@/lib/services/legal-page.service";
 import { LegalPageClient } from "./_components/legal-page-client";
 
-// Revalidate every hour to pick up content changes
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
 	const data = await getLegalPage();

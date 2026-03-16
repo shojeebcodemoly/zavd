@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { privacyPageService } from "@/lib/services/privacy-page.service";
 import { PrivacyPageClient } from "./_components/privacy-page-client";
 
-// Revalidate every hour to pick up content changes
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
 	const data = await privacyPageService.getPrivacyPage();

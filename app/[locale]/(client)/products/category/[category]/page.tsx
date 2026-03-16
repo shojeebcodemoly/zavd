@@ -40,11 +40,7 @@ interface CategoryPageProps {
 	}>;
 }
 
-// ISR: Revalidate every 24 hours
-export const revalidate = 86400;
-
-// Allow new categories to be generated on-demand
-export const dynamicParams = true;
+export const dynamic = "force-dynamic";
 
 /**
  * Generate static params for all active categories at build time
