@@ -70,9 +70,17 @@ export default async function AktuellesPage({ params }: Props) {
 					<h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-3">
 						{heroTitle}
 					</h1>
-					{hero.subtitle && (
-						<p className="text-white/80 text-base md:text-lg max-w-xl mx-auto mb-4">
-							{hero.subtitle}
+					{press?.heading && (
+						<p className="text-white/90 text-lg md:text-xl font-semibold max-w-2xl mx-auto mb-2">
+							{press.heading}
+						</p>
+					)}
+					{(press?.subtext || press?.email) && (
+						<p className="text-white/70 text-sm md:text-base max-w-xl mx-auto mb-4">
+							{press?.subtext || "Simply contact us at"}{" "}
+							{press?.email && (
+								<a href={"mailto:" + press.email} className="text-primary hover:underline font-medium">{press.email}</a>
+							)}
 						</p>
 					)}
 					<nav className="flex items-center justify-center gap-2 text-sm text-white/70">
@@ -85,28 +93,6 @@ export default async function AktuellesPage({ params }: Props) {
 
 			{/* Gap */}
 			<div className="h-8 md:h-12 bg-white" />
-
-			{/* Press Banner */}
-			<section className="relative bg-[#0f1e2e] py-14 overflow-hidden">
-				{press?.backgroundImage ? (
-					<ImageComponent src={press.backgroundImage} alt="press background" fill className="object-cover opacity-30" />
-				) : (
-					<div className="absolute inset-0 opacity-20" style={{ backgroundImage: `radial-gradient(circle, #4a7fa5 1px, transparent 1px)`, backgroundSize: "28px 28px" }} />
-				)}
-				<div className="relative z-10 max-w-3xl mx-auto px-4 text-center">
-					<h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
-						{press?.heading || "Latest press releases"}
-					</h2>
-					{(press?.subtext || press?.email) && (
-						<p className="text-slate-400 text-sm md:text-base">
-							{press?.subtext || "Simply contact us at"}{" "}
-							{press?.email && (
-								<a href={`mailto:${press.email}`} className="text-primary hover:underline font-medium">{press.email}</a>
-							)}
-						</p>
-					)}
-				</div>
-			</section>
 
 			{/* News Section */}
 			<section className="py-16 bg-white">

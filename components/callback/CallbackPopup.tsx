@@ -15,8 +15,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { DayPicker } from "react-day-picker";
-import { sv } from "date-fns/locale";
+import { de, enUS } from "date-fns/locale";
 import { format, startOfDay, isBefore, isWeekend, addMonths } from "date-fns";
+import { useLocale } from "next-intl";
 import { cn } from "@/lib/utils/cn";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -49,6 +50,50 @@ import { useCookieConsent } from "@/lib/context/cookie-consent-context";
 type ModalStep = "datetime" | "phone" | "success";
 
 export function CallbackPopup() {
+	const locale = useLocale();
+	const isEn = locale === "en";
+	const dateLocale = isEn ? enUS : de;
+
+	const t = {
+		companyName: "ZAVD",
+		tooltipTagline: isEn ? "Talk to us!" : "Sprechen Sie mit uns!",
+		tooltipCta: isEn
+			? "Click here to get called back"
+			: "Klicken Sie hier für einen Rückruf",
+		floatingAriaLabel: isEn ? "Request a callback" : "Rückruf anfordern",
+		modalTitle: isEn ? "Request a Callback" : "Rückruf anfordern",
+		datetimeSubtitle: isEn
+			? "Choose your preferred callback time."
+			: "Wählen Sie Ihre gewünschte Rückrufzeit.",
+		datetimeLabel: isEn ? "Date/Time:" : "Datum/Zeit:",
+		datePlaceholder: isEn ? "Select date" : "Datum wählen",
+		nextBtn: isEn ? "Next" : "Weiter",
+		phoneTitle: isEn ? "Leave your number" : "Hinterlassen Sie Ihre Nummer",
+		phoneSubtitle: isEn ? "we'll call you back!" : "wir rufen Sie zurück!",
+		phoneInputLabel: isEn ? "Enter your number" : "Ihre Nummer eingeben",
+		phoneFree: isEn ? "(the call is free)" : "(der Anruf ist kostenlos)",
+		phonePlaceholder: "+49 170 123 4567",
+		submitBtn: isEn ? "Call me!" : "Anrufen!",
+		gdprText: isEn
+			? "I am aware that calls may be recorded for training and quality purposes."
+			: "Ich bin damit einverstanden, dass Anrufe zu Schulungs- und Qualitätszwecken aufgezeichnet werden können.",
+		backLink: isEn
+			? "Choose your preferred callback time."
+			: "Wählen Sie Ihre gewünschte Rückrufzeit.",
+		successTitle: isEn
+			? "Thank you for your request!"
+			: "Vielen Dank für Ihre Anfrage!",
+		successSubtitle: isEn
+			? "We will get back to you as soon as possible."
+			: "Wir melden uns so schnell wie möglich bei Ihnen.",
+		successTimeLabel: isEn ? "Selected callback time" : "Ausgewählte Rückrufzeit",
+		closeBtn: isEn ? "Close" : "Schließen",
+		selectDateError: isEn ? "Please select a date" : "Bitte wählen Sie ein Datum",
+		backAriaLabel: isEn ? "Back" : "Zurück",
+		closeAriaLabel: isEn ? "Close" : "Schließen",
+		cookieAriaLabel: isEn ? "Cookie settings" : "Cookie-Einstellungen",
+	};
+
 	const [isHovered, setIsHovered] = React.useState(false);
 	const [isModalOpen, setIsModalOpen] = React.useState(false);
 	const [step, setStep] = React.useState<ModalStep>("datetime");
@@ -57,10 +102,8 @@ export function CallbackPopup() {
 		React.useState<Country>(defaultCountry);
 	const [isCalendarOpen, setIsCalendarOpen] = React.useState(false);
 
-	// Cookie consent context for mobile stacked button
 	const { hasConsented, openSettings } = useCookieConsent();
 
-	// Date and time state
 	const [selectedDate, setSelectedDate] = React.useState<Date | undefined>(
 		undefined
 	);
@@ -78,19 +121,16 @@ export function CallbackPopup() {
 		},
 	});
 
-	// Generate hours (9-17)
 	const availableHours = React.useMemo(() => {
 		return Array.from({ length: 9 }, (_, i) =>
 			String(i + 9).padStart(2, "0")
 		);
 	}, []);
 
-	// Generate minutes (0, 15, 30, 45)
 	const availableMinutes = React.useMemo(() => {
 		return ["00", "15", "30", "45"];
 	}, []);
 
-	// Disable past dates and weekends
 	const disabledDays = React.useCallback((date: Date) => {
 		const today = startOfDay(new Date());
 		return isBefore(date, today) || isWeekend(date);
@@ -98,7 +138,7 @@ export function CallbackPopup() {
 
 	const handleDateSelect = () => {
 		if (!selectedDate) {
-			toast.error("Välj ett datum");
+			toast.error(t.selectDateError);
 			return;
 		}
 
@@ -131,7 +171,7 @@ export function CallbackPopup() {
 			const result = await response.json();
 
 			if (!response.ok) {
-				throw new Error(result.message || "Något gick fel");
+				throw new Error(result.message || "Etwas ist schiefgelaufen");
 			}
 
 			setStep("success");
@@ -140,7 +180,9 @@ export function CallbackPopup() {
 			toast.error(
 				error instanceof Error
 					? error.message
-					: "Något gick fel. Försök igen."
+					: isEn
+					? "Something went wrong. Please try again."
+					: "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
 			);
 		} finally {
 			setIsSubmitting(false);
@@ -149,7 +191,6 @@ export function CallbackPopup() {
 
 	const handleClose = () => {
 		setIsModalOpen(false);
-		// Reset after animation
 		setTimeout(() => {
 			setStep("datetime");
 			setSelectedDate(undefined);
@@ -176,7 +217,6 @@ export function CallbackPopup() {
 		<>
 			{/* Mobile: Stacked buttons (Cookie + Callback) - positioned above bottom nav */}
 			<div className="fixed bottom-[100px] right-4 z-50 flex flex-col items-center gap-2 md:hidden">
-				{/* Cookie Button - only show if user has consented */}
 				{hasConsented && (
 					<button
 						onClick={openSettings}
@@ -187,13 +227,12 @@ export function CallbackPopup() {
 							"focus:outline-none focus:ring-2 focus:ring-slate-600 focus:ring-offset-2",
 							"active:scale-95"
 						)}
-						aria-label="Cookie-inställningar"
+						aria-label={t.cookieAriaLabel}
 					>
 						<Cookie className="w-5 h-5" />
 					</button>
 				)}
 
-				{/* Callback Button */}
 				<button
 					onClick={() => setIsModalOpen(true)}
 					className={cn(
@@ -203,15 +242,14 @@ export function CallbackPopup() {
 						"focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
 						"active:scale-95"
 					)}
-					aria-label="Bli uppringd"
+					aria-label={t.floatingAriaLabel}
 				>
 					<Phone className="w-5 h-5" />
 				</button>
 			</div>
 
-			{/* Desktop: Original layout with tooltip - aligned with cookie button at bottom-6 */}
+			{/* Desktop: Original layout with tooltip */}
 			<div className="hidden md:flex fixed bottom-6 right-6 z-50 items-center gap-3">
-				{/* Tooltip (shown on hover) */}
 				<div
 					className={cn(
 						"bg-white rounded-lg shadow-xl border border-slate-200 p-4 transition-all duration-300 ease-out origin-right",
@@ -221,16 +259,12 @@ export function CallbackPopup() {
 					)}
 				>
 					<p className="font-semibold text-secondary text-sm">
-						Glada Bonden Mejeri AB
+						{t.companyName}
 					</p>
-					<p className="text-slate-600 text-sm mt-1">Prata med oss!</p>
-					<p className="text-slate-500 text-xs mt-1">
-						Klicka här för att{" "}
-						<span className="font-semibold">bli uppringd</span>
-					</p>
+					<p className="text-slate-600 text-sm mt-1">{t.tooltipTagline}</p>
+					<p className="text-slate-500 text-xs mt-1">{t.tooltipCta}</p>
 				</div>
 
-				{/* Floating Button */}
 				<button
 					onClick={() => setIsModalOpen(true)}
 					onMouseEnter={() => setIsHovered(true)}
@@ -242,7 +276,7 @@ export function CallbackPopup() {
 						"focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
 						"active:scale-95"
 					)}
-					aria-label="Bli uppringd"
+					aria-label={t.floatingAriaLabel}
 				>
 					<Phone className="w-6 h-6" />
 				</button>
@@ -257,51 +291,43 @@ export function CallbackPopup() {
 					)}
 					hideCloseButton
 				>
-					{/* Success State - Modern Clean UI */}
+					{/* Success State */}
 					{step === "success" && (
 						<div className="relative">
-							{/* Top gradient accent */}
 							<div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400" />
 
-							{/* Close Button */}
 							<button
 								onClick={handleClose}
 								className="absolute top-4 right-4 p-2 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-all duration-200"
-								aria-label="Stäng"
+								aria-label={t.closeAriaLabel}
 							>
 								<X className="w-5 h-5" />
 							</button>
 
 							<div className="px-8 pt-12 pb-8 text-center">
-								{/* Animated Success Icon */}
 								<div className="relative w-24 h-24 mx-auto">
-									{/* Outer ring */}
 									<div className="absolute inset-0 rounded-full border-4 border-emerald-100" />
-									{/* Inner circle with icon */}
 									<div className="absolute inset-2 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-200/50">
 										<Check
 											className="w-10 h-10 text-white"
 											strokeWidth={3}
 										/>
 									</div>
-									{/* Decorative dots */}
 									<div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-emerald-300" />
 									<div className="absolute -bottom-1 -left-1 w-2 h-2 rounded-full bg-teal-300" />
 								</div>
 
-								{/* Success Message */}
 								<h2 className="mt-8 text-2xl font-bold text-slate-800">
-									Tack för din förfrågan!
+									{t.successTitle}
 								</h2>
 								<p className="mt-3 text-slate-500 leading-relaxed">
-									Vi återkommer till dig så snart som möjligt.
+									{t.successSubtitle}
 								</p>
 
-								{/* Selected Time Display */}
 								{form.getValues("preferredDate") && (
 									<div className="mt-6 p-4 bg-linear-to-r from-slate-50 to-slate-100 rounded-xl border border-slate-200/60">
 										<p className="text-xs text-slate-400 uppercase tracking-wider mb-2">
-											Vald tid för uppringning
+											{t.successTimeLabel}
 										</p>
 										<div className="flex items-center justify-center gap-3">
 											<div className="flex items-center gap-2 text-slate-700">
@@ -312,26 +338,26 @@ export function CallbackPopup() {
 															form.getValues("preferredDate")
 														),
 														"EEEE d MMMM",
-														{ locale: sv }
+														{ locale: dateLocale }
 													)}
 												</span>
 											</div>
 											<span className="text-slate-300">•</span>
 											<div className="flex items-center gap-1.5 text-slate-700">
 												<span className="font-medium">
-													kl {form.getValues("preferredTime")}
+													{isEn ? "" : "Uhr "}
+													{form.getValues("preferredTime")}
 												</span>
 											</div>
 										</div>
 									</div>
 								)}
 
-								{/* Close Button */}
 								<Button
 									onClick={handleClose}
 									className="mt-8 w-full h-12 rounded-xl text-base font-medium bg-linear-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white shadow-lg shadow-emerald-200/40 transition-all duration-200 hover:shadow-xl hover:shadow-emerald-200/50"
 								>
-									Stäng
+									{t.closeBtn}
 								</Button>
 							</div>
 						</div>
@@ -342,50 +368,47 @@ export function CallbackPopup() {
 						<>
 							{/* Header */}
 							<div className="relative pt-8 pb-6 px-6 text-center text-white">
-								{/* Close Button */}
 								<button
 									onClick={handleClose}
 									className="absolute top-4 right-4 p-1 rounded-full hover:bg-white/10 transition-colors"
-									aria-label="Stäng"
+									aria-label={t.closeAriaLabel}
 								>
 									<X className="w-5 h-5" />
 								</button>
 
-								{/* Back Button (on phone step) */}
 								{step === "phone" && (
 									<button
 										onClick={handleBack}
 										className="absolute top-4 left-4 p-1 rounded-full hover:bg-white/10 transition-colors flex items-center gap-1 text-sm"
-										aria-label="Tillbaka"
+										aria-label={t.backAriaLabel}
 									>
 										<ChevronLeft className="w-5 h-5" />
 									</button>
 								)}
 
-								{/* Logo */}
 								<div className="flex flex-col items-center gap-2">
 									<span className="text-xl font-bold text-white tracking-wide">
-										Glada Bonden Mejeri AB
+										{t.companyName}
 									</span>
 								</div>
 
 								<DialogTitle className="mt-6 text-xl font-light font-sans flex items-center justify-center gap-2">
-									Bli uppringd <Phone className="w-5 h-5" />
+									{t.modalTitle} <Phone className="w-5 h-5" />
 								</DialogTitle>
 
 								{step === "datetime" && (
 									<p className="mt-2 text-white/80 text-sm">
-										Välj vilken tid du vill bli uppringd.
+										{t.datetimeSubtitle}
 									</p>
 								)}
 
 								{step === "phone" && (
 									<div className="mt-2">
 										<p className="text-lg font-medium">
-											Lämna ditt nummer
+											{t.phoneTitle}
 										</p>
 										<p className="text-white/80 text-sm">
-											så ringer vi upp dig!
+											{t.phoneSubtitle}
 										</p>
 									</div>
 								)}
@@ -395,16 +418,14 @@ export function CallbackPopup() {
 							<div className="bg-white rounded-t-3xl px-6 py-8">
 								{step === "datetime" && (
 									<div className="space-y-6">
-										{/* Date/Time Selector */}
 										<div className="flex items-start gap-2">
 											<Calendar className="w-5 h-5 text-slate-500 mt-0.5 shrink-0" />
 											<span className="text-sm text-slate-600">
-												Datum/tid:
+												{t.datetimeLabel}
 											</span>
 										</div>
 
 										<div className="flex gap-2">
-											{/* Date Picker */}
 											<Popover
 												open={isCalendarOpen}
 												onOpenChange={setIsCalendarOpen}
@@ -424,9 +445,9 @@ export function CallbackPopup() {
 																? format(
 																		selectedDate,
 																		"EEEE d MMMM",
-																		{ locale: sv }
+																		{ locale: dateLocale }
 																  )
-																: "Välj datum"}
+																: t.datePlaceholder}
 														</span>
 														<Calendar className="w-4 h-4 text-slate-400" />
 													</button>
@@ -444,7 +465,7 @@ export function CallbackPopup() {
 																setIsCalendarOpen(false);
 															}}
 															disabled={disabledDays}
-															locale={sv}
+															locale={dateLocale}
 															startMonth={new Date()}
 															endMonth={addMonths(new Date(), 2)}
 															navLayout="around"
@@ -503,7 +524,6 @@ export function CallbackPopup() {
 												</PopoverContent>
 											</Popover>
 
-											{/* Hour Dropdown */}
 											<Select
 												value={selectedHour}
 												onValueChange={setSelectedHour}
@@ -520,7 +540,6 @@ export function CallbackPopup() {
 												</SelectContent>
 											</Select>
 
-											{/* Minute Dropdown */}
 											<Select
 												value={selectedMinute}
 												onValueChange={setSelectedMinute}
@@ -542,7 +561,7 @@ export function CallbackPopup() {
 											onClick={handleDateSelect}
 											className="w-full h-12 rounded-full text-base font-medium"
 										>
-											Välj
+											{t.nextBtn}
 										</Button>
 									</div>
 								)}
@@ -552,20 +571,18 @@ export function CallbackPopup() {
 										onSubmit={form.handleSubmit(onSubmit)}
 										className="space-y-6"
 									>
-										{/* Phone Input */}
 										<div className="space-y-2">
 											<div className="flex items-center gap-2">
 												<Phone className="w-4 h-4 text-slate-500" />
 												<span className="text-sm text-slate-600">
-													Skriv in ditt nummer{" "}
+													{t.phoneInputLabel}{" "}
 													<span className="text-slate-400 text-xs">
-														(samtalet är gratis)
+														{t.phoneFree}
 													</span>
 												</span>
 											</div>
 
 											<div className="flex gap-2">
-												{/* Country Code Select */}
 												<div className="w-28 shrink-0">
 													<CountryCodeSelect
 														value={selectedCountry}
@@ -574,23 +591,21 @@ export function CallbackPopup() {
 													/>
 												</div>
 
-												{/* Phone Number Input */}
 												<div className="flex-1">
 													<Input
 														{...form.register("phone")}
 														type="tel"
-														placeholder="070-123 45 67"
+														placeholder={t.phonePlaceholder}
 														className="h-12"
 													/>
 												</div>
 
-												{/* Submit Button */}
 												<Button
 													type="submit"
 													disabled={isSubmitting}
 													className="h-12 px-6 rounded-lg whitespace-nowrap"
 												>
-													{isSubmitting ? "..." : "Ring mig!"}
+													{isSubmitting ? "..." : t.submitBtn}
 												</Button>
 											</div>
 
@@ -601,7 +616,6 @@ export function CallbackPopup() {
 											)}
 										</div>
 
-										{/* GDPR Consent */}
 										<div className="flex items-start gap-3">
 											<Checkbox
 												id="gdpr-consent"
@@ -618,8 +632,7 @@ export function CallbackPopup() {
 												htmlFor="gdpr-consent"
 												className="text-xs text-slate-600 leading-relaxed cursor-pointer"
 											>
-												Jag är medveten om att samtal kan spelas in
-												i utbildnings- och kvalitetssyfte.
+												{t.gdprText}
 											</Label>
 										</div>
 
@@ -629,13 +642,12 @@ export function CallbackPopup() {
 											</p>
 										)}
 
-										{/* Link to go back to datetime */}
 										<button
 											type="button"
 											onClick={handleBack}
 											className="w-full text-center text-sm text-slate-500 hover:text-primary transition-colors"
 										>
-											Välj vilken tid du vill bli uppringd.
+											{t.backLink}
 										</button>
 									</form>
 								)}
