@@ -15,7 +15,7 @@ export async function PUT(request: Request) {
 	try {
 		const body = await request.json();
 		const page = await veranstaltungenPageRepository.update(body);
-		revalidateTag("veranstaltungen-page");
+		revalidateTag("veranstaltungen-page", {});
 		revalidatePath("/aktuelles/veranstaltungen");
 		revalidatePath("/de/aktuelles/veranstaltungen");
 		revalidatePath("/en/aktuelles/veranstaltungen");

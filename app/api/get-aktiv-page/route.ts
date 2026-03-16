@@ -42,7 +42,7 @@ export async function PUT(request: NextRequest) {
 
 		const page = await getAktivPageRepository.update(validationResult.data);
 
-		revalidateTag(GET_AKTIV_PAGE_CACHE_TAG);
+		revalidateTag(GET_AKTIV_PAGE_CACHE_TAG, {});
 		revalidatePath("/projekte/get-aktiv", "page");
 
 		return successResponse(page, "GeT AKTIV page updated successfully");

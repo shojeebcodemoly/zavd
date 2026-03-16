@@ -42,7 +42,7 @@ export async function PUT(request: NextRequest) {
 
 		const page = await projektePageRepository.update(validationResult.data);
 
-		revalidateTag(PROJEKTE_PAGE_CACHE_TAG);
+		revalidateTag(PROJEKTE_PAGE_CACHE_TAG, {});
 		revalidatePath("/projekte", "page");
 		revalidatePath("/de/projekte", "page");
 		revalidatePath("/en/projekte", "page");

@@ -5,6 +5,7 @@ const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const nextConfig: NextConfig = {
 	// Don't cache dynamic pages in client router — ensures fresh data after dashboard saves
+	// @ts-expect-error staleTimes is valid in Next.js 15+ but missing from older type definitions
 	staleTimes: {
 		dynamic: 0,
 	},

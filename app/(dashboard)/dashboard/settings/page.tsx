@@ -154,7 +154,7 @@ const settingsFormSchema = z.object({
 	smtp: z.object({
 		enabled: z.boolean().optional(),
 		host: z.string().max(200).optional(),
-		port: z.coerce.number().int().min(1).max(65535).optional(),
+		port: z.number().int().min(1).max(65535).optional(),
 		username: z.string().max(200).optional(),
 		password: z.string().max(500).optional(),
 		encryption: z.enum(["none", "ssl", "tls"]).optional(),

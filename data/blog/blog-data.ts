@@ -9,6 +9,7 @@ import { Article } from "@/types/article";
 
 export const blogArticles: Article[] = [
 	{
+		postType: "news",
 		id: "1",
 		slug: "co2-laser-rf-stimulerad-vs-traditionell-teknologi-komplett-guide-2025",
 		title: "CO2 Laser – RF-Stimulerad vs Traditionell Teknologi: Komplett Guide 2025",
@@ -323,6 +324,7 @@ export const blogArticles: Article[] = [
 		},
 	},
 	{
+		postType: "news",
 		id: "2",
 		slug: "pico-vs-q-switch-tatueringslaser-vilken-ska-du-valja-2025",
 		title: "Pico vs Q-Switch Tatueringslaser – Vilken Ska Du Välja 2025? Del 3",
@@ -480,6 +482,7 @@ export const blogArticles: Article[] = [
 		},
 	},
 	{
+		postType: "news",
 		id: "3",
 		slug: "q-switch-tatueringsborttagning-komplett-guide-2025",
 		title: "Q-Switch Tatueringsborttagning – Komplett Guide 2025 Del 2",
@@ -619,6 +622,7 @@ QTERRA Q10 <strong><a href="https://pubmed.ncbi.nlm.nih.gov/34668826/">Q-switch 
 		},
 	},
 	{
+		postType: "news",
 		id: "4",
 		slug: "pico-laser-tatueringsborttagning-guide-2025",
 		title: "Pico Laser Tatueringsborttagning – Guide 2025 Del 1",
@@ -750,6 +754,7 @@ En professionell picolaser för tatueringsborttagning måste uppfylla flera avg�
 		},
 	},
 	{
+		postType: "news",
 		id: "5",
 		slug: "tatueringsborttagning-guide-2025-allt-du-behover-veta",
 		title: "Tatueringsborttagning guide 2025 allt du behöver veta",
@@ -874,6 +879,7 @@ Välj en klinik med omsorg:
 		},
 	},
 	{
+		postType: "news",
 		id: "6",
 		slug: "deka-mdr-certifiering-2024",
 		title: "DEKA ett av de första företagen i världen att MDR-certifieras",
