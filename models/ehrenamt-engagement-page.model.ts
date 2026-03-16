@@ -9,9 +9,50 @@ export interface IEhrenamtEngagementHero {
 	breadcrumb?: string;
 }
 
+// ─── Content Section ──────────────────────────────────────────────────────────
+export interface IEhrenamtContentBlock {
+	heading?: string;
+	body?: string;
+}
+
+export interface IEhrenamtEngagementContent {
+	title?: string;
+	body?: string;
+	image?: string;
+	blocks: IEhrenamtContentBlock[];
+}
+
+// ─── Gallery Section ──────────────────────────────────────────────────────────
+export interface IEhrenamtGalleryImage {
+	url: string;
+	alt?: string;
+	caption?: string;
+}
+
+export interface IEhrenamtEngagementGallery {
+	title?: string;
+	subtitle?: string;
+	images: IEhrenamtGalleryImage[];
+}
+
+// ─── Partners Section ─────────────────────────────────────────────────────────
+export interface IEhrenamtPartnerLogo {
+	image?: string;
+	name?: string;
+	href?: string;
+}
+
+export interface IEhrenamtEngagementPartners {
+	heading?: string;
+	logos: IEhrenamtPartnerLogo[];
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export interface IEhrenamtEngagementPage {
 	hero: IEhrenamtEngagementHero;
+	gallery: IEhrenamtEngagementGallery;
+	content: IEhrenamtEngagementContent;
+	partners: IEhrenamtEngagementPartners;
 }
 
 // ─── Document ─────────────────────────────────────────────────────────────────
@@ -30,10 +71,66 @@ const heroSchema = new Schema<IEhrenamtEngagementHero>(
 	{ _id: false }
 );
 
+const contentBlockSchema = new Schema<IEhrenamtContentBlock>(
+	{
+		heading: { type: String, default: "" },
+		body: { type: String, default: "" },
+	},
+	{ _id: false }
+);
+
+const contentSchema = new Schema<IEhrenamtEngagementContent>(
+	{
+		title: { type: String, default: "" },
+		body: { type: String, default: "" },
+		image: { type: String, default: "" },
+		blocks: { type: [contentBlockSchema], default: [] },
+	},
+	{ _id: false }
+);
+
+const galleryImageSchema = new Schema<IEhrenamtGalleryImage>(
+	{
+		url: { type: String, required: true },
+		alt: { type: String, default: "" },
+		caption: { type: String, default: "" },
+	},
+	{ _id: false }
+);
+
+const gallerySchema = new Schema<IEhrenamtEngagementGallery>(
+	{
+		title: { type: String, default: "" },
+		subtitle: { type: String, default: "" },
+		images: { type: [galleryImageSchema], default: [] },
+	},
+	{ _id: false }
+);
+
+const partnerLogoSchema = new Schema<IEhrenamtPartnerLogo>(
+	{
+		image: { type: String, default: "" },
+		name: { type: String, default: "" },
+		href: { type: String, default: "" },
+	},
+	{ _id: false }
+);
+
+const partnersSchema = new Schema<IEhrenamtEngagementPartners>(
+	{
+		heading: { type: String, default: "" },
+		logos: { type: [partnerLogoSchema], default: [] },
+	},
+	{ _id: false }
+);
+
 const ehrenamtEngagementPageSchema =
 	new Schema<IEhrenamtEngagementPageDocument>(
 		{
 			hero: { type: heroSchema, default: () => ({}) },
+			gallery: { type: gallerySchema, default: () => ({}) },
+			content: { type: contentSchema, default: () => ({}) },
+			partners: { type: partnersSchema, default: () => ({}) },
 		},
 		{ timestamps: true }
 	);

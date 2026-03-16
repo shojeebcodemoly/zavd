@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
-import { Loader2, ExternalLink } from "lucide-react";
+import { Loader2, ExternalLink, Plus, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -18,6 +18,8 @@ import {
 	FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
 	Card,
 	CardContent,
@@ -27,6 +29,7 @@ import {
 } from "@/components/ui/card";
 import { MediaPicker } from "@/components/storage/media-picker";
 import { CMSPageSkeleton } from "@/components/admin/CMSPageSkeleton";
+import { useConfirmModal } from "@/components/ui/confirm-modal";
 
 const formSchema = z.object({
 	hero: z.object({
@@ -35,6 +38,32 @@ const formSchema = z.object({
 		titleEn: z.string().optional(),
 		breadcrumb: z.string().optional(),
 	}),
+	gallery: z.object({
+		title: z.string().optional(),
+		subtitle: z.string().optional(),
+		images: z.array(z.object({
+			url: z.string().min(1, "Image is required"),
+			alt: z.string().optional(),
+			caption: z.string().optional(),
+		})),
+	}),
+	content: z.object({
+		title: z.string().optional(),
+		body: z.string().optional(),
+		image: z.string().optional(),
+		blocks: z.array(z.object({
+			heading: z.string().optional(),
+			body: z.string().optional(),
+		})),
+	}),
+	partners: z.object({
+		heading: z.string().optional(),
+		logos: z.array(z.object({
+			image: z.string().optional(),
+			name: z.string().optional(),
+			href: z.string().optional(),
+		})),
+	}),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -42,18 +71,26 @@ type FormValues = z.infer<typeof formSchema>;
 export default function EhrenamtEngagementDashboardPage() {
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
+	const { confirm, ConfirmModal } = useConfirmModal({ variant: "destructive" });
 
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			hero: {
-				backgroundImage: "",
-				titleDe: "Ehrenamt & Engagement",
-				titleEn: "Volunteering",
-				breadcrumb: "Ehrenamt & Engagement",
-			},
+			hero: { backgroundImage: "", titleDe: "Ehrenamt & Engagement", titleEn: "Volunteering", breadcrumb: "Ehrenamt & Engagement" },
+			gallery: { title: "", subtitle: "", images: [] },
+			content: { title: "", body: "", image: "", blocks: [] },
+			partners: { heading: "", logos: [] },
 		},
 	});
+
+	const { fields: imageFields, append: appendImage, remove: removeImage } =
+		useFieldArray({ control: form.control, name: "gallery.images" });
+
+	const { fields: blockFields, append: appendBlock, remove: removeBlock } =
+		useFieldArray({ control: form.control, name: "content.blocks" });
+
+	const { fields: logoFields, append: appendLogo, remove: removeLogo } =
+		useFieldArray({ control: form.control, name: "partners.logos" });
 
 	useEffect(() => {
 		const fetchContent = async () => {
@@ -69,6 +106,21 @@ export default function EhrenamtEngagementDashboardPage() {
 						titleDe: content.hero?.titleDe || "Ehrenamt & Engagement",
 						titleEn: content.hero?.titleEn || "Volunteering",
 						breadcrumb: content.hero?.breadcrumb || "Ehrenamt & Engagement",
+					},
+					gallery: {
+						title: content.gallery?.title || "",
+						subtitle: content.gallery?.subtitle || "",
+						images: content.gallery?.images || [],
+					},
+					content: {
+						title: content.content?.title || "",
+						body: content.content?.body || "",
+						image: content.content?.image || "",
+						blocks: content.content?.blocks || [],
+					},
+					partners: {
+						heading: content.partners?.heading || "",
+						logos: content.partners?.logos || [],
 					},
 				});
 			} catch (error) {
@@ -104,17 +156,14 @@ export default function EhrenamtEngagementDashboardPage() {
 
 	return (
 		<div className="space-y-6">
+			<ConfirmModal />
 			<div className="flex items-start justify-between">
 				<div>
 					<h1 className="text-3xl font-medium tracking-tight">Ehrenamt & Engagement</h1>
 					<p className="text-muted-foreground">Manage the Volunteering page content.</p>
 				</div>
-				<a
-					href="/projekte/ehrenamt-engagement"
-					target="_blank"
-					rel="noopener noreferrer"
-					className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"
-				>
+				<a href="/projekte/ehrenamt-engagement" target="_blank" rel="noopener noreferrer"
+					className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors">
 					<ExternalLink className="h-4 w-4" />
 					<span>View page</span>
 				</a>
@@ -122,105 +171,362 @@ export default function EhrenamtEngagementDashboardPage() {
 
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-					<Card>
-						<CardHeader>
-							<CardTitle>Hero Section</CardTitle>
-							<CardDescription>
-								The banner at the top of the Ehrenamt & Engagement page.
-							</CardDescription>
-						</CardHeader>
-						<CardContent className="space-y-6">
-							<FormField
-								control={form.control}
-								name="hero.backgroundImage"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Background Image</FormLabel>
-										<FormControl>
-											<MediaPicker
-												type="image"
-												value={field.value || null}
-												onChange={(url) => field.onChange(url || "")}
-												placeholder="Select background image"
-												galleryTitle="Select Hero Background"
-											/>
-										</FormControl>
-										<FormDescription>
-											Full-width background image for the hero banner.
-										</FormDescription>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<div className="grid gap-4 sm:grid-cols-2">
-								<FormField
-									control={form.control}
-									name="hero.titleDe"
-									render={({ field }) => (
-										<FormItem>
-											<FormLabel>Title (German)</FormLabel>
-											<FormControl>
-												<Input
-													{...field}
-													value={field.value || ""}
-													placeholder="Ehrenamt & Engagement"
-												/>
-											</FormControl>
-											<FormMessage />
-										</FormItem>
+					<Tabs defaultValue="hero" className="space-y-6">
+						<TabsList>
+							<TabsTrigger value="hero">Hero</TabsTrigger>
+							<TabsTrigger value="gallery">Gallery</TabsTrigger>
+							<TabsTrigger value="content">Content</TabsTrigger>
+							<TabsTrigger value="partners">Partners</TabsTrigger>
+						</TabsList>
+
+						{/* ── Hero Tab ── */}
+						<TabsContent value="hero" className="space-y-6">
+							<Card>
+								<CardHeader>
+									<CardTitle>Hero Section</CardTitle>
+									<CardDescription>The banner at the top of the page.</CardDescription>
+								</CardHeader>
+								<CardContent className="space-y-6">
+									<FormField control={form.control} name="hero.backgroundImage"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Background Image</FormLabel>
+												<FormControl>
+													<MediaPicker type="image" value={field.value || null}
+														onChange={(url) => field.onChange(url || "")}
+														placeholder="Select background image" galleryTitle="Select Hero Background" />
+												</FormControl>
+												<FormDescription>Full-width background image for the hero banner.</FormDescription>
+												<FormMessage />
+											</FormItem>
+										)} />
+									<div className="grid gap-4 sm:grid-cols-2">
+										<FormField control={form.control} name="hero.titleDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Title (German)</FormLabel>
+													<FormControl><Input {...field} value={field.value || ""} placeholder="Ehrenamt & Engagement" /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)} />
+										<FormField control={form.control} name="hero.titleEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Title (English)</FormLabel>
+													<FormControl><Input {...field} value={field.value || ""} placeholder="Volunteering" /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)} />
+									</div>
+									<FormField control={form.control} name="hero.breadcrumb"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Breadcrumb Text</FormLabel>
+												<FormControl><Input {...field} value={field.value || ""} placeholder="Ehrenamt & Engagement" /></FormControl>
+												<FormDescription>Text shown after &quot;Home / Projekte /&quot;</FormDescription>
+												<FormMessage />
+											</FormItem>
+										)} />
+								</CardContent>
+							</Card>
+						</TabsContent>
+
+						{/* ── Gallery Tab ── */}
+						<TabsContent value="gallery" className="space-y-6">
+							<Card>
+								<CardHeader>
+									<CardTitle>Gallery Section</CardTitle>
+									<CardDescription>Image carousel displayed below the hero.</CardDescription>
+								</CardHeader>
+								<CardContent className="space-y-4">
+									<div className="grid gap-4 sm:grid-cols-2">
+										<FormField control={form.control} name="gallery.title"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Section Title</FormLabel>
+													<FormControl><Input {...field} value={field.value || ""} placeholder="Our Gallery" /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)} />
+										<FormField control={form.control} name="gallery.subtitle"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Section Subtitle</FormLabel>
+													<FormControl><Input {...field} value={field.value || ""} placeholder="A glimpse into our work..." /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)} />
+									</div>
+								</CardContent>
+							</Card>
+							<Card>
+								<CardHeader>
+									<CardTitle className="flex items-center justify-between">
+										<span>Images</span>
+										<Button type="button" variant="outline" size="sm"
+											onClick={() => appendImage({ url: "", alt: "", caption: "" })}>
+											<Plus className="h-4 w-4 mr-1" /> Add Image
+										</Button>
+									</CardTitle>
+									<CardDescription>Recommended aspect ratio: 4:3.</CardDescription>
+								</CardHeader>
+								<CardContent className="space-y-4">
+									{imageFields.length === 0 ? (
+										<div className="text-center py-10 text-muted-foreground border-2 border-dashed rounded-lg">
+											No images yet. Click &quot;Add Image&quot; to get started.
+										</div>
+									) : (
+										imageFields.map((field, index) => (
+											<Card key={field.id} className="border-dashed">
+												<CardHeader className="pb-3">
+													<div className="flex items-center justify-between">
+														<CardTitle className="text-base">Image {index + 1}</CardTitle>
+														<Button type="button" variant="ghost" size="sm"
+															onClick={async () => {
+																const confirmed = await confirm({ title: "Remove Image", description: "Are you sure?", confirmText: "Remove" });
+																if (confirmed) removeImage(index);
+															}}
+															className="text-destructive hover:text-destructive">
+															<Trash2 className="h-4 w-4" />
+														</Button>
+													</div>
+												</CardHeader>
+												<CardContent className="space-y-4">
+													<FormField control={form.control} name={`gallery.images.${index}.url`}
+														render={({ field }) => (
+															<FormItem>
+																<FormLabel>Image</FormLabel>
+																<FormControl>
+																	<MediaPicker type="image" value={field.value || null}
+																		onChange={(url) => field.onChange(url || "")}
+																		placeholder="Select image" galleryTitle="Select Gallery Image" />
+																</FormControl>
+																<FormMessage />
+															</FormItem>
+														)} />
+													<div className="grid gap-4 sm:grid-cols-2">
+														<FormField control={form.control} name={`gallery.images.${index}.alt`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Alt Text</FormLabel>
+																	<FormControl><Input {...field} value={field.value || ""} placeholder="Image description" /></FormControl>
+																	<FormMessage />
+																</FormItem>
+															)} />
+														<FormField control={form.control} name={`gallery.images.${index}.caption`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Caption (hover)</FormLabel>
+																	<FormControl><Input {...field} value={field.value || ""} placeholder="Short caption..." /></FormControl>
+																	<FormDescription>Shown on hover.</FormDescription>
+																	<FormMessage />
+																</FormItem>
+															)} />
+													</div>
+												</CardContent>
+											</Card>
+										))
 									)}
-								/>
-								<FormField
-									control={form.control}
-									name="hero.titleEn"
-									render={({ field }) => (
-										<FormItem>
-											<FormLabel>Title (English)</FormLabel>
-											<FormControl>
-												<Input
-													{...field}
-													value={field.value || ""}
-													placeholder="Volunteering"
-												/>
-											</FormControl>
-											<FormMessage />
-										</FormItem>
+								</CardContent>
+							</Card>
+						</TabsContent>
+
+						{/* ── Content Tab ── */}
+						<TabsContent value="content" className="space-y-6">
+							<Card>
+								<CardHeader>
+									<CardTitle>Content Section</CardTitle>
+									<CardDescription>Main content with latest press and contact on the right.</CardDescription>
+								</CardHeader>
+								<CardContent className="space-y-6">
+									<FormField control={form.control} name="content.title"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Section Title</FormLabel>
+												<FormControl><Input {...field} value={field.value || ""} placeholder="Introduction" /></FormControl>
+												<FormMessage />
+											</FormItem>
+										)} />
+									<FormField control={form.control} name="content.body"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Body Content (HTML)</FormLabel>
+												<FormControl>
+													<Textarea {...field} value={field.value || ""} placeholder="<p>Enter content here...</p>"
+														className="font-mono text-sm min-h-[160px]" />
+												</FormControl>
+												<FormDescription>Supports HTML tags for formatting.</FormDescription>
+												<FormMessage />
+											</FormItem>
+										)} />
+									<FormField control={form.control} name="content.image"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Section Image (optional)</FormLabel>
+												<FormControl>
+													<MediaPicker type="image" value={field.value || null}
+														onChange={(url) => field.onChange(url || "")}
+														placeholder="Select image" galleryTitle="Select Content Image" />
+												</FormControl>
+												<FormDescription>Image shown alongside the body text.</FormDescription>
+												<FormMessage />
+											</FormItem>
+										)} />
+								</CardContent>
+							</Card>
+							<Card>
+								<CardHeader>
+									<CardTitle className="flex items-center justify-between">
+										<span>Content Blocks</span>
+										<Button type="button" variant="outline" size="sm"
+											onClick={() => appendBlock({ heading: "", body: "" })}>
+											<Plus className="h-4 w-4 mr-1" /> Add Block
+										</Button>
+									</CardTitle>
+									<CardDescription>Additional sections below the main body.</CardDescription>
+								</CardHeader>
+								<CardContent className="space-y-4">
+									{blockFields.length === 0 ? (
+										<div className="text-center py-10 text-muted-foreground border-2 border-dashed rounded-lg">
+											No blocks yet. Click &quot;Add Block&quot; to get started.
+										</div>
+									) : (
+										blockFields.map((field, index) => (
+											<Card key={field.id} className="border-dashed">
+												<CardHeader className="pb-3">
+													<div className="flex items-center justify-between">
+														<CardTitle className="text-base">Block {index + 1}</CardTitle>
+														<Button type="button" variant="ghost" size="sm"
+															onClick={async () => {
+																const confirmed = await confirm({ title: "Remove Block", description: "Are you sure?", confirmText: "Remove" });
+																if (confirmed) removeBlock(index);
+															}}
+															className="text-destructive hover:text-destructive">
+															<Trash2 className="h-4 w-4" />
+														</Button>
+													</div>
+												</CardHeader>
+												<CardContent className="space-y-4">
+													<FormField control={form.control} name={`content.blocks.${index}.heading`}
+														render={({ field }) => (
+															<FormItem>
+																<FormLabel>Heading</FormLabel>
+																<FormControl><Input {...field} value={field.value || ""} placeholder="Block heading" /></FormControl>
+																<FormMessage />
+															</FormItem>
+														)} />
+													<FormField control={form.control} name={`content.blocks.${index}.body`}
+														render={({ field }) => (
+															<FormItem>
+																<FormLabel>Body (HTML)</FormLabel>
+																<FormControl>
+																	<Textarea {...field} value={field.value || ""} placeholder="<p>Block content...</p>"
+																		className="font-mono text-sm min-h-[120px]" />
+																</FormControl>
+																<FormMessage />
+															</FormItem>
+														)} />
+												</CardContent>
+											</Card>
+										))
 									)}
-								/>
-							</div>
-							<FormField
-								control={form.control}
-								name="hero.breadcrumb"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Breadcrumb Text</FormLabel>
-										<FormControl>
-											<Input
-												{...field}
-												value={field.value || ""}
-												placeholder="Ehrenamt & Engagement"
-											/>
-										</FormControl>
-										<FormDescription>
-											Text shown after &quot;Home / Projekte /&quot;
-										</FormDescription>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-						</CardContent>
-					</Card>
+								</CardContent>
+							</Card>
+						</TabsContent>
+
+						{/* ── Partners Tab ── */}
+						<TabsContent value="partners" className="space-y-6">
+							<Card>
+								<CardHeader>
+									<CardTitle>Partners Section</CardTitle>
+									<CardDescription>Partner/sponsor logos that scroll automatically right to left.</CardDescription>
+								</CardHeader>
+								<CardContent className="space-y-4">
+									<FormField control={form.control} name="partners.heading"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Section Heading (optional)</FormLabel>
+												<FormControl><Input {...field} value={field.value || ""} placeholder="Our Partners" /></FormControl>
+												<FormMessage />
+											</FormItem>
+										)} />
+								</CardContent>
+							</Card>
+							<Card>
+								<CardHeader>
+									<CardTitle className="flex items-center justify-between">
+										<span>Logos</span>
+										<Button type="button" variant="outline" size="sm"
+											onClick={() => appendLogo({ image: "", name: "", href: "" })}>
+											<Plus className="h-4 w-4 mr-1" /> Add Logo
+										</Button>
+									</CardTitle>
+									<CardDescription>Logos scroll from right to left automatically.</CardDescription>
+								</CardHeader>
+								<CardContent className="space-y-4">
+									{logoFields.length === 0 ? (
+										<div className="text-center py-10 text-muted-foreground border-2 border-dashed rounded-lg">
+											No logos yet. Click &quot;Add Logo&quot; to get started.
+										</div>
+									) : (
+										logoFields.map((field, index) => (
+											<Card key={field.id} className="border-dashed">
+												<CardHeader className="pb-3">
+													<div className="flex items-center justify-between">
+														<CardTitle className="text-base">Logo {index + 1}</CardTitle>
+														<Button type="button" variant="ghost" size="sm"
+															onClick={async () => {
+																const confirmed = await confirm({ title: "Remove Logo", description: "Are you sure?", confirmText: "Remove" });
+																if (confirmed) removeLogo(index);
+															}}
+															className="text-destructive hover:text-destructive">
+															<Trash2 className="h-4 w-4" />
+														</Button>
+													</div>
+												</CardHeader>
+												<CardContent className="space-y-4">
+													<FormField control={form.control} name={`partners.logos.${index}.image`}
+														render={({ field }) => (
+															<FormItem>
+																<FormLabel>Logo Image</FormLabel>
+																<FormControl>
+																	<MediaPicker type="image" value={field.value || null}
+																		onChange={(url) => field.onChange(url || "")}
+																		placeholder="Select logo" galleryTitle="Select Partner Logo" />
+																</FormControl>
+																<FormMessage />
+															</FormItem>
+														)} />
+													<div className="grid gap-4 sm:grid-cols-2">
+														<FormField control={form.control} name={`partners.logos.${index}.name`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Name</FormLabel>
+																	<FormControl><Input {...field} value={field.value || ""} placeholder="Partner name" /></FormControl>
+																	<FormMessage />
+																</FormItem>
+															)} />
+														<FormField control={form.control} name={`partners.logos.${index}.href`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Link (optional)</FormLabel>
+																	<FormControl><Input {...field} value={field.value || ""} placeholder="https://..." /></FormControl>
+																	<FormMessage />
+																</FormItem>
+															)} />
+													</div>
+												</CardContent>
+											</Card>
+										))
+									)}
+								</CardContent>
+							</Card>
+						</TabsContent>
+					</Tabs>
 
 					<div className="flex justify-end">
 						<Button type="submit" disabled={saving} size="lg">
-							{saving ? (
-								<>
-									<Loader2 className="h-4 w-4 mr-2 animate-spin" />
-									Saving...
-								</>
-							) : (
-								"Save Changes"
-							)}
+							{saving ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" />Saving...</> : "Save Changes"}
 						</Button>
 					</div>
 				</form>

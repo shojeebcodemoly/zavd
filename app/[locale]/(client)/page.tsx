@@ -139,12 +139,6 @@ export default async function Home({ searchParams }: HomeProps) {
 				<VolunteeringSection data={homePage.volunteeringSection} />
 			)}
 
-			{/* Image Gallery */}
-			{visibility.imageGallery &&
-				(homePage.imageGallery?.images?.length ?? 0) > 0 && (
-					<ImageGallery data={homePage.imageGallery} />
-				)}
-
 			{/* Testimonials */}
 			{visibility.testimonials &&
 				(homePage.testimonialsSection?.testimonials?.length ?? 0) > 0 && (
@@ -164,6 +158,12 @@ export default async function Home({ searchParams }: HomeProps) {
 					email={siteSettings.email}
 				/>
 			)}
+
+			{/* Image Gallery — after CTA */}
+			{visibility.imageGallery &&
+				(homePage.imageGallery?.images?.length ?? 0) > 0 && (
+					<ImageGallery data={homePage.imageGallery} />
+				)}
 
 			{/* Floating Contact Button - Always visible */}
 			{/* <FloatingContactButton /> */}

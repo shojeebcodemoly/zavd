@@ -94,6 +94,7 @@ const settingsFormSchema = z.object({
 	phone: z.string().min(1, "Phone is required"),
 	email: z.string().email("Invalid email"),
 	noreplyEmail: z.string().email("Invalid email").optional().or(z.literal("")),
+	contactBackground: z.string().optional(),
 
 	// Offices
 	offices: z.array(officeSchema),
@@ -188,6 +189,7 @@ export default function SettingsPage() {
 			phone: "",
 			email: "",
 			noreplyEmail: "",
+			contactBackground: "",
 			offices: [],
 			socialMedia: {
 				facebook: "",
@@ -304,6 +306,7 @@ export default function SettingsPage() {
 					phone: settings.phone || "",
 					email: settings.email || "",
 					noreplyEmail: settings.noreplyEmail || "",
+					contactBackground: settings.contactBackground || "",
 					offices: settings.offices || [],
 					socialMedia: {
 						facebook: settings.socialMedia?.facebook || "",
@@ -651,6 +654,28 @@ export default function SettingsPage() {
 											)}
 										/>
 									</div>
+
+									<FormField
+										control={form.control}
+										name="contactBackground"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Contact Card Background Image</FormLabel>
+												<FormDescription>
+													Background image for the &quot;Do you have questions?&quot; card on project pages.
+												</FormDescription>
+												<FormControl>
+													<MediaPicker
+														type="image"
+														value={field.value || ""}
+														onChange={(url) => field.onChange(url ?? "")}
+														placeholder="Select background image..."
+													/>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
 								</CardContent>
 							</Card>
 						</TabsContent>

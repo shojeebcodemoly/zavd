@@ -37,6 +37,8 @@ import {
 	Award,
 	Zap,
 	HandHeart,
+	LayoutGrid,
+	CalendarDays,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { authClient } from "@/lib/auth-client";
@@ -169,6 +171,11 @@ const navSections: NavSection[] = [
 		collapsible: true,
 		items: [
 			{
+				title: "Projekte Overview",
+				href: "/dashboard/projekte/overview",
+				icon: LayoutGrid,
+			},
+			{
 				title: "Patenschaftsprojekt",
 				href: "/dashboard/projekte/patenschaftsprojekt",
 				icon: Heart,
@@ -212,11 +219,16 @@ const navSections: NavSection[] = [
 		],
 	},
 	{
-		title: "Blog",
+		title: "News",
 		collapsible: true,
 		items: [
 			{
-				title: "All Posts",
+				title: "News Page",
+				href: "/dashboard/news",
+				icon: Globe,
+			},
+			{
+				title: "All News",
 				href: "/dashboard/blog",
 				icon: FileText,
 			},
@@ -229,6 +241,27 @@ const navSections: NavSection[] = [
 				title: "Comments",
 				href: "/dashboard/comments",
 				icon: MessageCircle,
+			},
+		],
+	},
+	{
+		title: "Events",
+		collapsible: true,
+		items: [
+			{
+				title: "Events Page",
+				href: "/dashboard/events",
+				icon: Globe,
+			},
+			{
+				title: "All Events",
+				href: "/dashboard/blog",
+				icon: CalendarDays,
+			},
+			{
+				title: "Create Event",
+				href: "/dashboard/blog/new",
+				icon: FileText,
 			},
 		],
 	},

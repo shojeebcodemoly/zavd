@@ -106,7 +106,7 @@ const ProtectedNavbar = () => {
 	return (
 		<DropdownMenu modal={false}>
 			<DropdownMenuTrigger asChild>
-				<button className="flex items-center gap-1.5 outline-none cursor-pointer">
+				<button className="flex items-center gap-1.5 outline-none cursor-pointer" suppressHydrationWarning>
 					{session ? (
 						<>
 							<Avatar key={imageKey} className="h-8 w-8">
