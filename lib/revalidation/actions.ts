@@ -397,3 +397,17 @@ export async function revalidateZavdSpendenkontoPage(): Promise<void> {
 	revalidatePath(`/en${PATHS.ZAVD_SPENDENKONTO}`);
 	revalidatePath(`/de${PATHS.ZAVD_SPENDENKONTO}`);
 }
+
+export async function revalidateAngeboteBeratungPage(): Promise<void> {
+	revalidateTag(CACHE_TAGS.ANGEBOTE_BERATUNG_PAGE, "default");
+	revalidatePath(PATHS.ANGEBOTE_BERATUNG);
+	revalidatePath(`/en${PATHS.ANGEBOTE_BERATUNG}`);
+	revalidatePath(`/de${PATHS.ANGEBOTE_BERATUNG}`);
+}
+
+export async function revalidateThemenPage(): Promise<void> {
+	revalidateTag(CACHE_TAGS.THEMEN_PAGE, "default");
+	revalidatePath(PATHS.THEMEN);
+	revalidatePath(`/en${PATHS.THEMEN}`);
+	revalidatePath(`/de${PATHS.THEMEN}`);
+}

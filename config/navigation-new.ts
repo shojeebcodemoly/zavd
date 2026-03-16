@@ -86,45 +86,11 @@ export const mainNavNew: NavItem[] = [
 		titleKey: "angeboteBeratung",
 		title: "Angebote & Beratung",
 		href: "/angebote-beratung",
-		items: [
-			{
-				titleKey: "fluchtAsyl",
-				title: "Flucht & Asyl",
-				href: "/angebote-beratung/flucht-asyl",
-			},
-			{
-				titleKey: "namensaenderung",
-				title: "Namensänderung",
-				href: "/angebote-beratung/namensaenderung",
-			},
-			{
-				titleKey: "beratungUnterstuetzung",
-				title: "Beratung & Unterstützung",
-				href: "/angebote-beratung/beratung-unterstuetzung",
-			},
-			{
-				titleKey: "wichtigeLinks",
-				title: "Wichtige Links",
-				href: "/angebote-beratung/wichtige-links",
-			},
-		],
 	},
 	{
 		titleKey: "themen",
 		title: "Themen",
 		href: "/themen",
-		items: [
-			{
-				titleKey: "integration",
-				title: "Integration",
-				href: "/themen/integration",
-			},
-			{
-				titleKey: "irakSyrien",
-				title: "Irak & Syrien",
-				href: "/themen/irak-syrien",
-			},
-		],
 	},
 	{
 		titleKey: "aktuelles",

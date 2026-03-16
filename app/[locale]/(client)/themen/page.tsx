@@ -1,12 +1,5 @@
-import { PlaceholderPage } from "@/components/common/PlaceholderPage";
+import { ThemenPage } from "./_components/themen-page";
 
-export default function ThemenPage() {
-	return (
-		<PlaceholderPage
-			titleDe="Themen"
-			titleEn="Topics"
-			backHref="/"
-			backLabelDe="Zurück zur Startseite"
-		/>
-	);
+export default function ThemenPageRoute() {
+	return <ThemenPage />;
 }

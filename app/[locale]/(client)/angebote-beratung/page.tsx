@@ -1,12 +1,5 @@
-import { PlaceholderPage } from "@/components/common/PlaceholderPage";
+import { AngeboteBeratungPage } from "./_components/angebote-beratung-page";
 
-export default function AngeboteBeratungPage() {
-	return (
-		<PlaceholderPage
-			titleDe="Angebote & Beratung"
-			titleEn="Services & Counseling"
-			backHref="/"
-			backLabelDe="Zurück zur Startseite"
-		/>
-	);
+export default function AngeboteBeratungMainPage() {
+	return <AngeboteBeratungPage />;
 }

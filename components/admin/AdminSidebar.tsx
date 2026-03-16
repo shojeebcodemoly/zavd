@@ -37,8 +37,10 @@ import {
 	Award,
 	Zap,
 	HandHeart,
+	HeartHandshake,
 	LayoutGrid,
 	CalendarDays,
+	BookOpen,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { authClient } from "@/lib/auth-client";
@@ -81,7 +83,7 @@ const navSections: NavSection[] = [
 				icon: Globe,
 			},
 			{
-				title: "Über ZAVD",
+				title: "About ZAVD",
 				href: "/dashboard/webbplats/uber-zavd",
 				icon: Building2,
 				children: [
@@ -108,21 +110,31 @@ const navSections: NavSection[] = [
 				],
 			},
 			{
-				title: "Spenden",
+				title: "Donations",
 				href: "/dashboard/webbplats/spenden",
 				icon: Heart,
 				children: [
 					{
-						title: "Humanitäre Hilfe",
+						title: "Humanitarian Aid",
 						href: "/dashboard/webbplats/humanitaere-hilfe",
 						icon: ChevronRight,
 					},
 					{
-						title: "ZAVD Spendenkonto",
+						title: "ZAVD Donation Account",
 						href: "/dashboard/webbplats/zavd-spendenkonto",
 						icon: ChevronRight,
 					},
 				],
+			},
+			{
+				title: "Services & Counseling",
+				href: "/dashboard/webbplats/angebote-beratung",
+				icon: HeartHandshake,
+			},
+			{
+				title: "Themen (Topics)",
+				href: "/dashboard/webbplats/themen",
+				icon: BookOpen,
 			},
 			{
 				title: "About Us",

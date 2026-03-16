@@ -53,6 +53,8 @@ export const CACHE_TAGS = {
 	SPENDEN_PAGE: "spenden-page",
 	HUMANITAERE_HILFE_PAGE: "humanitaere-hilfe-page",
 	ZAVD_SPENDENKONTO_PAGE: "zavd-spendenkonto-page",
+	ANGEBOTE_BERATUNG_PAGE: "angebote-beratung-page",
+	THEMEN_PAGE: "themen-page",
 
 	// Sitemaps
 	SITEMAPS: "sitemaps",
@@ -97,6 +99,8 @@ export const PATHS = {
 	SPENDEN: "/spenden",
 	HUMANITAERE_HILFE: "/spenden/humanitaere-hilfe",
 	ZAVD_SPENDENKONTO: "/spenden/zavd-spendenkonto",
+	ANGEBOTE_BERATUNG: "/angebote-beratung",
+	THEMEN: "/themen",
 } as const;
 
 // Default revalidation time in seconds (24 hours)
