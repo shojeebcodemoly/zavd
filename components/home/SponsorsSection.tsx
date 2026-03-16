@@ -61,7 +61,13 @@ export function SponsorsSection({ data }: SponsorsSectionProps) {
 						transition={{ duration: 0.55, ease: "easeOut", delay: 0.1 }}
 						className={`text-sm leading-relaxed max-w-xl ${backgroundImage ? "text-white/75" : "text-foreground/60"}`}
 					>
-						{description}
+						{description.split(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,})/).map((part, i) =>
+						/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/.test(part) ? (
+							<a key={i} href={"mailto:" + part} className="text-primary font-semibold hover:underline">{part}</a>
+						) : (
+							<span key={i}>{part}</span>
+						)
+					)}
 					</motion.p>
 
 					{/* Sponsor logos */}

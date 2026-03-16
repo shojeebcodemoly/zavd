@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { useLocale } from "next-intl";
 import { useSetNavbarVariant } from "@/lib/context/navbar-variant-context";
 import { ArrowRight, FileDown } from "lucide-react";
+import { LogoSlider, type LogoSliderItem } from "@/components/common/logo-slider";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -106,7 +107,7 @@ const topicNavItems = [
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-export function ThemenPage() {
+export function ThemenPage({ partnerLogos = [] }: { partnerLogos?: LogoSliderItem[] }) {
 	useSetNavbarVariant("transparent");
 	const locale = useLocale();
 	const isEn = locale === "en";
@@ -485,6 +486,10 @@ export function ThemenPage() {
 					</div>
 				</div>
 			</section>
+
+			{partnerLogos.length > 0 && (
+				<LogoSlider logos={partnerLogos} />
+			)}
 
 			</div>
 	);

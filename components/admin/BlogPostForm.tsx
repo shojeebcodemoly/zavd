@@ -108,6 +108,7 @@ interface BlogPostFormProps {
 	onCancel?: () => void;
 	isLoading?: boolean;
 	className?: string;
+	isEventMode?: boolean;
 }
 
 /**
@@ -123,6 +124,7 @@ export function BlogPostForm({
 	onCancel,
 	isLoading = false,
 	className,
+	isEventMode = false,
 }: BlogPostFormProps) {
 	const isEditing = !!post;
 	const [validationResults, setValidationResults] = React.useState<{
@@ -228,6 +230,15 @@ export function BlogPostForm({
 				noindex: post?.seo?.noindex || false,
 			},
 			publishType: post?.publishType || "draft",
+			postType: (post as IBlogPost & { postType?: string })?.postType as "news" | "event" || "news",
+			eventDate: (post as IBlogPost & { eventDate?: Date })?.eventDate
+				? new Date((post as IBlogPost & { eventDate?: Date }).eventDate!).toISOString().split("T")[0]
+				: "",
+			eventTime: (post as IBlogPost & { eventTime?: string })?.eventTime || "",
+			eventCity: (post as IBlogPost & { eventCity?: string })?.eventCity || "",
+			eventVenue: (post as IBlogPost & { eventVenue?: string })?.eventVenue || "",
+			eventCountry: (post as IBlogPost & { eventCountry?: string })?.eventCountry || "",
+			galleryImages: (post as IBlogPost & { galleryImages?: string[] })?.galleryImages || [],
 		},
 	});
 
@@ -370,7 +381,7 @@ export function BlogPostForm({
 					<TabsContent value="content">
 						<Card>
 							<CardHeader>
-								<CardTitle>Blog Post Content</CardTitle>
+								<CardTitle>{isEventMode ? "Event Content" : "Blog Post Content"}</CardTitle>
 								<CardDescription>
 									Write your blog post content here
 								</CardDescription>
@@ -447,7 +458,7 @@ export function BlogPostForm({
 												shouldDirty: true,
 											})
 										}
-										placeholder="Write your blog post content here..."
+										placeholder={isEventMode ? "Write your event content here..." : "Write your blog post content here..."}
 										variant="advanceFull"
 									/>
 								</div>
@@ -470,6 +481,82 @@ export function BlogPostForm({
 										</SelectContent>
 									</Select>
 								</div>
+
+								{/* Post Type */}
+								<div className="space-y-2">
+									<Label htmlFor="postType">Post Type</Label>
+									<Select
+										value={String(watch("postType" as keyof typeof watch) ?? "news")}
+										onValueChange={(value) => setValue("postType" as keyof typeof setValue, value as unknown as never, { shouldDirty: true })}
+										disabled={isLoading}
+									>
+										<SelectTrigger className="w-full h-11">
+											<SelectValue placeholder="Select post type" />
+										</SelectTrigger>
+										<SelectContent>
+											<SelectItem value="news">News</SelectItem>
+											<SelectItem value="event">Event</SelectItem>
+										</SelectContent>
+									</Select>
+									<p className="text-xs text-slate-500">
+										Choose whether this post appears in the News or Events section.
+									</p>
+								</div>
+
+								{/* Event Fields — shown only when postType is event */}
+								{String(watch("postType" as keyof typeof watch) ?? "") === "event" && (
+									<div className="space-y-4 p-4 border border-slate-200 rounded-lg bg-slate-50">
+										<p className="text-sm font-semibold text-slate-700">Event Details</p>
+										<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+											<div className="space-y-2">
+												<Label htmlFor="eventDate">Event Date</Label>
+												<Input
+													id="eventDate"
+													type="date"
+													{...register("eventDate" as never)}
+													disabled={isLoading}
+												/>
+											</div>
+											<div className="space-y-2">
+												<Label htmlFor="eventTime">Event Time</Label>
+												<Input
+													id="eventTime"
+													type="time"
+													{...register("eventTime" as never)}
+													placeholder="e.g. 18:30"
+													disabled={isLoading}
+												/>
+											</div>
+											<div className="space-y-2">
+												<Label htmlFor="eventCity">City</Label>
+												<Input
+													id="eventCity"
+													{...register("eventCity" as never)}
+													placeholder="e.g. Berlin"
+													disabled={isLoading}
+												/>
+											</div>
+											<div className="space-y-2">
+												<Label htmlFor="eventCountry">Country</Label>
+												<Input
+													id="eventCountry"
+													{...register("eventCountry" as never)}
+													placeholder="e.g. Germany"
+													disabled={isLoading}
+												/>
+											</div>
+										</div>
+										<div className="space-y-2">
+											<Label htmlFor="eventVenue">Venue Name</Label>
+											<Input
+												id="eventVenue"
+												{...register("eventVenue" as never)}
+												placeholder="e.g. Hilton Berlin"
+												disabled={isLoading}
+											/>
+										</div>
+									</div>
+								)}
 							</CardContent>
 						</Card>
 					</TabsContent>
@@ -625,6 +712,50 @@ export function BlogPostForm({
 										</>
 									)}
 								</div>
+
+								{/* Gallery Images — event only */}
+								{(isEventMode || String(watch("postType" as keyof typeof watch) ?? "") === "event") && (
+									<div className="space-y-3">
+										<Label>Gallery Images</Label>
+										<p className="text-sm text-muted-foreground">
+											Add multiple images for the event gallery slider.
+										</p>
+										<div className="space-y-3">
+											{((watch("galleryImages" as never) as string[]) || []).map((url: string, idx: number) => (
+												<div key={idx} className="flex items-center gap-3 p-3 border border-slate-200 rounded-lg bg-slate-50">
+													{url && (
+														// eslint-disable-next-line @next/next/no-img-element
+														<img src={url} alt={`Gallery ${idx + 1}`} className="w-16 h-12 object-cover rounded" />
+													)}
+													<span className="text-sm text-slate-600 flex-1 truncate">{url}</span>
+													<button
+														type="button"
+														onClick={() => {
+															const current = (watch("galleryImages" as never) as string[]) || [];
+															setValue("galleryImages" as never, current.filter((_: string, i: number) => i !== idx) as never, { shouldDirty: true });
+														}}
+														className="text-red-500 hover:text-red-700 text-xs font-medium px-2 py-1 border border-red-200 rounded"
+													>
+														Remove
+													</button>
+												</div>
+											))}
+											<MediaPicker
+												type="image"
+												value={null}
+												onChange={(url) => {
+													if (url) {
+														const current = (watch("galleryImages" as never) as string[]) || [];
+														setValue("galleryImages" as never, [...current, url] as never, { shouldDirty: true });
+													}
+												}}
+												placeholder="Add gallery image"
+												disabled={isLoading}
+												galleryTitle="Select Gallery Image"
+											/>
+										</div>
+									</div>
+								)}
 							</CardContent>
 						</Card>
 					</TabsContent>

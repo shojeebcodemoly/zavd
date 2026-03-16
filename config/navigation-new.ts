@@ -96,18 +96,6 @@ export const mainNavNew: NavItem[] = [
 		titleKey: "aktuelles",
 		title: "Aktuelles",
 		href: "/aktuelles",
-		items: [
-			{
-				titleKey: "nachrichten",
-				title: "Nachrichten",
-				href: "/aktuelles/nachrichten",
-			},
-			{
-				titleKey: "veranstaltungen",
-				title: "Veranstaltungen",
-				href: "/aktuelles/veranstaltungen",
-			},
-		],
 	},
 	{
 		titleKey: "spenden",

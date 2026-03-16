@@ -58,6 +58,13 @@ function convertToArticle(post: IBlogPost): Article {
 			keywords: post.seo?.keywords || post.tags || [],
 			ogImage: post.seo?.ogImage || post.featuredImage?.url || undefined,
 		},
+		postType: (post.postType as "news" | "event") || "news",
+		eventDate: post.eventDate?.toISOString() || undefined,
+		eventTime: post.eventTime || undefined,
+		eventCity: post.eventCity || undefined,
+		eventVenue: post.eventVenue || undefined,
+		eventCountry: post.eventCountry || undefined,
+		galleryImages: (post.galleryImages as string[] | undefined)?.filter(Boolean) || [],
 	};
 }
 
@@ -90,6 +97,47 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
 	} catch (error) {
 		console.error("Failed to fetch article by slug:", error);
 		return null;
+	}
+}
+
+/**
+ * Get articles by postType (news or event)
+ */
+export async function getArticlesByPostType(
+	postType: "news" | "event"
+): Promise<Article[]> {
+	try {
+		const { connectMongoose } = await import("@/lib/db/db-connect");
+		await connectMongoose();
+		const mongoose = (await import("mongoose")).default;
+
+		// Clear model cache in dev to pick up schema changes
+		if (process.env.NODE_ENV !== "production" && mongoose.models.BlogPost) {
+			delete mongoose.models.BlogPost;
+		}
+
+		const { getBlogPostModel } = await import("@/models/blog-post.model");
+		const BlogPost = await getBlogPostModel();
+
+		const query: Record<string, unknown> = { publishType: "publish" };
+		if (postType === "event") {
+			query.postType = "event";
+		} else {
+			// news = postType is "news" OR postType is not set (legacy posts)
+			query.$or = [{ postType: "news" }, { postType: { $exists: false } }, { postType: null }];
+		}
+
+		const posts = await BlogPost.find(query)
+			.populate("categories", "name slug")
+			.populate("author", "name email image")
+			.sort({ publishedAt: -1 })
+			.limit(1000)
+			.exec();
+
+		return posts.map(convertToArticle);
+	} catch (error) {
+		console.error("Failed to fetch articles by postType:", error);
+		return [];
 	}
 }
 

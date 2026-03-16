@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
@@ -27,6 +27,8 @@ export function NewBlogPostClient({
 	tagSuggestions,
 }: NewBlogPostClientProps) {
 	const router = useRouter();
+	const searchParams = useSearchParams();
+	const isEventMode = searchParams.get("postType") === "event";
 
 	// Handle save draft
 	const handleSaveDraft = async (
@@ -97,14 +99,14 @@ export function NewBlogPostClient({
 		<div className="space-y-6">
 			{/* Header */}
 			<div className="flex items-center gap-4">
-				<Link href="/dashboard/blog">
+				<Link href={isEventMode ? "/dashboard/blog?postType=event" : "/dashboard/blog"}>
 					<Button variant="ghost" size="icon">
 						<ArrowLeft className="h-4 w-4" />
 					</Button>
 				</Link>
 				<div>
-					<h1 className="text-3xl font-medium">New Blog Post</h1>
-					<p className="text-slate-600">Create a new blog post</p>
+					<h1 className="text-3xl font-medium">{isEventMode ? "New Event" : "New Blog Post"}</h1>
+					<p className="text-slate-600">{isEventMode ? "Create a new event" : "Create a new blog post"}</p>
 				</div>
 			</div>
 
@@ -114,7 +116,8 @@ export function NewBlogPostClient({
 				tagSuggestions={tagSuggestions}
 				onSaveDraft={handleSaveDraft}
 				onPublish={handlePublish}
-				onCancel={() => router.push("/dashboard/blog")}
+				onCancel={() => router.push(isEventMode ? "/dashboard/blog?postType=event" : "/dashboard/blog")}
+				isEventMode={isEventMode}
 			/>
 		</div>
 	);

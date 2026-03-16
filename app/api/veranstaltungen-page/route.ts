@@ -16,9 +16,9 @@ export async function PUT(request: Request) {
 		const body = await request.json();
 		const page = await veranstaltungenPageRepository.update(body);
 		revalidateTag("veranstaltungen-page");
-		revalidatePath("/aktuelles/veranstaltungen", "layout");
-		revalidatePath("/de/aktuelles/veranstaltungen", "layout");
-		revalidatePath("/en/aktuelles/veranstaltungen", "layout");
+		revalidatePath("/aktuelles/veranstaltungen");
+		revalidatePath("/de/aktuelles/veranstaltungen");
+		revalidatePath("/en/aktuelles/veranstaltungen");
 		return NextResponse.json({ data: page });
 	} catch {
 		return NextResponse.json({ message: "Failed to update veranstaltungen page" }, { status: 500 });

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
 	Plus,
 	MoreHorizontal,
@@ -104,6 +104,8 @@ export function BlogPostsClient({
 	initialStats,
 }: BlogPostsClientProps) {
 	const router = useRouter();
+	const searchParams = useSearchParams();
+	const isEventMode = searchParams.get("postType") === "event";
 
 	const [posts, setPosts] = React.useState<BlogPost[]>(initialPosts);
 	const [stats, setStats] = React.useState<BlogStats>(initialStats);
@@ -299,13 +301,13 @@ export function BlogPostsClient({
 				{/* Header */}
 				<div className="flex justify-between items-center">
 					<div>
-						<h1 className="text-3xl font-medium">All News</h1>
-						<p className="text-slate-600">Manage your news content</p>
+						<h1 className="text-3xl font-medium">{isEventMode ? "All Events" : "All News"}</h1>
+						<p className="text-slate-600">{isEventMode ? "Manage your events" : "Manage your news content"}</p>
 					</div>
 					<Link href="/dashboard/blog/new">
 						<Button>
 							<Plus className="h-4 w-4 mr-2" />
-							Create News
+							{isEventMode ? "Create Event" : "Create News"}
 						</Button>
 					</Link>
 				</div>
@@ -349,9 +351,9 @@ export function BlogPostsClient({
 				{/* Filters */}
 				<Card>
 					<CardHeader>
-						<CardTitle>All News</CardTitle>
+						<CardTitle>{isEventMode ? "All Events" : "All News"}</CardTitle>
 						<CardDescription>
-							View and manage your news
+							{isEventMode ? "View and manage your events" : "View and manage your news"}
 						</CardDescription>
 					</CardHeader>
 					<CardContent>

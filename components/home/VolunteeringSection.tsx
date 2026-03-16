@@ -11,7 +11,7 @@ interface VolunteeringSectionProps {
 const DEFAULTS = {
 	heading: "Volunteering",
 	description:
-		"Would you like to volunteer? Contact us by email at info@zavd.de and we will be happy to tell you more about it.\n\nWe support our member associations and volunteers in the further training and qualification of their workforce.",
+		"Would you like to volunteer? Contact us by email at info@zavd.de and tell us your area of interest. We support our member associations and volunteers in the further training and professionalization of their structures. As part of our empowerment approach, we have launched a training series that specifically addresses the framework conditions of migrant associations.",
 	image: "",
 };
 
@@ -70,7 +70,13 @@ export function VolunteeringSection({ data }: VolunteeringSectionProps) {
 						<div className="flex flex-col gap-4">
 							{descriptionParagraphs.map((para, i) => (
 								<p key={i} className="text-muted-foreground text-sm lg:text-base leading-relaxed">
-									{para}
+									{para.split(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,})/).map((part, j) =>
+										/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/.test(part) ? (
+											<a key={j} href={"mailto:" + part} className="text-primary font-semibold hover:underline">{part}</a>
+										) : (
+											<span key={j}>{part}</span>
+										)
+									)}
 								</p>
 							))}
 						</div>

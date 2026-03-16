@@ -21,6 +21,13 @@ export interface Article {
   categories: string[];
   tags: string[];
   seo: SEOMetadata;
+  postType: "news" | "event";
+  eventDate?: string;
+  eventTime?: string;
+  eventCity?: string;
+  eventVenue?: string;
+  eventCountry?: string;
+  galleryImages?: string[];
 }
 
 export interface Author {
