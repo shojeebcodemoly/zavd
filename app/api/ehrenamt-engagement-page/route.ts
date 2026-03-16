@@ -48,7 +48,7 @@ export async function PUT(request: NextRequest) {
 			validationResult.data
 		);
 
-		revalidateTag(EHRENAMT_ENGAGEMENT_PAGE_CACHE_TAG);
+		revalidateTag(EHRENAMT_ENGAGEMENT_PAGE_CACHE_TAG, {});
 		revalidatePath("/projekte/ehrenamt-engagement", "page");
 
 		return successResponse(page, "Ehrenamt & Engagement page updated successfully");

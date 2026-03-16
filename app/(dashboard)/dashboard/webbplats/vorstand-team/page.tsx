@@ -76,6 +76,10 @@ const teamMemberSchema = z.object({
 	phone: z.string().max(100).optional(),
 	email: z.string().max(200).optional(),
 	image: z.string().optional(),
+	facebook: z.string().max(500).optional(),
+	twitter: z.string().max(500).optional(),
+	linkedin: z.string().max(500).optional(),
+	instagram: z.string().max(500).optional(),
 });
 
 const teamSectionSchema = z.object({

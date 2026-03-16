@@ -16,7 +16,7 @@ export async function PUT(request: Request) {
 		const body = await request.json();
 		const page = await nachrichtenPageRepository.update(body);
 
-		revalidateTag("nachrichten-page");
+		revalidateTag("nachrichten-page", {});
 		revalidatePath("/aktuelles/nachrichten");
 		revalidatePath("/de/aktuelles/nachrichten");
 		revalidatePath("/en/aktuelles/nachrichten");

@@ -27,7 +27,7 @@ const textItemVariants = {
 	visible: {
 		opacity: 1,
 		y: 0,
-		transition: { duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] },
+		transition: { duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] },
 	},
 };
 
@@ -37,7 +37,7 @@ const imageRevealVariants = {
 		opacity: 1,
 		scale: 1,
 		y: 0,
-		transition: { duration: 0.75, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.25 },
+		transition: { duration: 0.75, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number], delay: 0.25 },
 	},
 };
 

@@ -43,8 +43,8 @@ export interface IKontaktContactInfo {
 export interface IKontaktFormSection {
 	badge?: string;
 	heading?: string;
-	title: string;
-	subtitle: string;
+	title?: string;
+	subtitle?: string;
 }
 
 /**

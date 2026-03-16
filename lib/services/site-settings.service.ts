@@ -172,6 +172,9 @@ export interface LegacySiteConfig {
 		facebook: string;
 		instagram: string;
 		linkedin: string;
+		twitter: string;
+		youtube: string;
+		pinterest: string;
 	};
 	company: {
 		name: string;

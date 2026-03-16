@@ -42,7 +42,7 @@ export async function PUT(request: NextRequest) {
 
 		const page = await gemeinsamAktivPageRepository.update(validationResult.data);
 
-		revalidateTag(GEMEINSAM_AKTIV_PAGE_CACHE_TAG);
+		revalidateTag(GEMEINSAM_AKTIV_PAGE_CACHE_TAG, {});
 		revalidatePath("/projekte/gemeinsam-aktiv", "page");
 
 		return successResponse(page, "Gemeinsam Aktiv page updated successfully");

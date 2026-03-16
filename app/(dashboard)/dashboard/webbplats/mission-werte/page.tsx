@@ -54,6 +54,7 @@ const introSchema = z.object({
 	headingEn: z.string().max(300).optional(),
 	paragraphDe: z.string().optional(),
 	paragraphEn: z.string().optional(),
+	image: z.string().optional(),
 });
 
 const valueSchema = z.object({
@@ -65,7 +66,7 @@ const valueSchema = z.object({
 });
 
 const statItemSchema = z.object({
-	value: z.coerce.number().min(0).default(0),
+	value: z.number().min(0).optional(),
 	suffix: z.string().max(10).optional(),
 	labelDe: z.string().max(200).optional(),
 	labelEn: z.string().max(200).optional(),
@@ -144,7 +145,7 @@ export default function MissionWerteAdminPage() {
 	const { confirm, ConfirmModal } = useConfirmModal({ variant: "destructive" });
 
 	const form = useForm<FormData>({
-		resolver: zodResolver(formSchema),
+		resolver: zodResolver(formSchema) as any,
 		defaultValues,
 	});
 

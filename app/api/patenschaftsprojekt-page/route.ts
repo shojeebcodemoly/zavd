@@ -45,7 +45,7 @@ export async function PUT(request: NextRequest) {
 			validationResult.data
 		);
 
-		revalidateTag(PATENSCHAFTSPROJEKT_PAGE_CACHE_TAG);
+		revalidateTag(PATENSCHAFTSPROJEKT_PAGE_CACHE_TAG, {});
 		revalidatePath("/projekte/patenschaftsprojekt", "page");
 
 		return successResponse(page, "Patenschaftsprojekt page updated successfully");

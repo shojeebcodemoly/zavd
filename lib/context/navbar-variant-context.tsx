@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
-type NavbarVariant = "default" | "dark-hero";
+type NavbarVariant = "default" | "dark-hero" | "transparent";
 
 interface NavbarVariantContextType {
 	variant: NavbarVariant;

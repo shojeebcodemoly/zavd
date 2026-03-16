@@ -499,13 +499,13 @@ export default function AngeboteBeratungAdminPage() {
 											variant="ghost"
 											size="icon"
 											className="absolute top-2 right-2 text-destructive hover:text-destructive"
-											onClick={() =>
-												confirm({
-													title: "Remove PDF Resource",
-													description: "Are you sure you want to remove this PDF resource?",
-													onConfirm: () => pdfItems.remove(index),
-												})
-											}
+											onClick={async () => {
+													const ok = await confirm({
+														title: "Remove PDF Resource",
+														description: "Are you sure you want to remove this PDF resource?",
+													});
+													if (ok) pdfItems.remove(index);
+												}}
 										>
 											<Trash2 className="h-4 w-4" />
 										</Button>
@@ -629,16 +629,16 @@ export default function AngeboteBeratungAdminPage() {
 										<div className="space-y-2">
 											<Label>{para.replace("paragraph", "Paragraph ")} (DE)</Label>
 											<Textarea
-												{...form.register(`namensaenderung.${para}De` as keyof FormData["namensaenderung"] & string)}
-												value={(form.watch(`namensaenderung.${para}De` as never) as string) || ""}
+												{...form.register(`namensaenderung.${para}De` as any)}
+												value={(form.watch(`namensaenderung.${para}De` as any) as string) || ""}
 												rows={4}
 											/>
 										</div>
 										<div className="space-y-2">
 											<Label>{para.replace("paragraph", "Paragraph ")} (EN)</Label>
 											<Textarea
-												{...form.register(`namensaenderung.${para}En` as keyof FormData["namensaenderung"] & string)}
-												value={(form.watch(`namensaenderung.${para}En` as never) as string) || ""}
+												{...form.register(`namensaenderung.${para}En` as any)}
+												value={(form.watch(`namensaenderung.${para}En` as any) as string) || ""}
 												rows={4}
 											/>
 										</div>
@@ -779,13 +779,13 @@ export default function AngeboteBeratungAdminPage() {
 											variant="ghost"
 											size="icon"
 											className="absolute top-2 right-2 text-destructive hover:text-destructive"
-											onClick={() =>
-												confirm({
-													title: "Remove Service",
-													description: "Are you sure you want to remove this service card?",
-													onConfirm: () => serviceItems.remove(index),
-												})
-											}
+											onClick={async () => {
+													const ok = await confirm({
+														title: "Remove Service",
+														description: "Are you sure you want to remove this service card?",
+													});
+													if (ok) serviceItems.remove(index);
+												}}
 										>
 											<Trash2 className="h-4 w-4" />
 										</Button>
@@ -914,13 +914,13 @@ export default function AngeboteBeratungAdminPage() {
 											variant="ghost"
 											size="icon"
 											className="absolute top-2 right-2 text-destructive hover:text-destructive"
-											onClick={() =>
-												confirm({
-													title: "Remove Link",
-													description: "Are you sure you want to remove this link?",
-													onConfirm: () => linkItems.remove(index),
-												})
-											}
+											onClick={async () => {
+													const ok = await confirm({
+														title: "Remove Link",
+														description: "Are you sure you want to remove this link?",
+													});
+													if (ok) linkItems.remove(index);
+												}}
 										>
 											<Trash2 className="h-4 w-4" />
 										</Button>

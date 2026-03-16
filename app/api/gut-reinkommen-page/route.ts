@@ -42,7 +42,7 @@ export async function PUT(request: NextRequest) {
 
 		const page = await gutReinkommenPageRepository.update(validationResult.data);
 
-		revalidateTag(GUT_REINKOMMEN_PAGE_CACHE_TAG);
+		revalidateTag(GUT_REINKOMMEN_PAGE_CACHE_TAG, {});
 		revalidatePath("/projekte/gut-reinkommen", "page");
 
 		return successResponse(page, "Gut Reinkommen page updated successfully");
