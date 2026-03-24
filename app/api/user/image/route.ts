@@ -4,6 +4,8 @@ import { logger } from "@/lib/utils/logger";
 import { z } from "zod";
 import { getAuth } from "@/lib/db/auth";
 
+export const dynamic = "force-dynamic";
+
 /**
  * Update User Image Endpoint
  * PUT /api/user/image

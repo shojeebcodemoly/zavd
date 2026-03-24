@@ -5,6 +5,8 @@ import { revalidateSatzungPage } from "@/lib/revalidation/actions";
 import type { UpdateSatzungPageInput } from "@/lib/repositories/satzung-page.repository";
 import { getAuth } from "@/lib/db/auth";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
 	try {
 		const page = await getSatzungPage();

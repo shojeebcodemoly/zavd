@@ -3,6 +3,8 @@ import { faqPageService } from "@/lib/services/faq-page.service";
 import { updateFAQPageSchema } from "@/lib/validations/faq-page.validation";
 import { revalidateFaqPage } from "@/lib/revalidation/actions";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
 	try {
 		const data = await faqPageService.getFAQPage();

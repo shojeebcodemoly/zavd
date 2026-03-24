@@ -11,6 +11,8 @@ import {
 } from "@/lib/utils/api-response";
 import { logger } from "@/lib/utils/logger";
 
+export const dynamic = "force-dynamic";
+
 /**
  * POST /api/form-submissions/export
  * Protected endpoint - Export submissions (admin only)
@@ -28,10 +30,10 @@ export async function POST(request: NextRequest) {
 		}
 
 		// Check admin role - cast to include role from extended user type
-		// const userRole = (session.user as { role?: string }).role;
-		// if (userRole !== "admin") {
-		// 	return forbiddenResponse("Admin access required");
-		// }
+		const userRole = (session.user as { role?: string }).role;
+		if (userRole !== "admin") {
+			return forbiddenResponse("Admin access required");
+		}
 
 		const body = await request.json();
 

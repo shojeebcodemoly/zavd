@@ -13,6 +13,8 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { HOME_PAGE_CACHE_TAG } from "@/lib/services/home-page.service";
 import { locales } from "@/i18n/config";
 
+export const dynamic = "force-dynamic";
+
 /**
  * GET /api/home-page
  * Get home page content (public endpoint for reading)

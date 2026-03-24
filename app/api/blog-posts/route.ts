@@ -16,6 +16,8 @@ import {
 } from "@/lib/utils/api-response";
 import { revalidateBlogPost, revalidateBlogTags } from "@/lib/revalidation/actions";
 
+export const dynamic = "force-dynamic";
+
 /**
  * GET /api/blog-posts
  * List blog posts with filtering and pagination

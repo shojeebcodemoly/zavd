@@ -13,6 +13,8 @@ import {
 import { z } from "zod";
 import { isValidPhoneNumber } from "libphonenumber-js";
 
+export const dynamic = "force-dynamic";
+
 interface RouteParams {
 	params: Promise<{ id: string }>;
 }

@@ -4,6 +4,8 @@ import { updateQualityPageSchema } from "@/lib/validations/quality-page.validati
 import { revalidateQualityPage } from "@/lib/revalidation/actions";
 import type { UpdateQualityPageInput } from "@/lib/repositories/quality-page.repository";
 
+export const dynamic = "force-dynamic";
+
 /**
  * GET /api/quality-page
  * Fetch quality page content

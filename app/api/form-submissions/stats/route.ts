@@ -9,6 +9,8 @@ import {
 } from "@/lib/utils/api-response";
 import { logger } from "@/lib/utils/logger";
 
+export const dynamic = "force-dynamic";
+
 /**
  * GET /api/form-submissions/stats
  * Protected endpoint - Get submission statistics (logged in users only)

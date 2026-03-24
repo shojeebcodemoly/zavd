@@ -4,6 +4,8 @@ import { updateCareersPageSchema } from "@/lib/validations/careers-page.validati
 import { revalidateCareersPage } from "@/lib/revalidation/actions";
 import type { CareersPageData } from "@/lib/repositories/careers-page.repository";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
 	try {
 		const data = await careersPageService.getCareersPage();

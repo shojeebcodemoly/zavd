@@ -2,6 +2,8 @@ import { NextRequest } from "next/server";
 import { searchService } from "@/lib/services/search.service";
 import { logger } from "@/lib/utils/logger";
 import {
+
+export const dynamic = "force-dynamic";
 	badRequestResponse,
 	internalServerErrorResponse,
 	successResponse,

@@ -4,6 +4,8 @@ import { getBlogCommentModel } from "@/models/blog-comment.model";
 import { getBlogPostModel } from "@/models/blog-post.model";
 import { logger } from "@/lib/utils/logger";
 import {
+
+export const dynamic = "force-dynamic";
 	successResponse,
 	unauthorizedResponse,
 	internalServerErrorResponse,

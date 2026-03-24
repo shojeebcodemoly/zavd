@@ -17,6 +17,8 @@ import {
 } from "@/lib/utils/api-response";
 import { revalidateBlogCategory } from "@/lib/revalidation/actions";
 
+export const dynamic = "force-dynamic";
+
 /**
  * GET /api/blog-categories
  * List blog categories with optional filtering and tree structure

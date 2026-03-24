@@ -8,6 +8,8 @@ import {
 } from "@/lib/utils/api-response";
 import { z } from "zod";
 
+export const dynamic = "force-dynamic";
+
 /**
  * Query schema for public blog posts
  */

@@ -3,6 +3,8 @@ import { getAuth } from "@/lib/db/auth";
 import { getBlogCommentModel } from "@/models/blog-comment.model";
 import { logger } from "@/lib/utils/logger";
 import {
+
+export const dynamic = "force-dynamic";
 	successResponse,
 	unauthorizedResponse,
 	internalServerErrorResponse,

@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { revalidateTag, revalidatePath } from "next/cache";
 import { nachrichtenPageRepository } from "@/lib/repositories/nachrichten-page.repository";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
 	try {
 		const page = await nachrichtenPageRepository.get();

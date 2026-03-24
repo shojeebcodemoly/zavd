@@ -4,6 +4,8 @@ import { updateUberZavdPageSchema } from "@/lib/validations/uber-zavd-page.valid
 import { revalidateUberZavdPage } from "@/lib/revalidation/actions";
 import type { UpdateUberZavdPageInput } from "@/lib/repositories/uber-zavd-page.repository";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
 	try {
 		const page = await getUberZavdPage();

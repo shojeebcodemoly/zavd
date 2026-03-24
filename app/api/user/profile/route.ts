@@ -11,6 +11,8 @@ import {
 import { API_MESSAGES } from "@/lib/utils/constants";
 import { updateProfileSchema } from "@/lib/validations/user.validation";
 
+export const dynamic = "force-dynamic";
+
 /**
  * PUT /api/user/profile
  * Update user profile

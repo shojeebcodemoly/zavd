@@ -12,6 +12,8 @@ import {
 import { revalidatePath, revalidateTag } from "next/cache";
 import { PROJEKTE_PAGE_CACHE_TAG } from "@/lib/services/projekte-page.service";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
 	try {
 		const page = await projektePageRepository.get();

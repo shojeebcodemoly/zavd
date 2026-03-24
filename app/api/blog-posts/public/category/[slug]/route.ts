@@ -9,6 +9,8 @@ import {
 } from "@/lib/utils/api-response";
 import { z } from "zod";
 
+export const dynamic = "force-dynamic";
+
 interface RouteParams {
 	params: Promise<{ slug: string }>;
 }

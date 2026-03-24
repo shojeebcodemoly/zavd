@@ -5,6 +5,8 @@ import { revalidateZavdSpendenkontoPage } from "@/lib/revalidation/actions";
 import type { UpdateZavdSpendenkontoPageInput } from "@/lib/repositories/zavd-spendenkonto-page.repository";
 import { getAuth } from "@/lib/db/auth";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
 	try {
 		const page = await getZavdSpendenkontoPage();

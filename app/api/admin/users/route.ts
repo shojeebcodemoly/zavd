@@ -5,6 +5,8 @@ import { userService } from "@/lib/services/user.service";
 import { logger } from "@/lib/utils/logger";
 import { z } from "zod";
 
+export const dynamic = "force-dynamic";
+
 /**
  * Create New User Endpoint
  * POST /api/admin/users

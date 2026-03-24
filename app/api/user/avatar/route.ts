@@ -4,6 +4,8 @@ import { storageService } from "@/lib/storage/service";
 import { userService } from "@/lib/services/user.service";
 import { logger } from "@/lib/utils/logger";
 
+export const dynamic = "force-dynamic";
+
 /**
  * Upload User Avatar
  * POST /api/user/avatar

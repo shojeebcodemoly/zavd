@@ -3,6 +3,8 @@ import { privacyPageService } from "@/lib/services/privacy-page.service";
 import { updatePrivacyPageSchema } from "@/lib/validations/privacy-page.validation";
 import { revalidatePrivacyPage } from "@/lib/revalidation/actions";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
 	try {
 		const data = await privacyPageService.getPrivacyPage();

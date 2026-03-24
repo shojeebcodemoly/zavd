@@ -3,6 +3,8 @@ import { categoryRepository } from "@/lib/repositories/category.repository";
 import { productRepository } from "@/lib/repositories/product.repository";
 import { logger } from "@/lib/utils/logger";
 import {
+
+export const dynamic = "force-dynamic";
 	successResponse,
 	internalServerErrorResponse,
 } from "@/lib/utils/api-response";

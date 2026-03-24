@@ -4,6 +4,8 @@ import { z } from "zod";
 import { connectMongoose } from "@/lib/db/db-connect";
 import { getFormSubmissionModel } from "@/models/form-submission.model";
 import {
+
+export const dynamic = "force-dynamic";
 	createdResponse,
 	badRequestResponse,
 	internalServerErrorResponse,

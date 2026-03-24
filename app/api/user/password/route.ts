@@ -10,6 +10,8 @@ import {
 import { API_MESSAGES } from "@/lib/utils/constants";
 import { updatePasswordSchema } from "@/lib/validations/user.validation";
 
+export const dynamic = "force-dynamic";
+
 /**
  * PUT /api/user/password
  * Update user password

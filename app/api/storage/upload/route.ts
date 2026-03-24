@@ -16,6 +16,8 @@ import {
 } from "@/lib/storage";
 import type { StorageFolder, UploadRequest } from "@/lib/storage";
 
+export const dynamic = "force-dynamic";
+
 /**
  * POST /api/storage/upload
  * Upload a file to storage

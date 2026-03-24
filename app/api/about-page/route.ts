@@ -4,6 +4,8 @@ import { updateAboutPageSchema } from "@/lib/validations/about-page.validation";
 import { revalidateAboutPage } from "@/lib/revalidation/actions";
 import type { UpdateAboutPageInput } from "@/lib/repositories/about-page.repository";
 
+export const dynamic = "force-dynamic";
+
 /**
  * GET /api/about-page
  * Fetch about page content

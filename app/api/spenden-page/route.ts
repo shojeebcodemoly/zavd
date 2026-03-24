@@ -5,6 +5,8 @@ import { revalidateSpendenPage } from "@/lib/revalidation/actions";
 import type { UpdateSpendenPageInput } from "@/lib/repositories/spenden-page.repository";
 import { getAuth } from "@/lib/db/auth";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
 	try {
 		const page = await getSpendenPage();

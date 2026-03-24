@@ -5,6 +5,8 @@ import { revalidateHumanitaereHilfePage } from "@/lib/revalidation/actions";
 import type { UpdateHumanitaereHilfePageInput } from "@/lib/repositories/humanitaere-hilfe-page.repository";
 import { getAuth } from "@/lib/db/auth";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
 	try {
 		const page = await getHumanitaereHilfePage();

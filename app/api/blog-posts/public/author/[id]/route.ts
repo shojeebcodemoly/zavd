@@ -9,6 +9,8 @@ import {
 import { z } from "zod";
 import mongoose from "mongoose";
 
+export const dynamic = "force-dynamic";
+
 interface RouteParams {
 	params: Promise<{ id: string }>;
 }

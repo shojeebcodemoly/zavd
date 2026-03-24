@@ -4,6 +4,8 @@ import { updateTrainingPageSchema } from "@/lib/validations/training-page.valida
 import { revalidateTrainingPage } from "@/lib/revalidation/actions";
 import type { TrainingPageData } from "@/lib/repositories/training-page.repository";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
 	try {
 		const data = await trainingPageService.getTrainingPage();

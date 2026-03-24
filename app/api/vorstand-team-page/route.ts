@@ -5,6 +5,8 @@ import { revalidateVorstandTeamPage } from "@/lib/revalidation/actions";
 import type { UpdateVorstandTeamPageInput } from "@/lib/repositories/vorstand-team-page.repository";
 import { getAuth } from "@/lib/db/auth";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
 	try {
 		const page = await getVorstandTeamPage();

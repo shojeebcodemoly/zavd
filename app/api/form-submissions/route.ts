@@ -15,6 +15,8 @@ import {
 import { HTTP_STATUS } from "@/lib/utils/constants";
 import { logger } from "@/lib/utils/logger";
 import {
+
+export const dynamic = "force-dynamic";
 	TooManyRequestsError,
 	ValidationError,
 	NotFoundError,

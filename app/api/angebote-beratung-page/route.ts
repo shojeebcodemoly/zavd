@@ -4,6 +4,8 @@ import { updateAngeboteBeratungPageSchema } from "@/lib/validations/angebote-ber
 import { revalidateAngeboteBeratungPage } from "@/lib/revalidation/actions";
 import type { UpdateAngeboteBeratungPageInput } from "@/lib/repositories/angebote-beratung-page.repository";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
 	try {
 		const page = await getAngeboteBeratungPage();

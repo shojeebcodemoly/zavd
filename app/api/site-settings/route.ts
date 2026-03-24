@@ -12,6 +12,8 @@ import {
 import { revalidatePath, revalidateTag } from "next/cache";
 import { SITE_SETTINGS_CACHE_TAG } from "@/lib/services/site-settings.service";
 
+export const dynamic = "force-dynamic";
+
 /**
  * GET /api/site-settings
  * Get site settings (public endpoint for reading)
@@ -68,7 +70,7 @@ export async function PUT(request: NextRequest) {
 		});
 
 		// Revalidate cache tag for all site settings queries
-		revalidateTag(SITE_SETTINGS_CACHE_TAG, {});
+		revalidateTag(SITE_SETTINGS_CACHE_TAG);
 
 		// Revalidate the root layout - this affects navbar/footer on all pages
 		revalidatePath("/", "layout");

@@ -4,6 +4,8 @@ import { userService } from "@/lib/services/user.service";
 import { logger } from "@/lib/utils/logger";
 import { z } from "zod";
 
+export const dynamic = "force-dynamic";
+
 /**
  * Update User Name Endpoint
  * PUT /api/user/name

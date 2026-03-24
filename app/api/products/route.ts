@@ -19,6 +19,8 @@ import {
 import { generateSlug } from "@/lib/utils/product-helpers";
 import { revalidateProduct } from "@/lib/revalidation/actions";
 
+export const dynamic = "force-dynamic";
+
 /**
  * GET /api/products
  * List products with filtering and pagination

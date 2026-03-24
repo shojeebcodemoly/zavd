@@ -3,6 +3,8 @@ import { getLegalPage, updateLegalPage } from "@/lib/services/legal-page.service
 import { updateLegalPageSchema } from "@/lib/validations/legal-page.validation";
 import { revalidateLegalPage } from "@/lib/revalidation/actions";
 
+export const dynamic = "force-dynamic";
+
 /**
  * GET /api/legal-page
  * Fetch legal page content

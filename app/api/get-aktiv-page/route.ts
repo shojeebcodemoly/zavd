@@ -12,6 +12,8 @@ import {
 import { revalidatePath, revalidateTag } from "next/cache";
 import { GET_AKTIV_PAGE_CACHE_TAG } from "@/lib/services/get-aktiv-page.service";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
 	try {
 		const page = await getAktivPageRepository.get();

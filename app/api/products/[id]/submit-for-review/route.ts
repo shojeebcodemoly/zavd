@@ -4,6 +4,8 @@ import { productService } from "@/lib/services/product.service";
 import { logger } from "@/lib/utils/logger";
 import { isValidObjectId } from "@/lib/utils/product-helpers";
 import {
+
+export const dynamic = "force-dynamic";
 	successResponse,
 	badRequestResponse,
 	unauthorizedResponse,

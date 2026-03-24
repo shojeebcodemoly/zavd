@@ -5,6 +5,8 @@ import { revalidateMissionWertePage } from "@/lib/revalidation/actions";
 import type { UpdateMissionWertePageInput } from "@/lib/repositories/mission-werte-page.repository";
 import { getAuth } from "@/lib/db/auth";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
 	try {
 		const page = await getMissionWertePage();

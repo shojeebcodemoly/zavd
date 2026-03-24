@@ -9,6 +9,8 @@ import { updateResellerPageSchema } from "@/lib/validations/reseller-page.valida
 import type { UpdateResellerPageInput } from "@/lib/repositories/reseller-page.repository";
 import { logger } from "@/lib/utils/logger";
 
+export const dynamic = "force-dynamic";
+
 /**
  * GET /api/reseller-page
  * Public endpoint - Get reseller page content

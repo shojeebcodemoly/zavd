@@ -3,6 +3,8 @@ import { getAuth } from "@/lib/db/auth";
 import { productService } from "@/lib/services/product.service";
 import { logger } from "@/lib/utils/logger";
 import {
+
+export const dynamic = "force-dynamic";
 	successResponse,
 	unauthorizedResponse,
 	internalServerErrorResponse,

@@ -12,6 +12,8 @@ import {
 import { logger } from "@/lib/utils/logger";
 import { NotFoundError } from "@/lib/utils/api-error";
 
+export const dynamic = "force-dynamic";
+
 interface RouteParams {
 	params: Promise<{ id: string }>;
 }

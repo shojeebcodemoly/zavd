@@ -5,6 +5,8 @@ import { revalidateGeschichtePage } from "@/lib/revalidation/actions";
 import type { UpdateGeschichtePageInput } from "@/lib/repositories/geschichte-page.repository";
 import { getAuth } from "@/lib/db/auth";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
 	try {
 		const page = await getGeschichtePage();

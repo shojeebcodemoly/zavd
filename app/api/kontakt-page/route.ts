@@ -12,6 +12,8 @@ import {
 import { revalidatePath, revalidateTag } from "next/cache";
 import { KONTAKT_PAGE_CACHE_TAG } from "@/lib/services/kontakt-page.service";
 
+export const dynamic = "force-dynamic";
+
 /**
  * GET /api/kontakt-page
  * Get kontakt page content (public endpoint for reading)

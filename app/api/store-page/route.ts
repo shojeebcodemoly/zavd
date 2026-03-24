@@ -4,6 +4,8 @@ import { updateStorePageSchema } from "@/lib/validations/store-page.validation";
 import { revalidateStorePage } from "@/lib/revalidation/actions";
 import type { UpdateStorePageInput } from "@/lib/repositories/store-page.repository";
 
+export const dynamic = "force-dynamic";
+
 /**
  * GET /api/store-page
  * Fetch store page content

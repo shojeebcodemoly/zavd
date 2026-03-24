@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getProductModel } from "@/models/product.model";
 
+export const dynamic = "force-dynamic";
+
 /**
  * POST /api/products/[id]/like
  * Increment like count for a product

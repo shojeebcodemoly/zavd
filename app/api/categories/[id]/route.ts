@@ -15,6 +15,8 @@ import {
 } from "@/lib/utils/api-response";
 import { revalidateCategory } from "@/lib/revalidation/actions";
 
+export const dynamic = "force-dynamic";
+
 interface RouteParams {
 	params: Promise<{ id: string }>;
 }

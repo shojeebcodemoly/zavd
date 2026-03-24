@@ -11,6 +11,8 @@ import {
 import { API_MESSAGES } from "@/lib/utils/constants";
 import { NotFoundError } from "@/lib/utils/api-error";
 
+export const dynamic = "force-dynamic";
+
 /**
  * GET /api/user/me
  * Get current authenticated user with profile

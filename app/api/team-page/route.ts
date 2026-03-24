@@ -3,6 +3,8 @@ import { getTeamPage, updateTeamPage } from "@/lib/services/team-page.service";
 import { updateTeamPageSchema } from "@/lib/validations/team-page.validation";
 import { revalidateTeamPage } from "@/lib/revalidation/actions";
 
+export const dynamic = "force-dynamic";
+
 /**
  * GET /api/team-page
  * Fetch team page content
