@@ -1,12 +1,12 @@
 /**
- * Storage Service
+ * Storage Service — Cloudinary
  * Core file storage operations: upload, delete, list
  */
 
-import fs from "fs/promises";
+import { v2 as cloudinary } from "cloudinary";
 import path from "path";
 import { logger } from "@/lib/utils/logger";
-import { STORAGE_CONFIG, STORAGE_MESSAGES } from "./constants";
+import { STORAGE_MESSAGES } from "./constants";
 import type {
 	StorageFile,
 	FileMetadata,
@@ -16,406 +16,258 @@ import type {
 } from "./types";
 import {
 	StorageError,
-	generateUniqueFilename,
+	generateFilename,
 	slugify,
-	getStorageBasePath,
-	getFolderPath,
-	getFilePath,
-	getFileUrl,
-	getUserAvatarFolderPath,
-	getUserAvatarUrl,
 	isAllowedMimeType,
 	isValidFileSize,
 	verifyMagicBytes,
 	inferFolder,
 	sanitizeFilename,
-	getMimeFromExtension,
 	getExtensionFromMime,
-	getExtensionFromFilename,
 } from "./utils";
 
-/**
- * Storage Service Class
- * Handles all file storage operations
- */
+// ─── Cloudinary Config ────────────────────────────────────────────────────────
+
+cloudinary.config({ cloudinary_url: process.env.CLOUDINARY_URL });
+
+const CLOUD_FOLDER = "zavd";
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function getResourceType(folder: StorageFolder): "image" | "raw" {
+	return folder === "documents" ? "raw" : "image";
+}
+
+function buildPublicId(folder: StorageFolder, basename: string): string {
+	return `${CLOUD_FOLDER}/${folder}/${basename}`;
+}
+
+function formatToMime(format: string, resourceType: string): string {
+	if (resourceType === "raw") {
+		const map: Record<string, string> = {
+			pdf: "application/pdf",
+			doc: "application/msword",
+			docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+		};
+		return map[format] || "application/octet-stream";
+	}
+	const imageMap: Record<string, string> = {
+		jpg: "image/jpeg",
+		jpeg: "image/jpeg",
+		png: "image/png",
+		webp: "image/webp",
+		gif: "image/gif",
+		svg: "image/svg+xml",
+	};
+	return imageMap[format] || `image/${format}`;
+}
+
+// ─── Storage Service ──────────────────────────────────────────────────────────
+
 class StorageService {
 	private initialized = false;
 
-	/**
-	 * Initialize storage folders
-	 * Creates the storage directory structure if it doesn't exist
-	 */
 	async initialize(): Promise<void> {
 		if (this.initialized) return;
-
-		try {
-			const basePath = getStorageBasePath();
-
-			// Create base storage folder
-			await fs.mkdir(basePath, { recursive: true });
-
-			// Create subfolders
-			for (const folder of Object.values(STORAGE_CONFIG.FOLDERS)) {
-				const folderPath = path.join(basePath, folder);
-				await fs.mkdir(folderPath, { recursive: true });
-			}
-
-			this.initialized = true;
-			logger.info("Storage system initialized", { basePath });
-		} catch (error) {
-			logger.error("Failed to initialize storage", error);
-			throw new StorageError(
-				"Failed to initialize storage system",
-				"STORAGE_ERROR",
-				500
-			);
-		}
+		// Cloudinary needs no local directory setup
+		this.initialized = true;
+		logger.info("Cloudinary storage initialized");
 	}
 
-	/**
-	 * Ensure storage is initialized before operations
-	 */
 	private async ensureInitialized(): Promise<void> {
-		if (!this.initialized) {
-			await this.initialize();
-		}
+		if (!this.initialized) await this.initialize();
 	}
 
-	/**
-	 * Upload a file
-	 * @param request - Upload request containing file buffer and metadata
-	 * @returns StorageFile with file info and public URL
-	 */
 	async upload(request: UploadRequest): Promise<StorageFile> {
 		await this.ensureInitialized();
 
-		const {
-			buffer,
-			originalName,
-			mimeType,
-			size,
-			folder: requestedFolder,
-		} = request;
+		const { buffer, originalName, mimeType, size, folder: requestedFolder } = request;
 
-		// Sanitize original filename for logging
 		const safeOriginalName = sanitizeFilename(originalName);
 
-		logger.debug("Processing upload", {
-			originalName: safeOriginalName,
-			mimeType,
-			size,
-		});
-
-		// Validate MIME type
 		if (!isAllowedMimeType(mimeType)) {
-			throw new StorageError(
-				STORAGE_MESSAGES.INVALID_MIME_TYPE,
-				"INVALID_MIME_TYPE",
-				400,
-				{ field: "mimeType", value: mimeType }
-			);
-		}
-
-		// Validate file size
-		if (!isValidFileSize(size, mimeType)) {
-			throw new StorageError(
-				STORAGE_MESSAGES.FILE_TOO_LARGE,
-				"FILE_TOO_LARGE",
-				400,
-				{ field: "size", value: size }
-			);
-		}
-
-		// Verify magic bytes match declared MIME type
-		if (!verifyMagicBytes(buffer, mimeType)) {
-			logger.warn("MIME type mismatch detected (possible spoofing)", {
-				declaredMime: mimeType,
-				originalName: safeOriginalName,
+			throw new StorageError(STORAGE_MESSAGES.INVALID_MIME_TYPE, "INVALID_MIME_TYPE", 400, {
+				field: "mimeType",
+				value: mimeType,
 			});
-			throw new StorageError(
-				STORAGE_MESSAGES.MIME_MISMATCH,
-				"MIME_MISMATCH",
-				400,
-				{ field: "file", value: mimeType }
-			);
 		}
 
-		// Determine target folder
+		if (!isValidFileSize(size, mimeType)) {
+			throw new StorageError(STORAGE_MESSAGES.FILE_TOO_LARGE, "FILE_TOO_LARGE", 400, {
+				field: "size",
+				value: size,
+			});
+		}
+
+		if (!verifyMagicBytes(buffer, mimeType)) {
+			logger.warn("MIME type mismatch detected", { declaredMime: mimeType, originalName: safeOriginalName });
+			throw new StorageError(STORAGE_MESSAGES.MIME_MISMATCH, "MIME_MISMATCH", 400, {
+				field: "file",
+				value: mimeType,
+			});
+		}
+
 		const folder: StorageFolder = requestedFolder || inferFolder(mimeType);
-
-		// Generate unique filename (slugified with duplicate handling)
-		const filename = await generateUniqueFilename(
-			safeOriginalName,
-			mimeType,
-			folder,
-			this.exists.bind(this)
-		);
-
-		// Use slugified base name as ID
-		const id = slugify(path.basename(filename, path.extname(filename)));
-
-		// Get file path
-		const filePath = getFilePath(folder, filename);
+		const filename = generateFilename(safeOriginalName, mimeType);
+		const ext = path.extname(filename);
+		const baseName = path.basename(filename, ext);
+		const publicId = buildPublicId(folder, baseName);
+		const resourceType = getResourceType(folder);
 
 		try {
-			// Write file to disk
-			await fs.writeFile(filePath, buffer);
+			const dataUri = `data:${mimeType};base64,${buffer.toString("base64")}`;
 
-			const url = getFileUrl(folder, filename);
-			const createdAt = new Date();
-
-			logger.info("File uploaded successfully", {
-				filename,
-				folder,
-				size,
-				mimeType,
+			const result = await cloudinary.uploader.upload(dataUri, {
+				public_id: publicId,
+				resource_type: resourceType,
+				overwrite: false,
 			});
 
+			logger.info("File uploaded to Cloudinary", { filename, folder, size, mimeType });
+
 			return {
-				id,
+				id: slugify(baseName),
 				filename,
 				originalName: safeOriginalName,
 				mimeType,
 				size,
 				folder,
-				url,
-				createdAt,
+				url: result.secure_url,
+				createdAt: new Date(),
 			};
 		} catch (error) {
-			logger.error("Failed to write file", error);
-			throw new StorageError(
-				STORAGE_MESSAGES.STORAGE_ERROR,
-				"STORAGE_ERROR",
-				500
-			);
+			logger.error("Failed to upload to Cloudinary", error);
+			throw new StorageError(STORAGE_MESSAGES.STORAGE_ERROR, "STORAGE_ERROR", 500);
 		}
 	}
 
-	/**
-	 * Delete a file
-	 * @param filename - Name of file to delete
-	 * @param folder - Storage folder
-	 */
 	async delete(filename: string, folder: StorageFolder): Promise<void> {
 		await this.ensureInitialized();
 
-		const filePath = getFilePath(folder, filename);
+		const ext = path.extname(filename);
+		const baseName = path.basename(filename, ext);
+		const publicId = buildPublicId(folder, baseName);
+		const resourceType = getResourceType(folder);
 
 		try {
-			// Check if file exists
-			await fs.access(filePath);
+			const result = await cloudinary.uploader.destroy(publicId, { resource_type: resourceType });
 
-			// Delete the file
-			await fs.unlink(filePath);
-
-			logger.info("File deleted successfully", { filename, folder });
-		} catch (error) {
-			if ((error as NodeJS.ErrnoException).code === "ENOENT") {
-				throw new StorageError(
-					STORAGE_MESSAGES.FILE_NOT_FOUND,
-					"FILE_NOT_FOUND",
-					404,
-					{ field: "filename", value: filename }
-				);
+			if (result.result === "not found") {
+				throw new StorageError(STORAGE_MESSAGES.FILE_NOT_FOUND, "FILE_NOT_FOUND", 404, {
+					field: "filename",
+					value: filename,
+				});
 			}
 
-			logger.error("Failed to delete file", error);
-			throw new StorageError(
-				STORAGE_MESSAGES.STORAGE_ERROR,
-				"STORAGE_ERROR",
-				500
-			);
+			logger.info("File deleted from Cloudinary", { filename, folder });
+		} catch (error) {
+			if (error instanceof StorageError) throw error;
+			logger.error("Failed to delete from Cloudinary", error);
+			throw new StorageError(STORAGE_MESSAGES.STORAGE_ERROR, "STORAGE_ERROR", 500);
 		}
 	}
 
-	/**
-	 * List files in a folder
-	 * @param folder - Storage folder to list
-	 * @param page - Page number (1-indexed)
-	 * @param limit - Items per page
-	 * @param sort - Sort order by modification date
-	 * @returns Paginated list of file metadata
-	 */
 	async list(
 		folder: StorageFolder,
-		page: number = STORAGE_CONFIG.DEFAULT_PAGE,
-		limit: number = STORAGE_CONFIG.DEFAULT_LIMIT,
+		page: number = 1,
+		limit: number = 20,
 		sort: "asc" | "desc" = "desc"
 	): Promise<ListResult> {
 		await this.ensureInitialized();
 
-		const folderPath = getFolderPath(folder);
+		const resourceType = getResourceType(folder);
 
 		try {
-			// Read directory contents
-			const entries = await fs.readdir(folderPath, { withFileTypes: true });
-
-			// Filter to files only and get metadata
-			const filesPromises = entries
-				.filter((entry) => entry.isFile())
-				.map(async (entry): Promise<FileMetadata | null> => {
-					try {
-						const filePath = path.join(folderPath, entry.name);
-						const stats = await fs.stat(filePath);
-						const extension = getExtensionFromFilename(entry.name);
-						const mimeType =
-							getMimeFromExtension(extension) ||
-							"application/octet-stream";
-
-						return {
-							filename: entry.name,
-							mimeType,
-							size: stats.size,
-							folder,
-							url: getFileUrl(folder, entry.name),
-							modifiedAt: stats.mtime,
-							createdAt: stats.birthtime,
-						};
-					} catch {
-						// Skip files we can't stat
-						return null;
-					}
-				});
-
-			const filesWithNull = await Promise.all(filesPromises);
-			let files = filesWithNull.filter((f): f is FileMetadata => f !== null);
-
-			// Sort by creation date
-			files.sort((a, b) => {
-				const comparison = a.createdAt.getTime() - b.createdAt.getTime();
-				return sort === "asc" ? comparison : -comparison;
+			const result = await cloudinary.api.resources({
+				type: "upload",
+				prefix: `${CLOUD_FOLDER}/${folder}/`,
+				resource_type: resourceType,
+				max_results: 500,
 			});
 
-			// Calculate pagination
-			const total = files.length;
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			let resources: any[] = result.resources || [];
+
+			resources.sort((a, b) => {
+				const diff = new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+				return sort === "asc" ? diff : -diff;
+			});
+
+			const total = resources.length;
 			const totalPages = Math.ceil(total / limit);
-			const startIndex = (page - 1) * limit;
-			const endIndex = startIndex + limit;
+			const paged = resources.slice((page - 1) * limit, page * limit);
 
-			// Slice for current page
-			files = files.slice(startIndex, endIndex);
-
-			return {
-				files,
-				page,
-				limit,
-				total,
-				totalPages,
-			};
-		} catch (error) {
-			if ((error as NodeJS.ErrnoException).code === "ENOENT") {
-				// Folder doesn't exist - return empty result
+			const files: FileMetadata[] = paged.map((r) => {
+				const fname = `${r.public_id.split("/").pop()}.${r.format}`;
 				return {
-					files: [],
-					page,
-					limit,
-					total: 0,
-					totalPages: 0,
+					filename: fname,
+					mimeType: formatToMime(r.format, r.resource_type),
+					size: r.bytes,
+					folder,
+					url: r.secure_url,
+					modifiedAt: new Date(r.created_at),
+					createdAt: new Date(r.created_at),
 				};
-			}
+			});
 
-			logger.error("Failed to list files", error);
-			throw new StorageError(
-				STORAGE_MESSAGES.STORAGE_ERROR,
-				"STORAGE_ERROR",
-				500
-			);
+			return { files, page, limit, total, totalPages };
+		} catch (error) {
+			logger.error("Failed to list Cloudinary resources", error);
+			return { files: [], page, limit, total: 0, totalPages: 0 };
 		}
 	}
 
-	/**
-	 * Check if a file exists
-	 * @param filename - Filename to check
-	 * @param folder - Storage folder
-	 */
 	async exists(filename: string, folder: StorageFolder): Promise<boolean> {
 		await this.ensureInitialized();
 
+		const ext = path.extname(filename);
+		const baseName = path.basename(filename, ext);
+		const publicId = buildPublicId(folder, baseName);
+		const resourceType = getResourceType(folder);
+
 		try {
-			const filePath = getFilePath(folder, filename);
-			await fs.access(filePath);
+			await cloudinary.api.resource(publicId, { resource_type: resourceType });
 			return true;
 		} catch {
 			return false;
 		}
 	}
 
-	/**
-	 * Get file metadata
-	 * @param filename - Filename
-	 * @param folder - Storage folder
-	 */
-	async getMetadata(
-		filename: string,
-		folder: StorageFolder
-	): Promise<FileMetadata> {
+	async getMetadata(filename: string, folder: StorageFolder): Promise<FileMetadata> {
 		await this.ensureInitialized();
 
-		const filePath = getFilePath(folder, filename);
+		const ext = path.extname(filename);
+		const baseName = path.basename(filename, ext);
+		const publicId = buildPublicId(folder, baseName);
+		const resourceType = getResourceType(folder);
 
 		try {
-			const stats = await fs.stat(filePath);
-			const extension = getExtensionFromFilename(filename);
-			const mimeType =
-				getMimeFromExtension(extension) || "application/octet-stream";
-
+			const r = await cloudinary.api.resource(publicId, { resource_type: resourceType });
 			return {
 				filename,
-				mimeType,
-				size: stats.size,
+				mimeType: formatToMime(r.format, r.resource_type),
+				size: r.bytes,
 				folder,
-				url: getFileUrl(folder, filename),
-				modifiedAt: stats.mtime,
-				createdAt: stats.birthtime,
+				url: r.secure_url,
+				modifiedAt: new Date(r.created_at),
+				createdAt: new Date(r.created_at),
 			};
-		} catch (error) {
-			if ((error as NodeJS.ErrnoException).code === "ENOENT") {
-				throw new StorageError(
-					STORAGE_MESSAGES.FILE_NOT_FOUND,
-					"FILE_NOT_FOUND",
-					404,
-					{ field: "filename", value: filename }
-				);
-			}
-
-			throw new StorageError(
-				STORAGE_MESSAGES.STORAGE_ERROR,
-				"STORAGE_ERROR",
-				500
-			);
+		} catch {
+			throw new StorageError(STORAGE_MESSAGES.FILE_NOT_FOUND, "FILE_NOT_FOUND", 404, {
+				field: "filename",
+				value: filename,
+			});
 		}
 	}
 
-	/**
-	 * Get total storage usage for a folder
-	 */
-	async getUsage(
-		folder: StorageFolder
-	): Promise<{ count: number; totalSize: number }> {
-		await this.ensureInitialized();
-
-		const result = await this.list(folder, 1, 10000); // Get all files
+	async getUsage(folder: StorageFolder): Promise<{ count: number; totalSize: number }> {
+		const result = await this.list(folder, 1, 10000);
 		const totalSize = result.files.reduce((sum, file) => sum + file.size, 0);
-
-		return {
-			count: result.total,
-			totalSize,
-		};
+		return { count: result.total, totalSize };
 	}
 
-	// =========================================================================
-	// User Avatar Methods
-	// =========================================================================
+	// ─── Avatar Methods ────────────────────────────────────────────────────────
 
-	/**
-	 * Upload user avatar
-	 * Automatically deletes any existing avatar for this user
-	 * @param userId - User ID
-	 * @param buffer - File buffer
-	 * @param mimeType - File MIME type
-	 * @param size - File size in bytes
-	 * @returns Public URL of the uploaded avatar
-	 */
 	async uploadUserAvatar(
 		userId: string,
 		buffer: Buffer,
@@ -424,162 +276,83 @@ class StorageService {
 	): Promise<{ url: string; filename: string }> {
 		await this.ensureInitialized();
 
-		// Validate MIME type (only images allowed for avatars)
 		if (!mimeType.startsWith("image/") || !isAllowedMimeType(mimeType)) {
-			throw new StorageError(
-				"Only image files are allowed for avatars",
-				"INVALID_MIME_TYPE",
-				400,
-				{ field: "mimeType", value: mimeType }
-			);
+			throw new StorageError("Only image files are allowed for avatars", "INVALID_MIME_TYPE", 400, {
+				field: "mimeType",
+				value: mimeType,
+			});
 		}
 
-		// Validate file size
 		if (!isValidFileSize(size, mimeType)) {
-			throw new StorageError(
-				STORAGE_MESSAGES.FILE_TOO_LARGE,
-				"FILE_TOO_LARGE",
-				400,
-				{ field: "size", value: size }
-			);
+			throw new StorageError(STORAGE_MESSAGES.FILE_TOO_LARGE, "FILE_TOO_LARGE", 400, {
+				field: "size",
+				value: size,
+			});
 		}
 
-		// Verify magic bytes
 		if (!verifyMagicBytes(buffer, mimeType)) {
-			throw new StorageError(
-				STORAGE_MESSAGES.MIME_MISMATCH,
-				"MIME_MISMATCH",
-				400,
-				{ field: "file", value: mimeType }
-			);
+			throw new StorageError(STORAGE_MESSAGES.MIME_MISMATCH, "MIME_MISMATCH", 400, {
+				field: "file",
+				value: mimeType,
+			});
 		}
 
-		// Get user's avatar folder path
-		const userAvatarFolder = getUserAvatarFolderPath(userId);
-
-		// Create user folder if it doesn't exist
-		await fs.mkdir(userAvatarFolder, { recursive: true });
-
-		// Delete existing avatar(s) for this user
-		try {
-			const existingFiles = await fs.readdir(userAvatarFolder);
-			for (const file of existingFiles) {
-				if (file.startsWith("avatar.")) {
-					await fs.unlink(path.join(userAvatarFolder, file));
-					logger.info("Deleted existing avatar", {
-						userId,
-						filename: file,
-					});
-				}
-			}
-		} catch (error) {
-			// Folder might not exist yet, which is fine
-			if ((error as NodeJS.ErrnoException).code !== "ENOENT") {
-				logger.warn("Error cleaning up existing avatars", error);
-			}
-		}
-
-		// Generate filename with correct extension
-		const extension = getExtensionFromMime(mimeType) || ".jpg";
-		const filename = `avatar${extension}`;
-		const filePath = path.join(userAvatarFolder, filename);
+		const ext = getExtensionFromMime(mimeType) || ".jpg";
+		const filename = `avatar${ext}`;
+		const publicId = `${CLOUD_FOLDER}/avatars/${userId}/avatar`;
 
 		try {
-			// Write file to disk
-			await fs.writeFile(filePath, buffer);
+			const dataUri = `data:${mimeType};base64,${buffer.toString("base64")}`;
 
-			const url = getUserAvatarUrl(userId, filename);
-
-			logger.info("User avatar uploaded successfully", {
-				userId,
-				filename,
-				size,
-				mimeType,
+			const result = await cloudinary.uploader.upload(dataUri, {
+				public_id: publicId,
+				resource_type: "image",
+				overwrite: true,
+				invalidate: true,
 			});
 
-			return { url, filename };
+			logger.info("User avatar uploaded to Cloudinary", { userId, size, mimeType });
+			return { url: result.secure_url, filename };
 		} catch (error) {
-			logger.error("Failed to write avatar file", error);
-			throw new StorageError(
-				STORAGE_MESSAGES.STORAGE_ERROR,
-				"STORAGE_ERROR",
-				500
-			);
+			logger.error("Failed to upload avatar to Cloudinary", error);
+			throw new StorageError(STORAGE_MESSAGES.STORAGE_ERROR, "STORAGE_ERROR", 500);
 		}
 	}
 
-	/**
-	 * Delete user avatar
-	 * @param userId - User ID
-	 */
 	async deleteUserAvatar(userId: string): Promise<void> {
 		await this.ensureInitialized();
 
-		const userAvatarFolder = getUserAvatarFolderPath(userId);
+		const publicId = `${CLOUD_FOLDER}/avatars/${userId}/avatar`;
 
 		try {
-			const existingFiles = await fs.readdir(userAvatarFolder);
-			let deleted = false;
+			const result = await cloudinary.uploader.destroy(publicId, {
+				resource_type: "image",
+				invalidate: true,
+			});
 
-			for (const file of existingFiles) {
-				if (file.startsWith("avatar.")) {
-					await fs.unlink(path.join(userAvatarFolder, file));
-					deleted = true;
-					logger.info("Deleted user avatar", { userId, filename: file });
-				}
+			if (result.result === "not found") {
+				throw new StorageError("No avatar found for this user", "FILE_NOT_FOUND", 404, {
+					field: "userId",
+					value: userId,
+				});
 			}
 
-			if (!deleted) {
-				throw new StorageError(
-					"No avatar found for this user",
-					"FILE_NOT_FOUND",
-					404,
-					{ field: "userId", value: userId }
-				);
-			}
+			logger.info("User avatar deleted from Cloudinary", { userId });
 		} catch (error) {
-			if ((error as NodeJS.ErrnoException).code === "ENOENT") {
-				throw new StorageError(
-					"No avatar found for this user",
-					"FILE_NOT_FOUND",
-					404,
-					{ field: "userId", value: userId }
-				);
-			}
-
-			if (error instanceof StorageError) {
-				throw error;
-			}
-
-			logger.error("Failed to delete avatar", error);
-			throw new StorageError(
-				STORAGE_MESSAGES.STORAGE_ERROR,
-				"STORAGE_ERROR",
-				500
-			);
+			if (error instanceof StorageError) throw error;
+			logger.error("Failed to delete avatar from Cloudinary", error);
+			throw new StorageError(STORAGE_MESSAGES.STORAGE_ERROR, "STORAGE_ERROR", 500);
 		}
 	}
 
-	/**
-	 * Get user avatar URL if it exists
-	 * @param userId - User ID
-	 * @returns Avatar URL or null if not found
-	 */
 	async getUserAvatarUrl(userId: string): Promise<string | null> {
 		await this.ensureInitialized();
 
-		const userAvatarFolder = getUserAvatarFolderPath(userId);
+		const publicId = `${CLOUD_FOLDER}/avatars/${userId}/avatar`;
 
 		try {
-			const existingFiles = await fs.readdir(userAvatarFolder);
-
-			for (const file of existingFiles) {
-				if (file.startsWith("avatar.")) {
-					return getUserAvatarUrl(userId, file);
-				}
-			}
-
-			return null;
+			const result = await cloudinary.api.resource(publicId, { resource_type: "image" });
+			return result.secure_url || null;
 		} catch {
 			return null;
 		}
