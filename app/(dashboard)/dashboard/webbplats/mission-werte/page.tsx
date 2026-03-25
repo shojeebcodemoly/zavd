@@ -475,7 +475,7 @@ export default function MissionWerteAdminPage() {
 												<div className="grid gap-4 md:grid-cols-3">
 													<div className="space-y-2">
 														<Label>Number</Label>
-														<Input type="number" min={0} {...form.register(`stats.items.${index}.value`)} value={form.watch(`stats.items.${index}.value`) ?? 0} placeholder="500" />
+														<Input type="number" min={0} {...form.register(`stats.items.${index}.value`, { valueAsNumber: true })} value={form.watch(`stats.items.${index}.value`) ?? 0} placeholder="500" />
 													</div>
 													<div className="space-y-2">
 														<Label>Suffix (e.g. +, %)</Label>

@@ -9,6 +9,7 @@ interface ContactSectionProps {
 	formSection: IKontaktFormSection;
 	phone: string;
 	email: string;
+	isEn?: boolean;
 }
 
 export function ContactSection({
@@ -16,9 +17,18 @@ export function ContactSection({
 	formSection,
 	phone,
 	email,
+	isEn = false,
 }: ContactSectionProps) {
 	const resolvedPhone = contactInfo.phone || phone;
 	const resolvedEmail = contactInfo.email || email;
+
+	const badge = isEn ? (contactInfo.badgeEn || contactInfo.badgeDe) : (contactInfo.badgeDe || contactInfo.badgeEn);
+	const heading = isEn ? (contactInfo.headingEn || contactInfo.headingDe) : (contactInfo.headingDe || contactInfo.headingEn);
+	const addressLabel = isEn ? (contactInfo.addressLabelEn || contactInfo.addressLabelDe) : (contactInfo.addressLabelDe || contactInfo.addressLabelEn);
+	const emailLabel = isEn ? (contactInfo.emailLabelEn || contactInfo.emailLabelDe) : (contactInfo.emailLabelDe || contactInfo.emailLabelEn);
+	const phoneLabel = isEn ? (contactInfo.phoneLabelEn || contactInfo.phoneLabelDe) : (contactInfo.phoneLabelDe || contactInfo.phoneLabelEn);
+	const formHeading = isEn ? (formSection.headingEn || formSection.headingDe) : (formSection.headingDe || formSection.headingEn);
+
 	return (
 		<section className="w-full py-16 lg:py-24 bg-gray-50">
 			<div className="_container">
@@ -26,18 +36,18 @@ export function ContactSection({
 					{/* Left column — Contact Info */}
 					<div className="bg-primary rounded-2xl p-8 lg:p-10 text-white h-full">
 						{/* Badge */}
-						{contactInfo.badge && (
+						{badge && (
 							<div className="flex items-center gap-3 mb-5">
 								<span className="w-8 h-px bg-white/50 block" />
 								<span className="text-sm font-medium text-white/80 tracking-wide uppercase">
-									{contactInfo.badge}
+									{badge}
 								</span>
 							</div>
 						)}
 
 						{/* Heading */}
 						<h2 className="text-3xl md:text-4xl font-bold text-white mb-10 leading-tight">
-							{contactInfo.heading || "Get in Touch"}
+							{heading || "Get in Touch"}
 						</h2>
 
 						{/* Info items */}
@@ -50,7 +60,7 @@ export function ContactSection({
 									</div>
 									<div>
 										<p className="font-semibold text-white text-base mb-1">
-											{contactInfo.addressLabel || "Our Address"}
+											{addressLabel || "Our Address"}
 										</p>
 										<p className="text-white/70 text-sm leading-relaxed">
 											{contactInfo.address}
@@ -67,7 +77,7 @@ export function ContactSection({
 									</div>
 									<div>
 										<p className="font-semibold text-white text-base mb-1">
-											{contactInfo.emailLabel || "Email Address"}
+											{emailLabel || "Email Address"}
 										</p>
 										<a
 											href={`mailto:${resolvedEmail}`}
@@ -87,7 +97,7 @@ export function ContactSection({
 									</div>
 									<div>
 										<p className="font-semibold text-white text-base mb-1">
-											{contactInfo.phoneLabel || "Phone Number"}
+											{phoneLabel || "Phone Number"}
 										</p>
 										<a
 											href={`tel:${resolvedPhone.replace(/\s/g, "")}`}
@@ -104,9 +114,9 @@ export function ContactSection({
 					{/* Right column — Form */}
 					<div>
 						{/* Form heading */}
-						{formSection.heading && (
+						{formHeading && (
 							<h2 className="text-3xl md:text-4xl font-bold text-secondary mb-8 leading-tight">
-								{formSection.heading}
+								{formHeading}
 							</h2>
 						)}
 						<ContactInquiryForm />

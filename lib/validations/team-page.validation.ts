@@ -17,9 +17,12 @@ export const teamSectionVisibilitySchema = z.object({
 // HERO SECTION
 // ============================================================================
 export const teamHeroSectionSchema = z.object({
-	badge: z.string().max(100).optional(),
-	title: z.string().max(200).optional(),
-	subtitle: z.string().max(1000).optional(),
+	badgeDe: z.string().max(100).optional(),
+	badgeEn: z.string().max(100).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	subtitleDe: z.string().max(1000).optional(),
+	subtitleEn: z.string().max(1000).optional(),
 });
 
 // ============================================================================
@@ -27,7 +30,8 @@ export const teamHeroSectionSchema = z.object({
 // ============================================================================
 export const teamStatSchema = z.object({
 	value: z.string().max(50).optional(),
-	label: z.string().max(100).optional(),
+	labelDe: z.string().max(100).optional(),
+	labelEn: z.string().max(100).optional(),
 });
 
 // ============================================================================
@@ -35,9 +39,12 @@ export const teamStatSchema = z.object({
 // ============================================================================
 export const teamMemberSchema = z.object({
 	name: z.string().max(200).optional(),
-	role: z.string().max(200).optional(),
-	department: z.string().max(100).optional(),
-	bio: z.string().max(2000).optional(),
+	roleDe: z.string().max(200).optional(),
+	roleEn: z.string().max(200).optional(),
+	departmentDe: z.string().max(100).optional(),
+	departmentEn: z.string().max(100).optional(),
+	bioDe: z.string().max(2000).optional(),
+	bioEn: z.string().max(2000).optional(),
 	image: z.string().max(500).optional(),
 	email: z.string().email().max(200).optional().or(z.literal("")),
 	linkedin: z.string().max(500).optional(),
@@ -48,13 +55,17 @@ export const teamMemberSchema = z.object({
 // VALUES SECTION
 // ============================================================================
 export const teamValueSchema = z.object({
-	title: z.string().max(200).optional(),
-	description: z.string().max(1000).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	descriptionDe: z.string().max(1000).optional(),
+	descriptionEn: z.string().max(1000).optional(),
 });
 
 export const teamValuesSectionSchema = z.object({
-	title: z.string().max(200).optional(),
-	subtitle: z.string().max(500).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	subtitleDe: z.string().max(500).optional(),
+	subtitleEn: z.string().max(500).optional(),
 	values: z.array(teamValueSchema).optional(),
 });
 
@@ -62,17 +73,21 @@ export const teamValuesSectionSchema = z.object({
 // JOIN US SECTION
 // ============================================================================
 export const teamJoinUsSectionSchema = z.object({
-	title: z.string().max(200).optional(),
-	description: z.string().max(1000).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	descriptionDe: z.string().max(1000).optional(),
+	descriptionEn: z.string().max(1000).optional(),
 	primaryCta: z
 		.object({
-			text: z.string().max(100).optional(),
+			textDe: z.string().max(100).optional(),
+			textEn: z.string().max(100).optional(),
 			href: z.string().max(500).optional(),
 		})
 		.optional(),
 	secondaryCta: z
 		.object({
-			text: z.string().max(100).optional(),
+			textDe: z.string().max(100).optional(),
+			textEn: z.string().max(100).optional(),
 			href: z.string().max(500).optional(),
 		})
 		.optional(),
@@ -82,8 +97,10 @@ export const teamJoinUsSectionSchema = z.object({
 // CONTACT SECTION
 // ============================================================================
 export const teamContactSectionSchema = z.object({
-	title: z.string().max(200).optional(),
-	description: z.string().max(500).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	descriptionDe: z.string().max(500).optional(),
+	descriptionEn: z.string().max(500).optional(),
 	phone: z.string().max(50).optional(),
 	email: z.string().email().max(200).optional().or(z.literal("")),
 });

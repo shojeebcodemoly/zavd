@@ -48,43 +48,56 @@ const faqSectionVisibilitySchema = z.object({
 
 const faqHeroStatSchema = z.object({
 	value: z.string().max(50).optional(),
-	label: z.string().max(100).optional(),
+	labelDe: z.string().max(100).optional(),
+	labelEn: z.string().max(100).optional(),
 });
 
 const faqHeroSectionSchema = z.object({
-	badge: z.string().max(100).optional(),
-	title: z.string().max(200).optional(),
-	titleHighlight: z.string().max(200).optional(),
-	subtitle: z.string().max(1000).optional(),
+	badgeDe: z.string().max(100).optional(),
+	badgeEn: z.string().max(100).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	titleHighlightDe: z.string().max(200).optional(),
+	titleHighlightEn: z.string().max(200).optional(),
+	subtitleDe: z.string().max(1000).optional(),
+	subtitleEn: z.string().max(1000).optional(),
 	stats: z.array(faqHeroStatSchema).optional(),
 });
 
 const faqItemSchema = z.object({
-	question: z.string().max(500).optional(),
-	answer: z.string().max(5000).optional(),
+	questionDe: z.string().max(500).optional(),
+	questionEn: z.string().max(500).optional(),
+	answerDe: z.string().max(5000).optional(),
+	answerEn: z.string().max(5000).optional(),
 	category: z.string().max(100).optional(),
 	order: z.number().optional(),
 });
 
 const faqCategorySchema = z.object({
 	id: z.string().max(50).optional(),
-	name: z.string().max(100).optional(),
+	nameDe: z.string().max(100).optional(),
+	nameEn: z.string().max(100).optional(),
 	icon: z.string().max(50).optional(),
 	order: z.number().optional(),
 });
 
 const faqContentSectionSchema = z.object({
-	searchPlaceholder: z.string().max(200).optional(),
-	noResultsText: z.string().max(500).optional(),
-	helpText: z.string().max(500).optional(),
-	helpButtonText: z.string().max(100).optional(),
+	searchPlaceholderDe: z.string().max(200).optional(),
+	searchPlaceholderEn: z.string().max(200).optional(),
+	noResultsTextDe: z.string().max(500).optional(),
+	noResultsTextEn: z.string().max(500).optional(),
+	helpTextDe: z.string().max(500).optional(),
+	helpTextEn: z.string().max(500).optional(),
+	helpButtonTextDe: z.string().max(100).optional(),
+	helpButtonTextEn: z.string().max(100).optional(),
 	helpButtonHref: z.string().max(500).optional(),
 	categories: z.array(faqCategorySchema).optional(),
 	items: z.array(faqItemSchema).optional(),
 });
 
 const faqQuickLinkSchema = z.object({
-	label: z.string().max(100).optional(),
+	labelDe: z.string().max(100).optional(),
+	labelEn: z.string().max(100).optional(),
 	href: z.string().max(500).optional(),
 });
 
@@ -94,27 +107,39 @@ const faqOfficeSchema = z.object({
 });
 
 const faqSidebarSectionSchema = z.object({
-	contactTitle: z.string().max(200).optional(),
-	contactDescription: z.string().max(1000).optional(),
+	contactTitleDe: z.string().max(200).optional(),
+	contactTitleEn: z.string().max(200).optional(),
+	contactDescriptionDe: z.string().max(1000).optional(),
+	contactDescriptionEn: z.string().max(1000).optional(),
 	phone: z.string().max(50).optional(),
 	email: z.string().max(200).optional(),
 	officeHours: z.string().max(100).optional(),
-	contactButtonText: z.string().max(100).optional(),
+	contactButtonTextDe: z.string().max(100).optional(),
+	contactButtonTextEn: z.string().max(100).optional(),
 	contactButtonHref: z.string().max(500).optional(),
-	quickLinksTitle: z.string().max(200).optional(),
+	quickLinksTitleDe: z.string().max(200).optional(),
+	quickLinksTitleEn: z.string().max(200).optional(),
 	quickLinks: z.array(faqQuickLinkSchema).optional(),
-	officesTitle: z.string().max(200).optional(),
+	officesTitleDe: z.string().max(200).optional(),
+	officesTitleEn: z.string().max(200).optional(),
 	offices: z.array(faqOfficeSchema).optional(),
 });
 
 const faqNewsletterSectionSchema = z.object({
-	title: z.string().max(200).optional(),
-	subtitle: z.string().max(500).optional(),
-	inputPlaceholder: z.string().max(200).optional(),
-	buttonText: z.string().max(100).optional(),
-	loadingText: z.string().max(100).optional(),
-	successText: z.string().max(200).optional(),
-	privacyNote: z.string().max(500).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	subtitleDe: z.string().max(500).optional(),
+	subtitleEn: z.string().max(500).optional(),
+	inputPlaceholderDe: z.string().max(200).optional(),
+	inputPlaceholderEn: z.string().max(200).optional(),
+	buttonTextDe: z.string().max(100).optional(),
+	buttonTextEn: z.string().max(100).optional(),
+	loadingTextDe: z.string().max(100).optional(),
+	loadingTextEn: z.string().max(100).optional(),
+	successTextDe: z.string().max(200).optional(),
+	successTextEn: z.string().max(200).optional(),
+	privacyNoteDe: z.string().max(500).optional(),
+	privacyNoteEn: z.string().max(500).optional(),
 });
 
 const faqPageSeoSchema = z.object({
@@ -143,42 +168,62 @@ const defaultValues: FormData = {
 		newsletter: true,
 	},
 	hero: {
-		badge: "",
-		title: "",
-		titleHighlight: "",
-		subtitle: "",
+		badgeDe: "",
+		badgeEn: "",
+		titleDe: "",
+		titleEn: "",
+		titleHighlightDe: "",
+		titleHighlightEn: "",
+		subtitleDe: "",
+		subtitleEn: "",
 		stats: [],
 	},
 	faqContent: {
-		searchPlaceholder: "",
-		noResultsText: "",
-		helpText: "",
-		helpButtonText: "",
+		searchPlaceholderDe: "",
+		searchPlaceholderEn: "",
+		noResultsTextDe: "",
+		noResultsTextEn: "",
+		helpTextDe: "",
+		helpTextEn: "",
+		helpButtonTextDe: "",
+		helpButtonTextEn: "",
 		helpButtonHref: "",
 		categories: [],
 		items: [],
 	},
 	sidebar: {
-		contactTitle: "",
-		contactDescription: "",
+		contactTitleDe: "",
+		contactTitleEn: "",
+		contactDescriptionDe: "",
+		contactDescriptionEn: "",
 		phone: "",
 		email: "",
 		officeHours: "",
-		contactButtonText: "",
+		contactButtonTextDe: "",
+		contactButtonTextEn: "",
 		contactButtonHref: "",
-		quickLinksTitle: "",
+		quickLinksTitleDe: "",
+		quickLinksTitleEn: "",
 		quickLinks: [],
-		officesTitle: "",
+		officesTitleDe: "",
+		officesTitleEn: "",
 		offices: [],
 	},
 	newsletter: {
-		title: "",
-		subtitle: "",
-		inputPlaceholder: "",
-		buttonText: "",
-		loadingText: "",
-		successText: "",
-		privacyNote: "",
+		titleDe: "",
+		titleEn: "",
+		subtitleDe: "",
+		subtitleEn: "",
+		inputPlaceholderDe: "",
+		inputPlaceholderEn: "",
+		buttonTextDe: "",
+		buttonTextEn: "",
+		loadingTextDe: "",
+		loadingTextEn: "",
+		successTextDe: "",
+		successTextEn: "",
+		privacyNoteDe: "",
+		privacyNoteEn: "",
 	},
 	seo: {
 		title: "",
@@ -457,46 +502,91 @@ export default function FAQAdminPage() {
 									</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-4">
-									<div className="space-y-2">
-										<Label htmlFor="hero.badge">Badge</Label>
-										<Input
-											id="hero.badge"
-											{...form.register("hero.badge")}
-											value={form.watch("hero.badge") || ""}
-											placeholder="Vanliga frågor och svar"
-										/>
+									<div className="grid gap-4 md:grid-cols-2">
+										<div className="space-y-2">
+											<Label htmlFor="hero.badgeDe">Badge (De)</Label>
+											<Input
+												id="hero.badgeDe"
+												{...form.register("hero.badgeDe")}
+												value={form.watch("hero.badgeDe") || ""}
+												placeholder="Vanliga frågor och svar"
+											/>
+										</div>
+										<div className="space-y-2">
+											<Label htmlFor="hero.badgeEn">Badge (En)</Label>
+											<Input
+												id="hero.badgeEn"
+												{...form.register("hero.badgeEn")}
+												value={form.watch("hero.badgeEn") || ""}
+												placeholder="Frequently Asked Questions"
+											/>
+										</div>
 									</div>
 									<div className="grid gap-4 md:grid-cols-2">
 										<div className="space-y-2">
-											<Label htmlFor="hero.title">Title</Label>
+											<Label htmlFor="hero.titleDe">Title (De)</Label>
 											<Input
-												id="hero.title"
-												{...form.register("hero.title")}
-												value={form.watch("hero.title") || ""}
+												id="hero.titleDe"
+												{...form.register("hero.titleDe")}
+												value={form.watch("hero.titleDe") || ""}
 												placeholder="Har du frågor om våra"
 											/>
 										</div>
 										<div className="space-y-2">
-											<Label htmlFor="hero.titleHighlight">
-												Highlighted Text
-											</Label>
+											<Label htmlFor="hero.titleEn">Title (En)</Label>
 											<Input
-												id="hero.titleHighlight"
-												{...form.register("hero.titleHighlight")}
-												value={form.watch("hero.titleHighlight") || ""}
-												placeholder="produkter och tjänster?"
+												id="hero.titleEn"
+												{...form.register("hero.titleEn")}
+												value={form.watch("hero.titleEn") || ""}
+												placeholder="Do you have questions about our"
 											/>
 										</div>
 									</div>
-									<div className="space-y-2">
-										<Label htmlFor="hero.subtitle">Subtitle</Label>
-										<Textarea
-											id="hero.subtitle"
-											{...form.register("hero.subtitle")}
-											value={form.watch("hero.subtitle") || ""}
-											placeholder="Här hittar du svar på de vanligaste frågorna..."
-											rows={3}
-										/>
+									<div className="grid gap-4 md:grid-cols-2">
+										<div className="space-y-2">
+											<Label htmlFor="hero.titleHighlightDe">
+												Highlighted Text (De)
+											</Label>
+											<Input
+												id="hero.titleHighlightDe"
+												{...form.register("hero.titleHighlightDe")}
+												value={form.watch("hero.titleHighlightDe") || ""}
+												placeholder="produkter och tjänster?"
+											/>
+										</div>
+										<div className="space-y-2">
+											<Label htmlFor="hero.titleHighlightEn">
+												Highlighted Text (En)
+											</Label>
+											<Input
+												id="hero.titleHighlightEn"
+												{...form.register("hero.titleHighlightEn")}
+												value={form.watch("hero.titleHighlightEn") || ""}
+												placeholder="products and services?"
+											/>
+										</div>
+									</div>
+									<div className="grid gap-4 md:grid-cols-2">
+										<div className="space-y-2">
+											<Label htmlFor="hero.subtitleDe">Subtitle (De)</Label>
+											<Textarea
+												id="hero.subtitleDe"
+												{...form.register("hero.subtitleDe")}
+												value={form.watch("hero.subtitleDe") || ""}
+												placeholder="Här hittar du svar på de vanligaste frågorna..."
+												rows={3}
+											/>
+										</div>
+										<div className="space-y-2">
+											<Label htmlFor="hero.subtitleEn">Subtitle (En)</Label>
+											<Textarea
+												id="hero.subtitleEn"
+												{...form.register("hero.subtitleEn")}
+												value={form.watch("hero.subtitleEn") || ""}
+												placeholder="Here you will find answers to the most common questions..."
+												rows={3}
+											/>
+										</div>
 									</div>
 								</CardContent>
 							</Card>
@@ -517,7 +607,7 @@ export default function FAQAdminPage() {
 											key={field.id}
 											className="flex items-start gap-4 p-4 border rounded-lg"
 										>
-											<div className="flex-1 grid gap-4 md:grid-cols-2">
+											<div className="flex-1 space-y-4">
 												<div className="space-y-2">
 													<Label>Value</Label>
 													<Input
@@ -528,15 +618,27 @@ export default function FAQAdminPage() {
 														placeholder="15+"
 													/>
 												</div>
-												<div className="space-y-2">
-													<Label>Label</Label>
-													<Input
-														{...form.register(
-															`hero.stats.${index}.label`
-														)}
-														value={form.watch(`hero.stats.${index}.label`) || ""}
-														placeholder="År i branschen"
-													/>
+												<div className="grid gap-4 md:grid-cols-2">
+													<div className="space-y-2">
+														<Label>Label (De)</Label>
+														<Input
+															{...form.register(
+																`hero.stats.${index}.labelDe`
+															)}
+															value={form.watch(`hero.stats.${index}.labelDe`) || ""}
+															placeholder="Jahre in der Branche"
+														/>
+													</div>
+													<div className="space-y-2">
+														<Label>Label (En)</Label>
+														<Input
+															{...form.register(
+																`hero.stats.${index}.labelEn`
+															)}
+															value={form.watch(`hero.stats.${index}.labelEn`) || ""}
+															placeholder="Years in the industry"
+														/>
+													</div>
 												</div>
 											</div>
 											<Button
@@ -560,7 +662,7 @@ export default function FAQAdminPage() {
 										type="button"
 										variant="outline"
 										onClick={() =>
-											heroStats.append({ value: "", label: "" })
+											heroStats.append({ value: "", labelDe: "", labelEn: "" })
 										}
 									>
 										<Plus className="mr-2 h-4 w-4" />
@@ -582,62 +684,112 @@ export default function FAQAdminPage() {
 									</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-4">
-									<div className="space-y-2">
-										<Label htmlFor="faqContent.searchPlaceholder">
-											Search Placeholder
-										</Label>
-										<Input
-											id="faqContent.searchPlaceholder"
-											{...form.register("faqContent.searchPlaceholder")}
-											value={form.watch("faqContent.searchPlaceholder") || ""}
-											placeholder="Sök efter frågor..."
-										/>
+									<div className="grid gap-4 md:grid-cols-2">
+										<div className="space-y-2">
+											<Label htmlFor="faqContent.searchPlaceholderDe">
+												Search Placeholder (De)
+											</Label>
+											<Input
+												id="faqContent.searchPlaceholderDe"
+												{...form.register("faqContent.searchPlaceholderDe")}
+												value={form.watch("faqContent.searchPlaceholderDe") || ""}
+												placeholder="Fragen suchen..."
+											/>
+										</div>
+										<div className="space-y-2">
+											<Label htmlFor="faqContent.searchPlaceholderEn">
+												Search Placeholder (En)
+											</Label>
+											<Input
+												id="faqContent.searchPlaceholderEn"
+												{...form.register("faqContent.searchPlaceholderEn")}
+												value={form.watch("faqContent.searchPlaceholderEn") || ""}
+												placeholder="Search questions..."
+											/>
+										</div>
+									</div>
+									<div className="grid gap-4 md:grid-cols-2">
+										<div className="space-y-2">
+											<Label htmlFor="faqContent.noResultsTextDe">
+												No Results Text (De)
+											</Label>
+											<Input
+												id="faqContent.noResultsTextDe"
+												{...form.register("faqContent.noResultsTextDe")}
+												value={form.watch("faqContent.noResultsTextDe") || ""}
+												placeholder="Keine Fragen gefunden..."
+											/>
+										</div>
+										<div className="space-y-2">
+											<Label htmlFor="faqContent.noResultsTextEn">
+												No Results Text (En)
+											</Label>
+											<Input
+												id="faqContent.noResultsTextEn"
+												{...form.register("faqContent.noResultsTextEn")}
+												value={form.watch("faqContent.noResultsTextEn") || ""}
+												placeholder="No questions found..."
+											/>
+										</div>
+									</div>
+									<div className="grid gap-4 md:grid-cols-2">
+										<div className="space-y-2">
+											<Label htmlFor="faqContent.helpTextDe">
+												Help Text (De)
+											</Label>
+											<Input
+												id="faqContent.helpTextDe"
+												{...form.register("faqContent.helpTextDe")}
+												value={form.watch("faqContent.helpTextDe") || ""}
+												placeholder="Keine Antwort gefunden?"
+											/>
+										</div>
+										<div className="space-y-2">
+											<Label htmlFor="faqContent.helpTextEn">
+												Help Text (En)
+											</Label>
+											<Input
+												id="faqContent.helpTextEn"
+												{...form.register("faqContent.helpTextEn")}
+												value={form.watch("faqContent.helpTextEn") || ""}
+												placeholder="Didn't find an answer?"
+											/>
+										</div>
+									</div>
+									<div className="grid gap-4 md:grid-cols-2">
+										<div className="space-y-2">
+											<Label htmlFor="faqContent.helpButtonTextDe">
+												Button Text (De)
+											</Label>
+											<Input
+												id="faqContent.helpButtonTextDe"
+												{...form.register("faqContent.helpButtonTextDe")}
+												value={form.watch("faqContent.helpButtonTextDe") || ""}
+												placeholder="Kontaktieren Sie uns"
+											/>
+										</div>
+										<div className="space-y-2">
+											<Label htmlFor="faqContent.helpButtonTextEn">
+												Button Text (En)
+											</Label>
+											<Input
+												id="faqContent.helpButtonTextEn"
+												{...form.register("faqContent.helpButtonTextEn")}
+												value={form.watch("faqContent.helpButtonTextEn") || ""}
+												placeholder="Contact us"
+											/>
+										</div>
 									</div>
 									<div className="space-y-2">
-										<Label htmlFor="faqContent.noResultsText">
-											No Results Text
+										<Label htmlFor="faqContent.helpButtonHref">
+											Button Link
 										</Label>
 										<Input
-											id="faqContent.noResultsText"
-											{...form.register("faqContent.noResultsText")}
-											value={form.watch("faqContent.noResultsText") || ""}
-											placeholder="Inga frågor hittades..."
+											id="faqContent.helpButtonHref"
+											{...form.register("faqContent.helpButtonHref")}
+											value={form.watch("faqContent.helpButtonHref") || ""}
+											placeholder="/kontakt"
 										/>
-									</div>
-									<div className="grid gap-4 md:grid-cols-3">
-										<div className="space-y-2">
-											<Label htmlFor="faqContent.helpText">
-												Help Text
-											</Label>
-											<Input
-												id="faqContent.helpText"
-												{...form.register("faqContent.helpText")}
-												value={form.watch("faqContent.helpText") || ""}
-												placeholder="Hittade du inte svar?"
-											/>
-										</div>
-										<div className="space-y-2">
-											<Label htmlFor="faqContent.helpButtonText">
-												Button Text
-											</Label>
-											<Input
-												id="faqContent.helpButtonText"
-												{...form.register("faqContent.helpButtonText")}
-												value={form.watch("faqContent.helpButtonText") || ""}
-												placeholder="Kontakta oss"
-											/>
-										</div>
-										<div className="space-y-2">
-											<Label htmlFor="faqContent.helpButtonHref">
-												Button Link
-											</Label>
-											<Input
-												id="faqContent.helpButtonHref"
-												{...form.register("faqContent.helpButtonHref")}
-												value={form.watch("faqContent.helpButtonHref") || ""}
-												placeholder="/kontakt"
-											/>
-										</div>
 									</div>
 								</CardContent>
 							</Card>
@@ -655,47 +807,61 @@ export default function FAQAdminPage() {
 											key={field.id}
 											className="flex items-start gap-4 p-4 border rounded-lg"
 										>
-											<div className="flex-1 grid gap-4 md:grid-cols-4">
-												<div className="space-y-2">
-													<Label>ID</Label>
-													<Input
-														{...form.register(
-															`faqContent.categories.${index}.id`
-														)}
-														value={form.watch(`faqContent.categories.${index}.id`) || ""}
-														placeholder="about"
-													/>
+											<div className="flex-1 space-y-4">
+												<div className="grid gap-4 md:grid-cols-3">
+													<div className="space-y-2">
+														<Label>ID</Label>
+														<Input
+															{...form.register(
+																`faqContent.categories.${index}.id`
+															)}
+															value={form.watch(`faqContent.categories.${index}.id`) || ""}
+															placeholder="about"
+														/>
+													</div>
+													<div className="space-y-2">
+														<Label>Icon</Label>
+														<Input
+															{...form.register(
+																`faqContent.categories.${index}.icon`
+															)}
+															value={form.watch(`faqContent.categories.${index}.icon`) || ""}
+															placeholder="Building2"
+														/>
+													</div>
+													<div className="space-y-2">
+														<Label>Order</Label>
+														<Input
+															type="number"
+															{...form.register(
+																`faqContent.categories.${index}.order`,
+																{ valueAsNumber: true }
+															)}
+															placeholder="1"
+														/>
+													</div>
 												</div>
-												<div className="space-y-2">
-													<Label>Name</Label>
-													<Input
-														{...form.register(
-															`faqContent.categories.${index}.name`
-														)}
-														value={form.watch(`faqContent.categories.${index}.name`) || ""}
-														placeholder="Om oss"
-													/>
-												</div>
-												<div className="space-y-2">
-													<Label>Icon</Label>
-													<Input
-														{...form.register(
-															`faqContent.categories.${index}.icon`
-														)}
-														value={form.watch(`faqContent.categories.${index}.icon`) || ""}
-														placeholder="Building2"
-													/>
-												</div>
-												<div className="space-y-2">
-													<Label>Order</Label>
-													<Input
-														type="number"
-														{...form.register(
-															`faqContent.categories.${index}.order`,
-															{ valueAsNumber: true }
-														)}
-														placeholder="1"
-													/>
+												<div className="grid gap-4 md:grid-cols-2">
+													<div className="space-y-2">
+														<Label>Name (De)</Label>
+														<Input
+															{...form.register(
+																`faqContent.categories.${index}.nameDe`
+															)}
+															value={form.watch(`faqContent.categories.${index}.nameDe`) || ""}
+															placeholder="Über uns"
+														/>
+													</div>
+													<div className="space-y-2">
+														<Label>Name (En)</Label>
+														<Input
+															{...form.register(
+																`faqContent.categories.${index}.nameEn`
+															)}
+															value={form.watch(`faqContent.categories.${index}.nameEn`) || ""}
+															placeholder="About us"
+														/>
+													</div>
 												</div>
 											</div>
 											<Button
@@ -721,7 +887,8 @@ export default function FAQAdminPage() {
 										onClick={() =>
 											faqCategories.append({
 												id: "",
-												name: "",
+												nameDe: "",
+												nameEn: "",
 												icon: "",
 												order: faqCategories.fields.length + 1,
 											})
@@ -749,49 +916,72 @@ export default function FAQAdminPage() {
 											<div className="flex-1 space-y-4">
 												<div className="grid gap-4 md:grid-cols-2">
 													<div className="space-y-2">
-														<Label>Question</Label>
+														<Label>Question (De)</Label>
 														<Input
 															{...form.register(
-																`faqContent.items.${index}.question`
+																`faqContent.items.${index}.questionDe`
 															)}
-															value={form.watch(`faqContent.items.${index}.question`) || ""}
-															placeholder="Vad är Zavd Medical?"
+															value={form.watch(`faqContent.items.${index}.questionDe`) || ""}
+															placeholder="Was ist Zavd Medical?"
 														/>
 													</div>
-													<div className="space-y-2 md:flex md:gap-4">
-														<div className="flex-1 space-y-2">
-															<Label>Category</Label>
-															<Input
-																{...form.register(
-																	`faqContent.items.${index}.category`
-																)}
-																value={form.watch(`faqContent.items.${index}.category`) || ""}
-																placeholder="about"
-															/>
-														</div>
-														<div className="w-20 space-y-2">
-															<Label>Order</Label>
-															<Input
-																type="number"
-																{...form.register(
-																	`faqContent.items.${index}.order`,
-																	{ valueAsNumber: true }
-																)}
-																placeholder="1"
-															/>
-														</div>
+													<div className="space-y-2">
+														<Label>Question (En)</Label>
+														<Input
+															{...form.register(
+																`faqContent.items.${index}.questionEn`
+															)}
+															value={form.watch(`faqContent.items.${index}.questionEn`) || ""}
+															placeholder="What is Zavd Medical?"
+														/>
 													</div>
 												</div>
-												<div className="space-y-2">
-													<Label>Answer</Label>
-													<Textarea
-														{...form.register(
-															`faqContent.items.${index}.answer`
-														)}
-														value={form.watch(`faqContent.items.${index}.answer`) || ""}
-														placeholder="Zavd Medical erbjuder..."
-														rows={3}
-													/>
+												<div className="grid gap-4 md:grid-cols-2">
+													<div className="space-y-2">
+														<Label>Answer (De)</Label>
+														<Textarea
+															{...form.register(
+																`faqContent.items.${index}.answerDe`
+															)}
+															value={form.watch(`faqContent.items.${index}.answerDe`) || ""}
+															placeholder="Zavd Medical bietet..."
+															rows={3}
+														/>
+													</div>
+													<div className="space-y-2">
+														<Label>Answer (En)</Label>
+														<Textarea
+															{...form.register(
+																`faqContent.items.${index}.answerEn`
+															)}
+															value={form.watch(`faqContent.items.${index}.answerEn`) || ""}
+															placeholder="Zavd Medical offers..."
+															rows={3}
+														/>
+													</div>
+												</div>
+												<div className="grid gap-4 md:grid-cols-2">
+													<div className="space-y-2">
+														<Label>Category</Label>
+														<Input
+															{...form.register(
+																`faqContent.items.${index}.category`
+															)}
+															value={form.watch(`faqContent.items.${index}.category`) || ""}
+															placeholder="about"
+														/>
+													</div>
+													<div className="space-y-2">
+														<Label>Order</Label>
+														<Input
+															type="number"
+															{...form.register(
+																`faqContent.items.${index}.order`,
+																{ valueAsNumber: true }
+															)}
+															placeholder="1"
+														/>
+													</div>
 												</div>
 											</div>
 											<Button
@@ -816,8 +1006,10 @@ export default function FAQAdminPage() {
 										variant="outline"
 										onClick={() =>
 											faqItems.append({
-												question: "",
-												answer: "",
+												questionDe: "",
+												questionEn: "",
+												answerDe: "",
+												answerEn: "",
 												category: "",
 												order: faqItems.fields.length + 1,
 											})
@@ -842,26 +1034,51 @@ export default function FAQAdminPage() {
 									</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-4">
-									<div className="space-y-2">
-										<Label htmlFor="sidebar.contactTitle">Title</Label>
-										<Input
-											id="sidebar.contactTitle"
-											{...form.register("sidebar.contactTitle")}
-											value={form.watch("sidebar.contactTitle") || ""}
-											placeholder="Behöver du hjälp?"
-										/>
+									<div className="grid gap-4 md:grid-cols-2">
+										<div className="space-y-2">
+											<Label htmlFor="sidebar.contactTitleDe">Title (De)</Label>
+											<Input
+												id="sidebar.contactTitleDe"
+												{...form.register("sidebar.contactTitleDe")}
+												value={form.watch("sidebar.contactTitleDe") || ""}
+												placeholder="Brauchen Sie Hilfe?"
+											/>
+										</div>
+										<div className="space-y-2">
+											<Label htmlFor="sidebar.contactTitleEn">Title (En)</Label>
+											<Input
+												id="sidebar.contactTitleEn"
+												{...form.register("sidebar.contactTitleEn")}
+												value={form.watch("sidebar.contactTitleEn") || ""}
+												placeholder="Need help?"
+											/>
+										</div>
 									</div>
-									<div className="space-y-2">
-										<Label htmlFor="sidebar.contactDescription">
-											Description
-										</Label>
-										<Textarea
-											id="sidebar.contactDescription"
-											{...form.register("sidebar.contactDescription")}
-											value={form.watch("sidebar.contactDescription") || ""}
-											placeholder="Vårt team finns här för att hjälpa dig..."
-											rows={3}
-										/>
+									<div className="grid gap-4 md:grid-cols-2">
+										<div className="space-y-2">
+											<Label htmlFor="sidebar.contactDescriptionDe">
+												Description (De)
+											</Label>
+											<Textarea
+												id="sidebar.contactDescriptionDe"
+												{...form.register("sidebar.contactDescriptionDe")}
+												value={form.watch("sidebar.contactDescriptionDe") || ""}
+												placeholder="Unser Team ist hier, um Ihnen zu helfen..."
+												rows={3}
+											/>
+										</div>
+										<div className="space-y-2">
+											<Label htmlFor="sidebar.contactDescriptionEn">
+												Description (En)
+											</Label>
+											<Textarea
+												id="sidebar.contactDescriptionEn"
+												{...form.register("sidebar.contactDescriptionEn")}
+												value={form.watch("sidebar.contactDescriptionEn") || ""}
+												placeholder="Our team is here to help you..."
+												rows={3}
+											/>
+										</div>
 									</div>
 									<div className="grid gap-4 md:grid-cols-3">
 										<div className="space-y-2">
@@ -896,27 +1113,38 @@ export default function FAQAdminPage() {
 									</div>
 									<div className="grid gap-4 md:grid-cols-2">
 										<div className="space-y-2">
-											<Label htmlFor="sidebar.contactButtonText">
-												Button Text
+											<Label htmlFor="sidebar.contactButtonTextDe">
+												Button Text (De)
 											</Label>
 											<Input
-												id="sidebar.contactButtonText"
-												{...form.register("sidebar.contactButtonText")}
-												value={form.watch("sidebar.contactButtonText") || ""}
-												placeholder="Kontakta oss"
+												id="sidebar.contactButtonTextDe"
+												{...form.register("sidebar.contactButtonTextDe")}
+												value={form.watch("sidebar.contactButtonTextDe") || ""}
+												placeholder="Kontaktieren Sie uns"
 											/>
 										</div>
 										<div className="space-y-2">
-											<Label htmlFor="sidebar.contactButtonHref">
-												Button Link
+											<Label htmlFor="sidebar.contactButtonTextEn">
+												Button Text (En)
 											</Label>
 											<Input
-												id="sidebar.contactButtonHref"
-												{...form.register("sidebar.contactButtonHref")}
-												value={form.watch("sidebar.contactButtonHref") || ""}
-												placeholder="/kontakt"
+												id="sidebar.contactButtonTextEn"
+												{...form.register("sidebar.contactButtonTextEn")}
+												value={form.watch("sidebar.contactButtonTextEn") || ""}
+												placeholder="Contact us"
 											/>
 										</div>
+									</div>
+									<div className="space-y-2">
+										<Label htmlFor="sidebar.contactButtonHref">
+											Button Link
+										</Label>
+										<Input
+											id="sidebar.contactButtonHref"
+											{...form.register("sidebar.contactButtonHref")}
+											value={form.watch("sidebar.contactButtonHref") || ""}
+											placeholder="/kontakt"
+										/>
 									</div>
 								</CardContent>
 							</Card>
@@ -929,30 +1157,53 @@ export default function FAQAdminPage() {
 									</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-4">
-									<div className="space-y-2">
-										<Label htmlFor="sidebar.quickLinksTitle">Title</Label>
-										<Input
-											id="sidebar.quickLinksTitle"
-											{...form.register("sidebar.quickLinksTitle")}
-											value={form.watch("sidebar.quickLinksTitle") || ""}
-											placeholder="Snabblänkar"
-										/>
+									<div className="grid gap-4 md:grid-cols-2">
+										<div className="space-y-2">
+											<Label htmlFor="sidebar.quickLinksTitleDe">Title (De)</Label>
+											<Input
+												id="sidebar.quickLinksTitleDe"
+												{...form.register("sidebar.quickLinksTitleDe")}
+												value={form.watch("sidebar.quickLinksTitleDe") || ""}
+												placeholder="Schnelllinks"
+											/>
+										</div>
+										<div className="space-y-2">
+											<Label htmlFor="sidebar.quickLinksTitleEn">Title (En)</Label>
+											<Input
+												id="sidebar.quickLinksTitleEn"
+												{...form.register("sidebar.quickLinksTitleEn")}
+												value={form.watch("sidebar.quickLinksTitleEn") || ""}
+												placeholder="Quick Links"
+											/>
+										</div>
 									</div>
 									{quickLinks.fields.map((field, index) => (
 										<div
 											key={field.id}
 											className="flex items-start gap-4 p-4 border rounded-lg"
 										>
-											<div className="flex-1 grid gap-4 md:grid-cols-2">
-												<div className="space-y-2">
-													<Label>Label</Label>
-													<Input
-														{...form.register(
-															`sidebar.quickLinks.${index}.label`
-														)}
-														value={form.watch(`sidebar.quickLinks.${index}.label`) || ""}
-														placeholder="Våra produkter"
-													/>
+											<div className="flex-1 space-y-4">
+												<div className="grid gap-4 md:grid-cols-2">
+													<div className="space-y-2">
+														<Label>Label (De)</Label>
+														<Input
+															{...form.register(
+																`sidebar.quickLinks.${index}.labelDe`
+															)}
+															value={form.watch(`sidebar.quickLinks.${index}.labelDe`) || ""}
+															placeholder="Unsere Produkte"
+														/>
+													</div>
+													<div className="space-y-2">
+														<Label>Label (En)</Label>
+														<Input
+															{...form.register(
+																`sidebar.quickLinks.${index}.labelEn`
+															)}
+															value={form.watch(`sidebar.quickLinks.${index}.labelEn`) || ""}
+															placeholder="Our Products"
+														/>
+													</div>
 												</div>
 												<div className="space-y-2">
 													<Label>Link</Label>
@@ -986,7 +1237,7 @@ export default function FAQAdminPage() {
 										type="button"
 										variant="outline"
 										onClick={() =>
-											quickLinks.append({ label: "", href: "" })
+											quickLinks.append({ labelDe: "", labelEn: "", href: "" })
 										}
 									>
 										<Plus className="mr-2 h-4 w-4" />
@@ -1003,14 +1254,25 @@ export default function FAQAdminPage() {
 									</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-4">
-									<div className="space-y-2">
-										<Label htmlFor="sidebar.officesTitle">Title</Label>
-										<Input
-											id="sidebar.officesTitle"
-											{...form.register("sidebar.officesTitle")}
-											value={form.watch("sidebar.officesTitle") || ""}
-											placeholder="Våra kontor"
-										/>
+									<div className="grid gap-4 md:grid-cols-2">
+										<div className="space-y-2">
+											<Label htmlFor="sidebar.officesTitleDe">Title (De)</Label>
+											<Input
+												id="sidebar.officesTitleDe"
+												{...form.register("sidebar.officesTitleDe")}
+												value={form.watch("sidebar.officesTitleDe") || ""}
+												placeholder="Unsere Büros"
+											/>
+										</div>
+										<div className="space-y-2">
+											<Label htmlFor="sidebar.officesTitleEn">Title (En)</Label>
+											<Input
+												id="sidebar.officesTitleEn"
+												{...form.register("sidebar.officesTitleEn")}
+												value={form.watch("sidebar.officesTitleEn") || ""}
+												placeholder="Our Offices"
+											/>
+										</div>
 									</div>
 									{offices.fields.map((field, index) => (
 										<div
@@ -1082,84 +1344,169 @@ export default function FAQAdminPage() {
 								</CardDescription>
 							</CardHeader>
 							<CardContent className="space-y-4">
-								<div className="space-y-2">
-									<Label htmlFor="newsletter.title">Title</Label>
-									<Input
-										id="newsletter.title"
-										{...form.register("newsletter.title")}
-										value={form.watch("newsletter.title") || ""}
-										placeholder="Håll dig uppdaterad"
-									/>
-								</div>
-								<div className="space-y-2">
-									<Label htmlFor="newsletter.subtitle">Subtitle</Label>
-									<Textarea
-										id="newsletter.subtitle"
-										{...form.register("newsletter.subtitle")}
-										value={form.watch("newsletter.subtitle") || ""}
-										placeholder="Prenumerera på vårt nyhetsbrev..."
-										rows={3}
-									/>
-								</div>
 								<div className="grid gap-4 md:grid-cols-2">
 									<div className="space-y-2">
-										<Label htmlFor="newsletter.inputPlaceholder">
-											Input Placeholder
-										</Label>
+										<Label htmlFor="newsletter.titleDe">Title (De)</Label>
 										<Input
-											id="newsletter.inputPlaceholder"
-											{...form.register("newsletter.inputPlaceholder")}
-											value={form.watch("newsletter.inputPlaceholder") || ""}
-											placeholder="Din e-postadress"
+											id="newsletter.titleDe"
+											{...form.register("newsletter.titleDe")}
+											value={form.watch("newsletter.titleDe") || ""}
+											placeholder="Bleiben Sie auf dem Laufenden"
 										/>
 									</div>
 									<div className="space-y-2">
-										<Label htmlFor="newsletter.buttonText">
-											Button Text
-										</Label>
+										<Label htmlFor="newsletter.titleEn">Title (En)</Label>
 										<Input
-											id="newsletter.buttonText"
-											{...form.register("newsletter.buttonText")}
-											value={form.watch("newsletter.buttonText") || ""}
-											placeholder="Prenumerera"
+											id="newsletter.titleEn"
+											{...form.register("newsletter.titleEn")}
+											value={form.watch("newsletter.titleEn") || ""}
+											placeholder="Stay up to date"
 										/>
 									</div>
 								</div>
 								<div className="grid gap-4 md:grid-cols-2">
 									<div className="space-y-2">
-										<Label htmlFor="newsletter.loadingText">
-											Loading Text
-										</Label>
-										<Input
-											id="newsletter.loadingText"
-											{...form.register("newsletter.loadingText")}
-											value={form.watch("newsletter.loadingText") || ""}
-											placeholder="Skickar..."
+										<Label htmlFor="newsletter.subtitleDe">Subtitle (De)</Label>
+										<Textarea
+											id="newsletter.subtitleDe"
+											{...form.register("newsletter.subtitleDe")}
+											value={form.watch("newsletter.subtitleDe") || ""}
+											placeholder="Abonnieren Sie unseren Newsletter..."
+											rows={3}
 										/>
 									</div>
 									<div className="space-y-2">
-										<Label htmlFor="newsletter.successText">
-											Success Text
-										</Label>
-										<Input
-											id="newsletter.successText"
-											{...form.register("newsletter.successText")}
-											value={form.watch("newsletter.successText") || ""}
-											placeholder="Tack! Du är nu prenumerant."
+										<Label htmlFor="newsletter.subtitleEn">Subtitle (En)</Label>
+										<Textarea
+											id="newsletter.subtitleEn"
+											{...form.register("newsletter.subtitleEn")}
+											value={form.watch("newsletter.subtitleEn") || ""}
+											placeholder="Subscribe to our newsletter..."
+											rows={3}
 										/>
 									</div>
 								</div>
-								<div className="space-y-2">
-									<Label htmlFor="newsletter.privacyNote">
-										Privacy Note
-									</Label>
-									<Textarea
-										id="newsletter.privacyNote"
-										{...form.register("newsletter.privacyNote")}
-										value={form.watch("newsletter.privacyNote") || ""}
-										placeholder="Vi respekterar din integritet..."
-										rows={2}
-									/>
+								<div className="grid gap-4 md:grid-cols-2">
+									<div className="space-y-2">
+										<Label htmlFor="newsletter.inputPlaceholderDe">
+											Input Placeholder (De)
+										</Label>
+										<Input
+											id="newsletter.inputPlaceholderDe"
+											{...form.register("newsletter.inputPlaceholderDe")}
+											value={form.watch("newsletter.inputPlaceholderDe") || ""}
+											placeholder="Ihre E-Mail-Adresse"
+										/>
+									</div>
+									<div className="space-y-2">
+										<Label htmlFor="newsletter.inputPlaceholderEn">
+											Input Placeholder (En)
+										</Label>
+										<Input
+											id="newsletter.inputPlaceholderEn"
+											{...form.register("newsletter.inputPlaceholderEn")}
+											value={form.watch("newsletter.inputPlaceholderEn") || ""}
+											placeholder="Your email address"
+										/>
+									</div>
+								</div>
+								<div className="grid gap-4 md:grid-cols-2">
+									<div className="space-y-2">
+										<Label htmlFor="newsletter.buttonTextDe">
+											Button Text (De)
+										</Label>
+										<Input
+											id="newsletter.buttonTextDe"
+											{...form.register("newsletter.buttonTextDe")}
+											value={form.watch("newsletter.buttonTextDe") || ""}
+											placeholder="Abonnieren"
+										/>
+									</div>
+									<div className="space-y-2">
+										<Label htmlFor="newsletter.buttonTextEn">
+											Button Text (En)
+										</Label>
+										<Input
+											id="newsletter.buttonTextEn"
+											{...form.register("newsletter.buttonTextEn")}
+											value={form.watch("newsletter.buttonTextEn") || ""}
+											placeholder="Subscribe"
+										/>
+									</div>
+								</div>
+								<div className="grid gap-4 md:grid-cols-2">
+									<div className="space-y-2">
+										<Label htmlFor="newsletter.loadingTextDe">
+											Loading Text (De)
+										</Label>
+										<Input
+											id="newsletter.loadingTextDe"
+											{...form.register("newsletter.loadingTextDe")}
+											value={form.watch("newsletter.loadingTextDe") || ""}
+											placeholder="Wird gesendet..."
+										/>
+									</div>
+									<div className="space-y-2">
+										<Label htmlFor="newsletter.loadingTextEn">
+											Loading Text (En)
+										</Label>
+										<Input
+											id="newsletter.loadingTextEn"
+											{...form.register("newsletter.loadingTextEn")}
+											value={form.watch("newsletter.loadingTextEn") || ""}
+											placeholder="Sending..."
+										/>
+									</div>
+								</div>
+								<div className="grid gap-4 md:grid-cols-2">
+									<div className="space-y-2">
+										<Label htmlFor="newsletter.successTextDe">
+											Success Text (De)
+										</Label>
+										<Input
+											id="newsletter.successTextDe"
+											{...form.register("newsletter.successTextDe")}
+											value={form.watch("newsletter.successTextDe") || ""}
+											placeholder="Danke! Sie sind jetzt abonniert."
+										/>
+									</div>
+									<div className="space-y-2">
+										<Label htmlFor="newsletter.successTextEn">
+											Success Text (En)
+										</Label>
+										<Input
+											id="newsletter.successTextEn"
+											{...form.register("newsletter.successTextEn")}
+											value={form.watch("newsletter.successTextEn") || ""}
+											placeholder="Thank you! You are now subscribed."
+										/>
+									</div>
+								</div>
+								<div className="grid gap-4 md:grid-cols-2">
+									<div className="space-y-2">
+										<Label htmlFor="newsletter.privacyNoteDe">
+											Privacy Note (De)
+										</Label>
+										<Textarea
+											id="newsletter.privacyNoteDe"
+											{...form.register("newsletter.privacyNoteDe")}
+											value={form.watch("newsletter.privacyNoteDe") || ""}
+											placeholder="Wir respektieren Ihre Privatsphäre..."
+											rows={2}
+										/>
+									</div>
+									<div className="space-y-2">
+										<Label htmlFor="newsletter.privacyNoteEn">
+											Privacy Note (En)
+										</Label>
+										<Textarea
+											id="newsletter.privacyNoteEn"
+											{...form.register("newsletter.privacyNoteEn")}
+											value={form.watch("newsletter.privacyNoteEn") || ""}
+											placeholder="We respect your privacy..."
+											rows={2}
+										/>
+									</div>
 								</div>
 							</CardContent>
 						</Card>

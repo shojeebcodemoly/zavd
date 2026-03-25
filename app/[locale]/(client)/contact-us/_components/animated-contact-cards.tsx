@@ -36,6 +36,7 @@ interface AnimatedContactCardsProps {
 	facebookUrl: string;
 	instagramUrl: string;
 	linkedinUrl: string;
+	locale?: string;
 }
 
 export function AnimatedContactCards({
@@ -47,7 +48,9 @@ export function AnimatedContactCards({
 	facebookUrl,
 	instagramUrl,
 	linkedinUrl,
+	locale = "de",
 }: AnimatedContactCardsProps) {
+	const isEn = locale === "en";
 	const PhoneIcon = iconMap[phoneCard.icon] || Phone;
 	const EmailIcon = iconMap[emailCard.icon] || Mail;
 	const SocialIcon = iconMap[socialCard.icon] || MessageCircle;
@@ -73,7 +76,7 @@ export function AnimatedContactCards({
 								<PhoneIcon className="h-7 w-7" />
 							</div>
 							<h3 className="mb-2 text-xl font-medium text-secondary">
-								{phoneCard.title}
+								{isEn ? phoneCard.titleEn : phoneCard.titleDe}
 							</h3>
 							<a
 								href={`tel:${phone.replace(/\s/g, "")}`}
@@ -81,10 +84,10 @@ export function AnimatedContactCards({
 							>
 								{phone}
 							</a>
-							{phoneCard.subtitle && (
+							{(isEn ? phoneCard.subtitleEn : phoneCard.subtitleDe) && (
 								<div className="flex items-center gap-2 text-sm text-foreground/70">
 									<Clock className="h-4 w-4" />
-									<span>{phoneCard.subtitle}</span>
+									<span>{isEn ? phoneCard.subtitleEn : phoneCard.subtitleDe}</span>
 								</div>
 							)}
 						</div>
@@ -101,7 +104,7 @@ export function AnimatedContactCards({
 								<EmailIcon className="h-7 w-7" />
 							</div>
 							<h3 className="mb-2 text-xl font-medium text-secondary">
-								{emailCard.title}
+								{isEn ? emailCard.titleEn : emailCard.titleDe}
 							</h3>
 							<a
 								href={`mailto:${email}`}
@@ -109,10 +112,10 @@ export function AnimatedContactCards({
 							>
 								{email}
 							</a>
-							{emailCard.subtitle && (
+							{(isEn ? emailCard.subtitleEn : emailCard.subtitleDe) && (
 								<div className="flex items-center gap-2 text-sm text-foreground/70">
 									<CheckCircle2 className="h-4 w-4" />
-									<span>{emailCard.subtitle}</span>
+									<span>{isEn ? emailCard.subtitleEn : emailCard.subtitleDe}</span>
 								</div>
 							)}
 						</div>
@@ -129,7 +132,7 @@ export function AnimatedContactCards({
 								<SocialIcon className="h-7 w-7" />
 							</div>
 							<h3 className="mb-2 text-xl font-medium text-secondary">
-								{socialCard.title}
+								{isEn ? socialCard.titleEn : socialCard.titleDe}
 							</h3>
 							<div className="mb-3 flex gap-3">
 								{facebookUrl && (
@@ -184,8 +187,8 @@ export function AnimatedContactCards({
 									</a>
 								)}
 							</div>
-							{socialCard.subtitle && (
-								<p className="text-sm text-foreground/70">{socialCard.subtitle}</p>
+							{(isEn ? socialCard.subtitleEn : socialCard.subtitleDe) && (
+								<p className="text-sm text-foreground/70">{isEn ? socialCard.subtitleEn : socialCard.subtitleDe}</p>
 							)}
 						</div>
 					</motion.div>

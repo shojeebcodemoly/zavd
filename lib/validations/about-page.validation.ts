@@ -19,15 +19,20 @@ export const aboutSectionVisibilitySchema = z.object({
 // ============================================================================
 export const historyTimelineItemSchema = z.object({
 	year: z.string().max(20).optional(),
-	title: z.string().max(200).optional(),
-	description: z.string().max(2000).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	descriptionDe: z.string().max(2000).optional(),
+	descriptionEn: z.string().max(2000).optional(),
 	image: z.string().optional(),
 });
 
 export const historySectionSchema = z.object({
-	badge: z.string().max(100).optional(),
-	title: z.string().max(200).optional(),
-	subtitle: z.string().max(500).optional(),
+	badgeDe: z.string().max(100).optional(),
+	badgeEn: z.string().max(100).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	subtitleDe: z.string().max(500).optional(),
+	subtitleEn: z.string().max(500).optional(),
 	timelineItems: z.array(historyTimelineItemSchema).optional(),
 });
 
@@ -37,14 +42,18 @@ export const historySectionSchema = z.object({
 export const customerItemSchema = z.object({
 	name: z.string().max(200).optional(),
 	logo: z.string().optional(),
-	products: z.string().max(500).optional(),
-	description: z.string().max(1000).optional(),
+	productsDe: z.string().max(500).optional(),
+	productsEn: z.string().max(500).optional(),
+	descriptionDe: z.string().max(1000).optional(),
+	descriptionEn: z.string().max(1000).optional(),
 	website: z.string().optional(),
 });
 
 export const customersSectionSchema = z.object({
-	title: z.string().max(200).optional(),
-	subtitle: z.string().max(500).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	subtitleDe: z.string().max(500).optional(),
+	subtitleEn: z.string().max(500).optional(),
 	customers: z.array(customerItemSchema).optional(),
 });
 
@@ -53,18 +62,23 @@ export const customersSectionSchema = z.object({
 // ============================================================================
 export const teamMemberSchema = z.object({
 	name: z.string().max(100).optional(),
-	role: z.string().max(100).optional(),
+	roleDe: z.string().max(100).optional(),
+	roleEn: z.string().max(100).optional(),
 	image: z.string().optional(),
 	email: z.string().email().optional().or(z.literal("")),
 	phone: z.string().max(50).optional(),
 	linkedin: z.string().optional(),
-	department: z.string().max(100).optional(),
-	bio: z.string().max(1000).optional(),
+	departmentDe: z.string().max(100).optional(),
+	departmentEn: z.string().max(100).optional(),
+	bioDe: z.string().max(1000).optional(),
+	bioEn: z.string().max(1000).optional(),
 });
 
 export const teamSectionSchema = z.object({
-	title: z.string().max(200).optional(),
-	subtitle: z.string().max(500).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	subtitleDe: z.string().max(500).optional(),
+	subtitleEn: z.string().max(500).optional(),
 	members: z.array(teamMemberSchema).optional(),
 });
 
@@ -73,10 +87,13 @@ export const teamSectionSchema = z.object({
 // ============================================================================
 export const videoSectionSchema = z.object({
 	backgroundImage: z.string().optional(),
-	titleHighlighted: z.string().max(200).optional(),
-	titleNormal: z.string().max(200).optional(),
+	titleHighlightedDe: z.string().max(200).optional(),
+	titleHighlightedEn: z.string().max(200).optional(),
+	titleNormalDe: z.string().max(200).optional(),
+	titleNormalEn: z.string().max(200).optional(),
 	videoUrl: z.string().optional(),
-	buttonLabel: z.string().max(100).optional(),
+	buttonLabelDe: z.string().max(100).optional(),
+	buttonLabelEn: z.string().max(100).optional(),
 });
 
 // ============================================================================
@@ -84,13 +101,15 @@ export const videoSectionSchema = z.object({
 // ============================================================================
 export const galleryImageSchema = z.object({
 	src: z.string().optional(),
-	alt: z.string().max(200).optional(),
+	altDe: z.string().max(200).optional(),
+	altEn: z.string().max(200).optional(),
 });
 
 export const gallerySectionSchema = z.object({
 	backgroundImage: z.string().optional(),
 	backgroundColor: z.string().optional(),
-	title: z.string().max(500).optional(),
+	titleDe: z.string().max(500).optional(),
+	titleEn: z.string().max(500).optional(),
 	images: z.array(galleryImageSchema).optional(),
 });
 
@@ -98,8 +117,10 @@ export const gallerySectionSchema = z.object({
 // CONTACT SECTION
 // ============================================================================
 export const contactSectionSchema = z.object({
-	title: z.string().max(200).optional(),
-	subtitle: z.string().max(500).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	subtitleDe: z.string().max(500).optional(),
+	subtitleEn: z.string().max(500).optional(),
 	showContactForm: z.boolean().optional(),
 	showMap: z.boolean().optional(),
 	showOffices: z.boolean().optional(),
@@ -111,8 +132,10 @@ export const contactSectionSchema = z.object({
 export const statItemSchema = z.object({
 	image: z.string().optional(),
 	value: z.string().max(50).optional(),
-	label: z.string().max(100).optional(),
-	description: z.string().max(500).optional(),
+	labelDe: z.string().max(100).optional(),
+	labelEn: z.string().max(100).optional(),
+	descriptionDe: z.string().max(500).optional(),
+	descriptionEn: z.string().max(500).optional(),
 });
 
 export const statsSectionSchema = z.object({
@@ -125,8 +148,10 @@ export const statsSectionSchema = z.object({
 // ============================================================================
 export const imageDescriptionItemSchema = z.object({
 	image: z.string().optional(),
-	title: z.string().max(200).optional(),
-	description: z.string().max(2000).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	descriptionDe: z.string().max(2000).optional(),
+	descriptionEn: z.string().max(2000).optional(),
 	watermarkImage: z.string().optional(),
 });
 
@@ -139,8 +164,10 @@ export const imageDescriptionSectionSchema = z.object({
 // SEO
 // ============================================================================
 export const aboutPageSeoSchema = z.object({
-	title: z.string().max(200).optional(),
-	description: z.string().max(500).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	descriptionDe: z.string().max(500).optional(),
+	descriptionEn: z.string().max(500).optional(),
 	ogImage: z.string().optional(),
 });
 

@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Clock } from "lucide-react";
+import { useLocale } from "next-intl";
 import type { IKontaktOfficeSection } from "@/models/kontakt-page.model";
 import type { IOffice } from "@/models/site-settings.model";
 
@@ -197,7 +198,16 @@ export function AnimatedOfficeLocations({
 	data,
 	addresses,
 }: AnimatedOfficeLocationsProps) {
+	const locale = useLocale();
+	const isEn = locale === "en";
+
 	const [activeTab, setActiveTab] = useState(0);
+
+	const badge = (isEn ? data.badgeEn : data.badgeDe) || data.badgeDe || data.badgeEn;
+	const title = (isEn ? data.titleEn : data.titleDe) || data.titleDe || data.titleEn;
+	const subtitle = (isEn ? data.subtitleEn : data.subtitleDe) || data.subtitleDe || data.subtitleEn;
+	const openingHours = (isEn ? data.openingHoursEn : data.openingHoursDe) || data.openingHoursDe || data.openingHoursEn;
+	const closedText = (isEn ? data.closedTextEn : data.closedTextDe) || data.closedTextDe || data.closedTextEn;
 
 	// Pre-process all addresses to get valid embed URLs
 	const processedAddresses = useMemo(() => {
@@ -228,18 +238,18 @@ export function AnimatedOfficeLocations({
 			transition={{ duration: 0.6 }}
 		>
 			<div className="mb-8">
-				{data.badge && (
+				{badge && (
 					<div className="mb-4 inline-flex items-center gap-2 rounded-full bg-secondary/10 px-4 py-1.5">
 						<MapPin className="h-4 w-4 text-secondary" />
 						<span className="text-sm font-semibold text-secondary">
-							{data.badge}
+							{badge}
 						</span>
 					</div>
 				)}
 				<h2 className="mb-4 text-3xl font-medium text-secondary md:text-4xl">
-					{data.title}
+					{title}
 				</h2>
-				<p className="text-lg text-foreground/70">{data.subtitle}</p>
+				<p className="text-lg text-foreground/70">{subtitle}</p>
 			</div>
 
 			{/* Tabs */}
@@ -331,7 +341,7 @@ export function AnimatedOfficeLocations({
 									</div>
 									<div className="flex-1">
 										<p className="mb-1 text-xs font-semibold uppercase tracking-wide text-foreground/60">
-											Adress
+											{isEn ? "Address" : "Adresse"}
 										</p>
 										<p className="font-medium text-secondary">
 											{activeAddress.street}
@@ -351,15 +361,15 @@ export function AnimatedOfficeLocations({
 									</div>
 									<div className="flex-1">
 										<p className="mb-1 text-xs font-semibold uppercase tracking-wide text-foreground/60">
-											Öppettider
+											{isEn ? "Opening Hours" : "Öffnungszeiten"}
 										</p>
-										{data.openingHours && (
+										{openingHours && (
 											<p className="font-medium text-secondary">
-												{data.openingHours}
+												{openingHours}
 											</p>
 										)}
-										{data.closedText && (
-											<p className="text-sm text-foreground/70">{data.closedText}</p>
+										{closedText && (
+											<p className="text-sm text-foreground/70">{closedText}</p>
 										)}
 									</div>
 								</div>
@@ -382,7 +392,7 @@ export function AnimatedOfficeLocations({
 										className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-secondary px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-primary hover:shadow-lg"
 									>
 										<MapPin className="h-4 w-4" />
-										Öppna i Google Maps
+										{isEn ? "Open in Google Maps" : "In Google Maps öffnen"}
 									</a>
 								);
 							})()}

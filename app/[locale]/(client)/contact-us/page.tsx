@@ -39,7 +39,14 @@ export async function generateMetadata(): Promise<Metadata> {
 	};
 }
 
-export default async function ContactUsPage() {
+interface Props {
+	params: Promise<{ locale: string }>;
+}
+
+export default async function ContactUsPage({ params }: Props) {
+	const { locale } = await params;
+	const isEn = locale === "en";
+
 	const [kontaktPage, siteSettings] = await Promise.all([
 		getKontaktPage(),
 		getSiteSettings(),
@@ -48,7 +55,7 @@ export default async function ContactUsPage() {
 	return (
 		<div className="flex flex-col min-h-screen">
 			{/* Hero Section */}
-			<AnimatedHero data={kontaktPage.hero} />
+			<AnimatedHero data={kontaktPage.hero} isEn={isEn} />
 
 			{/* Contact Info + Form (two columns) */}
 			<ContactSection
@@ -56,6 +63,7 @@ export default async function ContactUsPage() {
 				formSection={kontaktPage.formSection}
 				phone={siteSettings.phone}
 				email={siteSettings.email}
+				isEn={isEn}
 			/>
 
 			{/* Google Map */}

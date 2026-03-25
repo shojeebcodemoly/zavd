@@ -6,6 +6,7 @@ import type { IIntegrationSection } from "@/models/home-page.model";
 
 interface IntegrationSectionProps {
 	data?: IIntegrationSection;
+	isEn?: boolean;
 }
 
 const DEFAULTS = {
@@ -41,10 +42,10 @@ const imageRevealVariants = {
 	},
 };
 
-export function IntegrationSection({ data }: IntegrationSectionProps) {
-	const heading = data?.heading || DEFAULTS.heading;
-	const quote = data?.quote || DEFAULTS.quote;
-	const description = data?.description || DEFAULTS.description;
+export function IntegrationSection({ data, isEn }: IntegrationSectionProps) {
+	const heading = (isEn ? data?.headingEn : data?.headingDe) || data?.headingDe || data?.headingEn || DEFAULTS.heading;
+	const quote = (isEn ? data?.quoteEn : data?.quoteDe) || data?.quoteDe || data?.quoteEn || DEFAULTS.quote;
+	const description = (isEn ? data?.descriptionEn : data?.descriptionDe) || data?.descriptionDe || data?.descriptionEn || DEFAULTS.description;
 	const image = data?.image;
 	const partnerLogos = data?.partnerLogos || [];
 
@@ -88,38 +89,41 @@ export function IntegrationSection({ data }: IntegrationSectionProps) {
 						{partnerLogos.length > 0 && (
 							<div className="pt-2">
 								<div className="grid grid-cols-2 gap-x-8 gap-y-8">
-									{partnerLogos.map((partner, index) => (
-										<a
-											key={index}
-											href={partner.href || "#"}
-											target="_blank"
-											rel="noopener noreferrer"
-											className="flex flex-col items-center gap-2 group hover:opacity-80 transition-opacity"
-										>
-											{partner.image && (
-												<div className="w-36 h-24 flex items-center justify-center flex-shrink-0">
-													<Image
-														src={partner.image}
-														alt={partner.name || "Partner logo"}
-														height={96}
-														width={144}
-														className="max-w-full max-h-full object-contain"
-														unoptimized
-													/>
-												</div>
-											)}
-											{partner.name && (
-												<span className="text-xs text-foreground/70 text-center leading-normal font-semibold">
-													{partner.name}
-												</span>
-											)}
-											{partner.description && (
-												<span className="text-xs text-foreground/50 text-center leading-snug">
-													{partner.description}
-												</span>
-											)}
-										</a>
-									))}
+									{partnerLogos.map((partner, index) => {
+										const partnerDesc = (isEn ? partner.descriptionEn : partner.descriptionDe) || partner.descriptionDe || partner.descriptionEn;
+										return (
+											<a
+												key={index}
+												href={partner.href || "#"}
+												target="_blank"
+												rel="noopener noreferrer"
+												className="flex flex-col items-center gap-2 group hover:opacity-80 transition-opacity"
+											>
+												{partner.image && (
+													<div className="w-36 h-24 flex items-center justify-center flex-shrink-0">
+														<Image
+															src={partner.image}
+															alt={partner.name || "Partner logo"}
+															height={96}
+															width={144}
+															className="max-w-full max-h-full object-contain"
+															unoptimized
+														/>
+													</div>
+												)}
+												{partner.name && (
+													<span className="text-xs text-foreground/70 text-center leading-normal font-semibold">
+														{partner.name}
+													</span>
+												)}
+												{partnerDesc && (
+													<span className="text-xs text-foreground/50 text-center leading-snug">
+														{partnerDesc}
+													</span>
+												)}
+											</a>
+										);
+									})}
 								</div>
 							</div>
 						)}

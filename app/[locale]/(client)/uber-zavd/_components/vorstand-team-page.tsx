@@ -572,17 +572,24 @@ export function VorstandTeamPage() {
 		{/* ─── Contact Section ─── */}
 		<KontaktInfoSection
 			contactInfo={{
-				badge: isEn ? "Contact" : "Kontakt",
-				heading: isEn ? "Get in Touch" : "Kontakt aufnehmen",
-				phoneLabel: isEn ? "Phone Number" : "Telefonnummer",
-				emailLabel: isEn ? "Email Address" : "E-Mail-Adresse",
-				addressLabel: isEn ? "Our Address" : "Unsere Adresse",
+				badgeDe: "Kontakt",
+				badgeEn: "Contact",
+				headingDe: "Kontakt aufnehmen",
+				headingEn: "Get in Touch",
+				phoneLabelDe: "Telefonnummer",
+				phoneLabelEn: "Phone Number",
+				emailLabelDe: "E-Mail-Adresse",
+				emailLabelEn: "Email Address",
+				addressLabelDe: "Unsere Adresse",
+				addressLabelEn: "Our Address",
 			}}
 			formSection={{
-				heading: isEn ? "Have Any Question?" : "Haben Sie eine Frage?",
+				headingDe: "Haben Sie eine Frage?",
+				headingEn: "Have Any Question?",
 			}}
 			phone={sitePhone}
 			email={siteEmail}
+			isEn={isEn}
 		/>
 
 		</div>

@@ -52,20 +52,25 @@ class EhrenamtEngagementPageRepository {
 
 		if (data.gallery !== undefined) {
 			if (data.gallery.images !== undefined) updateData["gallery.images"] = data.gallery.images;
-			if (data.gallery.title !== undefined) updateData["gallery.title"] = data.gallery.title;
-			if (data.gallery.subtitle !== undefined) updateData["gallery.subtitle"] = data.gallery.subtitle;
+			if (data.gallery.titleDe !== undefined) updateData["gallery.titleDe"] = data.gallery.titleDe;
+			if (data.gallery.titleEn !== undefined) updateData["gallery.titleEn"] = data.gallery.titleEn;
+			if (data.gallery.subtitleDe !== undefined) updateData["gallery.subtitleDe"] = data.gallery.subtitleDe;
+			if (data.gallery.subtitleEn !== undefined) updateData["gallery.subtitleEn"] = data.gallery.subtitleEn;
 		}
 
 		if (data.content !== undefined) {
 			if (data.content.blocks !== undefined) updateData["content.blocks"] = data.content.blocks;
-			if (data.content.title !== undefined) updateData["content.title"] = data.content.title;
-			if (data.content.body !== undefined) updateData["content.body"] = data.content.body;
+			if (data.content.titleDe !== undefined) updateData["content.titleDe"] = data.content.titleDe;
+			if (data.content.titleEn !== undefined) updateData["content.titleEn"] = data.content.titleEn;
+			if (data.content.bodyDe !== undefined) updateData["content.bodyDe"] = data.content.bodyDe;
+			if (data.content.bodyEn !== undefined) updateData["content.bodyEn"] = data.content.bodyEn;
 			if (data.content.image !== undefined) updateData["content.image"] = data.content.image;
 		}
 
 		if (data.partners !== undefined) {
 			if (data.partners.logos !== undefined) updateData["partners.logos"] = data.partners.logos;
-			if (data.partners.heading !== undefined) updateData["partners.heading"] = data.partners.heading;
+			if (data.partners.headingDe !== undefined) updateData["partners.headingDe"] = data.partners.headingDe;
+			if (data.partners.headingEn !== undefined) updateData["partners.headingEn"] = data.partners.headingEn;
 		}
 
 		const page = await Model.findOneAndUpdate(

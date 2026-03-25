@@ -34,23 +34,30 @@ const AboutSectionVisibilitySchema = new Schema<IAboutSectionVisibility>(
 // ============================================================================
 export interface IHistoryTimelineItem {
 	year: string;
-	title: string;
-	description: string;
+	titleDe: string;
+	titleEn: string;
+	descriptionDe: string;
+	descriptionEn: string;
 	image?: string;
 }
 
 export interface IHistorySection {
-	badge?: string;
-	title?: string;
-	subtitle?: string;
+	badgeDe?: string;
+	badgeEn?: string;
+	titleDe?: string;
+	titleEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
 	timelineItems?: IHistoryTimelineItem[];
 }
 
 const HistoryTimelineItemSchema = new Schema<IHistoryTimelineItem>(
 	{
 		year: { type: String, trim: true },
-		title: { type: String, trim: true },
-		description: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		descriptionDe: { type: String, trim: true },
+		descriptionEn: { type: String, trim: true },
 		image: { type: String, trim: true },
 	},
 	{ _id: false }
@@ -58,9 +65,12 @@ const HistoryTimelineItemSchema = new Schema<IHistoryTimelineItem>(
 
 const HistorySectionSchema = new Schema<IHistorySection>(
 	{
-		badge: { type: String, trim: true },
-		title: { type: String, trim: true },
-		subtitle: { type: String, trim: true },
+		badgeDe: { type: String, trim: true },
+		badgeEn: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		subtitleDe: { type: String, trim: true },
+		subtitleEn: { type: String, trim: true },
 		timelineItems: { type: [HistoryTimelineItemSchema], default: [] },
 	},
 	{ _id: false }
@@ -72,14 +82,18 @@ const HistorySectionSchema = new Schema<IHistorySection>(
 export interface ICustomerItem {
 	name: string;
 	logo?: string;
-	products?: string;
-	description?: string;
+	productsDe?: string;
+	productsEn?: string;
+	descriptionDe?: string;
+	descriptionEn?: string;
 	website?: string;
 }
 
 export interface ICustomersSection {
-	title?: string;
-	subtitle?: string;
+	titleDe?: string;
+	titleEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
 	customers?: ICustomerItem[];
 }
 
@@ -87,8 +101,10 @@ const CustomerItemSchema = new Schema<ICustomerItem>(
 	{
 		name: { type: String, trim: true },
 		logo: { type: String, trim: true },
-		products: { type: String, trim: true },
-		description: { type: String, trim: true },
+		productsDe: { type: String, trim: true },
+		productsEn: { type: String, trim: true },
+		descriptionDe: { type: String, trim: true },
+		descriptionEn: { type: String, trim: true },
 		website: { type: String, trim: true },
 	},
 	{ _id: false }
@@ -96,8 +112,10 @@ const CustomerItemSchema = new Schema<ICustomerItem>(
 
 const CustomersSectionSchema = new Schema<ICustomersSection>(
 	{
-		title: { type: String, trim: true },
-		subtitle: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		subtitleDe: { type: String, trim: true },
+		subtitleEn: { type: String, trim: true },
 		customers: { type: [CustomerItemSchema], default: [] },
 	},
 	{ _id: false }
@@ -108,39 +126,49 @@ const CustomersSectionSchema = new Schema<ICustomersSection>(
 // ============================================================================
 export interface ITeamMember {
 	name: string;
-	role: string;
+	roleDe: string;
+	roleEn: string;
 	image?: string;
 	email?: string;
 	phone?: string;
 	linkedin?: string;
-	department?: string;
-	bio?: string;
+	departmentDe?: string;
+	departmentEn?: string;
+	bioDe?: string;
+	bioEn?: string;
 }
 
 export interface ITeamSection {
-	title?: string;
-	subtitle?: string;
+	titleDe?: string;
+	titleEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
 	members?: ITeamMember[];
 }
 
 const TeamMemberSchema = new Schema<ITeamMember>(
 	{
 		name: { type: String, trim: true },
-		role: { type: String, trim: true },
+		roleDe: { type: String, trim: true },
+		roleEn: { type: String, trim: true },
 		image: { type: String, trim: true },
 		email: { type: String, trim: true },
 		phone: { type: String, trim: true },
 		linkedin: { type: String, trim: true },
-		department: { type: String, trim: true },
-		bio: { type: String, trim: true },
+		departmentDe: { type: String, trim: true },
+		departmentEn: { type: String, trim: true },
+		bioDe: { type: String, trim: true },
+		bioEn: { type: String, trim: true },
 	},
 	{ _id: false }
 );
 
 const TeamSectionSchema = new Schema<ITeamSection>(
 	{
-		title: { type: String, trim: true },
-		subtitle: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		subtitleDe: { type: String, trim: true },
+		subtitleEn: { type: String, trim: true },
 		members: { type: [TeamMemberSchema], default: [] },
 	},
 	{ _id: false }
@@ -151,19 +179,25 @@ const TeamSectionSchema = new Schema<ITeamSection>(
 // ============================================================================
 export interface IVideoSection {
 	backgroundImage?: string;
-	titleHighlighted?: string;
-	titleNormal?: string;
+	titleHighlightedDe?: string;
+	titleHighlightedEn?: string;
+	titleNormalDe?: string;
+	titleNormalEn?: string;
 	videoUrl?: string;
-	buttonLabel?: string;
+	buttonLabelDe?: string;
+	buttonLabelEn?: string;
 }
 
 const VideoSectionSchema = new Schema<IVideoSection>(
 	{
 		backgroundImage: { type: String, trim: true },
-		titleHighlighted: { type: String, trim: true },
-		titleNormal: { type: String, trim: true },
+		titleHighlightedDe: { type: String, trim: true },
+		titleHighlightedEn: { type: String, trim: true },
+		titleNormalDe: { type: String, trim: true },
+		titleNormalEn: { type: String, trim: true },
 		videoUrl: { type: String, trim: true },
-		buttonLabel: { type: String, trim: true },
+		buttonLabelDe: { type: String, trim: true },
+		buttonLabelEn: { type: String, trim: true },
 	},
 	{ _id: false }
 );
@@ -173,20 +207,23 @@ const VideoSectionSchema = new Schema<IVideoSection>(
 // ============================================================================
 export interface IGalleryImage {
 	src: string;
-	alt?: string;
+	altDe?: string;
+	altEn?: string;
 }
 
 export interface IGallerySection {
 	backgroundImage?: string;
 	backgroundColor?: string;
-	title?: string;
+	titleDe?: string;
+	titleEn?: string;
 	images?: IGalleryImage[];
 }
 
 const GalleryImageSchema = new Schema<IGalleryImage>(
 	{
 		src: { type: String, trim: true },
-		alt: { type: String, trim: true },
+		altDe: { type: String, trim: true },
+		altEn: { type: String, trim: true },
 	},
 	{ _id: false }
 );
@@ -195,7 +232,8 @@ const GallerySectionSchema = new Schema<IGallerySection>(
 	{
 		backgroundImage: { type: String, trim: true },
 		backgroundColor: { type: String, trim: true },
-		title: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
 		images: { type: [GalleryImageSchema], default: [] },
 	},
 	{ _id: false }
@@ -205,8 +243,10 @@ const GallerySectionSchema = new Schema<IGallerySection>(
 // CONTACT SECTION
 // ============================================================================
 export interface IContactSection {
-	title?: string;
-	subtitle?: string;
+	titleDe?: string;
+	titleEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
 	showContactForm?: boolean;
 	showMap?: boolean;
 	showOffices?: boolean;
@@ -214,8 +254,10 @@ export interface IContactSection {
 
 const ContactSectionSchema = new Schema<IContactSection>(
 	{
-		title: { type: String, trim: true },
-		subtitle: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		subtitleDe: { type: String, trim: true },
+		subtitleEn: { type: String, trim: true },
 		showContactForm: { type: Boolean, default: true },
 		showMap: { type: Boolean, default: true },
 		showOffices: { type: Boolean, default: true },
@@ -229,8 +271,10 @@ const ContactSectionSchema = new Schema<IContactSection>(
 export interface IStatItem {
 	image?: string;
 	value: string;
-	label: string;
-	description?: string;
+	labelDe: string;
+	labelEn: string;
+	descriptionDe?: string;
+	descriptionEn?: string;
 }
 
 export interface IStatsSection {
@@ -242,8 +286,10 @@ const StatItemSchema = new Schema<IStatItem>(
 	{
 		image: { type: String, trim: true },
 		value: { type: String, trim: true },
-		label: { type: String, trim: true },
-		description: { type: String, trim: true },
+		labelDe: { type: String, trim: true },
+		labelEn: { type: String, trim: true },
+		descriptionDe: { type: String, trim: true },
+		descriptionEn: { type: String, trim: true },
 	},
 	{ _id: false }
 );
@@ -261,8 +307,10 @@ const StatsSectionSchema = new Schema<IStatsSection>(
 // ============================================================================
 export interface IImageDescriptionItem {
 	image?: string;
-	title?: string;
-	description?: string;
+	titleDe?: string;
+	titleEn?: string;
+	descriptionDe?: string;
+	descriptionEn?: string;
 	watermarkImage?: string;
 }
 
@@ -274,8 +322,10 @@ export interface IImageDescriptionSection {
 const ImageDescriptionItemSchema = new Schema<IImageDescriptionItem>(
 	{
 		image: { type: String, trim: true },
-		title: { type: String, trim: true },
-		description: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		descriptionDe: { type: String, trim: true },
+		descriptionEn: { type: String, trim: true },
 		watermarkImage: { type: String, trim: true },
 	},
 	{ _id: false }
@@ -293,15 +343,19 @@ const ImageDescriptionSectionSchema = new Schema<IImageDescriptionSection>(
 // SEO
 // ============================================================================
 export interface IAboutPageSeo {
-	title?: string;
-	description?: string;
+	titleDe?: string;
+	titleEn?: string;
+	descriptionDe?: string;
+	descriptionEn?: string;
 	ogImage?: string;
 }
 
 const AboutPageSeoSchema = new Schema<IAboutPageSeo>(
 	{
-		title: { type: String, trim: true },
-		description: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		descriptionDe: { type: String, trim: true },
+		descriptionEn: { type: String, trim: true },
 		ogImage: { type: String, trim: true },
 	},
 	{ _id: false }

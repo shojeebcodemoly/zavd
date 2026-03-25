@@ -6,6 +6,7 @@ import type { IVolunteeringSection } from "@/models/home-page.model";
 
 interface VolunteeringSectionProps {
 	data?: IVolunteeringSection;
+	isEn?: boolean;
 }
 
 const DEFAULTS = {
@@ -15,9 +16,9 @@ const DEFAULTS = {
 	image: "",
 };
 
-export function VolunteeringSection({ data }: VolunteeringSectionProps) {
-	const heading = data?.heading || DEFAULTS.heading;
-	const description = data?.description || DEFAULTS.description;
+export function VolunteeringSection({ data, isEn }: VolunteeringSectionProps) {
+	const heading = (isEn ? data?.headingEn : data?.headingDe) || data?.headingDe || data?.headingEn || DEFAULTS.heading;
+	const description = (isEn ? data?.descriptionEn : data?.descriptionDe) || data?.descriptionDe || data?.descriptionEn || DEFAULTS.description;
 	const image = data?.image;
 	const partnerLogos = data?.partnerLogos || [];
 

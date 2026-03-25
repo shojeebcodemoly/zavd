@@ -7,9 +7,10 @@ import { connectMongoose } from "@/lib/db/db-connect";
 export interface IKontaktHero {
 	backgroundImage?: string;
 	breadcrumb?: string;
-	badge?: string;
-	title: string;
-	subtitle: string;
+	titleDe: string;
+	titleEn: string;
+	subtitleDe: string;
+	subtitleEn: string;
 	responseTime?: string;
 	officeLocationsText?: string;
 }
@@ -19,21 +20,28 @@ export interface IKontaktHero {
  */
 export interface IContactCard {
 	icon: string;
-	title: string;
-	subtitle?: string;
+	titleDe: string;
+	titleEn: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
 }
 
 /**
  * Contact Info Section interface (left column)
  */
 export interface IKontaktContactInfo {
-	badge?: string;
-	heading?: string;
-	addressLabel?: string;
+	badgeDe?: string;
+	badgeEn?: string;
+	headingDe?: string;
+	headingEn?: string;
+	addressLabelDe?: string;
+	addressLabelEn?: string;
 	address?: string;
-	emailLabel?: string;
+	emailLabelDe?: string;
+	emailLabelEn?: string;
 	email?: string;
-	phoneLabel?: string;
+	phoneLabelDe?: string;
+	phoneLabelEn?: string;
 	phone?: string;
 }
 
@@ -41,10 +49,12 @@ export interface IKontaktContactInfo {
  * Form Section interface
  */
 export interface IKontaktFormSection {
-	badge?: string;
-	heading?: string;
-	title?: string;
-	subtitle?: string;
+	headingDe?: string;
+	headingEn?: string;
+	titleDe?: string;
+	titleEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
 }
 
 /**
@@ -58,38 +68,51 @@ export interface IKontaktMapSection {
  * Connect Section interface (top cyan banner + dark social section)
  */
 export interface IKontaktConnectSection {
-	badge?: string;
+	badgeDe?: string;
+	badgeEn?: string;
 	backgroundImage?: string;
-	heading?: string;
-	description?: string;
+	headingDe?: string;
+	headingEn?: string;
+	descriptionDe?: string;
+	descriptionEn?: string;
 }
 
 /**
  * Office Section interface
  */
 export interface IKontaktOfficeSection {
-	badge?: string;
-	title: string;
-	subtitle: string;
-	openingHours?: string;
-	closedText?: string;
+	badgeDe?: string;
+	badgeEn?: string;
+	titleDe: string;
+	titleEn: string;
+	subtitleDe: string;
+	subtitleEn: string;
+	openingHoursDe?: string;
+	openingHoursEn?: string;
+	closedTextDe?: string;
+	closedTextEn?: string;
 }
 
 /**
  * FAQ Item interface for contact page
  */
 export interface IKontaktFaq {
-	question: string;
-	answer: string;
+	questionDe: string;
+	questionEn: string;
+	answerDe: string;
+	answerEn: string;
 }
 
 /**
  * FAQ Section interface
  */
 export interface IKontaktFaqSection {
-	badge?: string;
-	title: string;
-	subtitle: string;
+	badgeDe?: string;
+	badgeEn?: string;
+	titleDe: string;
+	titleEn: string;
+	subtitleDe: string;
+	subtitleEn: string;
 	faqs: IKontaktFaq[];
 }
 
@@ -168,9 +191,10 @@ const KontaktHeroSchema = new Schema<IKontaktHero>(
 	{
 		backgroundImage: { type: String, trim: true },
 		breadcrumb: { type: String, trim: true },
-		badge: { type: String, trim: true },
-		title: { type: String, required: true, trim: true },
-		subtitle: { type: String, required: true, trim: true },
+		titleDe: { type: String, required: true, trim: true },
+		titleEn: { type: String, required: true, trim: true },
+		subtitleDe: { type: String, required: true, trim: true },
+		subtitleEn: { type: String, required: true, trim: true },
 		responseTime: { type: String, trim: true },
 		officeLocationsText: { type: String, trim: true },
 	},
@@ -183,8 +207,10 @@ const KontaktHeroSchema = new Schema<IKontaktHero>(
 const ContactCardSchema = new Schema<IContactCard>(
 	{
 		icon: { type: String, required: true, trim: true },
-		title: { type: String, required: true, trim: true },
-		subtitle: { type: String, trim: true },
+		titleDe: { type: String, required: true, trim: true },
+		titleEn: { type: String, required: true, trim: true },
+		subtitleDe: { type: String, trim: true },
+		subtitleEn: { type: String, trim: true },
 	},
 	{ _id: false }
 );
@@ -194,13 +220,18 @@ const ContactCardSchema = new Schema<IContactCard>(
  */
 const KontaktContactInfoSchema = new Schema<IKontaktContactInfo>(
 	{
-		badge: { type: String, trim: true },
-		heading: { type: String, trim: true },
-		addressLabel: { type: String, trim: true },
+		badgeDe: { type: String, trim: true },
+		badgeEn: { type: String, trim: true },
+		headingDe: { type: String, trim: true },
+		headingEn: { type: String, trim: true },
+		addressLabelDe: { type: String, trim: true },
+		addressLabelEn: { type: String, trim: true },
 		address: { type: String, trim: true },
-		emailLabel: { type: String, trim: true },
+		emailLabelDe: { type: String, trim: true },
+		emailLabelEn: { type: String, trim: true },
 		email: { type: String, trim: true },
-		phoneLabel: { type: String, trim: true },
+		phoneLabelDe: { type: String, trim: true },
+		phoneLabelEn: { type: String, trim: true },
 		phone: { type: String, trim: true },
 	},
 	{ _id: false }
@@ -211,10 +242,12 @@ const KontaktContactInfoSchema = new Schema<IKontaktContactInfo>(
  */
 const KontaktFormSectionSchema = new Schema<IKontaktFormSection>(
 	{
-		badge: { type: String, trim: true },
-		heading: { type: String, trim: true },
-		title: { type: String, required: true, trim: true },
-		subtitle: { type: String, required: true, trim: true },
+		headingDe: { type: String, trim: true },
+		headingEn: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		subtitleDe: { type: String, trim: true },
+		subtitleEn: { type: String, trim: true },
 	},
 	{ _id: false }
 );
@@ -234,10 +267,13 @@ const KontaktMapSectionSchema = new Schema<IKontaktMapSection>(
  */
 const KontaktConnectSectionSchema = new Schema<IKontaktConnectSection>(
 	{
-		badge: { type: String, trim: true },
+		badgeDe: { type: String, trim: true },
+		badgeEn: { type: String, trim: true },
 		backgroundImage: { type: String, trim: true },
-		heading: { type: String, trim: true },
-		description: { type: String, trim: true },
+		headingDe: { type: String, trim: true },
+		headingEn: { type: String, trim: true },
+		descriptionDe: { type: String, trim: true },
+		descriptionEn: { type: String, trim: true },
 	},
 	{ _id: false }
 );
@@ -247,11 +283,16 @@ const KontaktConnectSectionSchema = new Schema<IKontaktConnectSection>(
  */
 const KontaktOfficeSectionSchema = new Schema<IKontaktOfficeSection>(
 	{
-		badge: { type: String, trim: true },
-		title: { type: String, required: true, trim: true },
-		subtitle: { type: String, required: true, trim: true },
-		openingHours: { type: String, trim: true },
-		closedText: { type: String, trim: true },
+		badgeDe: { type: String, trim: true },
+		badgeEn: { type: String, trim: true },
+		titleDe: { type: String, required: true, trim: true },
+		titleEn: { type: String, required: true, trim: true },
+		subtitleDe: { type: String, required: true, trim: true },
+		subtitleEn: { type: String, required: true, trim: true },
+		openingHoursDe: { type: String, trim: true },
+		openingHoursEn: { type: String, trim: true },
+		closedTextDe: { type: String, trim: true },
+		closedTextEn: { type: String, trim: true },
 	},
 	{ _id: false }
 );
@@ -261,8 +302,10 @@ const KontaktOfficeSectionSchema = new Schema<IKontaktOfficeSection>(
  */
 const KontaktFaqSchema = new Schema<IKontaktFaq>(
 	{
-		question: { type: String, required: true, trim: true },
-		answer: { type: String, required: true, trim: true },
+		questionDe: { type: String, required: true, trim: true },
+		questionEn: { type: String, required: true, trim: true },
+		answerDe: { type: String, required: true, trim: true },
+		answerEn: { type: String, required: true, trim: true },
 	},
 	{ _id: false }
 );
@@ -272,9 +315,12 @@ const KontaktFaqSchema = new Schema<IKontaktFaq>(
  */
 const KontaktFaqSectionSchema = new Schema<IKontaktFaqSection>(
 	{
-		badge: { type: String, trim: true },
-		title: { type: String, required: true, trim: true },
-		subtitle: { type: String, required: true, trim: true },
+		badgeDe: { type: String, trim: true },
+		badgeEn: { type: String, trim: true },
+		titleDe: { type: String, required: true, trim: true },
+		titleEn: { type: String, required: true, trim: true },
+		subtitleDe: { type: String, required: true, trim: true },
+		subtitleEn: { type: String, required: true, trim: true },
 		faqs: { type: [KontaktFaqSchema], default: [] },
 	},
 	{ _id: false }
@@ -330,9 +376,10 @@ const KontaktPageSchema = new Schema<IKontaktPage>(
 			default: {
 				backgroundImage: "",
 				breadcrumb: "Home > Contact Us",
-				badge: "Contact",
-				title: "Contact Us",
-				subtitle: "Get in touch with us. We are here to help you.",
+				titleDe: "Kontaktieren Sie uns",
+				titleEn: "Contact Us",
+				subtitleDe: "Nehmen Sie Kontakt mit uns auf. Wir sind hier, um Ihnen zu helfen.",
+				subtitleEn: "Get in touch with us. We are here to help you.",
 				responseTime: "",
 				officeLocationsText: "",
 			},
@@ -340,12 +387,17 @@ const KontaktPageSchema = new Schema<IKontaktPage>(
 		contactInfo: {
 			type: KontaktContactInfoSchema,
 			default: {
-				badge: "Contact",
-				heading: "Get in Touch",
-				addressLabel: "Our Address",
+				badgeDe: "Kontakt",
+				badgeEn: "Contact",
+				headingDe: "Kontaktieren Sie uns",
+				headingEn: "Get in Touch",
+				addressLabelDe: "Unsere Adresse",
+				addressLabelEn: "Our Address",
 				address: "",
-				emailLabel: "Email Address",
-				phoneLabel: "Phone Number",
+				emailLabelDe: "E-Mail-Adresse",
+				emailLabelEn: "Email Address",
+				phoneLabelDe: "Telefonnummer",
+				phoneLabelEn: "Phone Number",
 			},
 		},
 		phoneCard: {
@@ -353,8 +405,10 @@ const KontaktPageSchema = new Schema<IKontaktPage>(
 			required: true,
 			default: {
 				icon: "Phone",
-				title: "Phone",
-				subtitle: "Mon-Fri 09:00-17:00",
+				titleDe: "Telefon",
+				titleEn: "Phone",
+				subtitleDe: "Mo-Fr 09:00-17:00",
+				subtitleEn: "Mon-Fri 09:00-17:00",
 			},
 		},
 		emailCard: {
@@ -362,8 +416,10 @@ const KontaktPageSchema = new Schema<IKontaktPage>(
 			required: true,
 			default: {
 				icon: "Mail",
-				title: "Email",
-				subtitle: "Response within 24 hours",
+				titleDe: "E-Mail",
+				titleEn: "Email",
+				subtitleDe: "Antwort innerhalb von 24 Stunden",
+				subtitleEn: "Response within 24 hours",
 			},
 		},
 		socialCard: {
@@ -371,19 +427,22 @@ const KontaktPageSchema = new Schema<IKontaktPage>(
 			required: true,
 			default: {
 				icon: "MessageCircle",
-				title: "Social Media",
-				subtitle: "Follow us for updates",
+				titleDe: "Soziale Medien",
+				titleEn: "Social Media",
+				subtitleDe: "Folgen Sie uns für Updates",
+				subtitleEn: "Follow us for updates",
 			},
 		},
 		formSection: {
 			type: KontaktFormSectionSchema,
 			required: true,
 			default: {
-				badge: "Send Message",
-				heading: "Have Any Question?",
-				title: "Tell us about your project",
-				subtitle:
-					"Fill out the form and we'll get back to you as soon as possible.",
+				headingDe: "Haben Sie Fragen?",
+				headingEn: "Have Any Question?",
+				titleDe: "Erzählen Sie uns von Ihrem Projekt",
+				titleEn: "Tell us about your project",
+				subtitleDe: "Füllen Sie das Formular aus und wir melden uns so schnell wie möglich bei Ihnen.",
+				subtitleEn: "Fill out the form and we'll get back to you as soon as possible.",
 			},
 		},
 		mapSection: {
@@ -395,33 +454,43 @@ const KontaktPageSchema = new Schema<IKontaktPage>(
 		connectSection: {
 			type: KontaktConnectSectionSchema,
 			default: {
-				badge: "Connect With Us",
+				badgeDe: "Verbinden Sie sich mit uns",
+				badgeEn: "Connect With Us",
 				backgroundImage: "",
-				heading: "GET IN TOUCH",
-				description:
-					"Connect with us on social media and stay updated with our latest news and events.",
+				headingDe: "KONTAKTIEREN SIE UNS",
+				headingEn: "GET IN TOUCH",
+				descriptionDe: "Verbinden Sie sich mit uns in den sozialen Medien und bleiben Sie über unsere neuesten Nachrichten und Veranstaltungen auf dem Laufenden.",
+				descriptionEn: "Connect with us on social media and stay updated with our latest news and events.",
 			},
 		},
 		officeSection: {
 			type: KontaktOfficeSectionSchema,
 			required: true,
 			default: {
-				badge: "Our Offices",
-				title: "Visit Us",
-				subtitle:
+				badgeDe: "Unsere Büros",
+				badgeEn: "Our Offices",
+				titleDe: "Besuchen Sie uns",
+				titleEn: "Visit Us",
+				subtitleDe:
+					"Wir haben Büros in Stockholm und Linköping. Besuchen Sie uns gerne!",
+				subtitleEn:
 					"We have offices in Stockholm and Linköping. Welcome to visit us!",
-				openingHours: "Mon-Fri 09:00-17:00",
-				closedText: "Weekends closed",
+				openingHoursDe: "Mo-Fr 09:00-17:00",
+				openingHoursEn: "Mon-Fri 09:00-17:00",
+				closedTextDe: "Wochenenden geschlossen",
+				closedTextEn: "Weekends closed",
 			},
 		},
 		faqSection: {
 			type: KontaktFaqSectionSchema,
 			required: true,
 			default: {
-				badge: "FAQ",
-				title: "Have Questions?",
-				subtitle:
-					"Here you'll find answers to the most common questions. Can't find an answer? Feel free to contact us!",
+				badgeDe: "FAQ",
+				badgeEn: "FAQ",
+				titleDe: "Haben Sie Fragen?",
+				titleEn: "Have Questions?",
+				subtitleDe: "Hier finden Sie Antworten auf die häufigsten Fragen. Keine Antwort gefunden? Kontaktieren Sie uns!",
+				subtitleEn: "Here you'll find answers to the most common questions. Can't find an answer? Feel free to contact us!",
 				faqs: [],
 			},
 		},

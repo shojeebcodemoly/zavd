@@ -8,15 +8,17 @@ import type { IIntroSection } from "@/models/home-page.model";
 
 interface IntroSectionProps {
 	data: IIntroSection;
+	isEn?: boolean;
 }
 
-export function IntroSection({ data }: IntroSectionProps) {
-	const hasContent =
-		data?.badge ||
-		data?.title ||
-		data?.subtitle ||
-		data?.description ||
-		data?.ctaText;
+export function IntroSection({ data, isEn }: IntroSectionProps) {
+	const badge = (isEn ? data?.badgeEn : data?.badgeDe) || data?.badgeDe || data?.badgeEn;
+	const title = (isEn ? data?.titleEn : data?.titleDe) || data?.titleDe || data?.titleEn;
+	const subtitle = (isEn ? data?.subtitleEn : data?.subtitleDe) || data?.subtitleDe || data?.subtitleEn;
+	const description = (isEn ? data?.descriptionEn : data?.descriptionDe) || data?.descriptionDe || data?.descriptionEn;
+	const ctaText = (isEn ? data?.ctaTextEn : data?.ctaTextDe) || data?.ctaTextDe || data?.ctaTextEn;
+
+	const hasContent = badge || title || subtitle || description || ctaText;
 
 	if (!hasContent && !data?.image) return null;
 
@@ -35,26 +37,26 @@ export function IntroSection({ data }: IntroSectionProps) {
 						className="flex flex-col"
 					>
 						{/* Badge */}
-						{data?.badge && (
+						{badge && (
 							<div className="flex items-center gap-2 mb-5">
 								<span className="w-8 h-[2px] bg-primary block" />
 								<span className="text-primary text-sm font-semibold tracking-widest uppercase">
-									{data.badge}
+									{badge}
 								</span>
 							</div>
 						)}
 
 						{/* Title */}
-						{data?.title && (
+						{title && (
 							<h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-4">
-								{data.title}
+								{title}
 							</h2>
 						)}
 
 						{/* Subtitle */}
-						{data?.subtitle && (
+						{subtitle && (
 							<p className="text-lg font-semibold text-gray-700 mb-4 leading-snug">
-								{data.subtitle}
+								{subtitle}
 							</p>
 						)}
 
@@ -62,19 +64,19 @@ export function IntroSection({ data }: IntroSectionProps) {
 						<div className="w-12 h-1 bg-primary rounded-full mb-6" />
 
 						{/* Description */}
-						{data?.description && (
+						{description && (
 							<p className="text-gray-500 text-base leading-relaxed mb-8">
-								{data.description}
+								{description}
 							</p>
 						)}
 
 						{/* CTA */}
-						{data?.ctaText && data?.ctaHref && (
+						{ctaText && data?.ctaHref && (
 							<Link
 								href={data.ctaHref}
 								className="inline-flex items-center gap-2 bg-primary text-white font-semibold text-sm px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors w-fit mb-10"
 							>
-								{data.ctaText}
+								{ctaText}
 								<ArrowRight className="w-4 h-4" />
 							</Link>
 						)}
@@ -166,7 +168,7 @@ export function IntroSection({ data }: IntroSectionProps) {
 									<div className="relative w-full h-72">
 										<ImageComponent
 											src={data.image}
-											alt={data.title ?? ""}
+											alt={title ?? ""}
 											fill
 											className="object-contain"
 										/>

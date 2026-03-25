@@ -11,13 +11,17 @@ export interface IEhrenamtEngagementHero {
 
 // ─── Content Section ──────────────────────────────────────────────────────────
 export interface IEhrenamtContentBlock {
-	heading?: string;
-	body?: string;
+	headingDe?: string;
+	headingEn?: string;
+	bodyDe?: string;
+	bodyEn?: string;
 }
 
 export interface IEhrenamtEngagementContent {
-	title?: string;
-	body?: string;
+	titleDe?: string;
+	titleEn?: string;
+	bodyDe?: string;
+	bodyEn?: string;
 	image?: string;
 	blocks: IEhrenamtContentBlock[];
 }
@@ -30,8 +34,10 @@ export interface IEhrenamtGalleryImage {
 }
 
 export interface IEhrenamtEngagementGallery {
-	title?: string;
-	subtitle?: string;
+	titleDe?: string;
+	titleEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
 	images: IEhrenamtGalleryImage[];
 }
 
@@ -43,7 +49,8 @@ export interface IEhrenamtPartnerLogo {
 }
 
 export interface IEhrenamtEngagementPartners {
-	heading?: string;
+	headingDe?: string;
+	headingEn?: string;
 	logos: IEhrenamtPartnerLogo[];
 }
 
@@ -73,16 +80,20 @@ const heroSchema = new Schema<IEhrenamtEngagementHero>(
 
 const contentBlockSchema = new Schema<IEhrenamtContentBlock>(
 	{
-		heading: { type: String, default: "" },
-		body: { type: String, default: "" },
+		headingDe: { type: String, default: "" },
+		headingEn: { type: String, default: "" },
+		bodyDe: { type: String, default: "" },
+		bodyEn: { type: String, default: "" },
 	},
 	{ _id: false }
 );
 
 const contentSchema = new Schema<IEhrenamtEngagementContent>(
 	{
-		title: { type: String, default: "" },
-		body: { type: String, default: "" },
+		titleDe: { type: String, default: "" },
+		titleEn: { type: String, default: "" },
+		bodyDe: { type: String, default: "" },
+		bodyEn: { type: String, default: "" },
 		image: { type: String, default: "" },
 		blocks: { type: [contentBlockSchema], default: [] },
 	},
@@ -100,8 +111,10 @@ const galleryImageSchema = new Schema<IEhrenamtGalleryImage>(
 
 const gallerySchema = new Schema<IEhrenamtEngagementGallery>(
 	{
-		title: { type: String, default: "" },
-		subtitle: { type: String, default: "" },
+		titleDe: { type: String, default: "" },
+		titleEn: { type: String, default: "" },
+		subtitleDe: { type: String, default: "" },
+		subtitleEn: { type: String, default: "" },
 		images: { type: [galleryImageSchema], default: [] },
 	},
 	{ _id: false }
@@ -118,7 +131,8 @@ const partnerLogoSchema = new Schema<IEhrenamtPartnerLogo>(
 
 const partnersSchema = new Schema<IEhrenamtEngagementPartners>(
 	{
-		heading: { type: String, default: "" },
+		headingDe: { type: String, default: "" },
+		headingEn: { type: String, default: "" },
 		logos: { type: [partnerLogoSchema], default: [] },
 	},
 	{ _id: false }

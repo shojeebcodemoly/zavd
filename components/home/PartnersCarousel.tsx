@@ -5,13 +5,16 @@ import type { IPartnersCarouselSection } from "@/models/home-page.model";
 
 interface PartnersCarouselProps {
 	data?: IPartnersCarouselSection;
+	isEn?: boolean;
 }
 
-export function PartnersCarousel({ data }: PartnersCarouselProps) {
+export function PartnersCarousel({ data, isEn }: PartnersCarouselProps) {
+	const heading = (isEn ? data?.headingEn : data?.headingDe) || data?.headingDe || data?.headingEn;
+
 	return (
 		<LogoSlider
 			logos={data?.logos || []}
-			heading={data?.heading}
+			heading={heading}
 		/>
 	);
 }

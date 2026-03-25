@@ -28,13 +28,15 @@ const FAQSectionVisibilitySchema = new Schema<IFAQSectionVisibility>(
 // ============================================================================
 export interface IFAQHeroStat {
 	value?: string;
-	label?: string;
+	labelDe?: string;
+	labelEn?: string;
 }
 
 const FAQHeroStatSchema = new Schema<IFAQHeroStat>(
 	{
 		value: { type: String, trim: true },
-		label: { type: String, trim: true },
+		labelDe: { type: String, trim: true },
+		labelEn: { type: String, trim: true },
 	},
 	{ _id: false }
 );
@@ -43,19 +45,27 @@ const FAQHeroStatSchema = new Schema<IFAQHeroStat>(
 // HERO SECTION
 // ============================================================================
 export interface IFAQHeroSection {
-	badge?: string;
-	title?: string;
-	titleHighlight?: string;
-	subtitle?: string;
+	badgeDe?: string;
+	badgeEn?: string;
+	titleDe?: string;
+	titleEn?: string;
+	titleHighlightDe?: string;
+	titleHighlightEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
 	stats?: IFAQHeroStat[];
 }
 
 const FAQHeroSectionSchema = new Schema<IFAQHeroSection>(
 	{
-		badge: { type: String, trim: true },
-		title: { type: String, trim: true },
-		titleHighlight: { type: String, trim: true },
-		subtitle: { type: String, trim: true },
+		badgeDe: { type: String, trim: true },
+		badgeEn: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		titleHighlightDe: { type: String, trim: true },
+		titleHighlightEn: { type: String, trim: true },
+		subtitleDe: { type: String, trim: true },
+		subtitleEn: { type: String, trim: true },
 		stats: { type: [FAQHeroStatSchema], default: [] },
 	},
 	{ _id: false }
@@ -65,16 +75,20 @@ const FAQHeroSectionSchema = new Schema<IFAQHeroSection>(
 // FAQ ITEM
 // ============================================================================
 export interface IFAQItem {
-	question?: string;
-	answer?: string;
+	questionDe?: string;
+	questionEn?: string;
+	answerDe?: string;
+	answerEn?: string;
 	category?: string;
 	order?: number;
 }
 
 const FAQItemSchema = new Schema<IFAQItem>(
 	{
-		question: { type: String, trim: true },
-		answer: { type: String, trim: true },
+		questionDe: { type: String, trim: true },
+		questionEn: { type: String, trim: true },
+		answerDe: { type: String, trim: true },
+		answerEn: { type: String, trim: true },
 		category: { type: String, trim: true },
 		order: { type: Number, default: 0 },
 	},
@@ -86,7 +100,8 @@ const FAQItemSchema = new Schema<IFAQItem>(
 // ============================================================================
 export interface IFAQCategory {
 	id?: string;
-	name?: string;
+	nameDe?: string;
+	nameEn?: string;
 	icon?: string;
 	order?: number;
 }
@@ -94,7 +109,8 @@ export interface IFAQCategory {
 const FAQCategorySchema = new Schema<IFAQCategory>(
 	{
 		id: { type: String, trim: true },
-		name: { type: String, trim: true },
+		nameDe: { type: String, trim: true },
+		nameEn: { type: String, trim: true },
 		icon: { type: String, trim: true },
 		order: { type: Number, default: 0 },
 	},
@@ -105,10 +121,14 @@ const FAQCategorySchema = new Schema<IFAQCategory>(
 // FAQ CONTENT SECTION
 // ============================================================================
 export interface IFAQContentSection {
-	searchPlaceholder?: string;
-	noResultsText?: string;
-	helpText?: string;
-	helpButtonText?: string;
+	searchPlaceholderDe?: string;
+	searchPlaceholderEn?: string;
+	noResultsTextDe?: string;
+	noResultsTextEn?: string;
+	helpTextDe?: string;
+	helpTextEn?: string;
+	helpButtonTextDe?: string;
+	helpButtonTextEn?: string;
 	helpButtonHref?: string;
 	categories?: IFAQCategory[];
 	items?: IFAQItem[];
@@ -116,10 +136,14 @@ export interface IFAQContentSection {
 
 const FAQContentSectionSchema = new Schema<IFAQContentSection>(
 	{
-		searchPlaceholder: { type: String, trim: true },
-		noResultsText: { type: String, trim: true },
-		helpText: { type: String, trim: true },
-		helpButtonText: { type: String, trim: true },
+		searchPlaceholderDe: { type: String, trim: true },
+		searchPlaceholderEn: { type: String, trim: true },
+		noResultsTextDe: { type: String, trim: true },
+		noResultsTextEn: { type: String, trim: true },
+		helpTextDe: { type: String, trim: true },
+		helpTextEn: { type: String, trim: true },
+		helpButtonTextDe: { type: String, trim: true },
+		helpButtonTextEn: { type: String, trim: true },
 		helpButtonHref: { type: String, trim: true },
 		categories: { type: [FAQCategorySchema], default: [] },
 		items: { type: [FAQItemSchema], default: [] },
@@ -131,13 +155,15 @@ const FAQContentSectionSchema = new Schema<IFAQContentSection>(
 // QUICK LINK
 // ============================================================================
 export interface IFAQQuickLink {
-	label?: string;
+	labelDe?: string;
+	labelEn?: string;
 	href?: string;
 }
 
 const FAQQuickLinkSchema = new Schema<IFAQQuickLink>(
 	{
-		label: { type: String, trim: true },
+		labelDe: { type: String, trim: true },
+		labelEn: { type: String, trim: true },
 		href: { type: String, trim: true },
 	},
 	{ _id: false }
@@ -163,31 +189,41 @@ const FAQOfficeSchema = new Schema<IFAQOffice>(
 // SIDEBAR SECTION
 // ============================================================================
 export interface IFAQSidebarSection {
-	contactTitle?: string;
-	contactDescription?: string;
+	contactTitleDe?: string;
+	contactTitleEn?: string;
+	contactDescriptionDe?: string;
+	contactDescriptionEn?: string;
 	phone?: string;
 	email?: string;
 	officeHours?: string;
-	contactButtonText?: string;
+	contactButtonTextDe?: string;
+	contactButtonTextEn?: string;
 	contactButtonHref?: string;
-	quickLinksTitle?: string;
+	quickLinksTitleDe?: string;
+	quickLinksTitleEn?: string;
 	quickLinks?: IFAQQuickLink[];
-	officesTitle?: string;
+	officesTitleDe?: string;
+	officesTitleEn?: string;
 	offices?: IFAQOffice[];
 }
 
 const FAQSidebarSectionSchema = new Schema<IFAQSidebarSection>(
 	{
-		contactTitle: { type: String, trim: true },
-		contactDescription: { type: String, trim: true },
+		contactTitleDe: { type: String, trim: true },
+		contactTitleEn: { type: String, trim: true },
+		contactDescriptionDe: { type: String, trim: true },
+		contactDescriptionEn: { type: String, trim: true },
 		phone: { type: String, trim: true },
 		email: { type: String, trim: true },
 		officeHours: { type: String, trim: true },
-		contactButtonText: { type: String, trim: true },
+		contactButtonTextDe: { type: String, trim: true },
+		contactButtonTextEn: { type: String, trim: true },
 		contactButtonHref: { type: String, trim: true },
-		quickLinksTitle: { type: String, trim: true },
+		quickLinksTitleDe: { type: String, trim: true },
+		quickLinksTitleEn: { type: String, trim: true },
 		quickLinks: { type: [FAQQuickLinkSchema], default: [] },
-		officesTitle: { type: String, trim: true },
+		officesTitleDe: { type: String, trim: true },
+		officesTitleEn: { type: String, trim: true },
 		offices: { type: [FAQOfficeSchema], default: [] },
 	},
 	{ _id: false }
@@ -197,24 +233,38 @@ const FAQSidebarSectionSchema = new Schema<IFAQSidebarSection>(
 // NEWSLETTER SECTION
 // ============================================================================
 export interface IFAQNewsletterSection {
-	title?: string;
-	subtitle?: string;
-	inputPlaceholder?: string;
-	buttonText?: string;
-	loadingText?: string;
-	successText?: string;
-	privacyNote?: string;
+	titleDe?: string;
+	titleEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
+	inputPlaceholderDe?: string;
+	inputPlaceholderEn?: string;
+	buttonTextDe?: string;
+	buttonTextEn?: string;
+	loadingTextDe?: string;
+	loadingTextEn?: string;
+	successTextDe?: string;
+	successTextEn?: string;
+	privacyNoteDe?: string;
+	privacyNoteEn?: string;
 }
 
 const FAQNewsletterSectionSchema = new Schema<IFAQNewsletterSection>(
 	{
-		title: { type: String, trim: true },
-		subtitle: { type: String, trim: true },
-		inputPlaceholder: { type: String, trim: true },
-		buttonText: { type: String, trim: true },
-		loadingText: { type: String, trim: true },
-		successText: { type: String, trim: true },
-		privacyNote: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		subtitleDe: { type: String, trim: true },
+		subtitleEn: { type: String, trim: true },
+		inputPlaceholderDe: { type: String, trim: true },
+		inputPlaceholderEn: { type: String, trim: true },
+		buttonTextDe: { type: String, trim: true },
+		buttonTextEn: { type: String, trim: true },
+		loadingTextDe: { type: String, trim: true },
+		loadingTextEn: { type: String, trim: true },
+		successTextDe: { type: String, trim: true },
+		successTextEn: { type: String, trim: true },
+		privacyNoteDe: { type: String, trim: true },
+		privacyNoteEn: { type: String, trim: true },
 	},
 	{ _id: false }
 );

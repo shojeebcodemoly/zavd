@@ -7,6 +7,7 @@ import type { IFAQItem } from "@/models/faq-page.model";
 
 interface FAQAccordionClientProps {
 	items: IFAQItem[];
+	isEn?: boolean;
 	searchPlaceholder?: string;
 	noResultsText?: string;
 	helpText?: string;
@@ -16,6 +17,7 @@ interface FAQAccordionClientProps {
 
 export function FAQAccordionClient({
 	items,
+	isEn = false,
 	searchPlaceholder,
 	noResultsText,
 	helpText,
@@ -29,11 +31,17 @@ export function FAQAccordionClient({
 		setOpenIndex(openIndex === index ? null : index);
 	};
 
+	// Helper to get locale-aware question/answer
+	const getQuestion = (faq: IFAQItem) =>
+		isEn ? (faq.questionEn || faq.questionDe) : (faq.questionDe || faq.questionEn);
+	const getAnswer = (faq: IFAQItem) =>
+		isEn ? (faq.answerEn || faq.answerDe) : (faq.answerDe || faq.answerEn);
+
 	// Filter FAQs based on search query
 	const filteredFAQs = items.filter(
 		(faq) =>
-			(faq.question?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
-			(faq.answer?.toLowerCase() || "").includes(searchQuery.toLowerCase())
+			(getQuestion(faq)?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
+			(getAnswer(faq)?.toLowerCase() || "").includes(searchQuery.toLowerCase())
 	);
 
 	return (
@@ -49,7 +57,7 @@ export function FAQAccordionClient({
 					<Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-secondary/40" />
 					<input
 						type="text"
-						placeholder={searchPlaceholder || "Sök efter frågor..."}
+						placeholder={searchPlaceholder || (isEn ? "Search questions..." : "Fragen suchen...")}
 						value={searchQuery}
 						onChange={(e) => setSearchQuery(e.target.value)}
 						className="w-full pl-12 pr-4 py-4 rounded-md border border-secondary/20 bg-white/80 backdrop-blur-sm text-secondary placeholder:text-secondary/40 focus:outline-none focus:border-primary/50 transition-all duration-300"
@@ -67,7 +75,9 @@ export function FAQAccordionClient({
 					>
 						<p className="text-lg">
 							{noResultsText ||
-								"Inga frågor hittades. Försök med en annan sökning."}
+								(isEn
+									? "No questions found. Try a different search."
+									: "Keine Fragen gefunden. Versuchen Sie eine andere Suche.")}
 						</p>
 					</motion.div>
 				) : (
@@ -98,7 +108,7 @@ export function FAQAccordionClient({
 									<span className={`font-semibold text-base sm:text-lg flex-1 leading-snug wrap-break-word ${
 										openIndex === index ? "text-white" : "text-secondary"
 									}`}>
-										{faq.question}
+										{getQuestion(faq)}
 									</span>
 									<motion.div
 										animate={{
@@ -134,7 +144,7 @@ export function FAQAccordionClient({
 											<div className="px-4 pb-4 sm:px-6 sm:pb-6 pt-0">
 												<div className="border-t border-white/20 pt-3 sm:pt-4">
 													<p className="text-white/90 leading-relaxed">
-														{faq.answer}
+														{getAnswer(faq)}
 													</p>
 												</div>
 											</div>

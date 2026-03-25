@@ -14,6 +14,7 @@ interface SocialLinks {
 interface KontaktConnectSectionProps {
 	data: IKontaktConnectSection;
 	socialLinks?: SocialLinks;
+	isEn?: boolean;
 }
 
 const socialIcons = [
@@ -23,7 +24,10 @@ const socialIcons = [
 	{ key: "instagram" as const, Icon: Instagram, label: "Instagram" },
 ];
 
-export function KontaktConnectSection({ data, socialLinks }: KontaktConnectSectionProps) {
+export function KontaktConnectSection({ data, socialLinks, isEn = false }: KontaktConnectSectionProps) {
+	const heading = isEn ? (data.headingEn || data.headingDe) : (data.headingDe || data.headingEn);
+	const description = isEn ? (data.descriptionEn || data.descriptionDe) : (data.descriptionDe || data.descriptionEn);
+
 	return (
 		<div
 			className="relative w-full py-28"
@@ -36,12 +40,12 @@ export function KontaktConnectSection({ data, socialLinks }: KontaktConnectSecti
 			<div className="absolute inset-0 bg-black/40" />
 			<div className="relative z-10 flex flex-col items-center text-center px-6 max-w-2xl mx-auto gap-6">
 				<h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-wide uppercase">
-					{data.heading || "GET IN TOUCH"}
+					{heading || "GET IN TOUCH"}
 				</h2>
 
-				{data.description && (
+				{description && (
 					<p className="text-white/70 text-base md:text-lg leading-relaxed">
-						{data.description}
+						{description}
 					</p>
 				)}
 

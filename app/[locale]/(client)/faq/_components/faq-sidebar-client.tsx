@@ -7,15 +7,34 @@ import type { IFAQSidebarSection } from "@/models/faq-page.model";
 
 interface FAQSidebarClientProps {
 	data: IFAQSidebarSection;
+	isEn?: boolean;
 }
 
-export function FAQSidebarClient({ data }: FAQSidebarClientProps) {
-	const validQuickLinks = (data.quickLinks || []).filter((l) => l.label);
+export function FAQSidebarClient({ data, isEn = false }: FAQSidebarClientProps) {
+	const contactTitle = isEn
+		? (data.contactTitleEn || data.contactTitleDe)
+		: (data.contactTitleDe || data.contactTitleEn);
+	const contactDescription = isEn
+		? (data.contactDescriptionEn || data.contactDescriptionDe)
+		: (data.contactDescriptionDe || data.contactDescriptionEn);
+	const contactButtonText = isEn
+		? (data.contactButtonTextEn || data.contactButtonTextDe)
+		: (data.contactButtonTextDe || data.contactButtonTextEn);
+	const quickLinksTitle = isEn
+		? (data.quickLinksTitleEn || data.quickLinksTitleDe)
+		: (data.quickLinksTitleDe || data.quickLinksTitleEn);
+	const officesTitle = isEn
+		? (data.officesTitleEn || data.officesTitleDe)
+		: (data.officesTitleDe || data.officesTitleEn);
+
+	const validQuickLinks = (data.quickLinks || []).filter((l) =>
+		isEn ? (l.labelEn || l.labelDe) : (l.labelDe || l.labelEn)
+	);
 	const validOffices = (data.offices || []).filter((o) => o.name);
 
 	const hasContactInfo =
-		data.contactTitle ||
-		data.contactDescription ||
+		contactTitle ||
+		contactDescription ||
 		data.phone ||
 		data.email ||
 		data.officeHours;
@@ -30,14 +49,14 @@ export function FAQSidebarClient({ data }: FAQSidebarClientProps) {
 					transition={{ duration: 0.5 }}
 					className="rounded-2xl border-2 border-tertiary bg-white/80 backdrop-blur-sm p-6 shadow-lg hover:shadow-xl transition-all duration-300"
 				>
-					{data.contactTitle && (
+					{contactTitle && (
 						<h3 className="text-xl font-medium text-secondary mb-4">
-							{data.contactTitle}
+							{contactTitle}
 						</h3>
 					)}
-					{data.contactDescription && (
+					{contactDescription && (
 						<p className="text-secondary/70 mb-6 leading-relaxed">
-							{data.contactDescription}
+							{contactDescription}
 						</p>
 					)}
 
@@ -53,7 +72,7 @@ export function FAQSidebarClient({ data }: FAQSidebarClientProps) {
 								</div>
 								<div>
 									<div className="text-sm text-secondary/60 mb-0.5">
-										Telefon
+										{isEn ? "Phone" : "Telefon"}
 									</div>
 									<div className="font-semibold text-secondary">
 										{data.phone}
@@ -73,7 +92,7 @@ export function FAQSidebarClient({ data }: FAQSidebarClientProps) {
 								</div>
 								<div>
 									<div className="text-sm text-secondary/60 mb-0.5">
-										E-post
+										E-Mail
 									</div>
 									<div className="font-semibold text-secondary">
 										{data.email}
@@ -90,7 +109,7 @@ export function FAQSidebarClient({ data }: FAQSidebarClientProps) {
 								</div>
 								<div>
 									<div className="text-sm text-secondary/60 mb-0.5">
-										Öppettider
+										{isEn ? "Office Hours" : "Offnungszeiten"}
 									</div>
 									<div className="font-semibold text-secondary">
 										{data.officeHours}
@@ -101,12 +120,12 @@ export function FAQSidebarClient({ data }: FAQSidebarClientProps) {
 					</div>
 
 					{/* CTA Button */}
-					{data.contactButtonText && data.contactButtonHref && (
+					{contactButtonText && data.contactButtonHref && (
 						<Link
 							href={data.contactButtonHref}
 							className="mt-6 flex items-center justify-center gap-2 w-full px-6 py-4 rounded-full bg-primary text-white font-semibold hover:bg-secondary transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5 group"
 						>
-							<span>{data.contactButtonText}</span>
+							<span>{contactButtonText}</span>
 							<ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
 						</Link>
 					)}
@@ -114,38 +133,43 @@ export function FAQSidebarClient({ data }: FAQSidebarClientProps) {
 			)}
 
 			{/* Quick Links Card */}
-			{(data.quickLinksTitle || validQuickLinks.length > 0) && (
+			{(quickLinksTitle || validQuickLinks.length > 0) && (
 				<motion.div
 					initial={{ opacity: 0, x: 20 }}
 					animate={{ opacity: 1, x: 0 }}
 					transition={{ duration: 0.5, delay: 0.1 }}
 					className="rounded-2xl border-2 border-tertiary bg-linear-to-br from-tertiary/40 to-tertiary/20 p-6 shadow-lg"
 				>
-					{data.quickLinksTitle && (
+					{quickLinksTitle && (
 						<h3 className="text-xl font-medium text-secondary mb-4">
-							{data.quickLinksTitle}
+							{quickLinksTitle}
 						</h3>
 					)}
 					{validQuickLinks.length > 0 && (
 						<ul className="space-y-3">
-							{validQuickLinks.map((link, index) => (
-								<li key={index}>
-									<Link
-										href={link.href || "#"}
-										className="flex items-center gap-2 text-secondary/80 hover:text-primary transition-colors duration-300 group"
-									>
-										<ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
-										<span>{link.label}</span>
-									</Link>
-								</li>
-							))}
+							{validQuickLinks.map((link, index) => {
+								const linkLabel = isEn
+									? (link.labelEn || link.labelDe)
+									: (link.labelDe || link.labelEn);
+								return (
+									<li key={index}>
+										<Link
+											href={link.href || "#"}
+											className="flex items-center gap-2 text-secondary/80 hover:text-primary transition-colors duration-300 group"
+										>
+											<ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
+											<span>{linkLabel}</span>
+										</Link>
+									</li>
+								);
+							})}
 						</ul>
 					)}
 				</motion.div>
 			)}
 
 			{/* Office Location Card */}
-			{(data.officesTitle || validOffices.length > 0) && (
+			{(officesTitle || validOffices.length > 0) && (
 				<motion.div
 					initial={{ opacity: 0, x: 20 }}
 					animate={{ opacity: 1, x: 0 }}
@@ -154,9 +178,9 @@ export function FAQSidebarClient({ data }: FAQSidebarClientProps) {
 				>
 					<div className="flex items-center gap-2 mb-4">
 						<MapPin className="h-5 w-5 text-primary" />
-						{data.officesTitle && (
+						{officesTitle && (
 							<h3 className="text-xl font-medium text-secondary">
-								{data.officesTitle}
+								{officesTitle}
 							</h3>
 						)}
 					</div>

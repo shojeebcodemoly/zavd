@@ -30,6 +30,26 @@ export default async function EhrenamtEngagementPage({ params }: Props) {
 		publishedAt: p.publishedAt ?? p.createdAt,
 	}));
 
+	const galleryTitle = isEn
+		? (page.gallery?.titleEn || page.gallery?.titleDe)
+		: (page.gallery?.titleDe || page.gallery?.titleEn);
+	const gallerySubtitle = isEn
+		? (page.gallery?.subtitleEn || page.gallery?.subtitleDe)
+		: (page.gallery?.subtitleDe || page.gallery?.subtitleEn);
+	const contentTitle = isEn
+		? (page.content?.titleEn || page.content?.titleDe)
+		: (page.content?.titleDe || page.content?.titleEn);
+	const contentBody = isEn
+		? (page.content?.bodyEn || page.content?.bodyDe)
+		: (page.content?.bodyDe || page.content?.bodyEn);
+	const partnersHeading = isEn
+		? (page.partners?.headingEn || page.partners?.headingDe)
+		: (page.partners?.headingDe || page.partners?.headingEn);
+	const contentBlocks = (page.content?.blocks ?? []).map((b) => ({
+		heading: isEn ? (b.headingEn || b.headingDe) : (b.headingDe || b.headingEn),
+		body: isEn ? (b.bodyEn || b.bodyDe) : (b.bodyDe || b.bodyEn),
+	}));
+
 	return (
 		<div className="flex flex-col min-h-screen">
 			<ProjectHero
@@ -38,15 +58,15 @@ export default async function EhrenamtEngagementPage({ params }: Props) {
 				defaultBreadcrumb="Ehrenamt & Engagement"
 			/>
 			<ProjectGallery
-				title={page.gallery?.title}
-				subtitle={page.gallery?.subtitle}
+				title={galleryTitle}
+				subtitle={gallerySubtitle}
 				images={page.gallery?.images ?? []}
 			/>
 			<ProjectContentSection
-				title={page.content?.title}
-				body={page.content?.body}
+				title={contentTitle}
+				body={contentBody}
 				image={page.content?.image}
-				blocks={page.content?.blocks ?? []}
+				blocks={contentBlocks}
 				pressItems={pressItems}
 				phone={siteSettings.phone}
 				email={siteSettings.email}
@@ -55,7 +75,7 @@ export default async function EhrenamtEngagementPage({ params }: Props) {
 				socialMedia={siteSettings.socialMedia}
 			/>
 			<ProjectPartnersCarousel
-				heading={page.partners?.heading}
+				heading={partnersHeading}
 				logos={page.partners?.logos ?? []}
 			/>
 		</div>

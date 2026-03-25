@@ -11,13 +11,17 @@ export interface IGetAktivHero {
 
 // ─── Content Section ──────────────────────────────────────────────────────────
 export interface IGetAktivContentBlock {
-	heading?: string;
-	body?: string;
+	headingDe?: string;
+	headingEn?: string;
+	bodyDe?: string;
+	bodyEn?: string;
 }
 
 export interface IGetAktivContent {
-	title?: string;
-	body?: string;
+	titleDe?: string;
+	titleEn?: string;
+	bodyDe?: string;
+	bodyEn?: string;
 	image?: string;
 	blocks: IGetAktivContentBlock[];
 }
@@ -30,8 +34,10 @@ export interface IGetAktivGalleryImage {
 }
 
 export interface IGetAktivGallery {
-	title?: string;
-	subtitle?: string;
+	titleDe?: string;
+	titleEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
 	images: IGetAktivGalleryImage[];
 }
 
@@ -43,7 +49,8 @@ export interface IGetAktivPartnerLogo {
 }
 
 export interface IGetAktivPartners {
-	heading?: string;
+	headingDe?: string;
+	headingEn?: string;
 	logos: IGetAktivPartnerLogo[];
 }
 
@@ -71,16 +78,20 @@ const heroSchema = new Schema<IGetAktivHero>(
 
 const contentBlockSchema = new Schema<IGetAktivContentBlock>(
 	{
-		heading: { type: String, default: "" },
-		body: { type: String, default: "" },
+		headingDe: { type: String, default: "" },
+		headingEn: { type: String, default: "" },
+		bodyDe: { type: String, default: "" },
+		bodyEn: { type: String, default: "" },
 	},
 	{ _id: false }
 );
 
 const contentSchema = new Schema<IGetAktivContent>(
 	{
-		title: { type: String, default: "" },
-		body: { type: String, default: "" },
+		titleDe: { type: String, default: "" },
+		titleEn: { type: String, default: "" },
+		bodyDe: { type: String, default: "" },
+		bodyEn: { type: String, default: "" },
 		image: { type: String, default: "" },
 		blocks: { type: [contentBlockSchema], default: [] },
 	},
@@ -98,8 +109,10 @@ const galleryImageSchema = new Schema<IGetAktivGalleryImage>(
 
 const gallerySchema = new Schema<IGetAktivGallery>(
 	{
-		title: { type: String, default: "" },
-		subtitle: { type: String, default: "" },
+		titleDe: { type: String, default: "" },
+		titleEn: { type: String, default: "" },
+		subtitleDe: { type: String, default: "" },
+		subtitleEn: { type: String, default: "" },
 		images: { type: [galleryImageSchema], default: [] },
 	},
 	{ _id: false }
@@ -116,7 +129,8 @@ const partnerLogoSchema = new Schema<IGetAktivPartnerLogo>(
 
 const partnersSchema = new Schema<IGetAktivPartners>(
 	{
-		heading: { type: String, default: "" },
+		headingDe: { type: String, default: "" },
+		headingEn: { type: String, default: "" },
 		logos: { type: [partnerLogoSchema], default: [] },
 	},
 	{ _id: false }

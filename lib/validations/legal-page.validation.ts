@@ -16,9 +16,12 @@ export const legalSectionVisibilitySchema = z.object({
 // HERO SECTION
 // ============================================================================
 export const legalHeroSectionSchema = z.object({
-	badge: z.string().max(100).optional(),
-	title: z.string().max(200).optional(),
-	subtitle: z.string().max(1000).optional(),
+	badgeDe: z.string().max(100).optional(),
+	badgeEn: z.string().max(100).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	subtitleDe: z.string().max(1000).optional(),
+	subtitleEn: z.string().max(1000).optional(),
 });
 
 // ============================================================================
@@ -26,10 +29,13 @@ export const legalHeroSectionSchema = z.object({
 // ============================================================================
 export const legalCardSchema = z.object({
 	icon: z.string().max(50).optional(),
-	title: z.string().max(200).optional(),
-	description: z.string().max(1000).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	descriptionDe: z.string().max(1000).optional(),
+	descriptionEn: z.string().max(1000).optional(),
 	href: z.string().max(500).optional(),
-	highlights: z.array(z.string().max(200)).optional(),
+	highlightsDe: z.array(z.string().max(200)).optional(),
+	highlightsEn: z.array(z.string().max(200)).optional(),
 });
 
 // ============================================================================
@@ -57,15 +63,18 @@ export const legalCompanyInfoSchema = z.object({
 // TERM
 // ============================================================================
 export const legalTermSchema = z.object({
-	title: z.string().max(200).optional(),
-	content: z.string().max(5000).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	contentDe: z.string().max(5000).optional(),
+	contentEn: z.string().max(5000).optional(),
 });
 
 // ============================================================================
 // TERMS SECTION
 // ============================================================================
 export const legalTermsSectionSchema = z.object({
-	title: z.string().max(200).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
 	terms: z.array(legalTermSchema).optional(),
 });
 
@@ -73,15 +82,18 @@ export const legalTermsSectionSchema = z.object({
 // GDPR RIGHT
 // ============================================================================
 export const legalGdprRightSchema = z.object({
-	title: z.string().max(200).optional(),
-	description: z.string().max(500).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	descriptionDe: z.string().max(500).optional(),
+	descriptionEn: z.string().max(500).optional(),
 });
 
 // ============================================================================
 // CTA BUTTON
 // ============================================================================
 export const legalCtaButtonSchema = z.object({
-	text: z.string().max(100).optional(),
+	textDe: z.string().max(100).optional(),
+	textEn: z.string().max(100).optional(),
 	href: z.string().max(500).optional(),
 });
 
@@ -89,7 +101,8 @@ export const legalCtaButtonSchema = z.object({
 // GDPR SECTION
 // ============================================================================
 export const legalGdprSectionSchema = z.object({
-	title: z.string().max(200).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
 	rights: z.array(legalGdprRightSchema).optional(),
 	primaryCta: legalCtaButtonSchema.optional(),
 	secondaryCta: legalCtaButtonSchema.optional(),
@@ -99,7 +112,8 @@ export const legalGdprSectionSchema = z.object({
 // CTA SECTION
 // ============================================================================
 export const legalCtaSectionSchema = z.object({
-	text: z.string().max(500).optional(),
+	textDe: z.string().max(500).optional(),
+	textEn: z.string().max(500).optional(),
 	primaryCta: legalCtaButtonSchema.optional(),
 	secondaryCta: legalCtaButtonSchema.optional(),
 });

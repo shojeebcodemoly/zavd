@@ -6,12 +6,23 @@ import { ProjectContentSection } from "@/components/shared/ProjectContentSection
 import { ProjectGallery } from "@/components/shared/ProjectGallery";
 import { ProjectPartnersCarousel } from "@/components/shared/ProjectPartnersCarousel";
 
-export default async function PatenschaftsprojektPage() {
+interface Props {
+	params: Promise<{ locale: string }>;
+}
+
+export default async function PatenschaftsprojektPage({ params }: Props) {
+	const { locale } = await params;
+
 	const [page, siteSettings, latestPosts] = await Promise.all([
 		getPatenschaftsprojektPage(),
 		getSiteSettings(),
 		blogPostService.getPublishedPosts({ page: 1, limit: 3 }),
 	]);
+
+	const isEn = locale === "en";
+	const heroTitle = isEn
+		? (page.hero.titleEn || page.hero.titleDe || "Mentorship Program")
+		: (page.hero.titleDe || "Patenschaftsprojekt");
 
 	const pressItems = (latestPosts.data ?? []).map((p) => ({
 		title: p.title,
@@ -22,20 +33,23 @@ export default async function PatenschaftsprojektPage() {
 	return (
 		<div className="flex flex-col min-h-screen">
 			<ProjectHero
-				data={page.hero}
-				defaultTitle="Patenschaftsprojekt"
+				data={{ ...page.hero, title: heroTitle }}
+				defaultTitle={isEn ? "Mentorship Program" : "Patenschaftsprojekt"}
 				defaultBreadcrumb="Patenschaftsprojekt"
 			/>
 			<ProjectGallery
-				title={page.gallery?.title}
-				subtitle={page.gallery?.subtitle}
+				title={isEn ? (page.gallery?.titleEn || page.gallery?.titleDe) : (page.gallery?.titleDe || page.gallery?.titleEn)}
+				subtitle={isEn ? (page.gallery?.subtitleEn || page.gallery?.subtitleDe) : (page.gallery?.subtitleDe || page.gallery?.subtitleEn)}
 				images={page.gallery?.images ?? []}
 			/>
 			<ProjectContentSection
-				title={page.content?.title}
-				body={page.content?.body}
+				title={isEn ? (page.content?.titleEn || page.content?.titleDe) : (page.content?.titleDe || page.content?.titleEn)}
+				body={isEn ? (page.content?.bodyEn || page.content?.bodyDe) : (page.content?.bodyDe || page.content?.bodyEn)}
 				image={page.content?.image}
-				blocks={page.content?.blocks ?? []}
+				blocks={(page.content?.blocks ?? []).map((b) => ({
+					heading: isEn ? (b.headingEn || b.headingDe) : (b.headingDe || b.headingEn),
+					body: isEn ? (b.bodyEn || b.bodyDe) : (b.bodyDe || b.bodyEn),
+				}))}
 				pressItems={pressItems}
 				phone={siteSettings.phone}
 				email={siteSettings.email}
@@ -44,7 +58,7 @@ export default async function PatenschaftsprojektPage() {
 				socialMedia={siteSettings.socialMedia}
 			/>
 			<ProjectPartnersCarousel
-				heading={page.partners?.heading}
+				heading={isEn ? (page.partners?.headingEn || page.partners?.headingDe) : (page.partners?.headingDe || page.partners?.headingEn)}
 				logos={page.partners?.logos ?? []}
 			/>
 		</div>

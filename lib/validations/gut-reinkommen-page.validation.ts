@@ -1,8 +1,10 @@
 import { z } from "zod";
 
 const contentBlockSchema = z.object({
-	heading: z.string().optional(),
-	body: z.string().optional(),
+	headingDe: z.string().optional(),
+	headingEn: z.string().optional(),
+	bodyDe: z.string().optional(),
+	bodyEn: z.string().optional(),
 });
 
 const galleryImageSchema = z.object({
@@ -28,22 +30,27 @@ export const updateGutReinkommenPageSchema = z.object({
 		.optional(),
 	content: z
 		.object({
-			title: z.string().optional(),
-			body: z.string().optional(),
+			titleDe: z.string().optional(),
+			titleEn: z.string().optional(),
+			bodyDe: z.string().optional(),
+			bodyEn: z.string().optional(),
 			image: z.string().optional(),
 			blocks: z.array(contentBlockSchema).optional(),
 		})
 		.optional(),
 	gallery: z
 		.object({
-			title: z.string().optional(),
-			subtitle: z.string().optional(),
+			titleDe: z.string().optional(),
+			titleEn: z.string().optional(),
+			subtitleDe: z.string().optional(),
+			subtitleEn: z.string().optional(),
 			images: z.array(galleryImageSchema).optional(),
 		})
 		.optional(),
 	partners: z
 		.object({
-			heading: z.string().optional(),
+			headingDe: z.string().optional(),
+			headingEn: z.string().optional(),
 			logos: z.array(partnerLogoSchema).optional(),
 		})
 		.optional(),

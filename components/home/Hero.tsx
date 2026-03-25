@@ -17,18 +17,30 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 
 interface HeroProps {
 	data: IHeroSection;
+	isEn?: boolean;
 }
 
-export function Hero({ data }: HeroProps) {
+export function Hero({ data, isEn }: HeroProps) {
 	// Check if slider mode is enabled and has slides
 	if (data.isSlider && data.slides && data.slides.length > 0) {
-		return <HeroSlider data={data} />;
+		return <HeroSlider data={data} isEn={isEn} />;
 	}
 
+	const badge = (isEn ? data.badgeEn : data.badgeDe) || data.badgeDe || data.badgeEn;
+	const title = (isEn ? data.titleEn : data.titleDe) || data.titleDe || data.titleEn;
+	const titleHighlight = (isEn ? data.titleHighlightEn : data.titleHighlightDe) || data.titleHighlightDe || data.titleHighlightEn;
+	const subtitle = (isEn ? data.subtitleEn : data.subtitleDe) || data.subtitleDe || data.subtitleEn;
+	const primaryCtaText = (isEn ? data.primaryCta?.textEn : data.primaryCta?.textDe) || data.primaryCta?.textDe || data.primaryCta?.textEn;
+	const secondaryCtaText = (isEn ? data.secondaryCta?.textEn : data.secondaryCta?.textDe) || data.secondaryCta?.textDe || data.secondaryCta?.textEn;
+	const floatingLabel = (isEn ? data.floatingCard?.labelEn : data.floatingCard?.labelDe) || data.floatingCard?.labelDe || data.floatingCard?.labelEn;
+	const certTitle = (isEn ? data.certificationCard?.titleEn : data.certificationCard?.titleDe) || data.certificationCard?.titleDe || data.certificationCard?.titleEn;
+	const certSubtitle = (isEn ? data.certificationCard?.subtitleEn : data.certificationCard?.subtitleDe) || data.certificationCard?.subtitleDe || data.certificationCard?.subtitleEn;
+	const certProgressLabel = (isEn ? data.certificationCard?.progressLabelEn : data.certificationCard?.progressLabelDe) || data.certificationCard?.progressLabelDe || data.certificationCard?.progressLabelEn;
+	const certProgressValue = (isEn ? data.certificationCard?.progressValueEn : data.certificationCard?.progressValueDe) || data.certificationCard?.progressValueDe || data.certificationCard?.progressValueEn;
+
 	// Check if optional sections have data
-	const hasFloatingCard = data.floatingCard?.image && data.floatingCard?.label;
-	const hasCertificationCard =
-		data.certificationCard?.title && data.certificationCard?.subtitle;
+	const hasFloatingCard = data.floatingCard?.image && floatingLabel;
+	const hasCertificationCard = certTitle && certSubtitle;
 	const hasMainImage = !!data.mainImage;
 	const hasMobileImage = !!data.mobileImage;
 
@@ -89,11 +101,11 @@ export function Hero({ data }: HeroProps) {
 					className="flex flex-col gap-6 lg:gap-8 max-w-2xl"
 				>
 					{/* Trust Badge */}
-					{data.badge && (
+					{badge && (
 						<div className="inline-flex items-center gap-2 w-fit px-3 py-1 rounded-full bg-green-50 border border-green-200 animate-pulse tracking-widest">
 							<span className="flex h-2 w-2 rounded-full bg-primary" />
 							<span className="text-[9px] font-semibold text-primary uppercase leading-relaxed">
-								{data.badge}
+								{badge}
 							</span>
 						</div>
 					)}
@@ -102,38 +114,38 @@ export function Hero({ data }: HeroProps) {
 					<h1 className={`text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.15] tracking-tight ${
 						isDarkBackground ? 'text-white' : 'text-secondary'
 					}`}>
-						{data.title} <br />
-						{data.titleHighlight && (
+						{title} <br />
+						{titleHighlight && (
 							<span className="text-gradient-primary text-2xl sm:text-3xl lg:text-4xl">
-								{data.titleHighlight}
+								{titleHighlight}
 							</span>
 						)}
 					</h1>
 
 					{/* Description */}
-					{data.subtitle && (
+					{subtitle && (
 						<p className={`text-lg leading-relaxed max-w-xl ${
 							isDarkBackground ? 'text-white/80' : 'text-foreground/70'
 						}`}>
-							{data.subtitle}
+							{subtitle}
 						</p>
 					)}
 
 					{/* Actions */}
 					<div className="flex flex-wrap gap-4 pt-2">
-						{data.primaryCta?.text && data.primaryCta?.href && (
+						{primaryCtaText && data.primaryCta?.href && (
 							<Button
 								asChild
 								size="lg"
 								className="bg-primary hover:bg-primary-hover text-white rounded-full cursor-pointer px-8 h-12 text-base shadow-lg shadow-primary/20"
 							>
 								<Link href={data.primaryCta.href}>
-									{data.primaryCta.text}
+									{primaryCtaText}
 									<ArrowRight className="ml-2 h-4 w-4" />
 								</Link>
 							</Button>
 						)}
-						{data.secondaryCta?.text && data.secondaryCta?.href && (
+						{secondaryCtaText && data.secondaryCta?.href && (
 							<Button
 								asChild
 								variant="outline"
@@ -145,7 +157,7 @@ export function Hero({ data }: HeroProps) {
 								}`}
 							>
 								<Link href={data.secondaryCta.href}>
-									{data.secondaryCta.text}
+									{secondaryCtaText}
 								</Link>
 							</Button>
 						)}
@@ -157,15 +169,16 @@ export function Hero({ data }: HeroProps) {
 							isDarkBackground ? 'text-white/70' : 'text-foreground/70'
 						}`}>
 							{data.trustIndicators
-								.filter((ind) => ind.icon && ind.text)
+								.filter((ind) => ind.icon && ((isEn ? ind.textEn : ind.textDe) || ind.textDe || ind.textEn))
 								.map((indicator, index) => {
 									const IconComponent = indicator.icon
 										? iconMap[indicator.icon] || ShieldCheck
 										: ShieldCheck;
+									const indicatorText = (isEn ? indicator.textEn : indicator.textDe) || indicator.textDe || indicator.textEn;
 									return (
 										<div key={index} className="flex items-center gap-2">
 											<IconComponent className="h-5 w-5 text-success" />
-											<span>{indicator.text}</span>
+											<span>{indicatorText}</span>
 										</div>
 									);
 								})}
@@ -211,7 +224,7 @@ export function Hero({ data }: HeroProps) {
 									<div className="w-full h-full rounded-lg overflow-hidden relative">
 										<ImageComponent
 											src={data.floatingCard!.image!}
-											alt={data.floatingCard!.label!}
+											alt={floatingLabel!}
 											height={0}
 											width={0}
 											sizes="100vw"
@@ -220,7 +233,7 @@ export function Hero({ data }: HeroProps) {
 										/>
 										<div className="absolute bottom-0 left-0 right-0 bg-secondary/80 backdrop-blur-sm p-2 text-center rounded-b-xl">
 											<span className="text-xs font-medium text-white">
-												{data.floatingCard!.label}
+												{floatingLabel}
 											</span>
 										</div>
 									</div>
@@ -243,22 +256,22 @@ export function Hero({ data }: HeroProps) {
 										</div>
 										<div>
 											<div className="text-sm font-medium text-secondary">
-												{data.certificationCard!.title}
+												{certTitle}
 											</div>
 											<div className="text-xs text-muted-foreground">
-												{data.certificationCard!.subtitle}
+												{certSubtitle}
 											</div>
 										</div>
 									</div>
-									{data.certificationCard?.progressLabel &&
-										data.certificationCard?.progressValue && (
+									{certProgressLabel &&
+										certProgressValue && (
 											<div className="space-y-2">
 												<div className="flex justify-between text-xs mb-1">
 													<span className="text-muted-foreground">
-														{data.certificationCard.progressLabel}
+														{certProgressLabel}
 													</span>
 													<span className="font-medium text-secondary">
-														{data.certificationCard.progressValue}
+														{certProgressValue}
 													</span>
 												</div>
 												{data.certificationCard

@@ -7,6 +7,7 @@ interface KontaktInfoSectionProps {
 	formSection: IKontaktFormSection;
 	phone: string;
 	email: string;
+	isEn?: boolean;
 }
 
 export function KontaktInfoSection({
@@ -14,27 +15,35 @@ export function KontaktInfoSection({
 	formSection,
 	phone,
 	email,
+	isEn = false,
 }: KontaktInfoSectionProps) {
+	const badge = isEn ? (contactInfo.badgeEn || contactInfo.badgeDe) : (contactInfo.badgeDe || contactInfo.badgeEn);
+	const heading = isEn ? (contactInfo.headingEn || contactInfo.headingDe) : (contactInfo.headingDe || contactInfo.headingEn);
+	const phoneLabel = isEn ? (contactInfo.phoneLabelEn || contactInfo.phoneLabelDe) : (contactInfo.phoneLabelDe || contactInfo.phoneLabelEn);
+	const emailLabel = isEn ? (contactInfo.emailLabelEn || contactInfo.emailLabelDe) : (contactInfo.emailLabelDe || contactInfo.emailLabelEn);
+	const addressLabel = isEn ? (contactInfo.addressLabelEn || contactInfo.addressLabelDe) : (contactInfo.addressLabelDe || contactInfo.addressLabelEn);
+	const formHeading = isEn ? (formSection.headingEn || formSection.headingDe) : (formSection.headingDe || formSection.headingEn);
+
 	return (
 		<section className="w-full py-16 lg:py-24 bg-white">
 			<div className="_container">
 				<div className="grid lg:grid-cols-[42%_58%] gap-12 lg:gap-20 items-start">
 
-					{/* ── Left Column ── */}
+					{/* -- Left Column -- */}
 					<div className="pr-0 lg:pr-8">
 						{/* Badge: line + text */}
-						{contactInfo.badge && (
+						{badge && (
 							<div className="flex items-center gap-3 mb-6">
 								<span className="w-8 h-[2px] bg-primary block shrink-0" />
 								<span className="text-primary text-sm font-semibold tracking-wide">
-									{contactInfo.badge}
+									{badge}
 								</span>
 							</div>
 						)}
 
 						{/* Heading */}
 						<h2 className="text-[2.6rem] md:text-5xl font-bold text-gray-900 mb-10 leading-[1.1]">
-							{contactInfo.heading || "Get in Touch"}
+							{heading || "Get in Touch"}
 						</h2>
 
 						{/* Contact items */}
@@ -43,7 +52,7 @@ export function KontaktInfoSection({
 							{phone && (
 								<ContactItem
 									icon={<Phone className="w-5 h-5 text-stone-500" />}
-									label={contactInfo.phoneLabel || "Hotline"}
+									label={phoneLabel || "Hotline"}
 									value={
 										<a href={`tel:${phone.replace(/\s/g, "")}`} className="hover:text-primary transition-colors">
 											{phone}
@@ -56,7 +65,7 @@ export function KontaktInfoSection({
 							{email && (
 								<ContactItem
 									icon={<Mail className="w-5 h-5 text-stone-500" />}
-									label={contactInfo.emailLabel || "Send us an email"}
+									label={emailLabel || "Send us an email"}
 									value={
 										<a href={`mailto:${email}`} className="hover:text-primary transition-colors">
 											{email}
@@ -69,7 +78,7 @@ export function KontaktInfoSection({
 							{contactInfo.address && (
 								<ContactItem
 									icon={<MapPin className="w-5 h-5 text-stone-500" />}
-									label={contactInfo.addressLabel || "Address"}
+									label={addressLabel || "Address"}
 									value={<span>{contactInfo.address}</span>}
 								/>
 							)}
@@ -79,10 +88,10 @@ export function KontaktInfoSection({
 						<div className="mt-12 border-t border-gray-200" />
 					</div>
 
-					{/* ── Right Column ── */}
+					{/* -- Right Column -- */}
 					<div>
 						<h2 className="text-[2.6rem] md:text-5xl font-bold text-gray-900 mb-8 leading-[1.1]">
-							{formSection.heading || "Have Any Question?"}
+							{formHeading || "Have Any Question?"}
 						</h2>
 						<KontaktSimpleForm />
 					</div>

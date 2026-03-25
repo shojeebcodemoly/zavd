@@ -6,7 +6,8 @@ export interface IProjekteHero {
 	backgroundImage?: string;
 	titleDe: string;
 	titleEn: string;
-	subtitle?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
 }
 
 // ─── Intro Section ────────────────────────────────────────────────────────────
@@ -16,11 +17,16 @@ export interface IProjekteIntroImage {
 }
 
 export interface IProjekteIntro {
-	badge?: string;
-	headingBold?: string;
-	headingLight?: string;
-	description?: string;
-	ctaText?: string;
+	badgeDe?: string;
+	badgeEn?: string;
+	headingBoldDe?: string;
+	headingBoldEn?: string;
+	headingLightDe?: string;
+	headingLightEn?: string;
+	descriptionDe?: string;
+	descriptionEn?: string;
+	ctaTextDe?: string;
+	ctaTextEn?: string;
 	ctaHref?: string;
 	images: IProjekteIntroImage[];
 }
@@ -28,8 +34,10 @@ export interface IProjekteIntro {
 // ─── Projects Grid Section ────────────────────────────────────────────────────
 export interface IProjekteProjectItem {
 	image?: string;
-	title?: string;
-	description?: string;
+	titleDe?: string;
+	titleEn?: string;
+	descriptionDe?: string;
+	descriptionEn?: string;
 	location?: string;
 	date?: string;
 	category?: string;
@@ -37,9 +45,12 @@ export interface IProjekteProjectItem {
 }
 
 export interface IProjekteProjectsSection {
-	badge?: string;
-	heading?: string;
-	description?: string;
+	badgeDe?: string;
+	badgeEn?: string;
+	headingDe?: string;
+	headingEn?: string;
+	descriptionDe?: string;
+	descriptionEn?: string;
 	categories: string[];
 	items: IProjekteProjectItem[];
 }
@@ -59,7 +70,8 @@ const heroSchema = new Schema<IProjekteHero>(
 		backgroundImage: { type: String, default: "" },
 		titleDe: { type: String, default: "Projekte" },
 		titleEn: { type: String, default: "Projects" },
-		subtitle: { type: String, default: "" },
+		subtitleDe: { type: String, default: "" },
+		subtitleEn: { type: String, default: "" },
 	},
 	{ _id: false }
 );
@@ -74,11 +86,16 @@ const introImageSchema = new Schema<IProjekteIntroImage>(
 
 const introSchema = new Schema<IProjekteIntro>(
 	{
-		badge: { type: String, default: "" },
-		headingBold: { type: String, default: "Our Work." },
-		headingLight: { type: String, default: "Your Vision Realized." },
-		description: { type: String, default: "" },
-		ctaText: { type: String, default: "Our Projects" },
+		badgeDe: { type: String, default: "" },
+		badgeEn: { type: String, default: "" },
+		headingBoldDe: { type: String, default: "Unsere Arbeit." },
+		headingBoldEn: { type: String, default: "Our Work." },
+		headingLightDe: { type: String, default: "Ihre Vision verwirklicht." },
+		headingLightEn: { type: String, default: "Your Vision Realized." },
+		descriptionDe: { type: String, default: "" },
+		descriptionEn: { type: String, default: "" },
+		ctaTextDe: { type: String, default: "Unsere Projekte" },
+		ctaTextEn: { type: String, default: "Our Projects" },
 		ctaHref: { type: String, default: "/projekte" },
 		images: { type: [introImageSchema], default: [] },
 	},
@@ -88,8 +105,10 @@ const introSchema = new Schema<IProjekteIntro>(
 const projectItemSchema = new Schema<IProjekteProjectItem>(
 	{
 		image: { type: String, default: "" },
-		title: { type: String, default: "" },
-		description: { type: String, default: "" },
+		titleDe: { type: String, default: "" },
+		titleEn: { type: String, default: "" },
+		descriptionDe: { type: String, default: "" },
+		descriptionEn: { type: String, default: "" },
 		location: { type: String, default: "" },
 		date: { type: String, default: "" },
 		category: { type: String, default: "" },
@@ -100,9 +119,12 @@ const projectItemSchema = new Schema<IProjekteProjectItem>(
 
 const projectsSectionSchema = new Schema<IProjekteProjectsSection>(
 	{
-		badge: { type: String, default: "" },
-		heading: { type: String, default: "Discover Our Completed Projects" },
-		description: { type: String, default: "" },
+		badgeDe: { type: String, default: "" },
+		badgeEn: { type: String, default: "" },
+		headingDe: { type: String, default: "Entdecken Sie unsere abgeschlossenen Projekte" },
+		headingEn: { type: String, default: "Discover Our Completed Projects" },
+		descriptionDe: { type: String, default: "" },
+		descriptionEn: { type: String, default: "" },
 		categories: { type: [String], default: [] },
 		items: { type: [projectItemSchema], default: [] },
 	},

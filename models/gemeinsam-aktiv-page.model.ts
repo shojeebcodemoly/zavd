@@ -11,13 +11,17 @@ export interface IGemeinsamAktivHero {
 
 // ─── Content Section ──────────────────────────────────────────────────────────
 export interface IGemeinsamAktivContentBlock {
-	heading?: string;
-	body?: string;
+	headingDe?: string;
+	headingEn?: string;
+	bodyDe?: string;
+	bodyEn?: string;
 }
 
 export interface IGemeinsamAktivContent {
-	title?: string;
-	body?: string;
+	titleDe?: string;
+	titleEn?: string;
+	bodyDe?: string;
+	bodyEn?: string;
 	image?: string;
 	blocks: IGemeinsamAktivContentBlock[];
 }
@@ -30,8 +34,10 @@ export interface IGemeinsamAktivGalleryImage {
 }
 
 export interface IGemeinsamAktivGallery {
-	title?: string;
-	subtitle?: string;
+	titleDe?: string;
+	titleEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
 	images: IGemeinsamAktivGalleryImage[];
 }
 
@@ -43,7 +49,8 @@ export interface IGemeinsamAktivPartnerLogo {
 }
 
 export interface IGemeinsamAktivPartners {
-	heading?: string;
+	headingDe?: string;
+	headingEn?: string;
 	logos: IGemeinsamAktivPartnerLogo[];
 }
 
@@ -73,16 +80,20 @@ const heroSchema = new Schema<IGemeinsamAktivHero>(
 
 const contentBlockSchema = new Schema<IGemeinsamAktivContentBlock>(
 	{
-		heading: { type: String, default: "" },
-		body: { type: String, default: "" },
+		headingDe: { type: String, default: "" },
+		headingEn: { type: String, default: "" },
+		bodyDe: { type: String, default: "" },
+		bodyEn: { type: String, default: "" },
 	},
 	{ _id: false }
 );
 
 const contentSchema = new Schema<IGemeinsamAktivContent>(
 	{
-		title: { type: String, default: "" },
-		body: { type: String, default: "" },
+		titleDe: { type: String, default: "" },
+		titleEn: { type: String, default: "" },
+		bodyDe: { type: String, default: "" },
+		bodyEn: { type: String, default: "" },
 		image: { type: String, default: "" },
 		blocks: { type: [contentBlockSchema], default: [] },
 	},
@@ -100,8 +111,10 @@ const galleryImageSchema = new Schema<IGemeinsamAktivGalleryImage>(
 
 const gallerySchema = new Schema<IGemeinsamAktivGallery>(
 	{
-		title: { type: String, default: "" },
-		subtitle: { type: String, default: "" },
+		titleDe: { type: String, default: "" },
+		titleEn: { type: String, default: "" },
+		subtitleDe: { type: String, default: "" },
+		subtitleEn: { type: String, default: "" },
 		images: { type: [galleryImageSchema], default: [] },
 	},
 	{ _id: false }
@@ -118,7 +131,8 @@ const partnerLogoSchema = new Schema<IGemeinsamAktivPartnerLogo>(
 
 const partnersSchema = new Schema<IGemeinsamAktivPartners>(
 	{
-		heading: { type: String, default: "" },
+		headingDe: { type: String, default: "" },
+		headingEn: { type: String, default: "" },
 		logos: { type: [partnerLogoSchema], default: [] },
 	},
 	{ _id: false }

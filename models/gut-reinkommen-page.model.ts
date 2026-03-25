@@ -11,13 +11,17 @@ export interface IGutReinkommenHero {
 
 // ─── Content Section ──────────────────────────────────────────────────────────
 export interface IGutReinkommenContentBlock {
-	heading?: string;
-	body?: string;
+	headingDe?: string;
+	headingEn?: string;
+	bodyDe?: string;
+	bodyEn?: string;
 }
 
 export interface IGutReinkommenContent {
-	title?: string;
-	body?: string;
+	titleDe?: string;
+	titleEn?: string;
+	bodyDe?: string;
+	bodyEn?: string;
 	image?: string;
 	blocks: IGutReinkommenContentBlock[];
 }
@@ -30,8 +34,10 @@ export interface IGutReinkommenGalleryImage {
 }
 
 export interface IGutReinkommenGallery {
-	title?: string;
-	subtitle?: string;
+	titleDe?: string;
+	titleEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
 	images: IGutReinkommenGalleryImage[];
 }
 
@@ -43,7 +49,8 @@ export interface IGutReinkommenPartnerLogo {
 }
 
 export interface IGutReinkommenPartners {
-	heading?: string;
+	headingDe?: string;
+	headingEn?: string;
 	logos: IGutReinkommenPartnerLogo[];
 }
 
@@ -73,16 +80,20 @@ const heroSchema = new Schema<IGutReinkommenHero>(
 
 const contentBlockSchema = new Schema<IGutReinkommenContentBlock>(
 	{
-		heading: { type: String, default: "" },
-		body: { type: String, default: "" },
+		headingDe: { type: String, default: "" },
+		headingEn: { type: String, default: "" },
+		bodyDe: { type: String, default: "" },
+		bodyEn: { type: String, default: "" },
 	},
 	{ _id: false }
 );
 
 const contentSchema = new Schema<IGutReinkommenContent>(
 	{
-		title: { type: String, default: "" },
-		body: { type: String, default: "" },
+		titleDe: { type: String, default: "" },
+		titleEn: { type: String, default: "" },
+		bodyDe: { type: String, default: "" },
+		bodyEn: { type: String, default: "" },
 		image: { type: String, default: "" },
 		blocks: { type: [contentBlockSchema], default: [] },
 	},
@@ -100,8 +111,10 @@ const galleryImageSchema = new Schema<IGutReinkommenGalleryImage>(
 
 const gallerySchema = new Schema<IGutReinkommenGallery>(
 	{
-		title: { type: String, default: "" },
-		subtitle: { type: String, default: "" },
+		titleDe: { type: String, default: "" },
+		titleEn: { type: String, default: "" },
+		subtitleDe: { type: String, default: "" },
+		subtitleEn: { type: String, default: "" },
 		images: { type: [galleryImageSchema], default: [] },
 	},
 	{ _id: false }
@@ -118,7 +131,8 @@ const partnerLogoSchema = new Schema<IGutReinkommenPartnerLogo>(
 
 const partnersSchema = new Schema<IGutReinkommenPartners>(
 	{
-		heading: { type: String, default: "" },
+		headingDe: { type: String, default: "" },
+		headingEn: { type: String, default: "" },
 		logos: { type: [partnerLogoSchema], default: [] },
 	},
 	{ _id: false }

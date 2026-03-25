@@ -4,16 +4,19 @@ import type { IKontaktHero } from "@/models/kontakt-page.model";
 
 interface KontaktHeroProps {
 	data: IKontaktHero;
+	isEn?: boolean;
 }
 
-export function KontaktHero({ data }: KontaktHeroProps) {
+export function KontaktHero({ data, isEn = false }: KontaktHeroProps) {
+	const title = isEn ? (data.titleEn || data.titleDe) : (data.titleDe || data.titleEn);
+
 	return (
 		<section className="relative w-full h-80 md:h-[420px] lg:h-[500px] flex items-center overflow-hidden">
 			{/* Background */}
 			{data.backgroundImage ? (
 				<ImageComponent
 					src={data.backgroundImage}
-					alt={data.title}
+					alt={title}
 					fill
 					className="object-cover"
 					priority
@@ -28,13 +31,13 @@ export function KontaktHero({ data }: KontaktHeroProps) {
 			{/* Text — left aligned */}
 			<div className="relative z-10 w-full _container">
 				<h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-3">
-					{data.title || "Contact Us"}
+					{title || "Contact Us"}
 				</h1>
 				<nav className="flex items-center gap-2 text-sm text-white/70">
 					<Link href="/" className="hover:text-white transition-colors">
 						Home
 					</Link>
-					<span className="text-white/40">›</span>
+					<span className="text-white/40">&rsaquo;</span>
 					<span className="text-white/90">
 						{data.breadcrumb || "Contact Us"}
 					</span>

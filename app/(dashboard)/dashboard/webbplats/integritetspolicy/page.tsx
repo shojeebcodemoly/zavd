@@ -47,169 +47,218 @@ const formSchema = z.object({
 		.optional(),
 	hero: z
 		.object({
-			title: z.string().max(200).optional(),
-			subtitle: z.string().max(500).optional(),
+			titleDe: z.string().max(200).optional(),
+			titleEn: z.string().max(200).optional(),
+			subtitleDe: z.string().max(500).optional(),
+			subtitleEn: z.string().max(500).optional(),
 			lastUpdated: z.string().max(100).optional(),
 		})
 		.optional(),
 	introduction: z
 		.object({
 			sectionNumber: z.string().max(20).optional(),
-			title: z.string().max(200).optional(),
-			intro: z.string().max(2000).optional(),
+			titleDe: z.string().max(200).optional(),
+			titleEn: z.string().max(200).optional(),
+			introDe: z.string().max(2000).optional(),
+			introEn: z.string().max(2000).optional(),
 			items: z
 				.array(
 					z.object({
-						title: z.string().max(200).optional(),
-						description: z.string().max(2000).optional(),
+						titleDe: z.string().max(200).optional(),
+						titleEn: z.string().max(200).optional(),
+						descriptionDe: z.string().max(2000).optional(),
+						descriptionEn: z.string().max(2000).optional(),
 					})
 				)
 				.optional(),
-			outro: z.string().max(2000).optional(),
+			outroDe: z.string().max(2000).optional(),
+			outroEn: z.string().max(2000).optional(),
 			highlighted: z.boolean().optional(),
 		})
 		.optional(),
 	dataCollection: z
 		.object({
 			sectionNumber: z.string().max(20).optional(),
-			title: z.string().max(200).optional(),
-			intro: z.string().max(2000).optional(),
+			titleDe: z.string().max(200).optional(),
+			titleEn: z.string().max(200).optional(),
+			introDe: z.string().max(2000).optional(),
+			introEn: z.string().max(2000).optional(),
 			items: z
 				.array(
 					z.object({
-						title: z.string().max(200).optional(),
-						description: z.string().max(2000).optional(),
+						titleDe: z.string().max(200).optional(),
+						titleEn: z.string().max(200).optional(),
+						descriptionDe: z.string().max(2000).optional(),
+						descriptionEn: z.string().max(2000).optional(),
 					})
 				)
 				.optional(),
-			outro: z.string().max(2000).optional(),
+			outroDe: z.string().max(2000).optional(),
+			outroEn: z.string().max(2000).optional(),
 			highlighted: z.boolean().optional(),
 		})
 		.optional(),
 	purposeOfProcessing: z
 		.object({
 			sectionNumber: z.string().max(20).optional(),
-			title: z.string().max(200).optional(),
-			intro: z.string().max(2000).optional(),
+			titleDe: z.string().max(200).optional(),
+			titleEn: z.string().max(200).optional(),
+			introDe: z.string().max(2000).optional(),
+			introEn: z.string().max(2000).optional(),
 			items: z
 				.array(
 					z.object({
-						title: z.string().max(200).optional(),
-						description: z.string().max(2000).optional(),
+						titleDe: z.string().max(200).optional(),
+						titleEn: z.string().max(200).optional(),
+						descriptionDe: z.string().max(2000).optional(),
+						descriptionEn: z.string().max(2000).optional(),
 					})
 				)
 				.optional(),
-			outro: z.string().max(2000).optional(),
+			outroDe: z.string().max(2000).optional(),
+			outroEn: z.string().max(2000).optional(),
 			highlighted: z.boolean().optional(),
 		})
 		.optional(),
 	legalBasis: z
 		.object({
 			sectionNumber: z.string().max(20).optional(),
-			title: z.string().max(200).optional(),
-			intro: z.string().max(2000).optional(),
+			titleDe: z.string().max(200).optional(),
+			titleEn: z.string().max(200).optional(),
+			introDe: z.string().max(2000).optional(),
+			introEn: z.string().max(2000).optional(),
 			items: z
 				.array(
 					z.object({
-						title: z.string().max(200).optional(),
-						description: z.string().max(2000).optional(),
+						titleDe: z.string().max(200).optional(),
+						titleEn: z.string().max(200).optional(),
+						descriptionDe: z.string().max(2000).optional(),
+						descriptionEn: z.string().max(2000).optional(),
 					})
 				)
 				.optional(),
-			outro: z.string().max(2000).optional(),
+			outroDe: z.string().max(2000).optional(),
+			outroEn: z.string().max(2000).optional(),
 			highlighted: z.boolean().optional(),
 		})
 		.optional(),
 	dataRetention: z
 		.object({
 			sectionNumber: z.string().max(20).optional(),
-			title: z.string().max(200).optional(),
-			intro: z.string().max(2000).optional(),
+			titleDe: z.string().max(200).optional(),
+			titleEn: z.string().max(200).optional(),
+			introDe: z.string().max(2000).optional(),
+			introEn: z.string().max(2000).optional(),
 			items: z
 				.array(
 					z.object({
-						title: z.string().max(200).optional(),
-						description: z.string().max(2000).optional(),
+						titleDe: z.string().max(200).optional(),
+						titleEn: z.string().max(200).optional(),
+						descriptionDe: z.string().max(2000).optional(),
+						descriptionEn: z.string().max(2000).optional(),
 					})
 				)
 				.optional(),
-			outro: z.string().max(2000).optional(),
+			outroDe: z.string().max(2000).optional(),
+			outroEn: z.string().max(2000).optional(),
 			highlighted: z.boolean().optional(),
 		})
 		.optional(),
 	dataSharing: z
 		.object({
 			sectionNumber: z.string().max(20).optional(),
-			title: z.string().max(200).optional(),
-			intro: z.string().max(2000).optional(),
+			titleDe: z.string().max(200).optional(),
+			titleEn: z.string().max(200).optional(),
+			introDe: z.string().max(2000).optional(),
+			introEn: z.string().max(2000).optional(),
 			items: z
 				.array(
 					z.object({
-						title: z.string().max(200).optional(),
-						description: z.string().max(2000).optional(),
+						titleDe: z.string().max(200).optional(),
+						titleEn: z.string().max(200).optional(),
+						descriptionDe: z.string().max(2000).optional(),
+						descriptionEn: z.string().max(2000).optional(),
 					})
 				)
 				.optional(),
-			outro: z.string().max(2000).optional(),
+			outroDe: z.string().max(2000).optional(),
+			outroEn: z.string().max(2000).optional(),
 			highlighted: z.boolean().optional(),
 		})
 		.optional(),
 	yourRights: z
 		.object({
 			sectionNumber: z.string().max(20).optional(),
-			title: z.string().max(200).optional(),
-			intro: z.string().max(2000).optional(),
+			titleDe: z.string().max(200).optional(),
+			titleEn: z.string().max(200).optional(),
+			introDe: z.string().max(2000).optional(),
+			introEn: z.string().max(2000).optional(),
 			items: z
 				.array(
 					z.object({
-						title: z.string().max(200).optional(),
-						description: z.string().max(2000).optional(),
+						titleDe: z.string().max(200).optional(),
+						titleEn: z.string().max(200).optional(),
+						descriptionDe: z.string().max(2000).optional(),
+						descriptionEn: z.string().max(2000).optional(),
 					})
 				)
 				.optional(),
-			outro: z.string().max(2000).optional(),
+			outroDe: z.string().max(2000).optional(),
+			outroEn: z.string().max(2000).optional(),
 			highlighted: z.boolean().optional(),
 		})
 		.optional(),
 	security: z
 		.object({
 			sectionNumber: z.string().max(20).optional(),
-			title: z.string().max(200).optional(),
-			intro: z.string().max(2000).optional(),
+			titleDe: z.string().max(200).optional(),
+			titleEn: z.string().max(200).optional(),
+			introDe: z.string().max(2000).optional(),
+			introEn: z.string().max(2000).optional(),
 			items: z
 				.array(
 					z.object({
-						title: z.string().max(200).optional(),
-						description: z.string().max(2000).optional(),
+						titleDe: z.string().max(200).optional(),
+						titleEn: z.string().max(200).optional(),
+						descriptionDe: z.string().max(2000).optional(),
+						descriptionEn: z.string().max(2000).optional(),
 					})
 				)
 				.optional(),
-			outro: z.string().max(2000).optional(),
+			outroDe: z.string().max(2000).optional(),
+			outroEn: z.string().max(2000).optional(),
 			highlighted: z.boolean().optional(),
 		})
 		.optional(),
 	cookies: z
 		.object({
 			sectionNumber: z.string().max(20).optional(),
-			title: z.string().max(200).optional(),
-			intro: z.string().max(2000).optional(),
+			titleDe: z.string().max(200).optional(),
+			titleEn: z.string().max(200).optional(),
+			introDe: z.string().max(2000).optional(),
+			introEn: z.string().max(2000).optional(),
 			items: z
 				.array(
 					z.object({
-						title: z.string().max(200).optional(),
-						description: z.string().max(2000).optional(),
+						titleDe: z.string().max(200).optional(),
+						titleEn: z.string().max(200).optional(),
+						descriptionDe: z.string().max(2000).optional(),
+						descriptionEn: z.string().max(2000).optional(),
 					})
 				)
 				.optional(),
-			outro: z.string().max(2000).optional(),
+			outroDe: z.string().max(2000).optional(),
+			outroEn: z.string().max(2000).optional(),
 			highlighted: z.boolean().optional(),
 		})
 		.optional(),
 	contact: z
 		.object({
 			sectionNumber: z.string().max(20).optional(),
-			title: z.string().max(200).optional(),
-			intro: z.string().max(1000).optional(),
+			titleDe: z.string().max(200).optional(),
+			titleEn: z.string().max(200).optional(),
+			introDe: z.string().max(1000).optional(),
+			introEn: z.string().max(1000).optional(),
 			companyName: z.string().max(200).optional(),
 			organizationNumber: z.string().max(50).optional(),
 			email: z.string().email().max(200).optional().or(z.literal("")),
@@ -221,32 +270,40 @@ const formSchema = z.object({
 	policyChanges: z
 		.object({
 			sectionNumber: z.string().max(20).optional(),
-			title: z.string().max(200).optional(),
-			intro: z.string().max(2000).optional(),
+			titleDe: z.string().max(200).optional(),
+			titleEn: z.string().max(200).optional(),
+			introDe: z.string().max(2000).optional(),
+			introEn: z.string().max(2000).optional(),
 			items: z
 				.array(
 					z.object({
-						title: z.string().max(200).optional(),
-						description: z.string().max(2000).optional(),
+						titleDe: z.string().max(200).optional(),
+						titleEn: z.string().max(200).optional(),
+						descriptionDe: z.string().max(2000).optional(),
+						descriptionEn: z.string().max(2000).optional(),
 					})
 				)
 				.optional(),
-			outro: z.string().max(2000).optional(),
+			outroDe: z.string().max(2000).optional(),
+			outroEn: z.string().max(2000).optional(),
 			highlighted: z.boolean().optional(),
 		})
 		.optional(),
 	ctaSection: z
 		.object({
-			text: z.string().max(500).optional(),
+			textDe: z.string().max(500).optional(),
+			textEn: z.string().max(500).optional(),
 			primaryCta: z
 				.object({
-					text: z.string().max(100).optional(),
+					textDe: z.string().max(100).optional(),
+					textEn: z.string().max(100).optional(),
 					href: z.string().max(500).optional(),
 				})
 				.optional(),
 			secondaryCta: z
 				.object({
-					text: z.string().max(100).optional(),
+					textDe: z.string().max(100).optional(),
+					textEn: z.string().max(100).optional(),
 					href: z.string().max(500).optional(),
 				})
 				.optional(),
@@ -796,40 +853,78 @@ export default function PrivacyPageAdmin() {
 									<CardTitle>Hero Section</CardTitle>
 								</CardHeader>
 								<CardContent className="space-y-4">
-									<FormField
-										control={form.control}
-										name="hero.title"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Title</FormLabel>
-												<FormControl>
-													<Input
-														placeholder="Integritetspolicy"
-														{...field}
-														value={field.value || ""}
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<FormField
-										control={form.control}
-										name="hero.subtitle"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Subtitle</FormLabel>
-												<FormControl>
-													<Textarea
-														placeholder="Information om hur vi behandlar dina personuppgifter"
-														{...field}
-														value={field.value || ""}
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
+									<div className="grid gap-4 md:grid-cols-2">
+										<FormField
+											control={form.control}
+											name="hero.titleDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Title (DE)</FormLabel>
+													<FormControl>
+														<Input
+															placeholder="Datenschutzrichtlinie"
+															{...field}
+															value={field.value || ""}
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="hero.titleEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Title (EN)</FormLabel>
+													<FormControl>
+														<Input
+															placeholder="Privacy Policy"
+															{...field}
+															value={field.value || ""}
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+									<div className="grid gap-4 md:grid-cols-2">
+										<FormField
+											control={form.control}
+											name="hero.subtitleDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Subtitle (DE)</FormLabel>
+													<FormControl>
+														<Textarea
+															placeholder="Informationen zum Umgang mit Ihren personenbezogenen Daten"
+															{...field}
+															value={field.value || ""}
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="hero.subtitleEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Subtitle (EN)</FormLabel>
+													<FormControl>
+														<Textarea
+															placeholder="Information about how we handle your personal data"
+															{...field}
+															value={field.value || ""}
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
 									<FormField
 										control={form.control}
 										name="hero.lastUpdated"
@@ -882,20 +977,41 @@ export default function PrivacyPageAdmin() {
 													<CardTitle>{section.label}</CardTitle>
 												</CardHeader>
 												<CardContent className="space-y-4">
-													<div className="grid gap-4 sm:grid-cols-2">
+													<FormField
+														control={form.control}
+														name={
+															`${section.key}.sectionNumber` as `introduction.sectionNumber`
+														}
+														render={({ field }) => (
+															<FormItem>
+																<FormLabel>
+																	Section Number
+																</FormLabel>
+																<FormControl>
+																	<Input
+																		placeholder="1."
+																		{...field}
+																		value={
+																			field.value || ""
+																		}
+																	/>
+																</FormControl>
+																<FormMessage />
+															</FormItem>
+														)}
+													/>
+													<div className="grid gap-4 md:grid-cols-2">
 														<FormField
 															control={form.control}
 															name={
-																`${section.key}.sectionNumber` as `introduction.sectionNumber`
+																`${section.key}.titleDe` as `introduction.titleDe`
 															}
 															render={({ field }) => (
 																<FormItem>
-																	<FormLabel>
-																		Section Number
-																	</FormLabel>
+																	<FormLabel>Title (DE)</FormLabel>
 																	<FormControl>
 																		<Input
-																			placeholder="1."
+																			placeholder="Sektionstitel (DE)"
 																			{...field}
 																			value={
 																				field.value || ""
@@ -909,14 +1025,14 @@ export default function PrivacyPageAdmin() {
 														<FormField
 															control={form.control}
 															name={
-																`${section.key}.title` as `introduction.title`
+																`${section.key}.titleEn` as `introduction.titleEn`
 															}
 															render={({ field }) => (
 																<FormItem>
-																	<FormLabel>Title</FormLabel>
+																	<FormLabel>Title (EN)</FormLabel>
 																	<FormControl>
 																		<Input
-																			placeholder="Sektionens titel"
+																			placeholder="Section title (EN)"
 																			{...field}
 																			value={
 																				field.value || ""
@@ -928,28 +1044,52 @@ export default function PrivacyPageAdmin() {
 															)}
 														/>
 													</div>
-													<FormField
-														control={form.control}
-														name={
-															`${section.key}.intro` as `introduction.intro`
-														}
-														render={({ field }) => (
-															<FormItem>
-																<FormLabel>
-																	Introduction Text
-																</FormLabel>
-																<FormControl>
-																	<Textarea
-																		placeholder="Inledande text för sektionen..."
-																		rows={3}
-																		{...field}
-																		value={field.value || ""}
-																	/>
-																</FormControl>
-																<FormMessage />
-															</FormItem>
-														)}
-													/>
+													<div className="grid gap-4 md:grid-cols-2">
+														<FormField
+															control={form.control}
+															name={
+																`${section.key}.introDe` as `introduction.introDe`
+															}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>
+																		Introduction Text (DE)
+																	</FormLabel>
+																	<FormControl>
+																		<Textarea
+																			placeholder="Einleitungstext der Sektion..."
+																			rows={3}
+																			{...field}
+																			value={field.value || ""}
+																		/>
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+														<FormField
+															control={form.control}
+															name={
+																`${section.key}.introEn` as `introduction.introEn`
+															}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>
+																		Introduction Text (EN)
+																	</FormLabel>
+																	<FormControl>
+																		<Textarea
+																			placeholder="Introductory text for the section..."
+																			rows={3}
+																			{...field}
+																			value={field.value || ""}
+																		/>
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+													</div>
 
 													{/* Dynamic items */}
 													<div className="space-y-4">
@@ -963,8 +1103,10 @@ export default function PrivacyPageAdmin() {
 																size="sm"
 																onClick={() =>
 																	fieldArray.append({
-																		title: "",
-																		description: "",
+																		titleDe: "",
+																		titleEn: "",
+																		descriptionDe: "",
+																		descriptionEn: "",
 																	})
 																}
 															>
@@ -979,59 +1121,116 @@ export default function PrivacyPageAdmin() {
 																	className="flex gap-4 rounded-lg border p-4"
 																>
 																	<div className="flex-1 space-y-4">
-																		<FormField
-																			control={form.control}
-																			name={
-																				`${section.key}.items.${index}.title` as `introduction.items.${number}.title`
-																			}
-																			render={({
-																				field,
-																			}) => (
-																				<FormItem>
-																					<FormLabel>
-																						Title
-																					</FormLabel>
-																					<FormControl>
-																						<Input
-																							placeholder="Punktens rubrik"
-																							{...field}
-																							value={
-																								field.value ||
-																								""
-																							}
-																						/>
-																					</FormControl>
-																					<FormMessage />
-																				</FormItem>
-																			)}
-																		/>
-																		<FormField
-																			control={form.control}
-																			name={
-																				`${section.key}.items.${index}.description` as `introduction.items.${number}.description`
-																			}
-																			render={({
-																				field,
-																			}) => (
-																				<FormItem>
-																					<FormLabel>
-																						Description
-																					</FormLabel>
-																					<FormControl>
-																						<Textarea
-																							placeholder="Beskrivning av punkten..."
-																							rows={2}
-																							{...field}
-																							value={
-																								field.value ||
-																								""
-																							}
-																						/>
-																					</FormControl>
-																					<FormMessage />
-																				</FormItem>
-																			)}
-																		/>
+																		<div className="grid gap-4 md:grid-cols-2">
+																			<FormField
+																				control={form.control}
+																				name={
+																					`${section.key}.items.${index}.titleDe` as `introduction.items.${number}.titleDe`
+																				}
+																				render={({
+																					field,
+																				}) => (
+																					<FormItem>
+																						<FormLabel>
+																							Title (DE)
+																						</FormLabel>
+																						<FormControl>
+																							<Input
+																								placeholder="Punkttitel (DE)"
+																								{...field}
+																								value={
+																									field.value ||
+																									""
+																								}
+																							/>
+																						</FormControl>
+																						<FormMessage />
+																					</FormItem>
+																				)}
+																			/>
+																			<FormField
+																				control={form.control}
+																				name={
+																					`${section.key}.items.${index}.titleEn` as `introduction.items.${number}.titleEn`
+																				}
+																				render={({
+																					field,
+																				}) => (
+																					<FormItem>
+																						<FormLabel>
+																							Title (EN)
+																						</FormLabel>
+																						<FormControl>
+																							<Input
+																								placeholder="Point title (EN)"
+																								{...field}
+																								value={
+																									field.value ||
+																									""
+																								}
+																							/>
+																						</FormControl>
+																						<FormMessage />
+																					</FormItem>
+																				)}
+																			/>
+																		</div>
+																		<div className="grid gap-4 md:grid-cols-2">
+																			<FormField
+																				control={form.control}
+																				name={
+																					`${section.key}.items.${index}.descriptionDe` as `introduction.items.${number}.descriptionDe`
+																				}
+																				render={({
+																					field,
+																				}) => (
+																					<FormItem>
+																						<FormLabel>
+																							Description (DE)
+																						</FormLabel>
+																						<FormControl>
+																							<Textarea
+																								placeholder="Beschreibung des Punktes..."
+																								rows={2}
+																								{...field}
+																								value={
+																									field.value ||
+																									""
+																								}
+																							/>
+																						</FormControl>
+																						<FormMessage />
+																					</FormItem>
+																				)}
+																			/>
+																			<FormField
+																				control={form.control}
+																				name={
+																					`${section.key}.items.${index}.descriptionEn` as `introduction.items.${number}.descriptionEn`
+																				}
+																				render={({
+																					field,
+																				}) => (
+																					<FormItem>
+																						<FormLabel>
+																							Description (EN)
+																						</FormLabel>
+																						<FormControl>
+																							<Textarea
+																								placeholder="Description of the point..."
+																								rows={2}
+																								{...field}
+																								value={
+																									field.value ||
+																									""
+																								}
+																							/>
+																						</FormControl>
+																						<FormMessage />
+																					</FormItem>
+																				)}
+																			/>
+																		</div>
 																	</div>
 																	<Button
 																		type="button"
@@ -1060,28 +1259,52 @@ export default function PrivacyPageAdmin() {
 														)}
 													</div>
 
-													<FormField
-														control={form.control}
-														name={
-															`${section.key}.outro` as `introduction.outro`
-														}
-														render={({ field }) => (
-															<FormItem>
-																<FormLabel>
-																	Closing Text
-																</FormLabel>
-																<FormControl>
-																	<Textarea
-																		placeholder="Avslutande text för sektionen..."
-																		rows={2}
-																		{...field}
-																		value={field.value || ""}
-																	/>
-																</FormControl>
-																<FormMessage />
-															</FormItem>
-														)}
-													/>
+													<div className="grid gap-4 md:grid-cols-2">
+														<FormField
+															control={form.control}
+															name={
+																`${section.key}.outroDe` as `introduction.outroDe`
+															}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>
+																		Closing Text (DE)
+																	</FormLabel>
+																	<FormControl>
+																		<Textarea
+																			placeholder="Abschlusstext der Sektion..."
+																			rows={2}
+																			{...field}
+																			value={field.value || ""}
+																		/>
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+														<FormField
+															control={form.control}
+															name={
+																`${section.key}.outroEn` as `introduction.outroEn`
+															}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>
+																		Closing Text (EN)
+																	</FormLabel>
+																	<FormControl>
+																		<Textarea
+																			placeholder="Closing text for the section..."
+																			rows={2}
+																			{...field}
+																			value={field.value || ""}
+																		/>
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+													</div>
 													<FormField
 														control={form.control}
 														name={
@@ -1121,16 +1344,33 @@ export default function PrivacyPageAdmin() {
 									<CardTitle>Contact Section</CardTitle>
 								</CardHeader>
 								<CardContent className="space-y-4">
-									<div className="grid gap-4 sm:grid-cols-2">
+									<FormField
+										control={form.control}
+										name="contact.sectionNumber"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Section Number</FormLabel>
+												<FormControl>
+													<Input
+														placeholder="10."
+														{...field}
+														value={field.value || ""}
+													/>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+									<div className="grid gap-4 md:grid-cols-2">
 										<FormField
 											control={form.control}
-											name="contact.sectionNumber"
+											name="contact.titleDe"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Section Number</FormLabel>
+													<FormLabel>Title (DE)</FormLabel>
 													<FormControl>
 														<Input
-															placeholder="10."
+															placeholder="Kontaktieren Sie uns"
 															{...field}
 															value={field.value || ""}
 														/>
@@ -1141,13 +1381,13 @@ export default function PrivacyPageAdmin() {
 										/>
 										<FormField
 											control={form.control}
-											name="contact.title"
+											name="contact.titleEn"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Title</FormLabel>
+													<FormLabel>Title (EN)</FormLabel>
 													<FormControl>
 														<Input
-															placeholder="Kontakta oss"
+															placeholder="Contact Us"
 															{...field}
 															value={field.value || ""}
 														/>
@@ -1157,24 +1397,44 @@ export default function PrivacyPageAdmin() {
 											)}
 										/>
 									</div>
-									<FormField
-										control={form.control}
-										name="contact.intro"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Introduction Text</FormLabel>
-												<FormControl>
-													<Textarea
-														placeholder="Om du har frågor om denna integritetspolicy..."
-														rows={2}
-														{...field}
-														value={field.value || ""}
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
+									<div className="grid gap-4 md:grid-cols-2">
+										<FormField
+											control={form.control}
+											name="contact.introDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Introduction Text (DE)</FormLabel>
+													<FormControl>
+														<Textarea
+															placeholder="Wenn Sie Fragen zu dieser Datenschutzrichtlinie haben..."
+															rows={2}
+															{...field}
+															value={field.value || ""}
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="contact.introEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Introduction Text (EN)</FormLabel>
+													<FormControl>
+														<Textarea
+															placeholder="If you have questions about this privacy policy..."
+															rows={2}
+															{...field}
+															value={field.value || ""}
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
 									<div className="grid gap-4 sm:grid-cols-2">
 										<FormField
 											control={form.control}
@@ -1335,44 +1595,83 @@ export default function PrivacyPageAdmin() {
 									<CardTitle>Call-to-Action</CardTitle>
 								</CardHeader>
 								<CardContent className="space-y-4">
-									<FormField
-										control={form.control}
-										name="ctaSection.text"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Text</FormLabel>
-												<FormControl>
-													<Textarea
-														placeholder="Har du frågor om hur vi hanterar dina personuppgifter?"
-														rows={2}
-														{...field}
-														value={field.value || ""}
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
+									<div className="grid gap-4 md:grid-cols-2">
+										<FormField
+											control={form.control}
+											name="ctaSection.textDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Text (DE)</FormLabel>
+													<FormControl>
+														<Textarea
+															placeholder="Haben Sie Fragen zum Umgang mit Ihren personenbezogenen Daten?"
+															rows={2}
+															{...field}
+															value={field.value || ""}
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="ctaSection.textEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Text (EN)</FormLabel>
+													<FormControl>
+														<Textarea
+															placeholder="Do you have questions about how we handle your personal data?"
+															rows={2}
+															{...field}
+															value={field.value || ""}
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
 									<div className="grid gap-4 sm:grid-cols-2">
 										<div className="space-y-4">
 											<h4 className="font-medium">Primary Button</h4>
-											<FormField
-												control={form.control}
-												name="ctaSection.primaryCta.text"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel>Text</FormLabel>
-														<FormControl>
-															<Input
-																placeholder="Kontakta oss"
-																{...field}
-																value={field.value || ""}
-															/>
-														</FormControl>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
+											<div className="grid gap-4 md:grid-cols-2">
+												<FormField
+													control={form.control}
+													name="ctaSection.primaryCta.textDe"
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Text (DE)</FormLabel>
+															<FormControl>
+																<Input
+																	placeholder="Kontaktieren Sie uns"
+																	{...field}
+																	value={field.value || ""}
+																/>
+															</FormControl>
+															<FormMessage />
+														</FormItem>
+													)}
+												/>
+												<FormField
+													control={form.control}
+													name="ctaSection.primaryCta.textEn"
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Text (EN)</FormLabel>
+															<FormControl>
+																<Input
+																	placeholder="Contact Us"
+																	{...field}
+																	value={field.value || ""}
+																/>
+															</FormControl>
+															<FormMessage />
+														</FormItem>
+													)}
+												/>
+											</div>
 											<FormField
 												control={form.control}
 												name="ctaSection.primaryCta.href"
@@ -1395,23 +1694,42 @@ export default function PrivacyPageAdmin() {
 											<h4 className="font-medium">
 												Secondary Button
 											</h4>
-											<FormField
-												control={form.control}
-												name="ctaSection.secondaryCta.text"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel>Text</FormLabel>
-														<FormControl>
-															<Input
-																placeholder="info@zavdmedical.se"
-																{...field}
-																value={field.value || ""}
-															/>
-														</FormControl>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
+											<div className="grid gap-4 md:grid-cols-2">
+												<FormField
+													control={form.control}
+													name="ctaSection.secondaryCta.textDe"
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Text (DE)</FormLabel>
+															<FormControl>
+																<Input
+																	placeholder="info@zavdmedical.se"
+																	{...field}
+																	value={field.value || ""}
+																/>
+															</FormControl>
+															<FormMessage />
+														</FormItem>
+													)}
+												/>
+												<FormField
+													control={form.control}
+													name="ctaSection.secondaryCta.textEn"
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Text (EN)</FormLabel>
+															<FormControl>
+																<Input
+																	placeholder="info@zavdmedical.se"
+																	{...field}
+																	value={field.value || ""}
+																/>
+															</FormControl>
+															<FormMessage />
+														</FormItem>
+													)}
+												/>
+											</div>
 											<FormField
 												control={form.control}
 												name="ctaSection.secondaryCta.href"

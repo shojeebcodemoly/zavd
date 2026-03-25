@@ -4,7 +4,8 @@ import { connectMongoose } from "@/lib/db/db-connect";
 // ─── Hero Section ────────────────────────────────────────────────────────────
 export interface IPatenschaftsprojektHero {
 	backgroundImage?: string;
-	title: string;
+	titleDe: string;
+	titleEn?: string;
 	breadcrumb?: string;
 }
 
@@ -16,19 +17,24 @@ export interface IProjectPartnerLogo {
 }
 
 export interface IPatenschaftsprojektPartners {
-	heading?: string;
+	headingDe?: string;
+	headingEn?: string;
 	logos: IProjectPartnerLogo[];
 }
 
 // ─── Content Section ──────────────────────────────────────────────────────────
 export interface IContentBlock {
-	heading?: string;
-	body?: string;
+	headingDe?: string;
+	headingEn?: string;
+	bodyDe?: string;
+	bodyEn?: string;
 }
 
 export interface IPatenschaftsprojektContent {
-	title?: string;
-	body?: string;
+	titleDe?: string;
+	titleEn?: string;
+	bodyDe?: string;
+	bodyEn?: string;
 	image?: string;
 	blocks: IContentBlock[];
 }
@@ -41,8 +47,10 @@ export interface IGalleryImage {
 }
 
 export interface IPatenschaftsprojektGallery {
-	title?: string;
-	subtitle?: string;
+	titleDe?: string;
+	titleEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
 	images: IGalleryImage[];
 }
 
@@ -63,7 +71,8 @@ export interface IPatenschaftsprojektPageDocument
 const heroSchema = new Schema<IPatenschaftsprojektHero>(
 	{
 		backgroundImage: { type: String, default: "" },
-		title: { type: String, default: "Patenschaftsprojekt" },
+		titleDe: { type: String, default: "Patenschaftsprojekt" },
+		titleEn: { type: String, default: "Mentorship Program" },
 		breadcrumb: { type: String, default: "Patenschaftsprojekt" },
 	},
 	{ _id: false }
@@ -71,16 +80,20 @@ const heroSchema = new Schema<IPatenschaftsprojektHero>(
 
 const contentBlockSchema = new Schema<IContentBlock>(
 	{
-		heading: { type: String, default: "" },
-		body: { type: String, default: "" },
+		headingDe: { type: String, default: "" },
+		headingEn: { type: String, default: "" },
+		bodyDe: { type: String, default: "" },
+		bodyEn: { type: String, default: "" },
 	},
 	{ _id: false }
 );
 
 const contentSchema = new Schema<IPatenschaftsprojektContent>(
 	{
-		title: { type: String, default: "" },
-		body: { type: String, default: "" },
+		titleDe: { type: String, default: "" },
+		titleEn: { type: String, default: "" },
+		bodyDe: { type: String, default: "" },
+		bodyEn: { type: String, default: "" },
 		image: { type: String, default: "" },
 		blocks: { type: [contentBlockSchema], default: [] },
 	},
@@ -98,8 +111,10 @@ const galleryImageSchema = new Schema<IGalleryImage>(
 
 const gallerySchema = new Schema<IPatenschaftsprojektGallery>(
 	{
-		title: { type: String, default: "" },
-		subtitle: { type: String, default: "" },
+		titleDe: { type: String, default: "" },
+		titleEn: { type: String, default: "" },
+		subtitleDe: { type: String, default: "" },
+		subtitleEn: { type: String, default: "" },
 		images: { type: [galleryImageSchema], default: [] },
 	},
 	{ _id: false }
@@ -116,7 +131,8 @@ const partnerLogoSchema = new Schema<IProjectPartnerLogo>(
 
 const partnersSchema = new Schema<IPatenschaftsprojektPartners>(
 	{
-		heading: { type: String, default: "" },
+		headingDe: { type: String, default: "" },
+		headingEn: { type: String, default: "" },
 		logos: { type: [partnerLogoSchema], default: [] },
 	},
 	{ _id: false }

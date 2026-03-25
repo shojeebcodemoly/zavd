@@ -23,8 +23,10 @@ export const privacySectionVisibilitySchema = z.object({
 // HERO SECTION
 // ============================================================================
 export const privacyHeroSectionSchema = z.object({
-	title: z.string().max(200).optional(),
-	subtitle: z.string().max(500).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	subtitleDe: z.string().max(500).optional(),
+	subtitleEn: z.string().max(500).optional(),
 	lastUpdated: z.string().max(100).optional(),
 });
 
@@ -32,8 +34,10 @@ export const privacyHeroSectionSchema = z.object({
 // CONTENT ITEM
 // ============================================================================
 export const privacyContentItemSchema = z.object({
-	title: z.string().max(200).optional(),
-	description: z.string().max(2000).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	descriptionDe: z.string().max(2000).optional(),
+	descriptionEn: z.string().max(2000).optional(),
 });
 
 // ============================================================================
@@ -41,10 +45,13 @@ export const privacyContentItemSchema = z.object({
 // ============================================================================
 export const privacyContentSectionSchema = z.object({
 	sectionNumber: z.string().max(20).optional(),
-	title: z.string().max(200).optional(),
-	intro: z.string().max(2000).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	introDe: z.string().max(2000).optional(),
+	introEn: z.string().max(2000).optional(),
 	items: z.array(privacyContentItemSchema).optional(),
-	outro: z.string().max(2000).optional(),
+	outroDe: z.string().max(2000).optional(),
+	outroEn: z.string().max(2000).optional(),
 	highlighted: z.boolean().optional(),
 });
 
@@ -53,8 +60,10 @@ export const privacyContentSectionSchema = z.object({
 // ============================================================================
 export const privacyContactSectionSchema = z.object({
 	sectionNumber: z.string().max(20).optional(),
-	title: z.string().max(200).optional(),
-	intro: z.string().max(1000).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	introDe: z.string().max(1000).optional(),
+	introEn: z.string().max(1000).optional(),
 	companyName: z.string().max(200).optional(),
 	organizationNumber: z.string().max(50).optional(),
 	email: z.string().email().max(200).optional().or(z.literal("")),
@@ -67,7 +76,8 @@ export const privacyContactSectionSchema = z.object({
 // CTA BUTTON
 // ============================================================================
 export const privacyCtaButtonSchema = z.object({
-	text: z.string().max(100).optional(),
+	textDe: z.string().max(100).optional(),
+	textEn: z.string().max(100).optional(),
 	href: z.string().max(500).optional(),
 });
 
@@ -75,7 +85,8 @@ export const privacyCtaButtonSchema = z.object({
 // CTA SECTION
 // ============================================================================
 export const privacyCtaSectionSchema = z.object({
-	text: z.string().max(500).optional(),
+	textDe: z.string().max(500).optional(),
+	textEn: z.string().max(500).optional(),
 	primaryCta: privacyCtaButtonSchema.optional(),
 	secondaryCta: privacyCtaButtonSchema.optional(),
 });

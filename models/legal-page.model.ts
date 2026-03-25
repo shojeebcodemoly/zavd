@@ -29,16 +29,22 @@ const LegalSectionVisibilitySchema = new Schema<ILegalSectionVisibility>(
 // HERO SECTION
 // ============================================================================
 export interface ILegalHeroSection {
-	badge?: string;
-	title?: string;
-	subtitle?: string;
+	badgeDe?: string;
+	badgeEn?: string;
+	titleDe?: string;
+	titleEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
 }
 
 const LegalHeroSectionSchema = new Schema<ILegalHeroSection>(
 	{
-		badge: { type: String, trim: true },
-		title: { type: String, trim: true },
-		subtitle: { type: String, trim: true },
+		badgeDe: { type: String, trim: true },
+		badgeEn: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		subtitleDe: { type: String, trim: true },
+		subtitleEn: { type: String, trim: true },
 	},
 	{ _id: false }
 );
@@ -48,19 +54,25 @@ const LegalHeroSectionSchema = new Schema<ILegalHeroSection>(
 // ============================================================================
 export interface ILegalCard {
 	icon?: string;
-	title?: string;
-	description?: string;
+	titleDe?: string;
+	titleEn?: string;
+	descriptionDe?: string;
+	descriptionEn?: string;
 	href?: string;
-	highlights?: string[];
+	highlightsDe?: string[];
+	highlightsEn?: string[];
 }
 
 const LegalCardSchema = new Schema<ILegalCard>(
 	{
 		icon: { type: String, trim: true },
-		title: { type: String, trim: true },
-		description: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		descriptionDe: { type: String, trim: true },
+		descriptionEn: { type: String, trim: true },
 		href: { type: String, trim: true },
-		highlights: [{ type: String, trim: true }],
+		highlightsDe: [{ type: String, trim: true }],
+		highlightsEn: [{ type: String, trim: true }],
 	},
 	{ _id: false }
 );
@@ -108,26 +120,32 @@ const LegalCompanyInfoSchema = new Schema<ILegalCompanyInfo>(
 // TERMS SECTION
 // ============================================================================
 export interface ILegalTerm {
-	title?: string;
-	content?: string;
+	titleDe?: string;
+	titleEn?: string;
+	contentDe?: string;
+	contentEn?: string;
 }
 
 const LegalTermSchema = new Schema<ILegalTerm>(
 	{
-		title: { type: String, trim: true },
-		content: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		contentDe: { type: String, trim: true },
+		contentEn: { type: String, trim: true },
 	},
 	{ _id: false }
 );
 
 export interface ILegalTermsSection {
-	title?: string;
+	titleDe?: string;
+	titleEn?: string;
 	terms?: ILegalTerm[];
 }
 
 const LegalTermsSectionSchema = new Schema<ILegalTermsSection>(
 	{
-		title: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
 		terms: { type: [LegalTermSchema], default: [] },
 	},
 	{ _id: false }
@@ -137,39 +155,48 @@ const LegalTermsSectionSchema = new Schema<ILegalTermsSection>(
 // GDPR RIGHTS SECTION
 // ============================================================================
 export interface ILegalGdprRight {
-	title?: string;
-	description?: string;
+	titleDe?: string;
+	titleEn?: string;
+	descriptionDe?: string;
+	descriptionEn?: string;
 }
 
 const LegalGdprRightSchema = new Schema<ILegalGdprRight>(
 	{
-		title: { type: String, trim: true },
-		description: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		descriptionDe: { type: String, trim: true },
+		descriptionEn: { type: String, trim: true },
 	},
 	{ _id: false }
 );
 
 export interface ILegalGdprSection {
-	title?: string;
+	titleDe?: string;
+	titleEn?: string;
 	rights?: ILegalGdprRight[];
 	primaryCta?: {
-		text?: string;
+		textDe?: string;
+		textEn?: string;
 		href?: string;
 	};
 	secondaryCta?: {
-		text?: string;
+		textDe?: string;
+		textEn?: string;
 		href?: string;
 	};
 }
 
 const LegalGdprSectionSchema = new Schema<ILegalGdprSection>(
 	{
-		title: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
 		rights: { type: [LegalGdprRightSchema], default: [] },
 		primaryCta: {
 			type: new Schema(
 				{
-					text: { type: String, trim: true },
+					textDe: { type: String, trim: true },
+					textEn: { type: String, trim: true },
 					href: { type: String, trim: true },
 				},
 				{ _id: false }
@@ -178,7 +205,8 @@ const LegalGdprSectionSchema = new Schema<ILegalGdprSection>(
 		secondaryCta: {
 			type: new Schema(
 				{
-					text: { type: String, trim: true },
+					textDe: { type: String, trim: true },
+					textEn: { type: String, trim: true },
 					href: { type: String, trim: true },
 				},
 				{ _id: false }
@@ -192,24 +220,29 @@ const LegalGdprSectionSchema = new Schema<ILegalGdprSection>(
 // CTA SECTION
 // ============================================================================
 export interface ILegalCtaSection {
-	text?: string;
+	textDe?: string;
+	textEn?: string;
 	primaryCta?: {
-		text?: string;
+		textDe?: string;
+		textEn?: string;
 		href?: string;
 	};
 	secondaryCta?: {
-		text?: string;
+		textDe?: string;
+		textEn?: string;
 		href?: string;
 	};
 }
 
 const LegalCtaSectionSchema = new Schema<ILegalCtaSection>(
 	{
-		text: { type: String, trim: true },
+		textDe: { type: String, trim: true },
+		textEn: { type: String, trim: true },
 		primaryCta: {
 			type: new Schema(
 				{
-					text: { type: String, trim: true },
+					textDe: { type: String, trim: true },
+					textEn: { type: String, trim: true },
 					href: { type: String, trim: true },
 				},
 				{ _id: false }
@@ -218,7 +251,8 @@ const LegalCtaSectionSchema = new Schema<ILegalCtaSection>(
 		secondaryCta: {
 			type: new Schema(
 				{
-					text: { type: String, trim: true },
+					textDe: { type: String, trim: true },
+					textEn: { type: String, trim: true },
 					href: { type: String, trim: true },
 				},
 				{ _id: false }

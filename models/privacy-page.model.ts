@@ -43,15 +43,19 @@ const PrivacySectionVisibilitySchema = new Schema<IPrivacySectionVisibility>(
 // HERO SECTION
 // ============================================================================
 export interface IPrivacyHeroSection {
-	title?: string;
-	subtitle?: string;
+	titleDe?: string;
+	titleEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
 	lastUpdated?: string;
 }
 
 const PrivacyHeroSectionSchema = new Schema<IPrivacyHeroSection>(
 	{
-		title: { type: String, trim: true },
-		subtitle: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		subtitleDe: { type: String, trim: true },
+		subtitleEn: { type: String, trim: true },
 		lastUpdated: { type: String, trim: true },
 	},
 	{ _id: false }
@@ -61,34 +65,44 @@ const PrivacyHeroSectionSchema = new Schema<IPrivacyHeroSection>(
 // CONTENT SECTION (Generic for policy sections)
 // ============================================================================
 export interface IPrivacyContentItem {
-	title?: string;
-	description?: string;
+	titleDe?: string;
+	titleEn?: string;
+	descriptionDe?: string;
+	descriptionEn?: string;
 }
 
 const PrivacyContentItemSchema = new Schema<IPrivacyContentItem>(
 	{
-		title: { type: String, trim: true },
-		description: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		descriptionDe: { type: String, trim: true },
+		descriptionEn: { type: String, trim: true },
 	},
 	{ _id: false }
 );
 
 export interface IPrivacyContentSection {
 	sectionNumber?: string;
-	title?: string;
-	intro?: string;
+	titleDe?: string;
+	titleEn?: string;
+	introDe?: string;
+	introEn?: string;
 	items?: IPrivacyContentItem[];
-	outro?: string;
+	outroDe?: string;
+	outroEn?: string;
 	highlighted?: boolean;
 }
 
 const PrivacyContentSectionSchema = new Schema<IPrivacyContentSection>(
 	{
 		sectionNumber: { type: String, trim: true },
-		title: { type: String, trim: true },
-		intro: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		introDe: { type: String, trim: true },
+		introEn: { type: String, trim: true },
 		items: { type: [PrivacyContentItemSchema], default: [] },
-		outro: { type: String, trim: true },
+		outroDe: { type: String, trim: true },
+		outroEn: { type: String, trim: true },
 		highlighted: { type: Boolean, default: false },
 	},
 	{ _id: false }
@@ -99,8 +113,10 @@ const PrivacyContentSectionSchema = new Schema<IPrivacyContentSection>(
 // ============================================================================
 export interface IPrivacyContactSection {
 	sectionNumber?: string;
-	title?: string;
-	intro?: string;
+	titleDe?: string;
+	titleEn?: string;
+	introDe?: string;
+	introEn?: string;
 	companyName?: string;
 	organizationNumber?: string;
 	email?: string;
@@ -112,8 +128,10 @@ export interface IPrivacyContactSection {
 const PrivacyContactSectionSchema = new Schema<IPrivacyContactSection>(
 	{
 		sectionNumber: { type: String, trim: true },
-		title: { type: String, trim: true },
-		intro: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		introDe: { type: String, trim: true },
+		introEn: { type: String, trim: true },
 		companyName: { type: String, trim: true },
 		organizationNumber: { type: String, trim: true },
 		email: { type: String, trim: true },
@@ -128,13 +146,15 @@ const PrivacyContactSectionSchema = new Schema<IPrivacyContactSection>(
 // CTA BUTTON
 // ============================================================================
 export interface IPrivacyCtaButton {
-	text?: string;
+	textDe?: string;
+	textEn?: string;
 	href?: string;
 }
 
 const PrivacyCtaButtonSchema = new Schema<IPrivacyCtaButton>(
 	{
-		text: { type: String, trim: true },
+		textDe: { type: String, trim: true },
+		textEn: { type: String, trim: true },
 		href: { type: String, trim: true },
 	},
 	{ _id: false }
@@ -144,14 +164,16 @@ const PrivacyCtaButtonSchema = new Schema<IPrivacyCtaButton>(
 // CTA SECTION
 // ============================================================================
 export interface IPrivacyCtaSection {
-	text?: string;
+	textDe?: string;
+	textEn?: string;
 	primaryCta?: IPrivacyCtaButton;
 	secondaryCta?: IPrivacyCtaButton;
 }
 
 const PrivacyCtaSectionSchema = new Schema<IPrivacyCtaSection>(
 	{
-		text: { type: String, trim: true },
+		textDe: { type: String, trim: true },
+		textEn: { type: String, trim: true },
 		primaryCta: { type: PrivacyCtaButtonSchema },
 		secondaryCta: { type: PrivacyCtaButtonSchema },
 	},

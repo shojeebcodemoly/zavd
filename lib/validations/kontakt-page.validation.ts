@@ -6,9 +6,10 @@ import { z } from "zod";
 export const kontaktHeroSchema = z.object({
 	backgroundImage: z.string().optional(),
 	breadcrumb: z.string().max(200).optional(),
-	badge: z.string().max(100).optional(),
-	title: z.string().min(1, "Title is required").max(200),
-	subtitle: z.string().min(1, "Subtitle is required").max(500),
+	titleDe: z.string().min(1, "Title (DE) is required").max(200),
+	titleEn: z.string().min(1, "Title (EN) is required").max(200),
+	subtitleDe: z.string().min(1, "Subtitle (DE) is required").max(500),
+	subtitleEn: z.string().min(1, "Subtitle (EN) is required").max(500),
 	responseTime: z.string().max(100).optional(),
 	officeLocationsText: z.string().max(100).optional(),
 });
@@ -18,21 +19,28 @@ export const kontaktHeroSchema = z.object({
  */
 export const contactCardSchema = z.object({
 	icon: z.string().min(1, "Icon is required").max(50),
-	title: z.string().min(1, "Title is required").max(100),
-	subtitle: z.string().max(200).optional(),
+	titleDe: z.string().min(1, "Title (DE) is required").max(100),
+	titleEn: z.string().min(1, "Title (EN) is required").max(100),
+	subtitleDe: z.string().max(200).optional(),
+	subtitleEn: z.string().max(200).optional(),
 });
 
 /**
  * Contact Info schema (left column)
  */
 export const kontaktContactInfoSchema = z.object({
-	badge: z.string().max(100).optional(),
-	heading: z.string().max(200).optional(),
-	addressLabel: z.string().max(100).optional(),
+	badgeDe: z.string().max(100).optional(),
+	badgeEn: z.string().max(100).optional(),
+	headingDe: z.string().max(200).optional(),
+	headingEn: z.string().max(200).optional(),
+	addressLabelDe: z.string().max(100).optional(),
+	addressLabelEn: z.string().max(100).optional(),
 	address: z.string().max(500).optional(),
-	emailLabel: z.string().max(100).optional(),
+	emailLabelDe: z.string().max(100).optional(),
+	emailLabelEn: z.string().max(100).optional(),
 	email: z.string().max(200).optional(),
-	phoneLabel: z.string().max(100).optional(),
+	phoneLabelDe: z.string().max(100).optional(),
+	phoneLabelEn: z.string().max(100).optional(),
 	phone: z.string().max(50).optional(),
 });
 
@@ -40,10 +48,12 @@ export const kontaktContactInfoSchema = z.object({
  * Form Section schema
  */
 export const kontaktFormSectionSchema = z.object({
-	badge: z.string().max(100).optional(),
-	heading: z.string().max(200).optional(),
-	title: z.string().min(1, "Title is required").max(200),
-	subtitle: z.string().min(1, "Subtitle is required").max(500),
+	headingDe: z.string().max(200).optional(),
+	headingEn: z.string().max(200).optional(),
+	titleDe: z.string().min(1, "Title (DE) is required").max(200),
+	titleEn: z.string().min(1, "Title (EN) is required").max(200),
+	subtitleDe: z.string().min(1, "Subtitle (DE) is required").max(500),
+	subtitleEn: z.string().min(1, "Subtitle (EN) is required").max(500),
 });
 
 /**
@@ -57,38 +67,51 @@ export const kontaktMapSectionSchema = z.object({
  * Connect Section schema
  */
 export const kontaktConnectSectionSchema = z.object({
-	badge: z.string().max(100).optional(),
+	badgeDe: z.string().max(100).optional(),
+	badgeEn: z.string().max(100).optional(),
 	backgroundImage: z.string().optional(),
-	heading: z.string().max(200).optional(),
-	description: z.string().max(500).optional(),
+	headingDe: z.string().max(200).optional(),
+	headingEn: z.string().max(200).optional(),
+	descriptionDe: z.string().max(500).optional(),
+	descriptionEn: z.string().max(500).optional(),
 });
 
 /**
  * Office Section schema
  */
 export const kontaktOfficeSectionSchema = z.object({
-	badge: z.string().max(100).optional(),
-	title: z.string().min(1, "Title is required").max(200),
-	subtitle: z.string().min(1, "Subtitle is required").max(500),
-	openingHours: z.string().max(100).optional(),
-	closedText: z.string().max(100).optional(),
+	badgeDe: z.string().max(100).optional(),
+	badgeEn: z.string().max(100).optional(),
+	titleDe: z.string().min(1, "Title (DE) is required").max(200),
+	titleEn: z.string().min(1, "Title (EN) is required").max(200),
+	subtitleDe: z.string().min(1, "Subtitle (DE) is required").max(500),
+	subtitleEn: z.string().min(1, "Subtitle (EN) is required").max(500),
+	openingHoursDe: z.string().max(100).optional(),
+	openingHoursEn: z.string().max(100).optional(),
+	closedTextDe: z.string().max(100).optional(),
+	closedTextEn: z.string().max(100).optional(),
 });
 
 /**
  * FAQ Item schema
  */
 export const kontaktFaqItemSchema = z.object({
-	question: z.string().min(1, "Question is required").max(300),
-	answer: z.string().min(1, "Answer is required").max(1000),
+	questionDe: z.string().min(1, "Question (DE) is required").max(300),
+	questionEn: z.string().min(1, "Question (EN) is required").max(300),
+	answerDe: z.string().min(1, "Answer (DE) is required").max(1000),
+	answerEn: z.string().min(1, "Answer (EN) is required").max(1000),
 });
 
 /**
  * FAQ Section schema
  */
 export const kontaktFaqSectionSchema = z.object({
-	badge: z.string().max(100).optional(),
-	title: z.string().min(1, "Title is required").max(200),
-	subtitle: z.string().min(1, "Subtitle is required").max(500),
+	badgeDe: z.string().max(100).optional(),
+	badgeEn: z.string().max(100).optional(),
+	titleDe: z.string().min(1, "Title (DE) is required").max(200),
+	titleEn: z.string().min(1, "Title (EN) is required").max(200),
+	subtitleDe: z.string().min(1, "Subtitle (DE) is required").max(500),
+	subtitleEn: z.string().min(1, "Subtitle (EN) is required").max(500),
 	faqs: z.array(kontaktFaqItemSchema).default([]),
 });
 

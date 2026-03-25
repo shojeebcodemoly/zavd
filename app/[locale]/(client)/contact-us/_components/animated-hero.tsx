@@ -6,16 +6,20 @@ import Link from "next/link";
 
 interface AnimatedHeroProps {
 	data: IKontaktHero;
+	isEn?: boolean;
 }
 
-export function AnimatedHero({ data }: AnimatedHeroProps) {
+export function AnimatedHero({ data, isEn = false }: AnimatedHeroProps) {
+	const title = isEn ? (data.titleEn || data.titleDe) : (data.titleDe || data.titleEn);
+	const subtitle = isEn ? (data.subtitleEn || data.subtitleDe) : (data.subtitleDe || data.subtitleEn);
+
 	return (
 		<section className="relative w-full h-64 md:h-80 lg:h-96 flex items-center justify-center overflow-hidden">
 			{/* Background image or fallback */}
 			{data.backgroundImage ? (
 				<ImageComponent
 					src={data.backgroundImage}
-					alt={data.title}
+					alt={title}
 					fill
 					className="object-cover"
 					priority
@@ -30,7 +34,7 @@ export function AnimatedHero({ data }: AnimatedHeroProps) {
 			{/* Content */}
 			<div className="relative z-10 text-center text-white px-4">
 				<h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-3">
-					{data.title || "Contact Us"}
+					{title || "Contact Us"}
 				</h1>
 				{/* Breadcrumb */}
 				<nav className="flex items-center justify-center gap-2 text-sm text-white/70">

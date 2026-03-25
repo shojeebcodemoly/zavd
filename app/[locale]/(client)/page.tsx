@@ -29,8 +29,8 @@ export async function generateMetadata(): Promise<Metadata> {
 		siteSettings.seo?.siteDescription ||
 		"Zentralverband der Assyrischen Vereinigungen in Deutschland und europäischen Sektionen.";
 
-	const title = seo?.title || `${siteName} - Zentralverband Assyrischer Vereinigungen`;
-	const description = seo?.description || siteDescription;
+	const title = seo?.titleDe || `${siteName} - Zentralverband Assyrischer Vereinigungen`;
+	const description = seo?.descriptionDe || siteDescription;
 
 	return {
 		title,
@@ -52,17 +52,20 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 interface HomeProps {
+	params: Promise<{ locale: string }>;
 	searchParams: Promise<{ s?: string; page?: string }>;
 }
 
-export default async function Home({ searchParams }: HomeProps) {
-	const params = await searchParams;
-	const searchQuery = params?.s || "";
+export default async function Home({ params, searchParams }: HomeProps) {
+	const { locale } = await params;
+	const isEn = locale === "en";
+	const sp = await searchParams;
+	const searchQuery = sp?.s || "";
 	const isSearchMode = searchQuery.length >= 2;
 
 	// If in search mode, fetch search results server-side
 	if (isSearchMode) {
-		const page = parseInt(params?.page || "1");
+		const page = parseInt(sp?.page || "1");
 		let initialResults = null;
 
 		try {
@@ -122,27 +125,27 @@ export default async function Home({ searchParams }: HomeProps) {
 	return (
 		<div className="flex flex-col min-h-screen">
 			{/* Hero Section */}
-			{visibility.hero && homePage.hero && <Hero data={homePage.hero} />}
+			{visibility.hero && homePage.hero && <Hero data={homePage.hero} isEn={isEn} />}
 
 			{/* Integration Section */}
 			{visibility.integrationSection && (
-				<IntegrationSection data={homePage.integrationSection} />
+				<IntegrationSection data={homePage.integrationSection} isEn={isEn} />
 			)}
 
 			{/* Sponsors Section */}
 			{visibility.sponsorsSection && (
-				<SponsorsSection data={homePage.sponsorsSection} />
+				<SponsorsSection data={homePage.sponsorsSection} isEn={isEn} />
 			)}
 
 			{/* Volunteering Section */}
 			{visibility.volunteeringSection && (
-				<VolunteeringSection data={homePage.volunteeringSection} />
+				<VolunteeringSection data={homePage.volunteeringSection} isEn={isEn} />
 			)}
 
 
 			{/* Partners Carousel Section */}
 			{visibility.partnersCarousel && (
-				<PartnersCarousel data={homePage.partnersCarouselSection} />
+				<PartnersCarousel data={homePage.partnersCarouselSection} isEn={isEn} />
 			)}
 
 			{/* CTA Section */}
@@ -151,19 +154,20 @@ export default async function Home({ searchParams }: HomeProps) {
 					data={homePage.ctaSection}
 					phone={siteSettings.phone}
 					email={siteSettings.email}
+					isEn={isEn}
 				/>
 			)}
 
 			{/* Testimonials — after CTA */}
 			{visibility.testimonials &&
 				(homePage.testimonialsSection?.testimonials?.length ?? 0) > 0 && (
-					<Testimonials data={homePage.testimonialsSection} />
+					<Testimonials data={homePage.testimonialsSection} isEn={isEn} />
 				)}
 
 				{/* Image Gallery */}
 			{visibility.imageGallery &&
 				(homePage.imageGallery?.images?.length ?? 0) > 0 && (
-					<ImageGallery data={homePage.imageGallery} />
+					<ImageGallery data={homePage.imageGallery} isEn={isEn} />
 				)}
 
 			{/* Floating Contact Button - Always visible */}

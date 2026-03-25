@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useLocale } from "next-intl";
 import type { PrivacyPageData } from "@/lib/repositories/privacy-page.repository";
 
 interface PrivacyPageClientProps {
@@ -11,20 +12,29 @@ interface PrivacyPageClientProps {
 function ContentSection({
 	section,
 	isVisible,
+	isEn,
 }: {
 	section: {
 		sectionNumber?: string;
-		title?: string;
-		intro?: string;
-		items?: { title?: string; description?: string }[];
-		outro?: string;
+		titleDe?: string;
+		titleEn?: string;
+		introDe?: string;
+		introEn?: string;
+		items?: { titleDe?: string; titleEn?: string; descriptionDe?: string; descriptionEn?: string }[];
+		outroDe?: string;
+		outroEn?: string;
 		highlighted?: boolean;
 	};
 	isVisible: boolean;
+	isEn: boolean;
 }) {
 	if (!isVisible) return null;
 
-	const hasContent = section.title || section.intro || (section.items && section.items.length > 0) || section.outro;
+	const title = (isEn ? section.titleEn : section.titleDe) || section.titleDe || section.titleEn;
+	const intro = (isEn ? section.introEn : section.introDe) || section.introDe || section.introEn;
+	const outro = (isEn ? section.outroEn : section.outroDe) || section.outroDe || section.outroEn;
+
+	const hasContent = title || intro || (section.items && section.items.length > 0) || outro;
 	if (!hasContent) return null;
 
 	return (
@@ -37,33 +47,37 @@ function ContentSection({
 						{section.sectionNumber}
 					</span>
 				)}
-				{section.title && (
+				{title && (
 					<h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">
-						{section.title}
+						{title}
 					</h2>
 				)}
-				{section.intro && (
-					<p className="text-slate-600 mb-6 leading-relaxed">{section.intro}</p>
+				{intro && (
+					<p className="text-slate-600 mb-6 leading-relaxed">{intro}</p>
 				)}
 				{section.items && section.items.length > 0 && (
 					<ul className="space-y-4 mb-6">
-						{section.items.map((item, index) => (
-							<li key={index} className="flex items-start gap-3">
-								<span className="w-2 h-2 bg-primary rounded-full mt-2 shrink-0" />
-								<div>
-									{item.title && (
-										<strong className="text-slate-900">{item.title}: </strong>
-									)}
-									{item.description && (
-										<span className="text-slate-600">{item.description}</span>
-									)}
-								</div>
-							</li>
-						))}
+						{section.items.map((item, index) => {
+							const itemTitle = (isEn ? item.titleEn : item.titleDe) || item.titleDe || item.titleEn;
+							const itemDescription = (isEn ? item.descriptionEn : item.descriptionDe) || item.descriptionDe || item.descriptionEn;
+							return (
+								<li key={index} className="flex items-start gap-3">
+									<span className="w-2 h-2 bg-primary rounded-full mt-2 shrink-0" />
+									<div>
+										{itemTitle && (
+											<strong className="text-slate-900">{itemTitle}: </strong>
+										)}
+										{itemDescription && (
+											<span className="text-slate-600">{itemDescription}</span>
+										)}
+									</div>
+								</li>
+							);
+						})}
 					</ul>
 				)}
-				{section.outro && (
-					<p className="text-slate-600 leading-relaxed">{section.outro}</p>
+				{outro && (
+					<p className="text-slate-600 leading-relaxed">{outro}</p>
 				)}
 			</div>
 		</section>
@@ -71,6 +85,9 @@ function ContentSection({
 }
 
 export function PrivacyPageClient({ data }: PrivacyPageClientProps) {
+	const locale = useLocale();
+	const isEn = locale === "en";
+
 	const visibility = data.sectionVisibility || {
 		hero: true,
 		introduction: true,
@@ -87,26 +104,36 @@ export function PrivacyPageClient({ data }: PrivacyPageClientProps) {
 		cta: true,
 	};
 
+	const heroTitle = (isEn ? data.hero?.titleEn : data.hero?.titleDe) || data.hero?.titleDe || data.hero?.titleEn;
+	const heroSubtitle = (isEn ? data.hero?.subtitleEn : data.hero?.subtitleDe) || data.hero?.subtitleDe || data.hero?.subtitleEn;
+
+	const contactTitle = (isEn ? data.contact?.titleEn : data.contact?.titleDe) || data.contact?.titleDe || data.contact?.titleEn;
+	const contactIntro = (isEn ? data.contact?.introEn : data.contact?.introDe) || data.contact?.introDe || data.contact?.introEn;
+
+	const ctaText = (isEn ? data.ctaSection?.textEn : data.ctaSection?.textDe) || data.ctaSection?.textDe || data.ctaSection?.textEn;
+	const primaryCtaText = (isEn ? data.ctaSection?.primaryCta?.textEn : data.ctaSection?.primaryCta?.textDe) || data.ctaSection?.primaryCta?.textDe || data.ctaSection?.primaryCta?.textEn;
+	const secondaryCtaText = (isEn ? data.ctaSection?.secondaryCta?.textEn : data.ctaSection?.secondaryCta?.textDe) || data.ctaSection?.secondaryCta?.textDe || data.ctaSection?.secondaryCta?.textEn;
+
 	return (
 		<div className="min-h-screen bg-white">
 			{/* Hero Section */}
-			{visibility.hero && (data.hero?.title || data.hero?.subtitle) && (
+			{visibility.hero && (heroTitle || heroSubtitle) && (
 				<section className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white pt-28 md:pt-32 pb-16 md:pb-24">
 					<div className="_container">
 						<div className="max-w-3xl">
-							{data.hero?.title && (
+							{heroTitle && (
 								<h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-									{data.hero.title}
+									{heroTitle}
 								</h1>
 							)}
-							{data.hero?.subtitle && (
+							{heroSubtitle && (
 								<p className="text-lg md:text-xl text-slate-300 mb-4">
-									{data.hero.subtitle}
+									{heroSubtitle}
 								</p>
 							)}
 							{data.hero?.lastUpdated && (
 								<p className="text-sm text-slate-400">
-									Senast uppdaterad: {data.hero.lastUpdated}
+									{isEn ? "Last updated" : "Zuletzt aktualisiert"}: {data.hero.lastUpdated}
 								</p>
 							)}
 						</div>
@@ -121,54 +148,63 @@ export function PrivacyPageClient({ data }: PrivacyPageClientProps) {
 					<ContentSection
 						section={data.introduction || {}}
 						isVisible={visibility.introduction}
+						isEn={isEn}
 					/>
 
 					{/* Data Collection */}
 					<ContentSection
 						section={data.dataCollection || {}}
 						isVisible={visibility.dataCollection}
+						isEn={isEn}
 					/>
 
 					{/* Purpose of Processing */}
 					<ContentSection
 						section={data.purposeOfProcessing || {}}
 						isVisible={visibility.purposeOfProcessing}
+						isEn={isEn}
 					/>
 
 					{/* Legal Basis */}
 					<ContentSection
 						section={data.legalBasis || {}}
 						isVisible={visibility.legalBasis}
+						isEn={isEn}
 					/>
 
 					{/* Data Retention */}
 					<ContentSection
 						section={data.dataRetention || {}}
 						isVisible={visibility.dataRetention}
+						isEn={isEn}
 					/>
 
 					{/* Data Sharing */}
 					<ContentSection
 						section={data.dataSharing || {}}
 						isVisible={visibility.dataSharing}
+						isEn={isEn}
 					/>
 
 					{/* Your Rights */}
 					<ContentSection
 						section={data.yourRights || {}}
 						isVisible={visibility.yourRights}
+						isEn={isEn}
 					/>
 
 					{/* Security */}
 					<ContentSection
 						section={data.security || {}}
 						isVisible={visibility.security}
+						isEn={isEn}
 					/>
 
 					{/* Cookies */}
 					<ContentSection
 						section={data.cookies || {}}
 						isVisible={visibility.cookies}
+						isEn={isEn}
 					/>
 
 					{/* Contact Section */}
@@ -182,14 +218,14 @@ export function PrivacyPageClient({ data }: PrivacyPageClientProps) {
 										{data.contact.sectionNumber}
 									</span>
 								)}
-								{data.contact.title && (
+								{contactTitle && (
 									<h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">
-										{data.contact.title}
+										{contactTitle}
 									</h2>
 								)}
-								{data.contact.intro && (
+								{contactIntro && (
 									<p className="text-slate-600 mb-6 leading-relaxed">
-										{data.contact.intro}
+										{contactIntro}
 									</p>
 								)}
 								<div className="bg-slate-50 rounded-lg p-6 space-y-3">
@@ -200,12 +236,12 @@ export function PrivacyPageClient({ data }: PrivacyPageClientProps) {
 									)}
 									{data.contact.organizationNumber && (
 										<p className="text-slate-600">
-											Org.nr: {data.contact.organizationNumber}
+											{isEn ? "Org. no." : "Org.nr"}: {data.contact.organizationNumber}
 										</p>
 									)}
 									{data.contact.email && (
 										<p className="text-slate-600">
-											E-post:{" "}
+											{isEn ? "Email" : "E-Mail"}:{" "}
 											<a
 												href={`mailto:${data.contact.email}`}
 												className="text-primary hover:underline"
@@ -216,7 +252,7 @@ export function PrivacyPageClient({ data }: PrivacyPageClientProps) {
 									)}
 									{data.contact.phone && (
 										<p className="text-slate-600">
-											Telefon:{" "}
+											{isEn ? "Phone" : "Telefon"}:{" "}
 											<a
 												href={`tel:${data.contact.phone}`}
 												className="text-primary hover:underline"
@@ -227,7 +263,7 @@ export function PrivacyPageClient({ data }: PrivacyPageClientProps) {
 									)}
 									{data.contact.addresses && data.contact.addresses.length > 0 && (
 										<div className="text-slate-600">
-											<p className="font-medium">Adress:</p>
+											<p className="font-medium">{isEn ? "Address" : "Adresse"}:</p>
 											{data.contact.addresses.map((addr, i) => (
 												<p key={i}>{addr}</p>
 											))}
@@ -242,31 +278,32 @@ export function PrivacyPageClient({ data }: PrivacyPageClientProps) {
 					<ContentSection
 						section={data.policyChanges || {}}
 						isVisible={visibility.policyChanges}
+						isEn={isEn}
 					/>
 
 					{/* CTA Section */}
-					{visibility.cta && data.ctaSection && (data.ctaSection.text || data.ctaSection.primaryCta?.text) && (
+					{visibility.cta && data.ctaSection && (ctaText || primaryCtaText) && (
 						<section className="py-12 md:py-16 mt-8 bg-gradient-to-r from-primary/10 to-primary/5 -mx-4 px-4 md:-mx-8 md:px-8 rounded-xl text-center">
-							{data.ctaSection.text && (
+							{ctaText && (
 								<p className="text-lg text-slate-700 mb-6">
-									{data.ctaSection.text}
+									{ctaText}
 								</p>
 							)}
 							<div className="flex flex-wrap justify-center gap-4">
-								{data.ctaSection.primaryCta?.text && data.ctaSection.primaryCta?.href && (
+								{primaryCtaText && data.ctaSection.primaryCta?.href && (
 									<Link
 										href={data.ctaSection.primaryCta.href}
 										className="inline-flex items-center justify-center px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 transition-colors"
 									>
-										{data.ctaSection.primaryCta.text}
+										{primaryCtaText}
 									</Link>
 								)}
-								{data.ctaSection.secondaryCta?.text && data.ctaSection.secondaryCta?.href && (
+								{secondaryCtaText && data.ctaSection.secondaryCta?.href && (
 									<Link
 										href={data.ctaSection.secondaryCta.href}
 										className="inline-flex items-center justify-center px-6 py-3 bg-white text-slate-700 font-medium rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors"
 									>
-										{data.ctaSection.secondaryCta.text}
+										{secondaryCtaText}
 									</Link>
 								)}
 							</div>

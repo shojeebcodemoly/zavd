@@ -31,16 +31,22 @@ const TeamSectionVisibilitySchema = new Schema<ITeamSectionVisibility>(
 // HERO SECTION
 // ============================================================================
 export interface ITeamHeroSection {
-	badge?: string;
-	title?: string;
-	subtitle?: string;
+	badgeDe?: string;
+	badgeEn?: string;
+	titleDe?: string;
+	titleEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
 }
 
 const TeamHeroSectionSchema = new Schema<ITeamHeroSection>(
 	{
-		badge: { type: String, trim: true },
-		title: { type: String, trim: true },
-		subtitle: { type: String, trim: true },
+		badgeDe: { type: String, trim: true },
+		badgeEn: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		subtitleDe: { type: String, trim: true },
+		subtitleEn: { type: String, trim: true },
 	},
 	{ _id: false }
 );
@@ -50,14 +56,16 @@ const TeamHeroSectionSchema = new Schema<ITeamHeroSection>(
 // ============================================================================
 export interface ITeamStat {
 	value?: string;
-	label?: string;
+	labelDe?: string;
+	labelEn?: string;
 	suffix?: string;
 }
 
 const TeamStatSchema = new Schema<ITeamStat>(
 	{
 		value: { type: String, trim: true },
-		label: { type: String, trim: true },
+		labelDe: { type: String, trim: true },
+		labelEn: { type: String, trim: true },
 		suffix: { type: String, trim: true },
 	},
 	{ _id: false }
@@ -68,9 +76,12 @@ const TeamStatSchema = new Schema<ITeamStat>(
 // ============================================================================
 export interface ITeamMember {
 	name?: string;
-	role?: string;
-	department?: string;
-	bio?: string;
+	roleDe?: string;
+	roleEn?: string;
+	departmentDe?: string;
+	departmentEn?: string;
+	bioDe?: string;
+	bioEn?: string;
 	image?: string;
 	email?: string;
 	linkedin?: string;
@@ -80,9 +91,12 @@ export interface ITeamMember {
 const TeamMemberSchema = new Schema<ITeamMember>(
 	{
 		name: { type: String, trim: true },
-		role: { type: String, trim: true },
-		department: { type: String, trim: true },
-		bio: { type: String, trim: true },
+		roleDe: { type: String, trim: true },
+		roleEn: { type: String, trim: true },
+		departmentDe: { type: String, trim: true },
+		departmentEn: { type: String, trim: true },
+		bioDe: { type: String, trim: true },
+		bioEn: { type: String, trim: true },
 		image: { type: String, trim: true },
 		email: { type: String, trim: true },
 		linkedin: { type: String, trim: true },
@@ -95,28 +109,36 @@ const TeamMemberSchema = new Schema<ITeamMember>(
 // VALUES SECTION
 // ============================================================================
 export interface ITeamValue {
-	title?: string;
-	description?: string;
+	titleDe?: string;
+	titleEn?: string;
+	descriptionDe?: string;
+	descriptionEn?: string;
 }
 
 const TeamValueSchema = new Schema<ITeamValue>(
 	{
-		title: { type: String, trim: true },
-		description: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		descriptionDe: { type: String, trim: true },
+		descriptionEn: { type: String, trim: true },
 	},
 	{ _id: false }
 );
 
 export interface ITeamValuesSection {
-	title?: string;
-	subtitle?: string;
+	titleDe?: string;
+	titleEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
 	values?: ITeamValue[];
 }
 
 const TeamValuesSectionSchema = new Schema<ITeamValuesSection>(
 	{
-		title: { type: String, trim: true },
-		subtitle: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		subtitleDe: { type: String, trim: true },
+		subtitleEn: { type: String, trim: true },
 		values: { type: [TeamValueSchema], default: [] },
 	},
 	{ _id: false }
@@ -126,13 +148,15 @@ const TeamValuesSectionSchema = new Schema<ITeamValuesSection>(
 // CTA BUTTON
 // ============================================================================
 export interface ITeamCtaButton {
-	text?: string;
+	textDe?: string;
+	textEn?: string;
 	href?: string;
 }
 
 const TeamCtaButtonSchema = new Schema<ITeamCtaButton>(
 	{
-		text: { type: String, trim: true },
+		textDe: { type: String, trim: true },
+		textEn: { type: String, trim: true },
 		href: { type: String, trim: true },
 	},
 	{ _id: false }
@@ -142,16 +166,20 @@ const TeamCtaButtonSchema = new Schema<ITeamCtaButton>(
 // JOIN US SECTION
 // ============================================================================
 export interface ITeamJoinUsSection {
-	title?: string;
-	description?: string;
+	titleDe?: string;
+	titleEn?: string;
+	descriptionDe?: string;
+	descriptionEn?: string;
 	primaryCta?: ITeamCtaButton;
 	secondaryCta?: ITeamCtaButton;
 }
 
 const TeamJoinUsSectionSchema = new Schema<ITeamJoinUsSection>(
 	{
-		title: { type: String, trim: true },
-		description: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		descriptionDe: { type: String, trim: true },
+		descriptionEn: { type: String, trim: true },
 		primaryCta: { type: TeamCtaButtonSchema },
 		secondaryCta: { type: TeamCtaButtonSchema },
 	},
@@ -162,16 +190,20 @@ const TeamJoinUsSectionSchema = new Schema<ITeamJoinUsSection>(
 // CONTACT SECTION
 // ============================================================================
 export interface ITeamContactSection {
-	title?: string;
-	description?: string;
+	titleDe?: string;
+	titleEn?: string;
+	descriptionDe?: string;
+	descriptionEn?: string;
 	phone?: string;
 	email?: string;
 }
 
 const TeamContactSectionSchema = new Schema<ITeamContactSection>(
 	{
-		title: { type: String, trim: true },
-		description: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		descriptionDe: { type: String, trim: true },
+		descriptionEn: { type: String, trim: true },
 		phone: { type: String, trim: true },
 		email: { type: String, trim: true },
 	},

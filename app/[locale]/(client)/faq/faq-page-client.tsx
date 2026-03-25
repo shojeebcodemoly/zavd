@@ -8,9 +8,10 @@ import type { FAQPageData } from "@/lib/repositories/faq-page.repository";
 
 interface FAQPageClientProps {
 	data: FAQPageData;
+	isEn?: boolean;
 }
 
-export function FAQPageClient({ data }: FAQPageClientProps) {
+export function FAQPageClient({ data, isEn = false }: FAQPageClientProps) {
 	const visibility = data.sectionVisibility || {
 		hero: true,
 		faqContent: true,
@@ -20,37 +21,44 @@ export function FAQPageClient({ data }: FAQPageClientProps) {
 
 	// Check if we have content
 	const hasHero =
-		data.hero?.badge ||
-		data.hero?.title ||
-		data.hero?.titleHighlight ||
-		data.hero?.subtitle ||
+		(isEn ? data.hero?.badgeEn : data.hero?.badgeDe) ||
+		(isEn ? data.hero?.titleEn : data.hero?.titleDe) ||
+		(isEn ? data.hero?.titleHighlightEn : data.hero?.titleHighlightDe) ||
+		(isEn ? data.hero?.subtitleEn : data.hero?.subtitleDe) ||
 		(data.hero?.stats && data.hero.stats.filter((s) => s.value).length > 0);
 
 	const hasFaqContent =
 		data.faqContent?.items &&
-		data.faqContent.items.filter((i) => i.question).length > 0;
+		data.faqContent.items.filter((i) =>
+			isEn ? i.questionEn : i.questionDe
+		).length > 0;
 
 	const hasSidebar =
-		data.sidebar?.contactTitle ||
+		(isEn ? data.sidebar?.contactTitleEn : data.sidebar?.contactTitleDe) ||
 		data.sidebar?.phone ||
 		data.sidebar?.email ||
 		(data.sidebar?.quickLinks &&
-			data.sidebar.quickLinks.filter((l) => l.label).length > 0) ||
+			data.sidebar.quickLinks.filter((l) =>
+				isEn ? l.labelEn : l.labelDe
+			).length > 0) ||
 		(data.sidebar?.offices &&
 			data.sidebar.offices.filter((o) => o.name).length > 0);
 
 	const hasNewsletter =
-		data.newsletter?.title || data.newsletter?.subtitle;
+		(isEn ? data.newsletter?.titleEn : data.newsletter?.titleDe) ||
+		(isEn ? data.newsletter?.subtitleEn : data.newsletter?.subtitleDe);
 
 	// Get valid FAQ items
 	const faqItems = (data.faqContent?.items || [])
-		.filter((i) => i.question)
+		.filter((i) => (isEn ? i.questionEn : i.questionDe))
 		.sort((a, b) => (a.order || 0) - (b.order || 0));
 
 	return (
 		<div className="min-h-screen bg-muted">
 			{/* Hero Section */}
-			{visibility.hero && hasHero && <FAQHeroClient data={data.hero} />}
+			{visibility.hero && hasHero && (
+				<FAQHeroClient data={data.hero} isEn={isEn} />
+			)}
 
 			{/* Main Content Section */}
 			{(visibility.faqContent && hasFaqContent) ||
@@ -63,10 +71,27 @@ export function FAQPageClient({ data }: FAQPageClientProps) {
 								<div className="lg:col-span-2 order-2 lg:order-1">
 									<FAQAccordionClient
 										items={faqItems}
-										searchPlaceholder={data.faqContent?.searchPlaceholder}
-										noResultsText={data.faqContent?.noResultsText}
-										helpText={data.faqContent?.helpText}
-										helpButtonText={data.faqContent?.helpButtonText}
+										isEn={isEn}
+										searchPlaceholder={
+											isEn
+												? data.faqContent?.searchPlaceholderEn
+												: data.faqContent?.searchPlaceholderDe
+										}
+										noResultsText={
+											isEn
+												? data.faqContent?.noResultsTextEn
+												: data.faqContent?.noResultsTextDe
+										}
+										helpText={
+											isEn
+												? data.faqContent?.helpTextEn
+												: data.faqContent?.helpTextDe
+										}
+										helpButtonText={
+											isEn
+												? data.faqContent?.helpButtonTextEn
+												: data.faqContent?.helpButtonTextDe
+										}
 										helpButtonHref={data.faqContent?.helpButtonHref}
 									/>
 								</div>
@@ -82,7 +107,7 @@ export function FAQPageClient({ data }: FAQPageClientProps) {
 									}`}
 								>
 									<div className="lg:sticky lg:top-24">
-										<FAQSidebarClient data={data.sidebar} />
+										<FAQSidebarClient data={data.sidebar} isEn={isEn} />
 									</div>
 								</div>
 							)}
@@ -93,7 +118,7 @@ export function FAQPageClient({ data }: FAQPageClientProps) {
 
 			{/* Newsletter Section */}
 			{visibility.newsletter && hasNewsletter && (
-				<FAQNewsletterClient data={data.newsletter} />
+				<FAQNewsletterClient data={data.newsletter} isEn={isEn} />
 			)}
 
 			{/* Structured Data for SEO */}
@@ -106,10 +131,14 @@ export function FAQPageClient({ data }: FAQPageClientProps) {
 							"@type": "FAQPage",
 							mainEntity: faqItems.map((faq) => ({
 								"@type": "Question",
-								name: faq.question,
+								name: isEn
+									? faq.questionEn || faq.questionDe
+									: faq.questionDe || faq.questionEn,
 								acceptedAnswer: {
 									"@type": "Answer",
-									text: faq.answer,
+									text: isEn
+										? faq.answerEn || faq.answerDe
+										: faq.answerDe || faq.answerEn,
 								},
 							})),
 						}),

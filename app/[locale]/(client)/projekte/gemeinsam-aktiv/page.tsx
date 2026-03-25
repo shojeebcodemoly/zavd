@@ -38,15 +38,18 @@ export default async function GemeinsamAktivPage({ params }: Props) {
 				defaultBreadcrumb="Gemeinsam Aktiv"
 			/>
 			<ProjectGallery
-				title={page.gallery?.title}
-				subtitle={page.gallery?.subtitle}
+				title={isEn ? (page.gallery?.titleEn || page.gallery?.titleDe) : (page.gallery?.titleDe || page.gallery?.titleEn)}
+				subtitle={isEn ? (page.gallery?.subtitleEn || page.gallery?.subtitleDe) : (page.gallery?.subtitleDe || page.gallery?.subtitleEn)}
 				images={page.gallery?.images ?? []}
 			/>
 			<ProjectContentSection
-				title={page.content?.title}
-				body={page.content?.body}
+				title={isEn ? (page.content?.titleEn || page.content?.titleDe) : (page.content?.titleDe || page.content?.titleEn)}
+				body={isEn ? (page.content?.bodyEn || page.content?.bodyDe) : (page.content?.bodyDe || page.content?.bodyEn)}
 				image={page.content?.image}
-				blocks={page.content?.blocks ?? []}
+				blocks={(page.content?.blocks ?? []).map((b) => ({
+					heading: isEn ? (b.headingEn || b.headingDe) : (b.headingDe || b.headingEn),
+					body: isEn ? (b.bodyEn || b.bodyDe) : (b.bodyDe || b.bodyEn),
+				}))}
 				pressItems={pressItems}
 				phone={siteSettings.phone}
 				email={siteSettings.email}
@@ -55,7 +58,7 @@ export default async function GemeinsamAktivPage({ params }: Props) {
 				socialMedia={siteSettings.socialMedia}
 			/>
 			<ProjectPartnersCarousel
-				heading={page.partners?.heading}
+				heading={isEn ? (page.partners?.headingEn || page.partners?.headingDe) : (page.partners?.headingDe || page.partners?.headingEn)}
 				logos={page.partners?.logos ?? []}
 			/>
 		</div>

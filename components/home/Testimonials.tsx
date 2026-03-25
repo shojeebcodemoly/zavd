@@ -8,10 +8,15 @@ import type { ITestimonialsSection } from "@/models/home-page.model";
 
 interface TestimonialsProps {
 	data: ITestimonialsSection;
+	isEn?: boolean;
 }
 
-export function Testimonials({ data }: TestimonialsProps) {
-	const items = (data?.testimonials ?? []).filter((t) => t.description || t.title);
+export function Testimonials({ data, isEn }: TestimonialsProps) {
+	const items = (data?.testimonials ?? []).filter((t) => {
+		const desc = (isEn ? t.descriptionEn : t.descriptionDe) || t.descriptionDe || t.descriptionEn;
+		const title = (isEn ? t.titleEn : t.titleDe) || t.titleDe || t.titleEn;
+		return desc || title;
+	});
 	const [active, setActive] = useState(0);
 
 	if (items.length === 0) return null;
@@ -20,16 +25,21 @@ export function Testimonials({ data }: TestimonialsProps) {
 	const next = () => setActive((i) => (i + 1) % items.length);
 	const current = items[active];
 
+	const sectionTitle = (isEn ? data?.titleEn : data?.titleDe) || data?.titleDe || data?.titleEn;
+	const currentTitle = (isEn ? current.titleEn : current.titleDe) || current.titleDe || current.titleEn;
+	const currentSubtitle = (isEn ? current.subtitleEn : current.subtitleDe) || current.subtitleDe || current.subtitleEn;
+	const currentDescription = (isEn ? current.descriptionEn : current.descriptionDe) || current.descriptionDe || current.descriptionEn;
+
 	return (
 		<section className="w-full bg-white pt-16 pb-2 lg:pt-24 lg:pb-4 overflow-hidden">
 			<div className="_container">
 
 				{/* Section label */}
-				{(data?.title || data?.subtitle) && (
+				{(sectionTitle || ((isEn ? data?.subtitleEn : data?.subtitleDe) || data?.subtitleDe || data?.subtitleEn)) && (
 					<div className="flex items-center justify-center gap-3 mb-14">
 						<span className="w-8 h-px bg-primary block" />
 						<span className="text-primary text-xs font-bold tracking-[0.25em] uppercase">
-							{data.title || "Testimonials"}
+							{sectionTitle || "Testimonials"}
 						</span>
 						<span className="w-8 h-px bg-primary block" />
 					</div>
@@ -59,7 +69,7 @@ export function Testimonials({ data }: TestimonialsProps) {
 											<div className="relative w-24 h-24 rounded-2xl overflow-hidden shadow-md ring-4 ring-white">
 												<ImageComponent
 													src={current.image}
-													alt={current.title || "Testimonial"}
+													alt={currentTitle || "Testimonial"}
 													fill
 													className="object-cover"
 												/>
@@ -67,7 +77,7 @@ export function Testimonials({ data }: TestimonialsProps) {
 										) : (
 											<div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 ring-4 ring-white shadow-md flex items-center justify-center">
 												<span className="text-3xl font-bold text-primary/40">
-													{current.title?.charAt(0) || "?"}
+													{currentTitle?.charAt(0) || "?"}
 												</span>
 											</div>
 										)}
@@ -83,14 +93,14 @@ export function Testimonials({ data }: TestimonialsProps) {
 										transition={{ duration: 0.3 }}
 										className="text-center"
 									>
-										{current.title && (
+										{currentTitle && (
 											<p className="text-sm font-bold text-secondary leading-tight">
-												{current.title}
+												{currentTitle}
 											</p>
 										)}
-										{current.subtitle && (
+										{currentSubtitle && (
 											<p className="text-xs text-foreground/45 mt-1 leading-tight">
-												{current.subtitle}
+												{currentSubtitle}
 											</p>
 										)}
 									</motion.div>
@@ -99,7 +109,7 @@ export function Testimonials({ data }: TestimonialsProps) {
 								{/* Stars */}
 								<div className="flex gap-0.5">
 									{[...Array(5)].map((_, i) => (
-										<span key={i} className="text-amber-400 text-sm">★</span>
+										<span key={i} className="text-amber-400 text-sm">&#9733;</span>
 									))}
 								</div>
 							</div>
@@ -115,7 +125,7 @@ export function Testimonials({ data }: TestimonialsProps) {
 										transition={{ duration: 0.4, delay: 0.05 }}
 										className="text-base md:text-lg lg:text-xl text-foreground/75 leading-relaxed font-medium italic"
 									>
-										&ldquo;{current.description}&rdquo;
+										&ldquo;{currentDescription}&rdquo;
 									</motion.p>
 								</AnimatePresence>
 

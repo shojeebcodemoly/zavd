@@ -9,9 +9,18 @@ interface CtaSectionProps {
 	data: ICtaSection;
 	phone: string;
 	email: string;
+	isEn?: boolean;
 }
 
-const CtaSection = ({ data, phone, email }: CtaSectionProps) => {
+const CtaSection = ({ data, phone, email, isEn }: CtaSectionProps) => {
+	const title = (isEn ? data.titleEn : data.titleDe) || data.titleDe || data.titleEn;
+	const subtitle = (isEn ? data.subtitleEn : data.subtitleDe) || data.subtitleDe || data.subtitleEn;
+	const phoneTitle = (isEn ? data.phoneTitleEn : data.phoneTitleDe) || data.phoneTitleDe || data.phoneTitleEn;
+	const emailTitle = (isEn ? data.emailTitleEn : data.emailTitleDe) || data.emailTitleDe || data.emailTitleEn;
+	const formTitle = (isEn ? data.formTitleEn : data.formTitleDe) || data.formTitleDe || data.formTitleEn;
+	const formSubtitle = (isEn ? data.formSubtitleEn : data.formSubtitleDe) || data.formSubtitleDe || data.formSubtitleEn;
+	const formCtaText = (isEn ? data.formCtaTextEn : data.formCtaTextDe) || data.formCtaTextDe || data.formCtaTextEn;
+
 	return (
 		<section className="relative overflow-hidden bg-[#0d1b2a] py-20 lg:py-28">
 			{/* Background glows */}
@@ -42,10 +51,10 @@ const CtaSection = ({ data, phone, email }: CtaSectionProps) => {
 						{/* Heading */}
 						<div className="flex flex-col gap-3">
 							<h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-white font-heading leading-[1.1]">
-								{data.title || "Get in Touch With Us"}
+								{title || "Get in Touch With Us"}
 							</h2>
 							<p className="text-white/50 text-base lg:text-lg leading-relaxed">
-								{data.subtitle || "We're here to help. Reach out to us anytime."}
+								{subtitle || "We're here to help. Reach out to us anytime."}
 							</p>
 						</div>
 
@@ -61,7 +70,7 @@ const CtaSection = ({ data, phone, email }: CtaSectionProps) => {
 									</div>
 									<div className="flex-1 min-w-0">
 										<p className="text-xs text-white/40 uppercase tracking-widest font-medium mb-0.5">
-											{data.phoneTitle || "Call Us"}
+											{phoneTitle || "Call Us"}
 										</p>
 										<p className="text-base font-bold text-white truncate">
 											{phone}
@@ -81,7 +90,7 @@ const CtaSection = ({ data, phone, email }: CtaSectionProps) => {
 									</div>
 									<div className="flex-1 min-w-0">
 										<p className="text-xs text-white/40 uppercase tracking-widest font-medium mb-0.5">
-											{data.emailTitle || "Email Us"}
+											{emailTitle || "Email Us"}
 										</p>
 										<p className="text-base font-bold text-white truncate">
 											{email}
@@ -109,13 +118,13 @@ const CtaSection = ({ data, phone, email }: CtaSectionProps) => {
 								{/* Card header */}
 								<div className="flex flex-col gap-2">
 									<span className="text-primary text-xs font-bold tracking-[0.2em] uppercase">
-										{data.formTitle || "Ready to Start?"}
+										{formTitle || "Ready to Start?"}
 									</span>
 									<h3 className="text-2xl lg:text-3xl font-bold text-white font-heading leading-snug">
-										{data.title || "Let's Work Together"}
+										{title || "Let's Work Together"}
 									</h3>
 									<p className="text-white/45 text-sm leading-relaxed">
-										{data.formSubtitle || "Fill out the form and we'll get back to you within 24 hours."}
+										{formSubtitle || "Fill out the form and we'll get back to you within 24 hours."}
 									</p>
 								</div>
 
@@ -124,7 +133,7 @@ const CtaSection = ({ data, phone, email }: CtaSectionProps) => {
 									href={data.formCtaHref || "/kontakt"}
 									className="group flex items-center justify-center gap-2 w-full bg-primary hover:bg-primary/90 text-white font-semibold text-base py-4 px-6 rounded-2xl shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all duration-300"
 								>
-									{data.formCtaText || "Contact Us"}
+									{formCtaText || "Contact Us"}
 									<ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
 								</Link>
 

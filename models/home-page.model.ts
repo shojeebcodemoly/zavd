@@ -5,7 +5,8 @@ import { connectMongoose } from "@/lib/db/db-connect";
  * CTA Button interface - all fields optional to allow empty content
  */
 export interface ICtaButton {
-	text?: string;
+	textDe?: string;
+	textEn?: string;
 	href?: string;
 	variant?: "primary" | "outline" | "secondary";
 }
@@ -15,17 +16,22 @@ export interface ICtaButton {
  */
 export interface IHeroFloatingCard {
 	image?: string;
-	label?: string;
+	labelDe?: string;
+	labelEn?: string;
 }
 
 /**
  * Hero Certification Card interface (bottom left card)
  */
 export interface IHeroCertificationCard {
-	title?: string;
-	subtitle?: string;
-	progressLabel?: string;
-	progressValue?: string;
+	titleDe?: string;
+	titleEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
+	progressLabelDe?: string;
+	progressLabelEn?: string;
+	progressValueDe?: string;
+	progressValueEn?: string;
 	progressPercentage?: number;
 }
 
@@ -33,13 +39,18 @@ export interface IHeroCertificationCard {
  * Hero Slide interface - for slider-based hero
  */
 export interface IHeroSlide {
-	badge?: string;
-	title?: string;
-	subtitle?: string;
+	badgeDe?: string;
+	badgeEn?: string;
+	titleDe?: string;
+	titleEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
 	backgroundImage?: string;
-	ctaText?: string;
+	ctaTextDe?: string;
+	ctaTextEn?: string;
 	ctaHref?: string;
-	ctaText2?: string;
+	ctaText2De?: string;
+	ctaText2En?: string;
 	ctaHref2?: string;
 	isActive?: boolean;
 }
@@ -58,10 +69,14 @@ export interface IHeroSection {
 	/** Show navigation arrows on slider (default: true) */
 	showArrows?: boolean;
 	/** Legacy single hero fields (used when isSlider is false) */
-	badge?: string;
-	title?: string;
-	titleHighlight?: string;
-	subtitle?: string;
+	badgeDe?: string;
+	badgeEn?: string;
+	titleDe?: string;
+	titleEn?: string;
+	titleHighlightDe?: string;
+	titleHighlightEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
 	primaryCta?: ICtaButton;
 	secondaryCta?: ICtaButton;
 	backgroundImage?: string;
@@ -70,7 +85,8 @@ export interface IHeroSection {
 	mobileImage?: string;
 	trustIndicators?: Array<{
 		icon?: string;
-		text?: string;
+		textDe?: string;
+		textEn?: string;
 	}>;
 	floatingCard?: IHeroFloatingCard;
 	certificationCard?: IHeroCertificationCard;
@@ -81,18 +97,24 @@ export interface IHeroSection {
  */
 export interface IFeatureHighlight {
 	icon?: string;
-	title?: string;
-	description?: string;
+	titleDe?: string;
+	titleEn?: string;
+	descriptionDe?: string;
+	descriptionEn?: string;
 }
 
 /**
  * About Section interface - all fields optional
  */
 export interface IAboutSection {
-	badge?: string;
-	title?: string;
-	titleHighlight?: string;
-	content?: string;
+	badgeDe?: string;
+	badgeEn?: string;
+	titleDe?: string;
+	titleEn?: string;
+	titleHighlightDe?: string;
+	titleHighlightEn?: string;
+	contentDe?: string;
+	contentEn?: string;
 	image?: string;
 	benefits?: string[];
 	primaryCta?: ICtaButton;
@@ -104,39 +126,25 @@ export interface IAboutSection {
  * CTA Section interface - all fields optional
  */
 export interface ICtaSection {
-	title?: string;
-	subtitle?: string;
-	phoneTitle?: string;
-	phoneSubtitle?: string;
-	emailTitle?: string;
-	emailSubtitle?: string;
-	formTitle?: string;
-	formSubtitle?: string;
-	formCtaText?: string;
+	titleDe?: string;
+	titleEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
+	phoneTitleDe?: string;
+	phoneTitleEn?: string;
+	phoneSubtitleDe?: string;
+	phoneSubtitleEn?: string;
+	emailTitleDe?: string;
+	emailTitleEn?: string;
+	emailSubtitleDe?: string;
+	emailSubtitleEn?: string;
+	formTitleDe?: string;
+	formTitleEn?: string;
+	formSubtitleDe?: string;
+	formSubtitleEn?: string;
+	formCtaTextDe?: string;
+	formCtaTextEn?: string;
 	formCtaHref?: string;
-}
-
-/**
- * Product Showcase Item interface - all fields optional
- */
-export interface IProductShowcaseItem {
-	name?: string;
-	category?: string;
-	description?: string;
-	status?: string;
-	image?: string;
-	href?: string;
-}
-
-/**
- * Product Showcase Section interface
- */
-export interface IProductShowcaseSection {
-	title?: string;
-	subtitle?: string;
-	ctaText?: string;
-	ctaHref?: string;
-	products?: IProductShowcaseItem[];
 }
 
 /**
@@ -144,38 +152,51 @@ export interface IProductShowcaseSection {
  */
 export interface IGalleryImage {
 	src?: string;
-	title?: string;
-	subtitle?: string;
+	titleDe?: string;
+	titleEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
 }
 
 /**
  * Image Gallery Section interface - all fields optional
  */
 export interface IImageGallerySection {
-	badge?: string;
-	title?: string;
-	subtitle?: string;
+	badgeDe?: string;
+	badgeEn?: string;
+	titleDe?: string;
+	titleEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
 	images?: IGalleryImage[];
-	ctaTitle?: string;
-	ctaSubtitle?: string;
-	ctaButtonText?: string;
+	ctaTitleDe?: string;
+	ctaTitleEn?: string;
+	ctaSubtitleDe?: string;
+	ctaSubtitleEn?: string;
+	ctaButtonTextDe?: string;
+	ctaButtonTextEn?: string;
 }
 
 /**
  * About Certification Badge interface
  */
 export interface IAboutCertificationBadge {
-	title?: string;
-	description?: string;
+	titleDe?: string;
+	titleEn?: string;
+	descriptionDe?: string;
+	descriptionEn?: string;
 }
 
 /**
  * Testimonial Item interface - all fields optional
  */
 export interface ITestimonialItem {
-	title?: string;
-	subtitle?: string;
-	description?: string;
+	titleDe?: string;
+	titleEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
+	descriptionDe?: string;
+	descriptionEn?: string;
 	image?: string;
 }
 
@@ -183,39 +204,28 @@ export interface ITestimonialItem {
  * Testimonials Section interface - all fields optional
  */
 export interface ITestimonialsSection {
-	title?: string;
-	subtitle?: string;
+	titleDe?: string;
+	titleEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
 	testimonials?: ITestimonialItem[];
-}
-
-/**
- * Category Showcase Section interface - displays product categories on home page
- */
-export interface ICategoryShowcaseSection {
-	badge?: string;
-	title?: string;
-	maxCategories?: number; // How many categories to display (default: 3)
-}
-
-/**
- * Product Carousel Section interface - displays featured products on home page
- */
-export interface IProductCarouselSection {
-	badge?: string;
-	title?: string;
-	maxProducts?: number; // How many products to display (default: 6)
 }
 
 /**
  * Promo Banner Item interface - single banner in the 1:2 layout
  */
 export interface IPromoBannerItem {
-	badge?: string;
-	title?: string;
-	subtitle?: string;
-	description?: string;
+	badgeDe?: string;
+	badgeEn?: string;
+	titleDe?: string;
+	titleEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
+	descriptionDe?: string;
+	descriptionEn?: string;
 	image?: string;
-	ctaText?: string;
+	ctaTextDe?: string;
+	ctaTextEn?: string;
 	ctaHref?: string;
 }
 
@@ -232,8 +242,10 @@ export interface IPromoBannerSection {
  */
 export interface IFeatureBannerItem {
 	icon?: string;
-	title?: string;
-	description?: string;
+	titleDe?: string;
+	titleEn?: string;
+	descriptionDe?: string;
+	descriptionEn?: string;
 }
 
 /**
@@ -241,8 +253,10 @@ export interface IFeatureBannerItem {
  */
 export interface IFeatureBannerSection {
 	image?: string;
-	title?: string;
-	titleHighlight?: string;
+	titleDe?: string;
+	titleEn?: string;
+	titleHighlightDe?: string;
+	titleHighlightEn?: string;
 	features?: IFeatureBannerItem[];
 }
 
@@ -253,18 +267,24 @@ export interface IPartnerLogo {
 	image?: string;
 	name?: string;
 	href?: string;
-	description?: string;
+	descriptionDe?: string;
+	descriptionEn?: string;
 }
 
 /**
  * Intro Section interface - two-column text + image section after hero
  */
 export interface IIntroSection {
-	badge?: string;
-	title?: string;
-	subtitle?: string;
-	description?: string;
-	ctaText?: string;
+	badgeDe?: string;
+	badgeEn?: string;
+	titleDe?: string;
+	titleEn?: string;
+	subtitleDe?: string;
+	subtitleEn?: string;
+	descriptionDe?: string;
+	descriptionEn?: string;
+	ctaTextDe?: string;
+	ctaTextEn?: string;
 	ctaHref?: string;
 	image?: string;
 	partnerLogos?: IPartnerLogo[];
@@ -274,7 +294,8 @@ export interface IIntroSection {
  * Section Visibility Settings interface
  */
 export interface IPartnersCarouselSection {
-	heading?: string;
+	headingDe?: string;
+	headingEn?: string;
 	logos?: IPartnerLogo[];
 }
 
@@ -285,12 +306,9 @@ export interface ISectionVisibility {
 	sponsorsSection?: boolean;
 	volunteeringSection?: boolean;
 	partnersCarousel?: boolean;
-	categoryShowcase?: boolean;
-	productCarousel?: boolean;
 	promoBanner?: boolean;
 	featureBanner?: boolean;
 	features?: boolean;
-	productShowcase?: boolean;
 	imageGallery?: boolean;
 	about?: boolean;
 	testimonials?: boolean;
@@ -302,9 +320,12 @@ export interface ISectionVisibility {
  * Integration Section interface
  */
 export interface IIntegrationSection {
-	heading?: string;
-	quote?: string;
-	description?: string;
+	headingDe?: string;
+	headingEn?: string;
+	quoteDe?: string;
+	quoteEn?: string;
+	descriptionDe?: string;
+	descriptionEn?: string;
 	image?: string;
 	readMoreLink?: string;
 	partnerLogos?: IPartnerLogo[];
@@ -314,8 +335,10 @@ export interface IIntegrationSection {
  * Sponsors Section interface
  */
 export interface ISponsorsSection {
-	heading?: string;
-	description?: string;
+	headingDe?: string;
+	headingEn?: string;
+	descriptionDe?: string;
+	descriptionEn?: string;
 	backgroundImage?: string;
 	sponsors?: IPartnerLogo[];
 }
@@ -324,8 +347,10 @@ export interface ISponsorsSection {
  * Volunteering Section interface
  */
 export interface IVolunteeringSection {
-	heading?: string;
-	description?: string;
+	headingDe?: string;
+	headingEn?: string;
+	descriptionDe?: string;
+	descriptionEn?: string;
 	image?: string;
 	partnerLogos?: IPartnerLogo[];
 }
@@ -334,8 +359,10 @@ export interface IVolunteeringSection {
  * SEO Settings interface
  */
 export interface IHomePageSeo {
-	title?: string;
-	description?: string;
+	titleDe?: string;
+	titleEn?: string;
+	descriptionDe?: string;
+	descriptionEn?: string;
 	ogImage?: string;
 }
 
@@ -355,12 +382,6 @@ export interface IHomePage extends Document {
 	// Intro Section (after hero - two column text + image)
 	introSection: IIntroSection;
 
-	// Category Showcase Section (after hero)
-	categoryShowcase: ICategoryShowcaseSection;
-
-	// Product Carousel Section (after categories)
-	productCarousel: IProductCarouselSection;
-
 	// Promo Banner Section (1:2 layout with two banners)
 	promoBanner: IPromoBannerSection;
 
@@ -369,9 +390,6 @@ export interface IHomePage extends Document {
 
 	// Feature Highlights (4 cards)
 	features: IFeatureHighlight[];
-
-	// Product Showcase Section
-	productShowcase: IProductShowcaseSection;
 
 	// Image Gallery Section
 	imageGallery: IImageGallerySection;
@@ -407,7 +425,8 @@ export interface IHomePage extends Document {
  */
 const CtaButtonSchema = new Schema<ICtaButton>(
 	{
-		text: { type: String, trim: true },
+		textDe: { type: String, trim: true },
+		textEn: { type: String, trim: true },
 		href: { type: String, trim: true },
 		variant: {
 			type: String,
@@ -424,7 +443,8 @@ const CtaButtonSchema = new Schema<ICtaButton>(
 const HeroFloatingCardSchema = new Schema<IHeroFloatingCard>(
 	{
 		image: { type: String, trim: true },
-		label: { type: String, trim: true },
+		labelDe: { type: String, trim: true },
+		labelEn: { type: String, trim: true },
 	},
 	{ _id: false }
 );
@@ -434,10 +454,14 @@ const HeroFloatingCardSchema = new Schema<IHeroFloatingCard>(
  */
 const HeroCertificationCardSchema = new Schema<IHeroCertificationCard>(
 	{
-		title: { type: String, trim: true },
-		subtitle: { type: String, trim: true },
-		progressLabel: { type: String, trim: true },
-		progressValue: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		subtitleDe: { type: String, trim: true },
+		subtitleEn: { type: String, trim: true },
+		progressLabelDe: { type: String, trim: true },
+		progressLabelEn: { type: String, trim: true },
+		progressValueDe: { type: String, trim: true },
+		progressValueEn: { type: String, trim: true },
 		progressPercentage: { type: Number, min: 0, max: 100 },
 	},
 	{ _id: false }
@@ -448,13 +472,18 @@ const HeroCertificationCardSchema = new Schema<IHeroCertificationCard>(
  */
 const HeroSlideSchema = new Schema<IHeroSlide>(
 	{
-		badge: { type: String, trim: true },
-		title: { type: String, trim: true },
-		subtitle: { type: String, trim: true },
+		badgeDe: { type: String, trim: true },
+		badgeEn: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		subtitleDe: { type: String, trim: true },
+		subtitleEn: { type: String, trim: true },
 		backgroundImage: { type: String, trim: true },
-		ctaText: { type: String, trim: true },
+		ctaTextDe: { type: String, trim: true },
+		ctaTextEn: { type: String, trim: true },
 		ctaHref: { type: String, trim: true },
-		ctaText2: { type: String, trim: true },
+		ctaText2De: { type: String, trim: true },
+		ctaText2En: { type: String, trim: true },
 		ctaHref2: { type: String, trim: true },
 		isActive: { type: Boolean, default: true },
 	},
@@ -473,10 +502,14 @@ const HeroSectionSchema = new Schema<IHeroSection>(
 		autoPlayInterval: { type: Number, default: 5000 },
 		showArrows: { type: Boolean, default: true },
 		// Legacy single hero fields
-		badge: { type: String, trim: true },
-		title: { type: String, trim: true },
-		titleHighlight: { type: String, trim: true },
-		subtitle: { type: String, trim: true },
+		badgeDe: { type: String, trim: true },
+		badgeEn: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		titleHighlightDe: { type: String, trim: true },
+		titleHighlightEn: { type: String, trim: true },
+		subtitleDe: { type: String, trim: true },
+		subtitleEn: { type: String, trim: true },
 		primaryCta: { type: CtaButtonSchema },
 		secondaryCta: { type: CtaButtonSchema },
 		backgroundImage: { type: String, trim: true },
@@ -485,7 +518,8 @@ const HeroSectionSchema = new Schema<IHeroSection>(
 		trustIndicators: [
 			{
 				icon: { type: String, trim: true },
-				text: { type: String, trim: true },
+				textDe: { type: String, trim: true },
+				textEn: { type: String, trim: true },
 			},
 		],
 		floatingCard: { type: HeroFloatingCardSchema },
@@ -500,37 +534,10 @@ const HeroSectionSchema = new Schema<IHeroSection>(
 const FeatureHighlightSchema = new Schema<IFeatureHighlight>(
 	{
 		icon: { type: String, trim: true },
-		title: { type: String, trim: true },
-		description: { type: String, trim: true },
-	},
-	{ _id: false }
-);
-
-/**
- * Product Showcase Item sub-schema - no required fields
- */
-const ProductShowcaseItemSchema = new Schema<IProductShowcaseItem>(
-	{
-		name: { type: String, trim: true },
-		category: { type: String, trim: true },
-		description: { type: String, trim: true },
-		status: { type: String, trim: true },
-		image: { type: String, trim: true },
-		href: { type: String, trim: true },
-	},
-	{ _id: false }
-);
-
-/**
- * Product Showcase Section sub-schema - no required fields
- */
-const ProductShowcaseSectionSchema = new Schema<IProductShowcaseSection>(
-	{
-		title: { type: String, trim: true },
-		subtitle: { type: String, trim: true },
-		ctaText: { type: String, trim: true },
-		ctaHref: { type: String, trim: true },
-		products: { type: [ProductShowcaseItemSchema], default: [] },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		descriptionDe: { type: String, trim: true },
+		descriptionEn: { type: String, trim: true },
 	},
 	{ _id: false }
 );
@@ -541,8 +548,10 @@ const ProductShowcaseSectionSchema = new Schema<IProductShowcaseSection>(
 const GalleryImageSchema = new Schema<IGalleryImage>(
 	{
 		src: { type: String, trim: true },
-		title: { type: String, trim: true },
-		subtitle: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		subtitleDe: { type: String, trim: true },
+		subtitleEn: { type: String, trim: true },
 	},
 	{ _id: false }
 );
@@ -552,13 +561,19 @@ const GalleryImageSchema = new Schema<IGalleryImage>(
  */
 const ImageGallerySectionSchema = new Schema<IImageGallerySection>(
 	{
-		badge: { type: String, trim: true },
-		title: { type: String, trim: true },
-		subtitle: { type: String, trim: true },
+		badgeDe: { type: String, trim: true },
+		badgeEn: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		subtitleDe: { type: String, trim: true },
+		subtitleEn: { type: String, trim: true },
 		images: { type: [GalleryImageSchema], default: [] },
-		ctaTitle: { type: String, trim: true },
-		ctaSubtitle: { type: String, trim: true },
-		ctaButtonText: { type: String, trim: true },
+		ctaTitleDe: { type: String, trim: true },
+		ctaTitleEn: { type: String, trim: true },
+		ctaSubtitleDe: { type: String, trim: true },
+		ctaSubtitleEn: { type: String, trim: true },
+		ctaButtonTextDe: { type: String, trim: true },
+		ctaButtonTextEn: { type: String, trim: true },
 	},
 	{ _id: false }
 );
@@ -568,8 +583,10 @@ const ImageGallerySectionSchema = new Schema<IImageGallerySection>(
  */
 const AboutCertificationBadgeSchema = new Schema<IAboutCertificationBadge>(
 	{
-		title: { type: String, trim: true },
-		description: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		descriptionDe: { type: String, trim: true },
+		descriptionEn: { type: String, trim: true },
 	},
 	{ _id: false }
 );
@@ -579,10 +596,14 @@ const AboutCertificationBadgeSchema = new Schema<IAboutCertificationBadge>(
  */
 const AboutSectionSchema = new Schema<IAboutSection>(
 	{
-		badge: { type: String, trim: true },
-		title: { type: String, trim: true },
-		titleHighlight: { type: String, trim: true },
-		content: { type: String, trim: true },
+		badgeDe: { type: String, trim: true },
+		badgeEn: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		titleHighlightDe: { type: String, trim: true },
+		titleHighlightEn: { type: String, trim: true },
+		contentDe: { type: String, trim: true },
+		contentEn: { type: String, trim: true },
 		image: { type: String, trim: true },
 		benefits: [{ type: String, trim: true }],
 		primaryCta: { type: CtaButtonSchema },
@@ -597,15 +618,24 @@ const AboutSectionSchema = new Schema<IAboutSection>(
  */
 const CtaSectionSchema = new Schema<ICtaSection>(
 	{
-		title: { type: String, trim: true },
-		subtitle: { type: String, trim: true },
-		phoneTitle: { type: String, trim: true },
-		phoneSubtitle: { type: String, trim: true },
-		emailTitle: { type: String, trim: true },
-		emailSubtitle: { type: String, trim: true },
-		formTitle: { type: String, trim: true },
-		formSubtitle: { type: String, trim: true },
-		formCtaText: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		subtitleDe: { type: String, trim: true },
+		subtitleEn: { type: String, trim: true },
+		phoneTitleDe: { type: String, trim: true },
+		phoneTitleEn: { type: String, trim: true },
+		phoneSubtitleDe: { type: String, trim: true },
+		phoneSubtitleEn: { type: String, trim: true },
+		emailTitleDe: { type: String, trim: true },
+		emailTitleEn: { type: String, trim: true },
+		emailSubtitleDe: { type: String, trim: true },
+		emailSubtitleEn: { type: String, trim: true },
+		formTitleDe: { type: String, trim: true },
+		formTitleEn: { type: String, trim: true },
+		formSubtitleDe: { type: String, trim: true },
+		formSubtitleEn: { type: String, trim: true },
+		formCtaTextDe: { type: String, trim: true },
+		formCtaTextEn: { type: String, trim: true },
 		formCtaHref: { type: String, trim: true },
 	},
 	{ _id: false }
@@ -616,8 +646,10 @@ const CtaSectionSchema = new Schema<ICtaSection>(
  */
 const HomePageSeoSchema = new Schema<IHomePageSeo>(
 	{
-		title: { type: String, trim: true },
-		description: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		descriptionDe: { type: String, trim: true },
+		descriptionEn: { type: String, trim: true },
 		ogImage: { type: String, trim: true },
 	},
 	{ _id: false }
@@ -628,9 +660,12 @@ const HomePageSeoSchema = new Schema<IHomePageSeo>(
  */
 const TestimonialItemSchema = new Schema<ITestimonialItem>(
 	{
-		title: { type: String, trim: true },
-		subtitle: { type: String, trim: true },
-		description: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		subtitleDe: { type: String, trim: true },
+		subtitleEn: { type: String, trim: true },
+		descriptionDe: { type: String, trim: true },
+		descriptionEn: { type: String, trim: true },
 		image: { type: String, trim: true },
 	},
 	{ _id: false }
@@ -641,33 +676,11 @@ const TestimonialItemSchema = new Schema<ITestimonialItem>(
  */
 const TestimonialsSectionSchema = new Schema<ITestimonialsSection>(
 	{
-		title: { type: String, trim: true },
-		subtitle: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		subtitleDe: { type: String, trim: true },
+		subtitleEn: { type: String, trim: true },
 		testimonials: { type: [TestimonialItemSchema], default: [] },
-	},
-	{ _id: false }
-);
-
-/**
- * Category Showcase Section sub-schema
- */
-const CategoryShowcaseSectionSchema = new Schema<ICategoryShowcaseSection>(
-	{
-		badge: { type: String, trim: true, default: "POPULAR CATEGORIES" },
-		title: { type: String, trim: true, default: "Explore Our Categories" },
-		maxCategories: { type: Number, default: 3, min: 1, max: 12 },
-	},
-	{ _id: false }
-);
-
-/**
- * Product Carousel Section sub-schema
- */
-const ProductCarouselSectionSchema = new Schema<IProductCarouselSection>(
-	{
-		badge: { type: String, trim: true, default: "BUY ONLINE" },
-		title: { type: String, trim: true, default: "Popular Products" },
-		maxProducts: { type: Number, default: 6, min: 3, max: 12 },
 	},
 	{ _id: false }
 );
@@ -677,12 +690,17 @@ const ProductCarouselSectionSchema = new Schema<IProductCarouselSection>(
  */
 const PromoBannerItemSchema = new Schema<IPromoBannerItem>(
 	{
-		badge: { type: String, trim: true },
-		title: { type: String, trim: true },
-		subtitle: { type: String, trim: true },
-		description: { type: String, trim: true },
+		badgeDe: { type: String, trim: true },
+		badgeEn: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		subtitleDe: { type: String, trim: true },
+		subtitleEn: { type: String, trim: true },
+		descriptionDe: { type: String, trim: true },
+		descriptionEn: { type: String, trim: true },
 		image: { type: String, trim: true },
-		ctaText: { type: String, trim: true },
+		ctaTextDe: { type: String, trim: true },
+		ctaTextEn: { type: String, trim: true },
 		ctaHref: { type: String, trim: true },
 	},
 	{ _id: false }
@@ -705,8 +723,10 @@ const PromoBannerSectionSchema = new Schema<IPromoBannerSection>(
 const FeatureBannerItemSchema = new Schema<IFeatureBannerItem>(
 	{
 		icon: { type: String, trim: true },
-		title: { type: String, trim: true },
-		description: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		descriptionDe: { type: String, trim: true },
+		descriptionEn: { type: String, trim: true },
 	},
 	{ _id: false }
 );
@@ -717,8 +737,10 @@ const FeatureBannerItemSchema = new Schema<IFeatureBannerItem>(
 const FeatureBannerSectionSchema = new Schema<IFeatureBannerSection>(
 	{
 		image: { type: String, trim: true },
-		title: { type: String, trim: true },
-		titleHighlight: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		titleHighlightDe: { type: String, trim: true },
+		titleHighlightEn: { type: String, trim: true },
 		features: { type: [FeatureBannerItemSchema], default: [] },
 	},
 	{ _id: false }
@@ -732,7 +754,8 @@ const PartnerLogoSchema = new Schema<IPartnerLogo>(
 		image: { type: String, trim: true },
 		name: { type: String, trim: true },
 		href: { type: String, trim: true },
-		description: { type: String, trim: true },
+		descriptionDe: { type: String, trim: true },
+		descriptionEn: { type: String, trim: true },
 	},
 	{ _id: false }
 );
@@ -742,11 +765,16 @@ const PartnerLogoSchema = new Schema<IPartnerLogo>(
  */
 const IntroSectionSchema = new Schema<IIntroSection>(
 	{
-		badge: { type: String, trim: true },
-		title: { type: String, trim: true },
-		subtitle: { type: String, trim: true },
-		description: { type: String, trim: true },
-		ctaText: { type: String, trim: true },
+		badgeDe: { type: String, trim: true },
+		badgeEn: { type: String, trim: true },
+		titleDe: { type: String, trim: true },
+		titleEn: { type: String, trim: true },
+		subtitleDe: { type: String, trim: true },
+		subtitleEn: { type: String, trim: true },
+		descriptionDe: { type: String, trim: true },
+		descriptionEn: { type: String, trim: true },
+		ctaTextDe: { type: String, trim: true },
+		ctaTextEn: { type: String, trim: true },
 		ctaHref: { type: String, trim: true },
 		image: { type: String, trim: true },
 		partnerLogos: { type: [PartnerLogoSchema], default: [] },
@@ -759,9 +787,12 @@ const IntroSectionSchema = new Schema<IIntroSection>(
  */
 const IntegrationSectionSchema = new Schema<IIntegrationSection>(
 	{
-		heading: { type: String, trim: true },
-		quote: { type: String, trim: true },
-		description: { type: String, trim: true },
+		headingDe: { type: String, trim: true },
+		headingEn: { type: String, trim: true },
+		quoteDe: { type: String, trim: true },
+		quoteEn: { type: String, trim: true },
+		descriptionDe: { type: String, trim: true },
+		descriptionEn: { type: String, trim: true },
 		image: { type: String, trim: true },
 		readMoreLink: { type: String, trim: true },
 		partnerLogos: { type: [PartnerLogoSchema], default: [] },
@@ -774,8 +805,10 @@ const IntegrationSectionSchema = new Schema<IIntegrationSection>(
  */
 const SponsorsSectionSchema = new Schema<ISponsorsSection>(
 	{
-		heading: { type: String, trim: true },
-		description: { type: String, trim: true },
+		headingDe: { type: String, trim: true },
+		headingEn: { type: String, trim: true },
+		descriptionDe: { type: String, trim: true },
+		descriptionEn: { type: String, trim: true },
 		backgroundImage: { type: String, trim: true },
 		sponsors: { type: [PartnerLogoSchema], default: [] },
 	},
@@ -787,8 +820,10 @@ const SponsorsSectionSchema = new Schema<ISponsorsSection>(
  */
 const VolunteeringSectionSchema = new Schema<IVolunteeringSection>(
 	{
-		heading: { type: String, trim: true },
-		description: { type: String, trim: true },
+		headingDe: { type: String, trim: true },
+		headingEn: { type: String, trim: true },
+		descriptionDe: { type: String, trim: true },
+		descriptionEn: { type: String, trim: true },
 		image: { type: String, trim: true },
 		partnerLogos: { type: [PartnerLogoSchema], default: [] },
 	},
@@ -800,7 +835,8 @@ const VolunteeringSectionSchema = new Schema<IVolunteeringSection>(
  */
 const PartnersCarouselSectionSchema = new Schema<IPartnersCarouselSection>(
 	{
-		heading: { type: String, trim: true },
+		headingDe: { type: String, trim: true },
+		headingEn: { type: String, trim: true },
 		logos: { type: [PartnerLogoSchema], default: [] },
 	},
 	{ _id: false }
@@ -817,12 +853,9 @@ const SectionVisibilitySchema = new Schema<ISectionVisibility>(
 		sponsorsSection: { type: Boolean, default: true },
 		volunteeringSection: { type: Boolean, default: true },
 		partnersCarousel: { type: Boolean, default: true },
-		categoryShowcase: { type: Boolean, default: true },
-		productCarousel: { type: Boolean, default: true },
 		promoBanner: { type: Boolean, default: true },
 		featureBanner: { type: Boolean, default: true },
 		features: { type: Boolean, default: true },
-		productShowcase: { type: Boolean, default: true },
 		imageGallery: { type: Boolean, default: true },
 		about: { type: Boolean, default: true },
 		testimonials: { type: Boolean, default: true },
@@ -844,12 +877,9 @@ const HomePageSchema = new Schema<IHomePage>(
 			default: {
 				hero: true,
 				introSection: true,
-				categoryShowcase: true,
-				productCarousel: true,
 				promoBanner: true,
 				featureBanner: true,
 				features: true,
-				productShowcase: true,
 				imageGallery: true,
 				about: true,
 				testimonials: true,
@@ -865,22 +895,6 @@ const HomePageSchema = new Schema<IHomePage>(
 			type: IntroSectionSchema,
 			default: {},
 		},
-		categoryShowcase: {
-			type: CategoryShowcaseSectionSchema,
-			default: {
-				badge: "POPULAR CATEGORIES",
-				title: "Explore Our Categories",
-				maxCategories: 3,
-			},
-		},
-		productCarousel: {
-			type: ProductCarouselSectionSchema,
-			default: {
-				badge: "BUY ONLINE",
-				title: "Popular Products",
-				maxProducts: 6,
-			},
-		},
 		promoBanner: {
 			type: PromoBannerSectionSchema,
 			default: {},
@@ -892,10 +906,6 @@ const HomePageSchema = new Schema<IHomePage>(
 		features: {
 			type: [FeatureHighlightSchema],
 			default: [],
-		},
-		productShowcase: {
-			type: ProductShowcaseSectionSchema,
-			default: {},
 		},
 		imageGallery: {
 			type: ImageGallerySectionSchema,

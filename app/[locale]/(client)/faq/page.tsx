@@ -38,11 +38,16 @@ export async function generateMetadata(): Promise<Metadata> {
 	};
 }
 
-export default async function FAQPage() {
+export default async function FAQPage({
+	params,
+}: {
+	params: Promise<{ locale: string }>;
+}) {
+	const { locale } = await params;
 	const data = await faqPageService.getFAQPage();
 
 	// Serialize MongoDB object to plain object for client component
 	const serializedData = JSON.parse(JSON.stringify(data));
 
-	return <FAQPageClient data={serializedData} />;
+	return <FAQPageClient data={serializedData} isEn={locale === "en"} />;
 }

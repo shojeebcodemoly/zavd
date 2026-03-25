@@ -16,17 +16,22 @@ export const faqSectionVisibilitySchema = z.object({
 // ============================================================================
 export const faqHeroStatSchema = z.object({
 	value: z.string().max(50).optional(),
-	label: z.string().max(100).optional(),
+	labelDe: z.string().max(100).optional(),
+	labelEn: z.string().max(100).optional(),
 });
 
 // ============================================================================
 // HERO SECTION
 // ============================================================================
 export const faqHeroSectionSchema = z.object({
-	badge: z.string().max(100).optional(),
-	title: z.string().max(200).optional(),
-	titleHighlight: z.string().max(200).optional(),
-	subtitle: z.string().max(1000).optional(),
+	badgeDe: z.string().max(100).optional(),
+	badgeEn: z.string().max(100).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	titleHighlightDe: z.string().max(200).optional(),
+	titleHighlightEn: z.string().max(200).optional(),
+	subtitleDe: z.string().max(1000).optional(),
+	subtitleEn: z.string().max(1000).optional(),
 	stats: z.array(faqHeroStatSchema).optional(),
 });
 
@@ -34,8 +39,10 @@ export const faqHeroSectionSchema = z.object({
 // FAQ ITEM
 // ============================================================================
 export const faqItemSchema = z.object({
-	question: z.string().max(500).optional(),
-	answer: z.string().max(5000).optional(),
+	questionDe: z.string().max(500).optional(),
+	questionEn: z.string().max(500).optional(),
+	answerDe: z.string().max(5000).optional(),
+	answerEn: z.string().max(5000).optional(),
 	category: z.string().max(100).optional(),
 	order: z.number().optional(),
 });
@@ -45,7 +52,8 @@ export const faqItemSchema = z.object({
 // ============================================================================
 export const faqCategorySchema = z.object({
 	id: z.string().max(50).optional(),
-	name: z.string().max(100).optional(),
+	nameDe: z.string().max(100).optional(),
+	nameEn: z.string().max(100).optional(),
 	icon: z.string().max(50).optional(),
 	order: z.number().optional(),
 });
@@ -54,10 +62,14 @@ export const faqCategorySchema = z.object({
 // FAQ CONTENT SECTION
 // ============================================================================
 export const faqContentSectionSchema = z.object({
-	searchPlaceholder: z.string().max(200).optional(),
-	noResultsText: z.string().max(500).optional(),
-	helpText: z.string().max(500).optional(),
-	helpButtonText: z.string().max(100).optional(),
+	searchPlaceholderDe: z.string().max(200).optional(),
+	searchPlaceholderEn: z.string().max(200).optional(),
+	noResultsTextDe: z.string().max(500).optional(),
+	noResultsTextEn: z.string().max(500).optional(),
+	helpTextDe: z.string().max(500).optional(),
+	helpTextEn: z.string().max(500).optional(),
+	helpButtonTextDe: z.string().max(100).optional(),
+	helpButtonTextEn: z.string().max(100).optional(),
 	helpButtonHref: z.string().max(500).optional(),
 	categories: z.array(faqCategorySchema).optional(),
 	items: z.array(faqItemSchema).optional(),
@@ -67,7 +79,8 @@ export const faqContentSectionSchema = z.object({
 // QUICK LINK
 // ============================================================================
 export const faqQuickLinkSchema = z.object({
-	label: z.string().max(100).optional(),
+	labelDe: z.string().max(100).optional(),
+	labelEn: z.string().max(100).optional(),
 	href: z.string().max(500).optional(),
 });
 
@@ -83,16 +96,21 @@ export const faqOfficeSchema = z.object({
 // SIDEBAR SECTION
 // ============================================================================
 export const faqSidebarSectionSchema = z.object({
-	contactTitle: z.string().max(200).optional(),
-	contactDescription: z.string().max(1000).optional(),
+	contactTitleDe: z.string().max(200).optional(),
+	contactTitleEn: z.string().max(200).optional(),
+	contactDescriptionDe: z.string().max(1000).optional(),
+	contactDescriptionEn: z.string().max(1000).optional(),
 	phone: z.string().max(50).optional(),
 	email: z.string().email().max(200).optional().or(z.literal("")),
 	officeHours: z.string().max(100).optional(),
-	contactButtonText: z.string().max(100).optional(),
+	contactButtonTextDe: z.string().max(100).optional(),
+	contactButtonTextEn: z.string().max(100).optional(),
 	contactButtonHref: z.string().max(500).optional(),
-	quickLinksTitle: z.string().max(200).optional(),
+	quickLinksTitleDe: z.string().max(200).optional(),
+	quickLinksTitleEn: z.string().max(200).optional(),
 	quickLinks: z.array(faqQuickLinkSchema).optional(),
-	officesTitle: z.string().max(200).optional(),
+	officesTitleDe: z.string().max(200).optional(),
+	officesTitleEn: z.string().max(200).optional(),
 	offices: z.array(faqOfficeSchema).optional(),
 });
 
@@ -100,13 +118,20 @@ export const faqSidebarSectionSchema = z.object({
 // NEWSLETTER SECTION
 // ============================================================================
 export const faqNewsletterSectionSchema = z.object({
-	title: z.string().max(200).optional(),
-	subtitle: z.string().max(500).optional(),
-	inputPlaceholder: z.string().max(200).optional(),
-	buttonText: z.string().max(100).optional(),
-	loadingText: z.string().max(100).optional(),
-	successText: z.string().max(200).optional(),
-	privacyNote: z.string().max(500).optional(),
+	titleDe: z.string().max(200).optional(),
+	titleEn: z.string().max(200).optional(),
+	subtitleDe: z.string().max(500).optional(),
+	subtitleEn: z.string().max(500).optional(),
+	inputPlaceholderDe: z.string().max(200).optional(),
+	inputPlaceholderEn: z.string().max(200).optional(),
+	buttonTextDe: z.string().max(100).optional(),
+	buttonTextEn: z.string().max(100).optional(),
+	loadingTextDe: z.string().max(100).optional(),
+	loadingTextEn: z.string().max(100).optional(),
+	successTextDe: z.string().max(200).optional(),
+	successTextEn: z.string().max(200).optional(),
+	privacyNoteDe: z.string().max(500).optional(),
+	privacyNoteEn: z.string().max(500).optional(),
 });
 
 // ============================================================================

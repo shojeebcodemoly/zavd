@@ -46,15 +46,19 @@ const sectionVisibilitySchema = z.object({
 // Stat schema
 const statSchema = z.object({
 	value: z.string().optional(),
-	label: z.string().optional(),
+	labelDe: z.string().optional(),
+	labelEn: z.string().optional(),
 });
 
 // Team member schema
 const teamMemberSchema = z.object({
 	name: z.string().optional(),
-	role: z.string().optional(),
-	department: z.string().optional(),
-	bio: z.string().optional(),
+	roleDe: z.string().optional(),
+	roleEn: z.string().optional(),
+	departmentDe: z.string().optional(),
+	departmentEn: z.string().optional(),
+	bioDe: z.string().optional(),
+	bioEn: z.string().optional(),
 	image: z.string().optional(),
 	email: z.string().optional(),
 	linkedin: z.string().optional(),
@@ -63,13 +67,16 @@ const teamMemberSchema = z.object({
 
 // Value schema
 const valueSchema = z.object({
-	title: z.string().optional(),
-	description: z.string().optional(),
+	titleDe: z.string().optional(),
+	titleEn: z.string().optional(),
+	descriptionDe: z.string().optional(),
+	descriptionEn: z.string().optional(),
 });
 
 // CTA schema
 const ctaSchema = z.object({
-	text: z.string().optional(),
+	textDe: z.string().optional(),
+	textEn: z.string().optional(),
 	href: z.string().optional(),
 });
 
@@ -79,9 +86,12 @@ const teamPageFormSchema = z.object({
 
 	hero: z
 		.object({
-			badge: z.string().optional(),
-			title: z.string().optional(),
-			subtitle: z.string().optional(),
+			badgeDe: z.string().optional(),
+			badgeEn: z.string().optional(),
+			titleDe: z.string().optional(),
+			titleEn: z.string().optional(),
+			subtitleDe: z.string().optional(),
+			subtitleEn: z.string().optional(),
 		})
 		.optional(),
 
@@ -91,16 +101,20 @@ const teamPageFormSchema = z.object({
 
 	valuesSection: z
 		.object({
-			title: z.string().optional(),
-			subtitle: z.string().optional(),
+			titleDe: z.string().optional(),
+			titleEn: z.string().optional(),
+			subtitleDe: z.string().optional(),
+			subtitleEn: z.string().optional(),
 			values: z.array(valueSchema).optional(),
 		})
 		.optional(),
 
 	joinUs: z
 		.object({
-			title: z.string().optional(),
-			description: z.string().optional(),
+			titleDe: z.string().optional(),
+			titleEn: z.string().optional(),
+			descriptionDe: z.string().optional(),
+			descriptionEn: z.string().optional(),
 			primaryCta: ctaSchema.optional(),
 			secondaryCta: ctaSchema.optional(),
 		})
@@ -108,8 +122,10 @@ const teamPageFormSchema = z.object({
 
 	contact: z
 		.object({
-			title: z.string().optional(),
-			description: z.string().optional(),
+			titleDe: z.string().optional(),
+			titleEn: z.string().optional(),
+			descriptionDe: z.string().optional(),
+			descriptionEn: z.string().optional(),
 			phone: z.string().optional(),
 			email: z.string().optional(),
 		})
@@ -449,58 +465,116 @@ export default function TeamPageAdmin() {
 									<CardTitle>Hero Section</CardTitle>
 								</CardHeader>
 								<CardContent className="space-y-4">
-									<FormField
-										control={form.control}
-										name="hero.badge"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Badge</FormLabel>
-												<FormControl>
-													<Input
-														{...field}
-														value={field.value || ""}
-														placeholder="t.ex. Vårt Team"
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<FormField
-										control={form.control}
-										name="hero.title"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Title</FormLabel>
-												<FormControl>
-													<Input
-														{...field}
-														value={field.value || ""}
-														placeholder="t.ex. Möt Teamet"
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<FormField
-										control={form.control}
-										name="hero.subtitle"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Subtitle</FormLabel>
-												<FormControl>
-													<Textarea
-														{...field}
-														value={field.value || ""}
-														placeholder="Beskriv teamet..."
-														rows={3}
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
+									<div className="grid gap-4 sm:grid-cols-2">
+										<FormField
+											control={form.control}
+											name="hero.badgeDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Badge (De)</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="z.B. Unser Team"
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="hero.badgeEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Badge (En)</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="e.g. Our Team"
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+									<div className="grid gap-4 sm:grid-cols-2">
+										<FormField
+											control={form.control}
+											name="hero.titleDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Title (De)</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="z.B. Lernen Sie das Team kennen"
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="hero.titleEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Title (En)</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="e.g. Meet the Team"
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+									<div className="grid gap-4 sm:grid-cols-2">
+										<FormField
+											control={form.control}
+											name="hero.subtitleDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Subtitle (De)</FormLabel>
+													<FormControl>
+														<Textarea
+															{...field}
+															value={field.value || ""}
+															placeholder="Beschreiben Sie das Team..."
+															rows={3}
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="hero.subtitleEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Subtitle (En)</FormLabel>
+													<FormControl>
+														<Textarea
+															{...field}
+															value={field.value || ""}
+															placeholder="Describe the team..."
+															rows={3}
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
 								</CardContent>
 							</Card>
 						</TabsContent>
@@ -520,7 +594,7 @@ export default function TeamPageAdmin() {
 										variant="outline"
 										size="sm"
 										onClick={() =>
-											appendStat({ value: "", label: "" })
+											appendStat({ value: "", labelDe: "", labelEn: "" })
 										}
 									>
 										<Plus className="mr-2 h-4 w-4" />
@@ -539,7 +613,7 @@ export default function TeamPageAdmin() {
 											key={field.id}
 											className="flex items-start gap-4 rounded-lg border p-4"
 										>
-											<div className="grid flex-1 gap-4 sm:grid-cols-2">
+											<div className="grid flex-1 gap-4 sm:grid-cols-3">
 												<FormField
 													control={form.control}
 													name={`stats.${index}.value`}
@@ -549,7 +623,7 @@ export default function TeamPageAdmin() {
 															<FormControl>
 																<Input
 																	{...field}
-																	placeholder="t.ex. 10+"
+																	placeholder="z.B. 10+"
 																/>
 															</FormControl>
 														</FormItem>
@@ -557,14 +631,29 @@ export default function TeamPageAdmin() {
 												/>
 												<FormField
 													control={form.control}
-													name={`stats.${index}.label`}
+													name={`stats.${index}.labelDe`}
 													render={({ field }) => (
 														<FormItem>
-															<FormLabel>Label</FormLabel>
+															<FormLabel>Label (De)</FormLabel>
 															<FormControl>
 																<Input
 																	{...field}
-																	placeholder="t.ex. År i branschen"
+																	placeholder="z.B. Jahre Erfahrung"
+																/>
+															</FormControl>
+														</FormItem>
+													)}
+												/>
+												<FormField
+													control={form.control}
+													name={`stats.${index}.labelEn`}
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Label (En)</FormLabel>
+															<FormControl>
+																<Input
+																	{...field}
+																	placeholder="e.g. Years of experience"
 																/>
 															</FormControl>
 														</FormItem>
@@ -610,9 +699,12 @@ export default function TeamPageAdmin() {
 										onClick={() =>
 											appendTeamMember({
 												name: "",
-												role: "",
-												department: "",
-												bio: "",
+												roleDe: "",
+												roleEn: "",
+												departmentDe: "",
+												departmentEn: "",
+												bioDe: "",
+												bioEn: "",
 												image: "",
 												email: "",
 												linkedin: "",
@@ -671,37 +763,7 @@ export default function TeamPageAdmin() {
 															<FormControl>
 																<Input
 																	{...field}
-																	placeholder="Förnamn Efternamn"
-																/>
-															</FormControl>
-														</FormItem>
-													)}
-												/>
-												<FormField
-													control={form.control}
-													name={`teamMembers.${index}.role`}
-													render={({ field }) => (
-														<FormItem>
-															<FormLabel>Role</FormLabel>
-															<FormControl>
-																<Input
-																	{...field}
-																	placeholder="t.ex. VD & Grundare"
-																/>
-															</FormControl>
-														</FormItem>
-													)}
-												/>
-												<FormField
-													control={form.control}
-													name={`teamMembers.${index}.department`}
-													render={({ field }) => (
-														<FormItem>
-															<FormLabel>Department</FormLabel>
-															<FormControl>
-																<Input
-																	{...field}
-																	placeholder="t.ex. Ledning"
+																	placeholder="Vorname Nachname"
 																/>
 															</FormControl>
 														</FormItem>
@@ -729,6 +791,66 @@ export default function TeamPageAdmin() {
 												/>
 												<FormField
 													control={form.control}
+													name={`teamMembers.${index}.roleDe`}
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Role (De)</FormLabel>
+															<FormControl>
+																<Input
+																	{...field}
+																	placeholder="z.B. Gesch&auml;ftsf&uuml;hrer"
+																/>
+															</FormControl>
+														</FormItem>
+													)}
+												/>
+												<FormField
+													control={form.control}
+													name={`teamMembers.${index}.roleEn`}
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Role (En)</FormLabel>
+															<FormControl>
+																<Input
+																	{...field}
+																	placeholder="e.g. CEO & Founder"
+																/>
+															</FormControl>
+														</FormItem>
+													)}
+												/>
+												<FormField
+													control={form.control}
+													name={`teamMembers.${index}.departmentDe`}
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Department (De)</FormLabel>
+															<FormControl>
+																<Input
+																	{...field}
+																	placeholder="z.B. Leitung"
+																/>
+															</FormControl>
+														</FormItem>
+													)}
+												/>
+												<FormField
+													control={form.control}
+													name={`teamMembers.${index}.departmentEn`}
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Department (En)</FormLabel>
+															<FormControl>
+																<Input
+																	{...field}
+																	placeholder="e.g. Management"
+																/>
+															</FormControl>
+														</FormItem>
+													)}
+												/>
+												<FormField
+													control={form.control}
 													name={`teamMembers.${index}.email`}
 													render={({ field }) => (
 														<FormItem>
@@ -737,7 +859,7 @@ export default function TeamPageAdmin() {
 																<Input
 																	{...field}
 																	type="email"
-																	placeholder="namn@zavdmedical.se"
+																	placeholder="name@zavdmedical.se"
 																/>
 															</FormControl>
 														</FormItem>
@@ -752,7 +874,7 @@ export default function TeamPageAdmin() {
 															<FormControl>
 																<Input
 																	{...field}
-																	placeholder="t.ex. 010-205 15 01"
+																	placeholder="z.B. 010-205 15 01"
 																/>
 															</FormControl>
 														</FormItem>
@@ -775,14 +897,30 @@ export default function TeamPageAdmin() {
 												/>
 												<FormField
 													control={form.control}
-													name={`teamMembers.${index}.bio`}
+													name={`teamMembers.${index}.bioDe`}
 													render={({ field }) => (
-														<FormItem className="sm:col-span-2">
-															<FormLabel>Biography</FormLabel>
+														<FormItem>
+															<FormLabel>Biography (De)</FormLabel>
 															<FormControl>
 																<Textarea
 																	{...field}
-																	placeholder="Kort beskrivning av personen..."
+																	placeholder="Kurze Beschreibung der Person..."
+																	rows={3}
+																/>
+															</FormControl>
+														</FormItem>
+													)}
+												/>
+												<FormField
+													control={form.control}
+													name={`teamMembers.${index}.bioEn`}
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Biography (En)</FormLabel>
+															<FormControl>
+																<Textarea
+																	{...field}
+																	placeholder="Short description of the person..."
 																	rows={3}
 																/>
 															</FormControl>
@@ -806,15 +944,15 @@ export default function TeamPageAdmin() {
 									<div className="grid gap-4 sm:grid-cols-2">
 										<FormField
 											control={form.control}
-											name="valuesSection.title"
+											name="valuesSection.titleDe"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Title</FormLabel>
+													<FormLabel>Title (De)</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
 															value={field.value || ""}
-															placeholder="t.ex. Våra Värderingar"
+															placeholder="z.B. Unsere Werte"
 														/>
 													</FormControl>
 												</FormItem>
@@ -822,15 +960,47 @@ export default function TeamPageAdmin() {
 										/>
 										<FormField
 											control={form.control}
-											name="valuesSection.subtitle"
+											name="valuesSection.titleEn"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Subtitle</FormLabel>
+													<FormLabel>Title (En)</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
 															value={field.value || ""}
-															placeholder="t.ex. Vi drivs av gemensamma värderingar..."
+															placeholder="e.g. Our Values"
+														/>
+													</FormControl>
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="valuesSection.subtitleDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Subtitle (De)</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="z.B. Wir werden von gemeinsamen Werten angetrieben..."
+														/>
+													</FormControl>
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="valuesSection.subtitleEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Subtitle (En)</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="e.g. We are driven by shared values..."
 														/>
 													</FormControl>
 												</FormItem>
@@ -849,8 +1019,10 @@ export default function TeamPageAdmin() {
 												size="sm"
 												onClick={() =>
 													appendValue({
-														title: "",
-														description: "",
+														titleDe: "",
+														titleEn: "",
+														descriptionDe: "",
+														descriptionEn: "",
 													})
 												}
 											>
@@ -875,14 +1047,14 @@ export default function TeamPageAdmin() {
 													<div className="grid flex-1 gap-4 sm:grid-cols-2">
 														<FormField
 															control={form.control}
-															name={`valuesSection.values.${index}.title`}
+															name={`valuesSection.values.${index}.titleDe`}
 															render={({ field }) => (
 																<FormItem>
-																	<FormLabel>Title</FormLabel>
+																	<FormLabel>Title (De)</FormLabel>
 																	<FormControl>
 																		<Input
 																			{...field}
-																			placeholder="t.ex. Expertis"
+																			placeholder="z.B. Expertise"
 																		/>
 																	</FormControl>
 																</FormItem>
@@ -890,16 +1062,48 @@ export default function TeamPageAdmin() {
 														/>
 														<FormField
 															control={form.control}
-															name={`valuesSection.values.${index}.description`}
+															name={`valuesSection.values.${index}.titleEn`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Title (En)</FormLabel>
+																	<FormControl>
+																		<Input
+																			{...field}
+																			placeholder="e.g. Expertise"
+																		/>
+																	</FormControl>
+																</FormItem>
+															)}
+														/>
+														<FormField
+															control={form.control}
+															name={`valuesSection.values.${index}.descriptionDe`}
 															render={({ field }) => (
 																<FormItem>
 																	<FormLabel>
-																		Description
+																		Description (De)
 																	</FormLabel>
 																	<FormControl>
 																		<Input
 																			{...field}
-																			placeholder="Kort beskrivning..."
+																			placeholder="Kurze Beschreibung..."
+																		/>
+																	</FormControl>
+																</FormItem>
+															)}
+														/>
+														<FormField
+															control={form.control}
+															name={`valuesSection.values.${index}.descriptionEn`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>
+																		Description (En)
+																	</FormLabel>
+																	<FormControl>
+																		<Input
+																			{...field}
+																			placeholder="Short description..."
 																		/>
 																	</FormControl>
 																</FormItem>
@@ -938,60 +1142,115 @@ export default function TeamPageAdmin() {
 									<CardTitle>Join the Team CTA</CardTitle>
 								</CardHeader>
 								<CardContent className="space-y-4">
-									<FormField
-										control={form.control}
-										name="joinUs.title"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Title</FormLabel>
-												<FormControl>
-													<Input
-														{...field}
-														value={field.value || ""}
-														placeholder="t.ex. Vill du bli en del av teamet?"
-													/>
-												</FormControl>
-											</FormItem>
-										)}
-									/>
-									<FormField
-										control={form.control}
-										name="joinUs.description"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Description</FormLabel>
-												<FormControl>
-													<Textarea
-														{...field}
-														value={field.value || ""}
-														placeholder="Beskriv varför man ska arbeta hos er..."
-														rows={3}
-													/>
-												</FormControl>
-											</FormItem>
-										)}
-									/>
+									<div className="grid gap-4 sm:grid-cols-2">
+										<FormField
+											control={form.control}
+											name="joinUs.titleDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Title (De)</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="z.B. Werden Sie Teil des Teams?"
+														/>
+													</FormControl>
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="joinUs.titleEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Title (En)</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="e.g. Want to join the team?"
+														/>
+													</FormControl>
+												</FormItem>
+											)}
+										/>
+									</div>
+									<div className="grid gap-4 sm:grid-cols-2">
+										<FormField
+											control={form.control}
+											name="joinUs.descriptionDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Description (De)</FormLabel>
+													<FormControl>
+														<Textarea
+															{...field}
+															value={field.value || ""}
+															placeholder="Beschreiben Sie, warum man bei Ihnen arbeiten sollte..."
+															rows={3}
+														/>
+													</FormControl>
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="joinUs.descriptionEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Description (En)</FormLabel>
+													<FormControl>
+														<Textarea
+															{...field}
+															value={field.value || ""}
+															placeholder="Describe why one should work with you..."
+															rows={3}
+														/>
+													</FormControl>
+												</FormItem>
+											)}
+										/>
+									</div>
 									<div className="grid gap-4 sm:grid-cols-2">
 										<div className="space-y-4 rounded-lg border p-4">
 											<h4 className="text-sm font-semibold">
 												Primary Button
 											</h4>
-											<FormField
-												control={form.control}
-												name="joinUs.primaryCta.text"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel>Text</FormLabel>
-														<FormControl>
-															<Input
-																{...field}
-																value={field.value || ""}
-																placeholder="t.ex. Lediga Tjänster"
-															/>
-														</FormControl>
-													</FormItem>
-												)}
-											/>
+											<div className="grid gap-4 sm:grid-cols-2">
+												<FormField
+													control={form.control}
+													name="joinUs.primaryCta.textDe"
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Text (De)</FormLabel>
+															<FormControl>
+																<Input
+																	{...field}
+																	value={field.value || ""}
+																	placeholder="z.B. Offene Stellen"
+																/>
+															</FormControl>
+														</FormItem>
+													)}
+												/>
+												<FormField
+													control={form.control}
+													name="joinUs.primaryCta.textEn"
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Text (En)</FormLabel>
+															<FormControl>
+																<Input
+																	{...field}
+																	value={field.value || ""}
+																	placeholder="e.g. Open Positions"
+																/>
+															</FormControl>
+														</FormItem>
+													)}
+												/>
+											</div>
 											<FormField
 												control={form.control}
 												name="joinUs.primaryCta.href"
@@ -1013,22 +1272,40 @@ export default function TeamPageAdmin() {
 											<h4 className="text-sm font-semibold">
 												Secondary Button
 											</h4>
-											<FormField
-												control={form.control}
-												name="joinUs.secondaryCta.text"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel>Text</FormLabel>
-														<FormControl>
-															<Input
-																{...field}
-																value={field.value || ""}
-																placeholder="t.ex. Kontakta oss"
-															/>
-														</FormControl>
-													</FormItem>
-												)}
-											/>
+											<div className="grid gap-4 sm:grid-cols-2">
+												<FormField
+													control={form.control}
+													name="joinUs.secondaryCta.textDe"
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Text (De)</FormLabel>
+															<FormControl>
+																<Input
+																	{...field}
+																	value={field.value || ""}
+																	placeholder="z.B. Kontakt"
+																/>
+															</FormControl>
+														</FormItem>
+													)}
+												/>
+												<FormField
+													control={form.control}
+													name="joinUs.secondaryCta.textEn"
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Text (En)</FormLabel>
+															<FormControl>
+																<Input
+																	{...field}
+																	value={field.value || ""}
+																	placeholder="e.g. Contact us"
+																/>
+															</FormControl>
+														</FormItem>
+													)}
+												/>
+											</div>
 											<FormField
 												control={form.control}
 												name="joinUs.secondaryCta.href"
@@ -1059,15 +1336,15 @@ export default function TeamPageAdmin() {
 									<div className="grid gap-4 sm:grid-cols-2">
 										<FormField
 											control={form.control}
-											name="contact.title"
+											name="contact.titleDe"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Title</FormLabel>
+													<FormLabel>Title (De)</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
 															value={field.value || ""}
-															placeholder="t.ex. Har du frågor?"
+															placeholder="z.B. Haben Sie Fragen?"
 														/>
 													</FormControl>
 												</FormItem>
@@ -1075,15 +1352,47 @@ export default function TeamPageAdmin() {
 										/>
 										<FormField
 											control={form.control}
-											name="contact.description"
+											name="contact.titleEn"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Description</FormLabel>
+													<FormLabel>Title (En)</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
 															value={field.value || ""}
-															placeholder="t.ex. Tveka inte att kontakta oss..."
+															placeholder="e.g. Got questions?"
+														/>
+													</FormControl>
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="contact.descriptionDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Description (De)</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="z.B. Z&ouml;gern Sie nicht, uns zu kontaktieren..."
+														/>
+													</FormControl>
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="contact.descriptionEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Description (En)</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="e.g. Don't hesitate to contact us..."
 														/>
 													</FormControl>
 												</FormItem>
@@ -1099,7 +1408,7 @@ export default function TeamPageAdmin() {
 														<Input
 															{...field}
 															value={field.value || ""}
-															placeholder="t.ex. 010-205 15 01"
+															placeholder="z.B. 010-205 15 01"
 														/>
 													</FormControl>
 												</FormItem>
@@ -1148,7 +1457,7 @@ export default function TeamPageAdmin() {
 														<Input
 															{...field}
 															value={field.value || ""}
-															placeholder="Vårt Team - Zavd Medical"
+															placeholder="Unser Team - Zavd Medical"
 														/>
 													</FormControl>
 													<FormDescription>
@@ -1167,7 +1476,7 @@ export default function TeamPageAdmin() {
 														<Textarea
 															{...field}
 															value={field.value || ""}
-															placeholder="En kort beskrivning av team-sidan..."
+															placeholder="A short description of the team page..."
 															rows={3}
 														/>
 													</FormControl>
@@ -1213,7 +1522,7 @@ export default function TeamPageAdmin() {
 									<CardContent>
 										<SeoPreview
 											data={{
-												title: form.watch("seo.title") || "Vårt Team - Zavd Medical",
+												title: form.watch("seo.title") || "Unser Team - Zavd Medical",
 												description: form.watch("seo.description") || "Add a description",
 												slug: "om-oss/team",
 												ogImage: form.watch("seo.ogImage") || null,

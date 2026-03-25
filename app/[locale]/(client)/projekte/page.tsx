@@ -15,12 +15,24 @@ export default async function ProjektePage({ params }: Props) {
 	const heroTitle = isEn
 		? (page.hero.titleEn || 'Projects')
 		: (page.hero.titleDe || 'Projekte');
+	const heroSubtitle = isEn
+		? (page.hero.subtitleEn || page.hero.subtitleDe)
+		: (page.hero.subtitleDe || page.hero.subtitleEn);
 
 	const intro = page.intro;
-	const hasIntro = !!(intro?.headingBold || intro?.description || (intro?.images?.length ?? 0) > 0);
+	const introBadge = isEn ? (intro?.badgeEn || intro?.badgeDe) : (intro?.badgeDe || intro?.badgeEn);
+	const introHeadingBold = isEn ? (intro?.headingBoldEn || intro?.headingBoldDe) : (intro?.headingBoldDe || intro?.headingBoldEn);
+	const introHeadingLight = isEn ? (intro?.headingLightEn || intro?.headingLightDe) : (intro?.headingLightDe || intro?.headingLightEn);
+	const introDescription = isEn ? (intro?.descriptionEn || intro?.descriptionDe) : (intro?.descriptionDe || intro?.descriptionEn);
+	const introCtaText = isEn ? (intro?.ctaTextEn || intro?.ctaTextDe) : (intro?.ctaTextDe || intro?.ctaTextEn);
+
+	const hasIntro = !!(introHeadingBold || introDescription || (intro?.images?.length ?? 0) > 0);
 
 	const projects = page.projects;
-	const hasProjects = !!(projects?.heading || (projects?.items?.length ?? 0) > 0);
+	const projectsBadge = isEn ? (projects?.badgeEn || projects?.badgeDe) : (projects?.badgeDe || projects?.badgeEn);
+	const projectsHeading = isEn ? (projects?.headingEn || projects?.headingDe) : (projects?.headingDe || projects?.headingEn);
+	const projectsDescription = isEn ? (projects?.descriptionEn || projects?.descriptionDe) : (projects?.descriptionDe || projects?.descriptionEn);
+	const hasProjects = !!(projectsHeading || (projects?.items?.length ?? 0) > 0);
 
 	return (
 		<div className='flex flex-col min-h-screen'>
@@ -43,9 +55,9 @@ export default async function ProjektePage({ params }: Props) {
 					<h1 className='text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-3'>
 						{heroTitle}
 					</h1>
-					{page.hero.subtitle && (
+					{heroSubtitle && (
 						<p className='text-white/80 text-base md:text-lg max-w-xl mx-auto mb-4'>
-							{page.hero.subtitle}
+							{heroSubtitle}
 						</p>
 					)}
 					<nav className='flex items-center justify-center gap-2 text-sm text-white/70'>
@@ -64,33 +76,33 @@ export default async function ProjektePage({ params }: Props) {
 					<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
 						<div className='grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center'>
 							<div>
-								{intro.badge && (
+								{introBadge && (
 									<p className='text-sm text-slate-400 mb-4 tracking-wide'>
-										{intro.badge}
+										{introBadge}
 									</p>
 								)}
-								{(intro.headingBold || intro.headingLight) && (
+								{(introHeadingBold || introHeadingLight) && (
 									<h2 className='text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-6'>
-										{intro.headingBold && (
-											<span className='text-slate-900'>{intro.headingBold}</span>
+										{introHeadingBold && (
+											<span className='text-slate-900'>{introHeadingBold}</span>
 										)}
-										{intro.headingBold && intro.headingLight && ' '}
-										{intro.headingLight && (
-											<span className='text-slate-400 font-normal'>{intro.headingLight}</span>
+										{introHeadingBold && introHeadingLight && ' '}
+										{introHeadingLight && (
+											<span className='text-slate-400 font-normal'>{introHeadingLight}</span>
 										)}
 									</h2>
 								)}
-								{intro.description && (
+								{introDescription && (
 									<p className='text-slate-500 leading-relaxed mb-8 text-base md:text-lg'>
-										{intro.description}
+										{introDescription}
 									</p>
 								)}
-								{intro.ctaText && (
+								{introCtaText && (
 									<Link
 										href={intro.ctaHref || '#'}
 										className='inline-block bg-primary text-white font-semibold px-7 py-3 rounded-full hover:bg-primary/90 transition-colors text-sm md:text-base'
 									>
-										{intro.ctaText}
+										{introCtaText}
 									</Link>
 								)}
 							</div>
@@ -125,11 +137,17 @@ export default async function ProjektePage({ params }: Props) {
 			{/* Projects Grid Section */}
 			{hasProjects && (
 				<ProjekteProjectsGrid
-					badge={projects.badge}
-					heading={projects.heading}
-					description={projects.description}
+					badge={projectsBadge}
+					heading={projectsHeading}
+					description={projectsDescription}
 					categories={projects.categories ?? []}
-					items={projects.items ?? []}
+					items={(projects.items ?? []).map((item) => ({
+						image: item.image,
+						title: isEn ? (item.titleEn || item.titleDe) : (item.titleDe || item.titleEn),
+						description: isEn ? (item.descriptionEn || item.descriptionDe) : (item.descriptionDe || item.descriptionEn),
+						category: item.category,
+						href: item.href,
+					}))}
 				/>
 			)}
 

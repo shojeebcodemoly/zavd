@@ -46,76 +46,97 @@ import type { AboutPageData } from "@/lib/repositories/about-page.repository";
 const formSchema = z.object({
 	sectionVisibility: aboutSectionVisibilitySchema,
 	history: z.object({
-		badge: z.string().optional(),
-		title: z.string().optional(),
-		subtitle: z.string().optional(),
+		badgeDe: z.string().optional(),
+		badgeEn: z.string().optional(),
+		titleDe: z.string().optional(),
+		titleEn: z.string().optional(),
+		subtitleDe: z.string().optional(),
+		subtitleEn: z.string().optional(),
 		timelineItems: z
 			.array(
 				z.object({
 					year: z.string().optional(),
-					title: z.string().optional(),
-					description: z.string().optional(),
+					titleDe: z.string().optional(),
+					titleEn: z.string().optional(),
+					descriptionDe: z.string().optional(),
+					descriptionEn: z.string().optional(),
 					image: z.string().optional(),
 				})
 			)
 			.optional(),
 	}),
 	customers: z.object({
-		title: z.string().optional(),
-		subtitle: z.string().optional(),
+		titleDe: z.string().optional(),
+		titleEn: z.string().optional(),
+		subtitleDe: z.string().optional(),
+		subtitleEn: z.string().optional(),
 		customers: z
 			.array(
 				z.object({
 					name: z.string().optional(),
 					logo: z.string().optional(),
-					products: z.string().optional(),
-					description: z.string().optional(),
+					productsDe: z.string().optional(),
+					productsEn: z.string().optional(),
+					descriptionDe: z.string().optional(),
+					descriptionEn: z.string().optional(),
 					website: z.string().optional(),
 				})
 			)
 			.optional(),
 	}),
 	team: z.object({
-		title: z.string().optional(),
-		subtitle: z.string().optional(),
+		titleDe: z.string().optional(),
+		titleEn: z.string().optional(),
+		subtitleDe: z.string().optional(),
+		subtitleEn: z.string().optional(),
 		members: z
 			.array(
 				z.object({
 					name: z.string().optional(),
-					role: z.string().optional(),
+					roleDe: z.string().optional(),
+					roleEn: z.string().optional(),
 					image: z.string().optional(),
 					email: z.string().optional(),
 					phone: z.string().optional(),
 					linkedin: z.string().optional(),
-					department: z.string().optional(),
-					bio: z.string().optional(),
+					departmentDe: z.string().optional(),
+					departmentEn: z.string().optional(),
+					bioDe: z.string().optional(),
+					bioEn: z.string().optional(),
 				})
 			)
 			.optional(),
 	}),
 	video: z.object({
 		backgroundImage: z.string().optional(),
-		titleHighlighted: z.string().optional(),
-		titleNormal: z.string().optional(),
+		titleHighlightedDe: z.string().optional(),
+		titleHighlightedEn: z.string().optional(),
+		titleNormalDe: z.string().optional(),
+		titleNormalEn: z.string().optional(),
 		videoUrl: z.string().optional(),
-		buttonLabel: z.string().optional(),
+		buttonLabelDe: z.string().optional(),
+		buttonLabelEn: z.string().optional(),
 	}),
 	gallery: z.object({
 		backgroundImage: z.string().optional(),
 		backgroundColor: z.string().optional(),
-		title: z.string().optional(),
+		titleDe: z.string().optional(),
+		titleEn: z.string().optional(),
 		images: z
 			.array(
 				z.object({
 					src: z.string().optional(),
-					alt: z.string().optional(),
+					altDe: z.string().optional(),
+					altEn: z.string().optional(),
 				})
 			)
 			.optional(),
 	}),
 	contact: z.object({
-		title: z.string().optional(),
-		subtitle: z.string().optional(),
+		titleDe: z.string().optional(),
+		titleEn: z.string().optional(),
+		subtitleDe: z.string().optional(),
+		subtitleEn: z.string().optional(),
 		showContactForm: z.boolean().optional(),
 		showMap: z.boolean().optional(),
 		showOffices: z.boolean().optional(),
@@ -127,8 +148,10 @@ const formSchema = z.object({
 				z.object({
 					image: z.string().optional(),
 					value: z.string().optional(),
-					label: z.string().optional(),
-					description: z.string().optional(),
+					labelDe: z.string().optional(),
+					labelEn: z.string().optional(),
+					descriptionDe: z.string().optional(),
+					descriptionEn: z.string().optional(),
 				})
 			)
 			.optional(),
@@ -139,16 +162,20 @@ const formSchema = z.object({
 			.array(
 				z.object({
 					image: z.string().optional(),
-					title: z.string().optional(),
-					description: z.string().optional(),
+					titleDe: z.string().optional(),
+					titleEn: z.string().optional(),
+					descriptionDe: z.string().optional(),
+					descriptionEn: z.string().optional(),
 					watermarkImage: z.string().optional(),
 				})
 			)
 			.optional(),
 	}),
 	seo: z.object({
-		title: z.string().optional(),
-		description: z.string().optional(),
+		titleDe: z.string().optional(),
+		titleEn: z.string().optional(),
+		descriptionDe: z.string().optional(),
+		descriptionEn: z.string().optional(),
 		ogImage: z.string().optional(),
 	}),
 });
@@ -245,50 +272,69 @@ export default function AboutPageCMS() {
 						imageDescription: true,
 					},
 					history: {
-						badge: data.history?.badge || "",
-						title: data.history?.title || "",
-						subtitle: data.history?.subtitle || "",
-						timelineItems: data.history?.timelineItems || [],
+						badgeDe: (data.history as any)?.badgeDe || "",
+						badgeEn: (data.history as any)?.badgeEn || "",
+						titleDe: (data.history as any)?.titleDe || "",
+						titleEn: (data.history as any)?.titleEn || "",
+						subtitleDe: (data.history as any)?.subtitleDe || "",
+						subtitleEn: (data.history as any)?.subtitleEn || "",
+						timelineItems: (data.history as any)?.timelineItems || [],
 					},
 					customers: {
-						title: data.customers?.title || "",
-						subtitle: data.customers?.subtitle || "",
-						customers: data.customers?.customers || [],
+						titleDe: (data.customers as any)?.titleDe || "",
+						titleEn: (data.customers as any)?.titleEn || "",
+						subtitleDe: (data.customers as any)?.subtitleDe || "",
+						subtitleEn: (data.customers as any)?.subtitleEn || "",
+						customers: (data.customers as any)?.customers || [],
 					},
 					video: {
-						backgroundImage: data.video?.backgroundImage || "",
-						titleHighlighted: data.video?.titleHighlighted || "",
-						titleNormal: data.video?.titleNormal || "",
-						videoUrl: data.video?.videoUrl || "",
-						buttonLabel: data.video?.buttonLabel || "",
+						backgroundImage: (data.video as any)?.backgroundImage || "",
+						titleHighlightedDe: (data.video as any)?.titleHighlightedDe || "",
+						titleHighlightedEn: (data.video as any)?.titleHighlightedEn || "",
+						titleNormalDe: (data.video as any)?.titleNormalDe || "",
+						titleNormalEn: (data.video as any)?.titleNormalEn || "",
+						videoUrl: (data.video as any)?.videoUrl || "",
+						buttonLabelDe: (data.video as any)?.buttonLabelDe || "",
+						buttonLabelEn: (data.video as any)?.buttonLabelEn || "",
 					},
 					gallery: {
-						backgroundImage: data.gallery?.backgroundImage || "",
-						backgroundColor: data.gallery?.backgroundColor || "#f5f0e8",
-						title: data.gallery?.title || "",
-						images: data.gallery?.images || [],
+						backgroundImage: (data.gallery as any)?.backgroundImage || "",
+						backgroundColor: (data.gallery as any)?.backgroundColor || "#f5f0e8",
+						titleDe: (data.gallery as any)?.titleDe || "",
+						titleEn: (data.gallery as any)?.titleEn || "",
+						images: (data.gallery as any)?.images || [],
 					},
 					team: {
-						title: data.team?.title || "",
-						subtitle: data.team?.subtitle || "",
-						members: data.team?.members || [],
+						titleDe: (data.team as any)?.titleDe || "",
+						titleEn: (data.team as any)?.titleEn || "",
+						subtitleDe: (data.team as any)?.subtitleDe || "",
+						subtitleEn: (data.team as any)?.subtitleEn || "",
+						members: (data.team as any)?.members || [],
 					},
 					contact: {
-						title: data.contact?.title || "",
-						subtitle: data.contact?.subtitle || "",
+						titleDe: (data.contact as any)?.titleDe || "",
+						titleEn: (data.contact as any)?.titleEn || "",
+						subtitleDe: (data.contact as any)?.subtitleDe || "",
+						subtitleEn: (data.contact as any)?.subtitleEn || "",
 						showContactForm: data.contact?.showContactForm ?? true,
 						showMap: data.contact?.showMap ?? true,
 						showOffices: data.contact?.showOffices ?? true,
 					},
 					stats: {
-						backgroundColor: data.stats?.backgroundColor || "#ffffff",
-						items: data.stats?.items || [],
+						backgroundColor: (data.stats as any)?.backgroundColor || "#ffffff",
+						items: (data.stats as any)?.items || [],
 					},
 					imageDescription: {
-						backgroundColor: data.imageDescription?.backgroundColor || "#f5f0e8",
-						items: data.imageDescription?.items || [],
+						backgroundColor: (data.imageDescription as any)?.backgroundColor || "#f5f0e8",
+						items: (data.imageDescription as any)?.items || [],
 					},
-					seo: data.seo || {},
+					seo: {
+						titleDe: (data.seo as any)?.titleDe || "",
+						titleEn: (data.seo as any)?.titleEn || "",
+						descriptionDe: (data.seo as any)?.descriptionDe || "",
+						descriptionEn: (data.seo as any)?.descriptionEn || "",
+						ogImage: (data.seo as any)?.ogImage || "",
+					},
 				});
 			} catch (error) {
 				console.error("Error fetching about page:", error);
@@ -470,27 +516,64 @@ export default function AboutPageCMS() {
 							<CardDescription>Timeline showing your company history (like a winery history page)</CardDescription>
 						</CardHeader>
 						<CardContent className="space-y-6">
-							<div className="grid gap-4 md:grid-cols-3">
-								<div className="space-y-2">
-									<Label>Badge Text</Label>
-									<Input
-										{...form.register("history.badge")}
-										placeholder="e.g., Since 1989"
-									/>
+							{/* Badge */}
+							<div className="space-y-2">
+								<Label className="text-base font-semibold">Badge Text</Label>
+								<div className="grid gap-4 md:grid-cols-2">
+									<div className="space-y-2">
+										<Label>De</Label>
+										<Input
+											{...form.register("history.badgeDe")}
+											placeholder="z.B. Seit 1989"
+										/>
+									</div>
+									<div className="space-y-2">
+										<Label>En</Label>
+										<Input
+											{...form.register("history.badgeEn")}
+											placeholder="e.g., Since 1989"
+										/>
+									</div>
 								</div>
-								<div className="space-y-2">
-									<Label>Title</Label>
-									<Input
-										{...form.register("history.title")}
-										placeholder="e.g., Our Little Story"
-									/>
+							</div>
+							{/* Title */}
+							<div className="space-y-2">
+								<Label className="text-base font-semibold">Title</Label>
+								<div className="grid gap-4 md:grid-cols-2">
+									<div className="space-y-2">
+										<Label>De</Label>
+										<Input
+											{...form.register("history.titleDe")}
+											placeholder="z.B. Unsere kleine Geschichte"
+										/>
+									</div>
+									<div className="space-y-2">
+										<Label>En</Label>
+										<Input
+											{...form.register("history.titleEn")}
+											placeholder="e.g., Our Little Story"
+										/>
+									</div>
 								</div>
-								<div className="space-y-2">
-									<Label>Subtitle</Label>
-									<Input
-										{...form.register("history.subtitle")}
-										placeholder="e.g., Zavd making practice across generations"
-									/>
+							</div>
+							{/* Subtitle */}
+							<div className="space-y-2">
+								<Label className="text-base font-semibold">Subtitle</Label>
+								<div className="grid gap-4 md:grid-cols-2">
+									<div className="space-y-2">
+										<Label>De</Label>
+										<Input
+											{...form.register("history.subtitleDe")}
+											placeholder="z.B. Zavd-Herstellung seit Generationen"
+										/>
+									</div>
+									<div className="space-y-2">
+										<Label>En</Label>
+										<Input
+											{...form.register("history.subtitleEn")}
+											placeholder="e.g., Zavd making practice across generations"
+										/>
+									</div>
 								</div>
 							</div>
 
@@ -503,7 +586,7 @@ export default function AboutPageCMS() {
 										variant="outline"
 										size="sm"
 										onClick={() =>
-											appendTimeline({ year: "", title: "", description: "", image: "" })
+											appendTimeline({ year: "", titleDe: "", titleEn: "", descriptionDe: "", descriptionEn: "", image: "" })
 										}
 									>
 										<Plus className="mr-2 h-4 w-4" />
@@ -538,29 +621,49 @@ export default function AboutPageCMS() {
 												<Trash2 className="h-4 w-4 text-destructive" />
 											</Button>
 										</div>
+										<div className="space-y-2">
+											<Label>Year</Label>
+											<Input
+												{...form.register(`history.timelineItems.${index}.year`)}
+												placeholder="e.g., 1989"
+												className="max-w-[200px]"
+											/>
+										</div>
+										{/* Title De/En */}
 										<div className="grid gap-4 md:grid-cols-2">
 											<div className="space-y-2">
-												<Label>Year</Label>
+												<Label>Title (De)</Label>
 												<Input
-													{...form.register(`history.timelineItems.${index}.year`)}
-													placeholder="e.g., 1989"
+													{...form.register(`history.timelineItems.${index}.titleDe`)}
+													placeholder="z.B. Die ersten Schritte"
 												/>
 											</div>
 											<div className="space-y-2">
-												<Label>Title</Label>
+												<Label>Title (En)</Label>
 												<Input
-													{...form.register(`history.timelineItems.${index}.title`)}
+													{...form.register(`history.timelineItems.${index}.titleEn`)}
 													placeholder="e.g., The First Steps"
 												/>
 											</div>
 										</div>
-										<div className="space-y-2">
-											<Label>Description</Label>
-											<Textarea
-												{...form.register(`history.timelineItems.${index}.description`)}
-												placeholder="Describe this milestone..."
-												rows={3}
-											/>
+										{/* Description De/En */}
+										<div className="grid gap-4 md:grid-cols-2">
+											<div className="space-y-2">
+												<Label>Description (De)</Label>
+												<Textarea
+													{...form.register(`history.timelineItems.${index}.descriptionDe`)}
+													placeholder="Beschreiben Sie diesen Meilenstein..."
+													rows={3}
+												/>
+											</div>
+											<div className="space-y-2">
+												<Label>Description (En)</Label>
+												<Textarea
+													{...form.register(`history.timelineItems.${index}.descriptionEn`)}
+													placeholder="Describe this milestone..."
+													rows={3}
+												/>
+											</div>
 										</div>
 										<div className="space-y-2">
 											<Label>Image (optional)</Label>
@@ -589,20 +692,44 @@ export default function AboutPageCMS() {
 							<CardDescription>List of customers and the products they purchase</CardDescription>
 						</CardHeader>
 						<CardContent className="space-y-6">
-							<div className="grid gap-4 md:grid-cols-2">
-								<div className="space-y-2">
-									<Label>Section Title</Label>
-									<Input
-										{...form.register("customers.title")}
-										placeholder="e.g., Our Valued Customers"
-									/>
+							{/* Section Title De/En */}
+							<div className="space-y-2">
+								<Label className="text-base font-semibold">Section Title</Label>
+								<div className="grid gap-4 md:grid-cols-2">
+									<div className="space-y-2">
+										<Label>De</Label>
+										<Input
+											{...form.register("customers.titleDe")}
+											placeholder="z.B. Unsere geschätzten Kunden"
+										/>
+									</div>
+									<div className="space-y-2">
+										<Label>En</Label>
+										<Input
+											{...form.register("customers.titleEn")}
+											placeholder="e.g., Our Valued Customers"
+										/>
+									</div>
 								</div>
-								<div className="space-y-2">
-									<Label>Section Subtitle</Label>
-									<Input
-										{...form.register("customers.subtitle")}
-										placeholder="e.g., Partners who trust our quality"
-									/>
+							</div>
+							{/* Section Subtitle De/En */}
+							<div className="space-y-2">
+								<Label className="text-base font-semibold">Section Subtitle</Label>
+								<div className="grid gap-4 md:grid-cols-2">
+									<div className="space-y-2">
+										<Label>De</Label>
+										<Input
+											{...form.register("customers.subtitleDe")}
+											placeholder="z.B. Partner, die unserer Qualität vertrauen"
+										/>
+									</div>
+									<div className="space-y-2">
+										<Label>En</Label>
+										<Input
+											{...form.register("customers.subtitleEn")}
+											placeholder="e.g., Partners who trust our quality"
+										/>
+									</div>
 								</div>
 							</div>
 
@@ -615,7 +742,7 @@ export default function AboutPageCMS() {
 										variant="outline"
 										size="sm"
 										onClick={() =>
-											appendCustomer({ name: "", logo: "", products: "", description: "", website: "" })
+											appendCustomer({ name: "", logo: "", productsDe: "", productsEn: "", descriptionDe: "", descriptionEn: "", website: "" })
 										}
 									>
 										<Plus className="mr-2 h-4 w-4" />
@@ -647,29 +774,48 @@ export default function AboutPageCMS() {
 												<Trash2 className="h-4 w-4 text-destructive" />
 											</Button>
 										</div>
+										<div className="space-y-2">
+											<Label>Customer Name</Label>
+											<Input
+												{...form.register(`customers.customers.${index}.name`)}
+												placeholder="e.g., Restaurant ABC"
+											/>
+										</div>
+										{/* Products De/En */}
 										<div className="grid gap-4 md:grid-cols-2">
 											<div className="space-y-2">
-												<Label>Customer Name</Label>
+												<Label>Products They Purchase (De)</Label>
 												<Input
-													{...form.register(`customers.customers.${index}.name`)}
-													placeholder="e.g., Restaurant ABC"
+													{...form.register(`customers.customers.${index}.productsDe`)}
+													placeholder="z.B. Gereifter Cheddar, Frischer Mozzarella"
 												/>
 											</div>
 											<div className="space-y-2">
-												<Label>Products They Purchase</Label>
+												<Label>Products They Purchase (En)</Label>
 												<Input
-													{...form.register(`customers.customers.${index}.products`)}
+													{...form.register(`customers.customers.${index}.productsEn`)}
 													placeholder="e.g., Aged Cheddar, Fresh Mozzarella"
 												/>
 											</div>
 										</div>
-										<div className="space-y-2">
-											<Label>Description (optional)</Label>
-											<Textarea
-												{...form.register(`customers.customers.${index}.description`)}
-												placeholder="Brief description about the customer..."
-												rows={2}
-											/>
+										{/* Description De/En */}
+										<div className="grid gap-4 md:grid-cols-2">
+											<div className="space-y-2">
+												<Label>Description (De, optional)</Label>
+												<Textarea
+													{...form.register(`customers.customers.${index}.descriptionDe`)}
+													placeholder="Kurze Beschreibung des Kunden..."
+													rows={2}
+												/>
+											</div>
+											<div className="space-y-2">
+												<Label>Description (En, optional)</Label>
+												<Textarea
+													{...form.register(`customers.customers.${index}.descriptionEn`)}
+													placeholder="Brief description about the customer..."
+													rows={2}
+												/>
+											</div>
 										</div>
 										<div className="grid gap-4 md:grid-cols-2">
 											<div className="space-y-2">
@@ -718,23 +864,48 @@ export default function AboutPageCMS() {
 								/>
 							</div>
 
-							<div className="grid gap-4 md:grid-cols-2">
-								<div className="space-y-2">
-									<Label>Title (Highlighted)</Label>
-									<Input
-										{...form.register("video.titleHighlighted")}
-										placeholder="e.g., Work Every Day"
-									/>
-									<p className="text-xs text-muted-foreground">
-										This text will have a colored background highlight
-									</p>
+							{/* Title Highlighted De/En */}
+							<div className="space-y-2">
+								<Label className="text-base font-semibold">Title (Highlighted)</Label>
+								<p className="text-xs text-muted-foreground">
+									This text will have a colored background highlight
+								</p>
+								<div className="grid gap-4 md:grid-cols-2">
+									<div className="space-y-2">
+										<Label>De</Label>
+										<Input
+											{...form.register("video.titleHighlightedDe")}
+											placeholder="z.B. Arbeiten jeden Tag"
+										/>
+									</div>
+									<div className="space-y-2">
+										<Label>En</Label>
+										<Input
+											{...form.register("video.titleHighlightedEn")}
+											placeholder="e.g., Work Every Day"
+										/>
+									</div>
 								</div>
-								<div className="space-y-2">
-									<Label>Title (Normal)</Label>
-									<Input
-										{...form.register("video.titleNormal")}
-										placeholder="e.g., to Produce Delicious and Fresh Milk"
-									/>
+							</div>
+
+							{/* Title Normal De/En */}
+							<div className="space-y-2">
+								<Label className="text-base font-semibold">Title (Normal)</Label>
+								<div className="grid gap-4 md:grid-cols-2">
+									<div className="space-y-2">
+										<Label>De</Label>
+										<Input
+											{...form.register("video.titleNormalDe")}
+											placeholder="z.B. um köstliche und frische Milch zu produzieren"
+										/>
+									</div>
+									<div className="space-y-2">
+										<Label>En</Label>
+										<Input
+											{...form.register("video.titleNormalEn")}
+											placeholder="e.g., to Produce Delicious and Fresh Milk"
+										/>
+									</div>
 								</div>
 							</div>
 
@@ -749,12 +920,25 @@ export default function AboutPageCMS() {
 								</p>
 							</div>
 
+							{/* Button Label De/En */}
 							<div className="space-y-2">
-								<Label>Button Label</Label>
-								<Input
-									{...form.register("video.buttonLabel")}
-									placeholder="e.g., video tour"
-								/>
+								<Label className="text-base font-semibold">Button Label</Label>
+								<div className="grid gap-4 md:grid-cols-2">
+									<div className="space-y-2">
+										<Label>De</Label>
+										<Input
+											{...form.register("video.buttonLabelDe")}
+											placeholder="z.B. Video-Tour"
+										/>
+									</div>
+									<div className="space-y-2">
+										<Label>En</Label>
+										<Input
+											{...form.register("video.buttonLabelEn")}
+											placeholder="e.g., video tour"
+										/>
+									</div>
+								</div>
 							</div>
 						</CardContent>
 					</Card>
@@ -806,13 +990,27 @@ export default function AboutPageCMS() {
 								</div>
 							</div>
 
+							{/* Title De/En */}
 							<div className="space-y-2">
-								<Label>Section Title/Description</Label>
-								<Textarea
-									{...form.register("gallery.title")}
-									placeholder="e.g., Our organization is not just an administrative body but also an open space for the community..."
-									rows={3}
-								/>
+								<Label className="text-base font-semibold">Section Title/Description</Label>
+								<div className="grid gap-4 md:grid-cols-2">
+									<div className="space-y-2">
+										<Label>De</Label>
+										<Textarea
+											{...form.register("gallery.titleDe")}
+											placeholder="z.B. Unsere Organisation ist nicht nur eine Verwaltungsstelle..."
+											rows={3}
+										/>
+									</div>
+									<div className="space-y-2">
+										<Label>En</Label>
+										<Textarea
+											{...form.register("gallery.titleEn")}
+											placeholder="e.g., Our organization is not just an administrative body..."
+											rows={3}
+										/>
+									</div>
+								</div>
 							</div>
 
 							{/* Gallery Images */}
@@ -823,7 +1021,7 @@ export default function AboutPageCMS() {
 										type="button"
 										variant="outline"
 										size="sm"
-										onClick={() => appendGalleryImage({ src: "", alt: "" })}
+										onClick={() => appendGalleryImage({ src: "", altDe: "", altEn: "" })}
 									>
 										<Plus className="mr-2 h-4 w-4" />
 										Add Image
@@ -867,10 +1065,18 @@ export default function AboutPageCMS() {
 												/>
 											</div>
 											<div className="space-y-2">
-												<Label className="text-xs">Alt Text (optional)</Label>
+												<Label className="text-xs">Alt Text (De)</Label>
 												<Input
-													{...form.register(`gallery.images.${index}.alt`)}
-													placeholder="Image description"
+													{...form.register(`gallery.images.${index}.altDe`)}
+													placeholder="Bildbeschreibung (De)"
+													className="text-sm"
+												/>
+											</div>
+											<div className="space-y-2">
+												<Label className="text-xs">Alt Text (En)</Label>
+												<Input
+													{...form.register(`gallery.images.${index}.altEn`)}
+													placeholder="Image description (En)"
 													className="text-sm"
 												/>
 											</div>
@@ -890,20 +1096,44 @@ export default function AboutPageCMS() {
 							<CardDescription>Team members displayed in a grid layout</CardDescription>
 						</CardHeader>
 						<CardContent className="space-y-6">
-							<div className="grid gap-4 md:grid-cols-2">
-								<div className="space-y-2">
-									<Label>Section Title</Label>
-									<Input
-										{...form.register("team.title")}
-										placeholder="e.g., Meet Our Team"
-									/>
+							{/* Section Title De/En */}
+							<div className="space-y-2">
+								<Label className="text-base font-semibold">Section Title</Label>
+								<div className="grid gap-4 md:grid-cols-2">
+									<div className="space-y-2">
+										<Label>De</Label>
+										<Input
+											{...form.register("team.titleDe")}
+											placeholder="z.B. Unser Team kennenlernen"
+										/>
+									</div>
+									<div className="space-y-2">
+										<Label>En</Label>
+										<Input
+											{...form.register("team.titleEn")}
+											placeholder="e.g., Meet Our Team"
+										/>
+									</div>
 								</div>
-								<div className="space-y-2">
-									<Label>Section Subtitle</Label>
-									<Input
-										{...form.register("team.subtitle")}
-										placeholder="e.g., The people behind our quality products"
-									/>
+							</div>
+							{/* Section Subtitle De/En */}
+							<div className="space-y-2">
+								<Label className="text-base font-semibold">Section Subtitle</Label>
+								<div className="grid gap-4 md:grid-cols-2">
+									<div className="space-y-2">
+										<Label>De</Label>
+										<Input
+											{...form.register("team.subtitleDe")}
+											placeholder="z.B. Die Menschen hinter unseren Qualitätsprodukten"
+										/>
+									</div>
+									<div className="space-y-2">
+										<Label>En</Label>
+										<Input
+											{...form.register("team.subtitleEn")}
+											placeholder="e.g., The people behind our quality products"
+										/>
+									</div>
 								</div>
 							</div>
 
@@ -918,13 +1148,16 @@ export default function AboutPageCMS() {
 										onClick={() =>
 											appendTeamMember({
 												name: "",
-												role: "",
+												roleDe: "",
+												roleEn: "",
 												image: "",
 												email: "",
 												phone: "",
 												linkedin: "",
-												department: "",
-												bio: "",
+												departmentDe: "",
+												departmentEn: "",
+												bioDe: "",
+												bioEn: "",
 											})
 										}
 									>
@@ -958,25 +1191,45 @@ export default function AboutPageCMS() {
 											</Button>
 										</div>
 
-										<div className="grid gap-4 md:grid-cols-3">
+										<div className="space-y-2">
+											<Label>Name</Label>
+											<Input
+												{...form.register(`team.members.${index}.name`)}
+												placeholder="Full name"
+											/>
+										</div>
+
+										{/* Role De/En */}
+										<div className="grid gap-4 md:grid-cols-2">
 											<div className="space-y-2">
-												<Label>Name</Label>
+												<Label>Role (De)</Label>
 												<Input
-													{...form.register(`team.members.${index}.name`)}
-													placeholder="Full name"
+													{...form.register(`team.members.${index}.roleDe`)}
+													placeholder="z.B. Leiter Zavd-Herstellung"
 												/>
 											</div>
 											<div className="space-y-2">
-												<Label>Role</Label>
+												<Label>Role (En)</Label>
 												<Input
-													{...form.register(`team.members.${index}.role`)}
+													{...form.register(`team.members.${index}.roleEn`)}
 													placeholder="e.g., Head Zavd Maker"
 												/>
 											</div>
+										</div>
+
+										{/* Department De/En */}
+										<div className="grid gap-4 md:grid-cols-2">
 											<div className="space-y-2">
-												<Label>Department (optional)</Label>
+												<Label>Department (De, optional)</Label>
 												<Input
-													{...form.register(`team.members.${index}.department`)}
+													{...form.register(`team.members.${index}.departmentDe`)}
+													placeholder="z.B. Produktion"
+												/>
+											</div>
+											<div className="space-y-2">
+												<Label>Department (En, optional)</Label>
+												<Input
+													{...form.register(`team.members.${index}.departmentEn`)}
 													placeholder="e.g., Production"
 												/>
 											</div>
@@ -995,13 +1248,24 @@ export default function AboutPageCMS() {
 											/>
 										</div>
 
-										<div className="space-y-2">
-											<Label>Bio (optional)</Label>
-											<Textarea
-												{...form.register(`team.members.${index}.bio`)}
-												placeholder="Brief biography..."
-												rows={2}
-											/>
+										{/* Bio De/En */}
+										<div className="grid gap-4 md:grid-cols-2">
+											<div className="space-y-2">
+												<Label>Bio (De, optional)</Label>
+												<Textarea
+													{...form.register(`team.members.${index}.bioDe`)}
+													placeholder="Kurze Biografie..."
+													rows={2}
+												/>
+											</div>
+											<div className="space-y-2">
+												<Label>Bio (En, optional)</Label>
+												<Textarea
+													{...form.register(`team.members.${index}.bioEn`)}
+													placeholder="Brief biography..."
+													rows={2}
+												/>
+											</div>
 										</div>
 
 										<div className="grid gap-4 md:grid-cols-3">
@@ -1080,7 +1344,7 @@ export default function AboutPageCMS() {
 										variant="outline"
 										size="sm"
 										onClick={() =>
-											appendStatItem({ image: "", value: "", label: "", description: "" })
+											appendStatItem({ image: "", value: "", labelDe: "", labelEn: "", descriptionDe: "", descriptionEn: "" })
 										}
 									>
 										<Plus className="mr-2 h-4 w-4" />
@@ -1127,36 +1391,53 @@ export default function AboutPageCMS() {
 												/>
 											</div>
 
+											<div className="space-y-2">
+												<Label>Value (Number)</Label>
+												<Input
+													{...form.register(`stats.items.${index}.value`)}
+													placeholder="e.g., 87, 236, 4K+"
+												/>
+												<p className="text-xs text-muted-foreground">
+													The large number to display
+												</p>
+											</div>
+
+											{/* Label De/En */}
 											<div className="grid gap-4 md:grid-cols-2">
 												<div className="space-y-2">
-													<Label>Value (Number)</Label>
+													<Label>Label (De)</Label>
 													<Input
-														{...form.register(`stats.items.${index}.value`)}
-														placeholder="e.g., 87, 236, 4K+"
+														{...form.register(`stats.items.${index}.labelDe`)}
+														placeholder="z.B. Kühe, Ziegen, Liter pro Tag"
 													/>
-													<p className="text-xs text-muted-foreground">
-														The large number to display
-													</p>
 												</div>
 												<div className="space-y-2">
-													<Label>Label</Label>
+													<Label>Label (En)</Label>
 													<Input
-														{...form.register(`stats.items.${index}.label`)}
+														{...form.register(`stats.items.${index}.labelEn`)}
 														placeholder="e.g., Cows, Goats, Liters per day"
 													/>
-													<p className="text-xs text-muted-foreground">
-														Text below the number
-													</p>
 												</div>
 											</div>
 
-											<div className="space-y-2">
-												<Label>Description (optional)</Label>
-												<Textarea
-													{...form.register(`stats.items.${index}.description`)}
-													placeholder="A brief description about this stat..."
-													rows={2}
-												/>
+											{/* Description De/En */}
+											<div className="grid gap-4 md:grid-cols-2">
+												<div className="space-y-2">
+													<Label>Description (De, optional)</Label>
+													<Textarea
+														{...form.register(`stats.items.${index}.descriptionDe`)}
+														placeholder="Eine kurze Beschreibung..."
+														rows={2}
+													/>
+												</div>
+												<div className="space-y-2">
+													<Label>Description (En, optional)</Label>
+													<Textarea
+														{...form.register(`stats.items.${index}.descriptionEn`)}
+														placeholder="A brief description about this stat..."
+														rows={2}
+													/>
+												</div>
 											</div>
 										</div>
 									))}
@@ -1206,8 +1487,10 @@ export default function AboutPageCMS() {
 										onClick={() =>
 											appendImageDescriptionItem({
 												image: "",
-												title: "",
-												description: "",
+												titleDe: "",
+												titleEn: "",
+												descriptionDe: "",
+												descriptionEn: "",
 												watermarkImage: "",
 											})
 										}
@@ -1275,23 +1558,42 @@ export default function AboutPageCMS() {
 												</div>
 											</div>
 
-											{/* Title */}
-											<div className="space-y-2">
-												<Label>Title</Label>
-												<Input
-													{...form.register(`imageDescription.items.${index}.title`)}
-													placeholder="e.g., Natural & Organic Products"
-												/>
+											{/* Title De/En */}
+											<div className="grid gap-4 md:grid-cols-2">
+												<div className="space-y-2">
+													<Label>Title (De)</Label>
+													<Input
+														{...form.register(`imageDescription.items.${index}.titleDe`)}
+														placeholder="z.B. Natürliche & Bio-Produkte"
+													/>
+												</div>
+												<div className="space-y-2">
+													<Label>Title (En)</Label>
+													<Input
+														{...form.register(`imageDescription.items.${index}.titleEn`)}
+														placeholder="e.g., Natural & Organic Products"
+													/>
+												</div>
 											</div>
 
-											{/* Description */}
-											<div className="space-y-2">
-												<Label>Description</Label>
-												<Textarea
-													{...form.register(`imageDescription.items.${index}.description`)}
-													placeholder="Enter description text..."
-													rows={4}
-												/>
+											{/* Description De/En */}
+											<div className="grid gap-4 md:grid-cols-2">
+												<div className="space-y-2">
+													<Label>Description (De)</Label>
+													<Textarea
+														{...form.register(`imageDescription.items.${index}.descriptionDe`)}
+														placeholder="Beschreibungstext eingeben..."
+														rows={4}
+													/>
+												</div>
+												<div className="space-y-2">
+													<Label>Description (En)</Label>
+													<Textarea
+														{...form.register(`imageDescription.items.${index}.descriptionEn`)}
+														placeholder="Enter description text..."
+														rows={4}
+													/>
+												</div>
 											</div>
 										</div>
 									))}
@@ -1309,20 +1611,44 @@ export default function AboutPageCMS() {
 							<CardDescription>Configure the contact section (content is pulled from Contact Us page)</CardDescription>
 						</CardHeader>
 						<CardContent className="space-y-6">
-							<div className="grid gap-4 md:grid-cols-2">
-								<div className="space-y-2">
-									<Label>Section Title</Label>
-									<Input
-										{...form.register("contact.title")}
-										placeholder="e.g., Get In Touch"
-									/>
+							{/* Title De/En */}
+							<div className="space-y-2">
+								<Label className="text-base font-semibold">Section Title</Label>
+								<div className="grid gap-4 md:grid-cols-2">
+									<div className="space-y-2">
+										<Label>De</Label>
+										<Input
+											{...form.register("contact.titleDe")}
+											placeholder="z.B. Kontaktieren Sie uns"
+										/>
+									</div>
+									<div className="space-y-2">
+										<Label>En</Label>
+										<Input
+											{...form.register("contact.titleEn")}
+											placeholder="e.g., Get In Touch"
+										/>
+									</div>
 								</div>
-								<div className="space-y-2">
-									<Label>Section Subtitle</Label>
-									<Input
-										{...form.register("contact.subtitle")}
-										placeholder="e.g., We'd love to hear from you"
-									/>
+							</div>
+							{/* Subtitle De/En */}
+							<div className="space-y-2">
+								<Label className="text-base font-semibold">Section Subtitle</Label>
+								<div className="grid gap-4 md:grid-cols-2">
+									<div className="space-y-2">
+										<Label>De</Label>
+										<Input
+											{...form.register("contact.subtitleDe")}
+											placeholder="z.B. Wir freuen uns von Ihnen zu hören"
+										/>
+									</div>
+									<div className="space-y-2">
+										<Label>En</Label>
+										<Input
+											{...form.register("contact.subtitleEn")}
+											placeholder="e.g., We'd love to hear from you"
+										/>
+									</div>
 								</div>
 							</div>
 
@@ -1382,21 +1708,48 @@ export default function AboutPageCMS() {
 								</CardDescription>
 							</CardHeader>
 							<CardContent className="space-y-4">
+								{/* Meta Title De/En */}
 								<div className="space-y-2">
-									<Label>Meta Title</Label>
-									<Input
-										{...form.register("seo.title")}
-										placeholder="About Us - Company Name"
-									/>
+									<Label className="text-base font-semibold">Meta Title</Label>
+									<div className="grid gap-4 md:grid-cols-2">
+										<div className="space-y-2">
+											<Label>De</Label>
+											<Input
+												{...form.register("seo.titleDe")}
+												placeholder="Über uns - Firmenname"
+											/>
+										</div>
+										<div className="space-y-2">
+											<Label>En</Label>
+											<Input
+												{...form.register("seo.titleEn")}
+												placeholder="About Us - Company Name"
+											/>
+										</div>
+									</div>
 								</div>
 
+								{/* Meta Description De/En */}
 								<div className="space-y-2">
-									<Label>Meta Description</Label>
-									<Textarea
-										{...form.register("seo.description")}
-										placeholder="SEO description for search engines..."
-										rows={3}
-									/>
+									<Label className="text-base font-semibold">Meta Description</Label>
+									<div className="grid gap-4 md:grid-cols-2">
+										<div className="space-y-2">
+											<Label>De</Label>
+											<Textarea
+												{...form.register("seo.descriptionDe")}
+												placeholder="SEO-Beschreibung für Suchmaschinen..."
+												rows={3}
+											/>
+										</div>
+										<div className="space-y-2">
+											<Label>En</Label>
+											<Textarea
+												{...form.register("seo.descriptionEn")}
+												placeholder="SEO description for search engines..."
+												rows={3}
+											/>
+										</div>
+									</div>
 								</div>
 
 								<div className="space-y-2">
@@ -1422,8 +1775,8 @@ export default function AboutPageCMS() {
 							<CardContent>
 								<SeoPreview
 									data={{
-										title: form.watch("seo.title") || "About Us - Company Name",
-										description: form.watch("seo.description") || "Add a description",
+										title: form.watch("seo.titleEn") || form.watch("seo.titleDe") || "About Us - Company Name",
+										description: form.watch("seo.descriptionEn") || form.watch("seo.descriptionDe") || "Add a description",
 										slug: "about-us",
 										ogImage: form.watch("seo.ogImage") || null,
 										siteName: "Company Name",

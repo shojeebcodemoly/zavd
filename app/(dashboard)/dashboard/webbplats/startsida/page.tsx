@@ -60,7 +60,8 @@ const TextEditor = dynamic(() => import("@/components/common/TextEditor"), {
 
 // CTA Button schema - all optional since buttons may not be set
 const ctaButtonSchema = z.object({
-	text: z.string().optional(),
+	textDe: z.string().optional(),
+	textEn: z.string().optional(),
 	href: z.string().optional(),
 	variant: z.enum(["primary", "outline", "secondary"]).optional(),
 });
@@ -68,17 +69,22 @@ const ctaButtonSchema = z.object({
 // Trust Indicator schema - optional fields
 const trustIndicatorSchema = z.object({
 	icon: z.string().optional(),
-	text: z.string().optional(),
+	textDe: z.string().optional(),
+	textEn: z.string().optional(),
 });
 
 
 // Hero Slide schema for slider mode
 const heroSlideSchema = z.object({
-	badge: z.string().optional(),
-	title: z.string().optional(),
-	subtitle: z.string().optional(),
+	badgeDe: z.string().optional(),
+	badgeEn: z.string().optional(),
+	titleDe: z.string().optional(),
+	titleEn: z.string().optional(),
+	subtitleDe: z.string().optional(),
+	subtitleEn: z.string().optional(),
 	backgroundImage: z.string().optional(),
-	ctaText: z.string().optional(),
+	ctaTextDe: z.string().optional(),
+	ctaTextEn: z.string().optional(),
 	ctaHref: z.string().optional(),
 	isActive: z.boolean().optional(),
 });
@@ -86,15 +92,20 @@ const heroSlideSchema = z.object({
 // Hero Floating Card schema
 const heroFloatingCardSchema = z.object({
 	image: z.string().optional(),
-	label: z.string().optional(),
+	labelDe: z.string().optional(),
+	labelEn: z.string().optional(),
 });
 
 // Hero Certification Card schema
 const heroCertificationCardSchema = z.object({
-	title: z.string().optional(),
-	subtitle: z.string().optional(),
-	progressLabel: z.string().optional(),
-	progressValue: z.string().optional(),
+	titleDe: z.string().optional(),
+	titleEn: z.string().optional(),
+	subtitleDe: z.string().optional(),
+	subtitleEn: z.string().optional(),
+	progressLabelDe: z.string().optional(),
+	progressLabelEn: z.string().optional(),
+	progressValueDe: z.string().optional(),
+	progressValueEn: z.string().optional(),
 	progressPercentage: z.number().min(0).max(100).optional(),
 });
 
@@ -102,33 +113,46 @@ const heroCertificationCardSchema = z.object({
 // Gallery Image schema - optional fields
 const galleryImageSchema = z.object({
 	src: z.string().optional(),
-	title: z.string().optional(),
-	subtitle: z.string().optional(),
+	titleDe: z.string().optional(),
+	titleEn: z.string().optional(),
+	subtitleDe: z.string().optional(),
+	subtitleEn: z.string().optional(),
 });
 
 // Image Gallery Section schema
 const imageGallerySectionSchema = z.object({
-	badge: z.string().optional(),
-	title: z.string().optional(),
-	subtitle: z.string().optional(),
+	badgeDe: z.string().optional(),
+	badgeEn: z.string().optional(),
+	titleDe: z.string().optional(),
+	titleEn: z.string().optional(),
+	subtitleDe: z.string().optional(),
+	subtitleEn: z.string().optional(),
 	images: z.array(galleryImageSchema).optional(),
-	ctaTitle: z.string().optional(),
-	ctaSubtitle: z.string().optional(),
-	ctaButtonText: z.string().optional(),
+	ctaTitleDe: z.string().optional(),
+	ctaTitleEn: z.string().optional(),
+	ctaSubtitleDe: z.string().optional(),
+	ctaSubtitleEn: z.string().optional(),
+	ctaButtonTextDe: z.string().optional(),
+	ctaButtonTextEn: z.string().optional(),
 });
 
 // Testimonial Item schema - optional fields
 const testimonialItemSchema = z.object({
-	title: z.string().optional(),
-	subtitle: z.string().optional(),
-	description: z.string().optional(),
+	titleDe: z.string().optional(),
+	titleEn: z.string().optional(),
+	subtitleDe: z.string().optional(),
+	subtitleEn: z.string().optional(),
+	descriptionDe: z.string().optional(),
+	descriptionEn: z.string().optional(),
 	image: z.string().optional(),
 });
 
 // Testimonials Section schema
 const testimonialsSectionSchema = z.object({
-	title: z.string().optional(),
-	subtitle: z.string().optional(),
+	titleDe: z.string().optional(),
+	titleEn: z.string().optional(),
+	subtitleDe: z.string().optional(),
+	subtitleEn: z.string().optional(),
 	testimonials: z.array(testimonialItemSchema).optional(),
 });
 
@@ -137,14 +161,18 @@ const partnerLogoSchema = z.object({
 	image: z.string().optional(),
 	name: z.string().optional(),
 	href: z.string().optional(),
-	description: z.string().optional(),
+	descriptionDe: z.string().optional(),
+	descriptionEn: z.string().optional(),
 });
 
 // Integration Section schema
 const integrationSectionSchema = z.object({
-	heading: z.string().optional(),
-	quote: z.string().optional(),
-	description: z.string().optional(),
+	headingDe: z.string().optional(),
+	headingEn: z.string().optional(),
+	quoteDe: z.string().optional(),
+	quoteEn: z.string().optional(),
+	descriptionDe: z.string().optional(),
+	descriptionEn: z.string().optional(),
 	image: z.string().optional(),
 	readMoreLink: z.string().optional(),
 	partnerLogos: z.array(partnerLogoSchema).optional(),
@@ -152,23 +180,28 @@ const integrationSectionSchema = z.object({
 
 // Sponsors Section schema
 const sponsorsSectionSchema = z.object({
-	heading: z.string().optional(),
-	description: z.string().optional(),
+	headingDe: z.string().optional(),
+	headingEn: z.string().optional(),
+	descriptionDe: z.string().optional(),
+	descriptionEn: z.string().optional(),
 	backgroundImage: z.string().optional(),
 	sponsors: z.array(partnerLogoSchema).optional(),
 });
 
 // Volunteering Section schema
 const volunteeringSectionSchema = z.object({
-	heading: z.string().optional(),
-	description: z.string().optional(),
+	headingDe: z.string().optional(),
+	headingEn: z.string().optional(),
+	descriptionDe: z.string().optional(),
+	descriptionEn: z.string().optional(),
 	image: z.string().optional(),
 	partnerLogos: z.array(partnerLogoSchema).optional(),
 });
 
 // Partners Carousel Section schema
 const partnersCarouselSectionSchema = z.object({
-	heading: z.string().optional(),
+	headingDe: z.string().optional(),
+	headingEn: z.string().optional(),
 	logos: z.array(partnerLogoSchema).optional(),
 });
 
@@ -199,10 +232,14 @@ const homePageFormSchema = z.object({
 			autoPlayInterval: z.number().optional(),
 			showArrows: z.boolean().optional(),
 			// Legacy single hero fields
-			badge: z.string().optional(),
-			title: z.string().optional(),
-			titleHighlight: z.string().optional(),
-			subtitle: z.string().optional(),
+			badgeDe: z.string().optional(),
+			badgeEn: z.string().optional(),
+			titleDe: z.string().optional(),
+			titleEn: z.string().optional(),
+			titleHighlightDe: z.string().optional(),
+			titleHighlightEn: z.string().optional(),
+			subtitleDe: z.string().optional(),
+			subtitleEn: z.string().optional(),
 			primaryCta: ctaButtonSchema.optional(),
 			secondaryCta: ctaButtonSchema.optional(),
 			backgroundImage: z.string().optional(),
@@ -234,15 +271,24 @@ const homePageFormSchema = z.object({
 	// CTA Section - all fields optional
 	ctaSection: z
 		.object({
-			title: z.string().optional(),
-			subtitle: z.string().optional(),
-			phoneTitle: z.string().optional(),
-			phoneSubtitle: z.string().optional(),
-			emailTitle: z.string().optional(),
-			emailSubtitle: z.string().optional(),
-			formTitle: z.string().optional(),
-			formSubtitle: z.string().optional(),
-			formCtaText: z.string().optional(),
+			titleDe: z.string().optional(),
+			titleEn: z.string().optional(),
+			subtitleDe: z.string().optional(),
+			subtitleEn: z.string().optional(),
+			phoneTitleDe: z.string().optional(),
+			phoneTitleEn: z.string().optional(),
+			phoneSubtitleDe: z.string().optional(),
+			phoneSubtitleEn: z.string().optional(),
+			emailTitleDe: z.string().optional(),
+			emailTitleEn: z.string().optional(),
+			emailSubtitleDe: z.string().optional(),
+			emailSubtitleEn: z.string().optional(),
+			formTitleDe: z.string().optional(),
+			formTitleEn: z.string().optional(),
+			formSubtitleDe: z.string().optional(),
+			formSubtitleEn: z.string().optional(),
+			formCtaTextDe: z.string().optional(),
+			formCtaTextEn: z.string().optional(),
 			formCtaHref: z.string().optional(),
 		})
 		.optional(),
@@ -253,8 +299,10 @@ const homePageFormSchema = z.object({
 	// SEO
 	seo: z
 		.object({
-			title: z.string().optional(),
-			description: z.string().optional(),
+			titleDe: z.string().optional(),
+			titleEn: z.string().optional(),
+			descriptionDe: z.string().optional(),
+			descriptionEn: z.string().optional(),
 			ogImage: z.string().optional(),
 		})
 		.optional(),
@@ -289,78 +337,113 @@ export default function StartsidaPage() {
 				autoPlayInterval: 5000,
 				showArrows: true,
 				// Legacy single hero fields
-				badge: "",
-				title: "",
-				titleHighlight: "",
-				subtitle: "",
-				primaryCta: { text: "", href: "", variant: "primary" },
-				secondaryCta: { text: "", href: "", variant: "outline" },
+				badgeDe: "",
+				badgeEn: "",
+				titleDe: "",
+				titleEn: "",
+				titleHighlightDe: "",
+				titleHighlightEn: "",
+				subtitleDe: "",
+				subtitleEn: "",
+				primaryCta: { textDe: "", textEn: "", href: "", variant: "primary" },
+				secondaryCta: { textDe: "", textEn: "", href: "", variant: "outline" },
 				backgroundImage: "",
 				mainImage: "",
 				trustIndicators: [],
-				floatingCard: { image: "", label: "" },
+				floatingCard: { image: "", labelDe: "", labelEn: "" },
 				certificationCard: {
-					title: "",
-					subtitle: "",
-					progressLabel: "",
-					progressValue: "",
+					titleDe: "",
+					titleEn: "",
+					subtitleDe: "",
+					subtitleEn: "",
+					progressLabelDe: "",
+					progressLabelEn: "",
+					progressValueDe: "",
+					progressValueEn: "",
 					progressPercentage: 0,
 				},
 			},
 			integrationSection: {
-				heading: "",
-				quote: "",
-				description: "",
+				headingDe: "",
+				headingEn: "",
+				quoteDe: "",
+				quoteEn: "",
+				descriptionDe: "",
+				descriptionEn: "",
 				image: "",
 				readMoreLink: "",
 				partnerLogos: [],
 			},
 			sponsorsSection: {
-				heading: "",
-				description: "",
+				headingDe: "",
+				headingEn: "",
+				descriptionDe: "",
+				descriptionEn: "",
 				backgroundImage: "",
 				sponsors: [],
 			},
 			volunteeringSection: {
-				heading: "",
-				description: "",
+				headingDe: "",
+				headingEn: "",
+				descriptionDe: "",
+				descriptionEn: "",
 				image: "",
 				partnerLogos: [],
 			},
 			partnersCarouselSection: {
-				heading: "",
+				headingDe: "",
+				headingEn: "",
 				logos: [],
 			},
 			imageGallery: {
-				badge: "",
-				title: "",
-				subtitle: "",
+				badgeDe: "",
+				badgeEn: "",
+				titleDe: "",
+				titleEn: "",
+				subtitleDe: "",
+				subtitleEn: "",
 				images: [],
-				ctaTitle: "",
-				ctaSubtitle: "",
-				ctaButtonText: "",
+				ctaTitleDe: "",
+				ctaTitleEn: "",
+				ctaSubtitleDe: "",
+				ctaSubtitleEn: "",
+				ctaButtonTextDe: "",
+				ctaButtonTextEn: "",
 			},
 			testimonialsSection: {
-				title: "",
-				subtitle: "",
+				titleDe: "",
+				titleEn: "",
+				subtitleDe: "",
+				subtitleEn: "",
 				testimonials: [],
 			},
 			ctaSection: {
-				title: "",
-				subtitle: "",
-				phoneTitle: "",
-				phoneSubtitle: "",
-				emailTitle: "",
-				emailSubtitle: "",
-				formTitle: "",
-				formSubtitle: "",
-				formCtaText: "",
+				titleDe: "",
+				titleEn: "",
+				subtitleDe: "",
+				subtitleEn: "",
+				phoneTitleDe: "",
+				phoneTitleEn: "",
+				phoneSubtitleDe: "",
+				phoneSubtitleEn: "",
+				emailTitleDe: "",
+				emailTitleEn: "",
+				emailSubtitleDe: "",
+				emailSubtitleEn: "",
+				formTitleDe: "",
+				formTitleEn: "",
+				formSubtitleDe: "",
+				formSubtitleEn: "",
+				formCtaTextDe: "",
+				formCtaTextEn: "",
 				formCtaHref: "",
 			},
 			richContent: "",
 			seo: {
-				title: "",
-				description: "",
+				titleDe: "",
+				titleEn: "",
+				descriptionDe: "",
+				descriptionEn: "",
 				ogImage: "",
 			},
 		},
@@ -488,17 +571,23 @@ export default function StartsidaPage() {
 						autoPlayInterval: content.hero?.autoPlayInterval || 5000,
 						showArrows: content.hero?.showArrows !== false,
 						// Legacy single hero fields
-						badge: content.hero?.badge || "",
-						title: content.hero?.title || "",
-						titleHighlight: content.hero?.titleHighlight || "",
-						subtitle: content.hero?.subtitle || "",
+						badgeDe: content.hero?.badgeDe || "",
+						badgeEn: content.hero?.badgeEn || "",
+						titleDe: content.hero?.titleDe || "",
+						titleEn: content.hero?.titleEn || "",
+						titleHighlightDe: content.hero?.titleHighlightDe || "",
+						titleHighlightEn: content.hero?.titleHighlightEn || "",
+						subtitleDe: content.hero?.subtitleDe || "",
+						subtitleEn: content.hero?.subtitleEn || "",
 						primaryCta: content.hero?.primaryCta || {
-							text: "",
+							textDe: "",
+							textEn: "",
 							href: "",
 							variant: "primary",
 						},
 						secondaryCta: content.hero?.secondaryCta || {
-							text: "",
+							textDe: "",
+							textEn: "",
 							href: "",
 							variant: "outline",
 						},
@@ -507,52 +596,73 @@ export default function StartsidaPage() {
 						trustIndicators: content.hero?.trustIndicators || [],
 						floatingCard: content.hero?.floatingCard || {
 							image: "",
-							label: "",
+							labelDe: "",
+							labelEn: "",
 						},
 						certificationCard: content.hero?.certificationCard || {
-							title: "",
-							subtitle: "",
-							progressLabel: "",
-							progressValue: "",
+							titleDe: "",
+							titleEn: "",
+							subtitleDe: "",
+							subtitleEn: "",
+							progressLabelDe: "",
+							progressLabelEn: "",
+							progressValueDe: "",
+							progressValueEn: "",
 							progressPercentage: 0,
 						},
 					},
 					integrationSection: {
-						heading: content.integrationSection?.heading || "",
-						quote: content.integrationSection?.quote || "",
-						description: content.integrationSection?.description || "",
+						headingDe: content.integrationSection?.headingDe || "",
+						headingEn: content.integrationSection?.headingEn || "",
+						quoteDe: content.integrationSection?.quoteDe || "",
+						quoteEn: content.integrationSection?.quoteEn || "",
+						descriptionDe: content.integrationSection?.descriptionDe || "",
+						descriptionEn: content.integrationSection?.descriptionEn || "",
 						image: content.integrationSection?.image || "",
 						readMoreLink: content.integrationSection?.readMoreLink || "",
 						partnerLogos: content.integrationSection?.partnerLogos || [],
 					},
 					sponsorsSection: {
-						heading: content.sponsorsSection?.heading || "",
-						description: content.sponsorsSection?.description || "",
+						headingDe: content.sponsorsSection?.headingDe || "",
+						headingEn: content.sponsorsSection?.headingEn || "",
+						descriptionDe: content.sponsorsSection?.descriptionDe || "",
+						descriptionEn: content.sponsorsSection?.descriptionEn || "",
 						backgroundImage: content.sponsorsSection?.backgroundImage || "",
 						sponsors: content.sponsorsSection?.sponsors || [],
 					},
 					volunteeringSection: {
-						heading: content.volunteeringSection?.heading || "",
-						description: content.volunteeringSection?.description || "",
+						headingDe: content.volunteeringSection?.headingDe || "",
+						headingEn: content.volunteeringSection?.headingEn || "",
+						descriptionDe: content.volunteeringSection?.descriptionDe || "",
+						descriptionEn: content.volunteeringSection?.descriptionEn || "",
 						image: content.volunteeringSection?.image || "",
 						partnerLogos: content.volunteeringSection?.partnerLogos || [],
 					},
 					partnersCarouselSection: {
-						heading: content.partnersCarouselSection?.heading || "",
+						headingDe: content.partnersCarouselSection?.headingDe || "",
+						headingEn: content.partnersCarouselSection?.headingEn || "",
 						logos: content.partnersCarouselSection?.logos || [],
 					},
 					imageGallery: {
-						badge: content.imageGallery?.badge || "",
-						title: content.imageGallery?.title || "",
-						subtitle: content.imageGallery?.subtitle || "",
+						badgeDe: content.imageGallery?.badgeDe || "",
+						badgeEn: content.imageGallery?.badgeEn || "",
+						titleDe: content.imageGallery?.titleDe || "",
+						titleEn: content.imageGallery?.titleEn || "",
+						subtitleDe: content.imageGallery?.subtitleDe || "",
+						subtitleEn: content.imageGallery?.subtitleEn || "",
 						images: content.imageGallery?.images || [],
-						ctaTitle: content.imageGallery?.ctaTitle || "",
-						ctaSubtitle: content.imageGallery?.ctaSubtitle || "",
-						ctaButtonText: content.imageGallery?.ctaButtonText || "",
+						ctaTitleDe: content.imageGallery?.ctaTitleDe || "",
+						ctaTitleEn: content.imageGallery?.ctaTitleEn || "",
+						ctaSubtitleDe: content.imageGallery?.ctaSubtitleDe || "",
+						ctaSubtitleEn: content.imageGallery?.ctaSubtitleEn || "",
+						ctaButtonTextDe: content.imageGallery?.ctaButtonTextDe || "",
+						ctaButtonTextEn: content.imageGallery?.ctaButtonTextEn || "",
 					},
 					testimonialsSection: {
-						title: content.testimonialsSection?.title ?? "",
-						subtitle: content.testimonialsSection?.subtitle ?? "",
+						titleDe: content.testimonialsSection?.titleDe ?? "",
+						titleEn: content.testimonialsSection?.titleEn ?? "",
+						subtitleDe: content.testimonialsSection?.subtitleDe ?? "",
+						subtitleEn: content.testimonialsSection?.subtitleEn ?? "",
 						testimonials: Array.isArray(
 							content.testimonialsSection?.testimonials
 						)
@@ -560,21 +670,32 @@ export default function StartsidaPage() {
 							: [],
 					},
 					ctaSection: {
-						title: content.ctaSection?.title || "",
-						subtitle: content.ctaSection?.subtitle || "",
-						phoneTitle: content.ctaSection?.phoneTitle || "",
-						phoneSubtitle: content.ctaSection?.phoneSubtitle || "",
-						emailTitle: content.ctaSection?.emailTitle || "",
-						emailSubtitle: content.ctaSection?.emailSubtitle || "",
-						formTitle: content.ctaSection?.formTitle || "",
-						formSubtitle: content.ctaSection?.formSubtitle || "",
-						formCtaText: content.ctaSection?.formCtaText || "",
+						titleDe: content.ctaSection?.titleDe || "",
+						titleEn: content.ctaSection?.titleEn || "",
+						subtitleDe: content.ctaSection?.subtitleDe || "",
+						subtitleEn: content.ctaSection?.subtitleEn || "",
+						phoneTitleDe: content.ctaSection?.phoneTitleDe || "",
+						phoneTitleEn: content.ctaSection?.phoneTitleEn || "",
+						phoneSubtitleDe: content.ctaSection?.phoneSubtitleDe || "",
+						phoneSubtitleEn: content.ctaSection?.phoneSubtitleEn || "",
+						emailTitleDe: content.ctaSection?.emailTitleDe || "",
+						emailTitleEn: content.ctaSection?.emailTitleEn || "",
+						emailSubtitleDe: content.ctaSection?.emailSubtitleDe || "",
+						emailSubtitleEn: content.ctaSection?.emailSubtitleEn || "",
+						formTitleDe: content.ctaSection?.formTitleDe || "",
+						formTitleEn: content.ctaSection?.formTitleEn || "",
+						formSubtitleDe: content.ctaSection?.formSubtitleDe || "",
+						formSubtitleEn: content.ctaSection?.formSubtitleEn || "",
+						formCtaTextDe: content.ctaSection?.formCtaTextDe || "",
+						formCtaTextEn: content.ctaSection?.formCtaTextEn || "",
 						formCtaHref: content.ctaSection?.formCtaHref || "",
 					},
 					richContent: content.richContent || "",
 					seo: {
-						title: content.seo?.title || "",
-						description: content.seo?.description || "",
+						titleDe: content.seo?.titleDe || "",
+						titleEn: content.seo?.titleEn || "",
+						descriptionDe: content.seo?.descriptionDe || "",
+						descriptionEn: content.seo?.descriptionEn || "",
 						ogImage: content.seo?.ogImage || "",
 					},
 				});
@@ -626,16 +747,19 @@ export default function StartsidaPage() {
 		ctaSection: "CTA Section",
 		seo: "SEO",
 		sectionVisibility: "Section Visibility",
-		title: "Title",
-		subtitle: "Subtitle",
-		content: "Content",
-		badge: "Badge",
-		quote: "Quote",
-		author: "Author",
-		role: "Role",
-		company: "Company",
+		titleDe: "Title (DE)",
+		titleEn: "Title (EN)",
+		subtitleDe: "Subtitle (DE)",
+		subtitleEn: "Subtitle (EN)",
+		contentDe: "Content (DE)",
+		contentEn: "Content (EN)",
+		badgeDe: "Badge (DE)",
+		badgeEn: "Badge (EN)",
+		quoteDe: "Quote (DE)",
+		quoteEn: "Quote (EN)",
 		testimonials: "Testimonials list",
-		text: "Button text",
+		textDe: "Button text (DE)",
+		textEn: "Button text (EN)",
 		href: "Link URL",
 	};
 
@@ -938,7 +1062,7 @@ export default function StartsidaPage() {
 												</FormItem>
 											)}
 										/>
-										{/* Rich Content visibility toggle — hidden
+										{/* Rich Content visibility toggle -- hidden
 										<FormField
 											control={form.control}
 											name="sectionVisibility.richContent"
@@ -1044,11 +1168,15 @@ export default function StartsidaPage() {
 												size="sm"
 												onClick={() =>
 													appendSlide({
-														badge: "",
-														title: "",
-														subtitle: "",
+														badgeDe: "",
+														badgeEn: "",
+														titleDe: "",
+														titleEn: "",
+														subtitleDe: "",
+														subtitleEn: "",
 														backgroundImage: "",
-														ctaText: "READ MORE",
+														ctaTextDe: "READ MORE",
+														ctaTextEn: "READ MORE",
 														ctaHref: "/",
 														isActive: true,
 													})
@@ -1135,68 +1263,147 @@ export default function StartsidaPage() {
 														)}
 													/>
 
-													<FormField
-														control={form.control}
-														name={`hero.slides.${index}.badge`}
-														render={({ field }) => (
-															<FormItem>
-																<FormLabel>Badge Text</FormLabel>
-																<FormControl>
-																	<Input
-																		{...field}
-																		value={field.value || ""}
-																		placeholder="BORN OF NATURE"
-																	/>
-																</FormControl>
-																<FormMessage />
-															</FormItem>
-														)}
-													/>
-
-													<FormField
-														control={form.control}
-														name={`hero.slides.${index}.title`}
-														render={({ field }) => (
-															<FormItem>
-																<FormLabel>Title</FormLabel>
-																<FormControl>
-																	<Input
-																		{...field}
-																		value={field.value || ""}
-																		placeholder="TRADITIONS OF QUALITY IN EVERY BITE"
-																	/>
-																</FormControl>
-																<FormMessage />
-															</FormItem>
-														)}
-													/>
-
-													<FormField
-														control={form.control}
-														name={`hero.slides.${index}.subtitle`}
-														render={({ field }) => (
-															<FormItem>
-																<FormLabel>Subtitle</FormLabel>
-																<FormControl>
-																	<Textarea
-																		{...field}
-																		value={field.value || ""}
-																		placeholder="Description text for this slide..."
-																		rows={2}
-																	/>
-																</FormControl>
-																<FormMessage />
-															</FormItem>
-														)}
-													/>
-
-													<div className="grid gap-4 sm:grid-cols-2">
+													{/* Badge De/En */}
+													<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 														<FormField
 															control={form.control}
-															name={`hero.slides.${index}.ctaText`}
+															name={`hero.slides.${index}.badgeDe`}
 															render={({ field }) => (
 																<FormItem>
-																	<FormLabel>Button Text</FormLabel>
+																	<FormLabel>Badge (DE)</FormLabel>
+																	<FormControl>
+																		<Input
+																			{...field}
+																			value={field.value || ""}
+																			placeholder="BORN OF NATURE"
+																		/>
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+														<FormField
+															control={form.control}
+															name={`hero.slides.${index}.badgeEn`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Badge (EN)</FormLabel>
+																	<FormControl>
+																		<Input
+																			{...field}
+																			value={field.value || ""}
+																			placeholder="BORN OF NATURE"
+																		/>
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+													</div>
+
+													{/* Title De/En */}
+													<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+														<FormField
+															control={form.control}
+															name={`hero.slides.${index}.titleDe`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Title (DE)</FormLabel>
+																	<FormControl>
+																		<Input
+																			{...field}
+																			value={field.value || ""}
+																			placeholder="Titel auf Deutsch"
+																		/>
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+														<FormField
+															control={form.control}
+															name={`hero.slides.${index}.titleEn`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Title (EN)</FormLabel>
+																	<FormControl>
+																		<Input
+																			{...field}
+																			value={field.value || ""}
+																			placeholder="Title in English"
+																		/>
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+													</div>
+
+													{/* Subtitle De/En */}
+													<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+														<FormField
+															control={form.control}
+															name={`hero.slides.${index}.subtitleDe`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Subtitle (DE)</FormLabel>
+																	<FormControl>
+																		<Textarea
+																			{...field}
+																			value={field.value || ""}
+																			placeholder="Beschreibung auf Deutsch..."
+																			rows={2}
+																		/>
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+														<FormField
+															control={form.control}
+															name={`hero.slides.${index}.subtitleEn`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Subtitle (EN)</FormLabel>
+																	<FormControl>
+																		<Textarea
+																			{...field}
+																			value={field.value || ""}
+																			placeholder="Description in English..."
+																			rows={2}
+																		/>
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+													</div>
+
+													{/* CTA Button Text De/En + Link */}
+													<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+														<FormField
+															control={form.control}
+															name={`hero.slides.${index}.ctaTextDe`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Button Text (DE)</FormLabel>
+																	<FormControl>
+																		<Input
+																			{...field}
+																			value={field.value || ""}
+																			placeholder="MEHR LESEN"
+																		/>
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+														<FormField
+															control={form.control}
+															name={`hero.slides.${index}.ctaTextEn`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Button Text (EN)</FormLabel>
 																	<FormControl>
 																		<Input
 																			{...field}
@@ -1208,24 +1415,24 @@ export default function StartsidaPage() {
 																</FormItem>
 															)}
 														/>
-														<FormField
-															control={form.control}
-															name={`hero.slides.${index}.ctaHref`}
-															render={({ field }) => (
-																<FormItem>
-																	<FormLabel>Button Link</FormLabel>
-																	<FormControl>
-																		<Input
-																			{...field}
-																			value={field.value || ""}
-																			placeholder="/about"
-																		/>
-																	</FormControl>
-																	<FormMessage />
-																</FormItem>
-															)}
-														/>
 													</div>
+													<FormField
+														control={form.control}
+														name={`hero.slides.${index}.ctaHref`}
+														render={({ field }) => (
+															<FormItem>
+																<FormLabel>Button Link</FormLabel>
+																<FormControl>
+																	<Input
+																		{...field}
+																		value={field.value || ""}
+																		placeholder="/about"
+																	/>
+																</FormControl>
+																<FormMessage />
+															</FormItem>
+														)}
+													/>
 												</div>
 											))
 										)}
@@ -1240,27 +1447,57 @@ export default function StartsidaPage() {
 									<CardDescription>Manage the integration/partnership section content.</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-6">
-									<FormField control={form.control} name="integrationSection.heading" render={({ field }) => (
-										<FormItem>
-											<FormLabel>Heading</FormLabel>
-											<FormControl><Input placeholder="Enter heading..." {...field} /></FormControl>
-											<FormMessage />
-										</FormItem>
-									)} />
-									<FormField control={form.control} name="integrationSection.quote" render={({ field }) => (
-										<FormItem>
-											<FormLabel>Quote / Highlighted Text</FormLabel>
-											<FormControl><Textarea placeholder="Enter quote..." rows={3} {...field} /></FormControl>
-											<FormMessage />
-										</FormItem>
-									)} />
-									<FormField control={form.control} name="integrationSection.description" render={({ field }) => (
-										<FormItem>
-											<FormLabel>Description</FormLabel>
-											<FormControl><Textarea placeholder="Enter description..." rows={5} {...field} /></FormControl>
-											<FormMessage />
-										</FormItem>
-									)} />
+									{/* Heading De/En */}
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+										<FormField control={form.control} name="integrationSection.headingDe" render={({ field }) => (
+											<FormItem>
+												<FormLabel>Heading (DE)</FormLabel>
+												<FormControl><Input placeholder="Überschrift auf Deutsch..." {...field} /></FormControl>
+												<FormMessage />
+											</FormItem>
+										)} />
+										<FormField control={form.control} name="integrationSection.headingEn" render={({ field }) => (
+											<FormItem>
+												<FormLabel>Heading (EN)</FormLabel>
+												<FormControl><Input placeholder="Heading in English..." {...field} /></FormControl>
+												<FormMessage />
+											</FormItem>
+										)} />
+									</div>
+									{/* Quote De/En */}
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+										<FormField control={form.control} name="integrationSection.quoteDe" render={({ field }) => (
+											<FormItem>
+												<FormLabel>Quote (DE)</FormLabel>
+												<FormControl><Textarea placeholder="Zitat auf Deutsch..." rows={3} {...field} /></FormControl>
+												<FormMessage />
+											</FormItem>
+										)} />
+										<FormField control={form.control} name="integrationSection.quoteEn" render={({ field }) => (
+											<FormItem>
+												<FormLabel>Quote (EN)</FormLabel>
+												<FormControl><Textarea placeholder="Quote in English..." rows={3} {...field} /></FormControl>
+												<FormMessage />
+											</FormItem>
+										)} />
+									</div>
+									{/* Description De/En */}
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+										<FormField control={form.control} name="integrationSection.descriptionDe" render={({ field }) => (
+											<FormItem>
+												<FormLabel>Description (DE)</FormLabel>
+												<FormControl><Textarea placeholder="Beschreibung auf Deutsch..." rows={5} {...field} /></FormControl>
+												<FormMessage />
+											</FormItem>
+										)} />
+										<FormField control={form.control} name="integrationSection.descriptionEn" render={({ field }) => (
+											<FormItem>
+												<FormLabel>Description (EN)</FormLabel>
+												<FormControl><Textarea placeholder="Description in English..." rows={5} {...field} /></FormControl>
+												<FormMessage />
+											</FormItem>
+										)} />
+									</div>
 									<FormField control={form.control} name="integrationSection.readMoreLink" render={({ field }) => (
 										<FormItem>
 											<FormLabel>Read More Link</FormLabel>
@@ -1284,7 +1521,7 @@ export default function StartsidaPage() {
 											<CardTitle>Partner Logos</CardTitle>
 											<CardDescription>Add partner/organization logos.</CardDescription>
 										</div>
-										<Button type="button" variant="outline" size="sm" onClick={() => appendIntegrationLogo({ image: '', name: '', href: '' })}>
+										<Button type="button" variant="outline" size="sm" onClick={() => appendIntegrationLogo({ image: '', name: '', href: '', descriptionDe: '', descriptionEn: '' })}>
 											<Plus className="mr-2 h-4 w-4" />Add Logo
 										</Button>
 									</div>
@@ -1322,13 +1559,22 @@ export default function StartsidaPage() {
 														<FormMessage />
 													</FormItem>
 												)} />
-												<FormField control={form.control} name={`integrationSection.partnerLogos.${index}.description`} render={({ field }) => (
-													<FormItem>
-														<FormLabel>Description</FormLabel>
-														<FormControl><Input placeholder="Short description..." {...field} /></FormControl>
-														<FormMessage />
-													</FormItem>
-												)} />
+												<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+													<FormField control={form.control} name={`integrationSection.partnerLogos.${index}.descriptionDe`} render={({ field }) => (
+														<FormItem>
+															<FormLabel>Description (DE)</FormLabel>
+															<FormControl><Input placeholder="Kurze Beschreibung..." {...field} /></FormControl>
+															<FormMessage />
+														</FormItem>
+													)} />
+													<FormField control={form.control} name={`integrationSection.partnerLogos.${index}.descriptionEn`} render={({ field }) => (
+														<FormItem>
+															<FormLabel>Description (EN)</FormLabel>
+															<FormControl><Input placeholder="Short description..." {...field} /></FormControl>
+															<FormMessage />
+														</FormItem>
+													)} />
+												</div>
 											</div>
 										))
 									)}
@@ -1344,20 +1590,40 @@ export default function StartsidaPage() {
 									<CardDescription>Manage sponsors and funding partners content.</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-6">
-									<FormField control={form.control} name="sponsorsSection.heading" render={({ field }) => (
-										<FormItem>
-											<FormLabel>Heading</FormLabel>
-											<FormControl><Input placeholder="Enter heading..." {...field} /></FormControl>
-											<FormMessage />
-										</FormItem>
-									)} />
-									<FormField control={form.control} name="sponsorsSection.description" render={({ field }) => (
-										<FormItem>
-											<FormLabel>Description</FormLabel>
-											<FormControl><Textarea placeholder="Enter description..." rows={4} {...field} /></FormControl>
-											<FormMessage />
-										</FormItem>
-									)} />
+									{/* Heading De/En */}
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+										<FormField control={form.control} name="sponsorsSection.headingDe" render={({ field }) => (
+											<FormItem>
+												<FormLabel>Heading (DE)</FormLabel>
+												<FormControl><Input placeholder="Überschrift auf Deutsch..." {...field} /></FormControl>
+												<FormMessage />
+											</FormItem>
+										)} />
+										<FormField control={form.control} name="sponsorsSection.headingEn" render={({ field }) => (
+											<FormItem>
+												<FormLabel>Heading (EN)</FormLabel>
+												<FormControl><Input placeholder="Heading in English..." {...field} /></FormControl>
+												<FormMessage />
+											</FormItem>
+										)} />
+									</div>
+									{/* Description De/En */}
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+										<FormField control={form.control} name="sponsorsSection.descriptionDe" render={({ field }) => (
+											<FormItem>
+												<FormLabel>Description (DE)</FormLabel>
+												<FormControl><Textarea placeholder="Beschreibung auf Deutsch..." rows={4} {...field} /></FormControl>
+												<FormMessage />
+											</FormItem>
+										)} />
+										<FormField control={form.control} name="sponsorsSection.descriptionEn" render={({ field }) => (
+											<FormItem>
+												<FormLabel>Description (EN)</FormLabel>
+												<FormControl><Textarea placeholder="Description in English..." rows={4} {...field} /></FormControl>
+												<FormMessage />
+											</FormItem>
+										)} />
+									</div>
 								<FormField control={form.control} name="sponsorsSection.backgroundImage" render={({ field }) => (
 									<FormItem>
 										<FormLabel>Background Image</FormLabel>
@@ -1374,7 +1640,7 @@ export default function StartsidaPage() {
 											<CardTitle>Sponsor Logos</CardTitle>
 											<CardDescription>Add sponsor/funder logos.</CardDescription>
 										</div>
-										<Button type="button" variant="outline" size="sm" onClick={() => appendSponsor({ image: '', name: '', href: '' })}>
+										<Button type="button" variant="outline" size="sm" onClick={() => appendSponsor({ image: '', name: '', href: '', descriptionDe: '', descriptionEn: '' })}>
 											<Plus className="mr-2 h-4 w-4" />Add Sponsor
 										</Button>
 									</div>
@@ -1427,20 +1693,40 @@ export default function StartsidaPage() {
 									<CardDescription>Manage the volunteering section content and partner logos.</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-6">
-									<FormField control={form.control} name="volunteeringSection.heading" render={({ field }) => (
-										<FormItem>
-											<FormLabel>Heading</FormLabel>
-											<FormControl><Input placeholder="Enter heading..." {...field} /></FormControl>
-											<FormMessage />
-										</FormItem>
-									)} />
-									<FormField control={form.control} name="volunteeringSection.description" render={({ field }) => (
-										<FormItem>
-											<FormLabel>Description</FormLabel>
-											<FormControl><Textarea placeholder="Enter description..." rows={5} {...field} /></FormControl>
-											<FormMessage />
-										</FormItem>
-									)} />
+									{/* Heading De/En */}
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+										<FormField control={form.control} name="volunteeringSection.headingDe" render={({ field }) => (
+											<FormItem>
+												<FormLabel>Heading (DE)</FormLabel>
+												<FormControl><Input placeholder="Überschrift auf Deutsch..." {...field} /></FormControl>
+												<FormMessage />
+											</FormItem>
+										)} />
+										<FormField control={form.control} name="volunteeringSection.headingEn" render={({ field }) => (
+											<FormItem>
+												<FormLabel>Heading (EN)</FormLabel>
+												<FormControl><Input placeholder="Heading in English..." {...field} /></FormControl>
+												<FormMessage />
+											</FormItem>
+										)} />
+									</div>
+									{/* Description De/En */}
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+										<FormField control={form.control} name="volunteeringSection.descriptionDe" render={({ field }) => (
+											<FormItem>
+												<FormLabel>Description (DE)</FormLabel>
+												<FormControl><Textarea placeholder="Beschreibung auf Deutsch..." rows={5} {...field} /></FormControl>
+												<FormMessage />
+											</FormItem>
+										)} />
+										<FormField control={form.control} name="volunteeringSection.descriptionEn" render={({ field }) => (
+											<FormItem>
+												<FormLabel>Description (EN)</FormLabel>
+												<FormControl><Textarea placeholder="Description in English..." rows={5} {...field} /></FormControl>
+												<FormMessage />
+											</FormItem>
+										)} />
+									</div>
 									<FormField control={form.control} name="volunteeringSection.image" render={({ field }) => (
 										<FormItem>
 											<FormLabel>Section Image</FormLabel>
@@ -1457,7 +1743,7 @@ export default function StartsidaPage() {
 											<CardTitle>Partner Logos</CardTitle>
 											<CardDescription>Add volunteering partner logos.</CardDescription>
 										</div>
-										<Button type="button" variant="outline" size="sm" onClick={() => appendVolunteeringLogo({ image: '', name: '', href: '' })}>
+										<Button type="button" variant="outline" size="sm" onClick={() => appendVolunteeringLogo({ image: '', name: '', href: '', descriptionDe: '', descriptionEn: '' })}>
 											<Plus className="mr-2 h-4 w-4" />Add Logo
 										</Button>
 									</div>
@@ -1510,13 +1796,22 @@ export default function StartsidaPage() {
 									<CardDescription>Auto-scrolling partner logos shown below the Volunteering section.</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-6">
-									<FormField control={form.control} name="partnersCarouselSection.heading" render={({ field }) => (
-										<FormItem>
-											<FormLabel>Label text (optional)</FormLabel>
-											<FormControl><Input placeholder="e.g. Our Partners" {...field} /></FormControl>
-											<FormMessage />
-										</FormItem>
-									)} />
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+										<FormField control={form.control} name="partnersCarouselSection.headingDe" render={({ field }) => (
+											<FormItem>
+												<FormLabel>Label text (DE)</FormLabel>
+												<FormControl><Input placeholder="z.B. Unsere Partner" {...field} /></FormControl>
+												<FormMessage />
+											</FormItem>
+										)} />
+										<FormField control={form.control} name="partnersCarouselSection.headingEn" render={({ field }) => (
+											<FormItem>
+												<FormLabel>Label text (EN)</FormLabel>
+												<FormControl><Input placeholder="e.g. Our Partners" {...field} /></FormControl>
+												<FormMessage />
+											</FormItem>
+										)} />
+									</div>
 								</CardContent>
 							</Card>
 							<Card>
@@ -1526,7 +1821,7 @@ export default function StartsidaPage() {
 											<CardTitle>Partner Logos</CardTitle>
 											<CardDescription>Add partner/organization logos for the carousel.</CardDescription>
 										</div>
-										<Button type="button" variant="outline" size="sm" onClick={() => appendPartnerCarouselLogo({ image: '', name: '', href: '' })}>
+										<Button type="button" variant="outline" size="sm" onClick={() => appendPartnerCarouselLogo({ image: '', name: '', href: '', descriptionDe: '', descriptionEn: '' })}>
 											<Plus className="h-4 w-4 mr-1" /> Add Logo
 										</Button>
 									</div>
@@ -1571,7 +1866,6 @@ export default function StartsidaPage() {
 							</Card>
 						</TabsContent>
 
-						{/* Products Tab */}
 						{/* Gallery Tab */}
 						<TabsContent value="gallery" className="space-y-6">
 							{/* Section Settings */}
@@ -1583,30 +1877,68 @@ export default function StartsidaPage() {
 									</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-4">
-									<FormField
-										control={form.control}
-										name="imageGallery.badge"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Badge Text</FormLabel>
-												<FormControl>
-													<Input
-														{...field}
-														value={field.value || ""}
-														placeholder="Our Facilities"
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<div className="grid gap-4 sm:grid-cols-2">
+									{/* Badge De/En */}
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 										<FormField
 											control={form.control}
-											name="imageGallery.title"
+											name="imageGallery.badgeDe"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Title</FormLabel>
+													<FormLabel>Badge (DE)</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="Unsere Einrichtungen"
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="imageGallery.badgeEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Badge (EN)</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="Our Facilities"
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+									{/* Title De/En */}
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+										<FormField
+											control={form.control}
+											name="imageGallery.titleDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Title (DE)</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="Exzellenz in Aktion"
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="imageGallery.titleEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Title (EN)</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
@@ -1618,12 +1950,32 @@ export default function StartsidaPage() {
 												</FormItem>
 											)}
 										/>
+									</div>
+									{/* Subtitle De/En */}
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 										<FormField
 											control={form.control}
-											name="imageGallery.subtitle"
+											name="imageGallery.subtitleDe"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Subtitle</FormLabel>
+													<FormLabel>Subtitle (DE)</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="Sehen Sie, wie unsere Ausstattung..."
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="imageGallery.subtitleEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Subtitle (EN)</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
@@ -1638,13 +1990,31 @@ export default function StartsidaPage() {
 									</div>
 									<div className="border rounded-lg p-4 space-y-4">
 										<h4 className="font-medium">Bottom CTA Card</h4>
-										<div className="grid gap-4 sm:grid-cols-2">
+										{/* CTA Title De/En */}
+										<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 											<FormField
 												control={form.control}
-												name="imageGallery.ctaTitle"
+												name="imageGallery.ctaTitleDe"
 												render={({ field }) => (
 													<FormItem>
-														<FormLabel>CTA Title</FormLabel>
+														<FormLabel>CTA Title (DE)</FormLabel>
+														<FormControl>
+															<Input
+																{...field}
+																value={field.value || ""}
+																placeholder="Mehr sehen?"
+															/>
+														</FormControl>
+														<FormMessage />
+													</FormItem>
+												)}
+											/>
+											<FormField
+												control={form.control}
+												name="imageGallery.ctaTitleEn"
+												render={({ field }) => (
+													<FormItem>
+														<FormLabel>CTA Title (EN)</FormLabel>
 														<FormControl>
 															<Input
 																{...field}
@@ -1656,12 +2026,32 @@ export default function StartsidaPage() {
 													</FormItem>
 												)}
 											/>
+										</div>
+										{/* CTA Button Text De/En */}
+										<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 											<FormField
 												control={form.control}
-												name="imageGallery.ctaButtonText"
+												name="imageGallery.ctaButtonTextDe"
 												render={({ field }) => (
 													<FormItem>
-														<FormLabel>Button Text</FormLabel>
+														<FormLabel>Button Text (DE)</FormLabel>
+														<FormControl>
+															<Input
+																{...field}
+																value={field.value || ""}
+																placeholder="Tour buchen"
+															/>
+														</FormControl>
+														<FormMessage />
+													</FormItem>
+												)}
+											/>
+											<FormField
+												control={form.control}
+												name="imageGallery.ctaButtonTextEn"
+												render={({ field }) => (
+													<FormItem>
+														<FormLabel>Button Text (EN)</FormLabel>
 														<FormControl>
 															<Input
 																{...field}
@@ -1674,23 +2064,43 @@ export default function StartsidaPage() {
 												)}
 											/>
 										</div>
-										<FormField
-											control={form.control}
-											name="imageGallery.ctaSubtitle"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>CTA Subtitle</FormLabel>
-													<FormControl>
-														<Input
-															{...field}
-															value={field.value || ""}
-															placeholder="Book a virtual tour of our facilities..."
-														/>
-													</FormControl>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
+										{/* CTA Subtitle De/En */}
+										<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+											<FormField
+												control={form.control}
+												name="imageGallery.ctaSubtitleDe"
+												render={({ field }) => (
+													<FormItem>
+														<FormLabel>CTA Subtitle (DE)</FormLabel>
+														<FormControl>
+															<Input
+																{...field}
+																value={field.value || ""}
+																placeholder="Buchen Sie eine virtuelle Tour..."
+															/>
+														</FormControl>
+														<FormMessage />
+													</FormItem>
+												)}
+											/>
+											<FormField
+												control={form.control}
+												name="imageGallery.ctaSubtitleEn"
+												render={({ field }) => (
+													<FormItem>
+														<FormLabel>CTA Subtitle (EN)</FormLabel>
+														<FormControl>
+															<Input
+																{...field}
+																value={field.value || ""}
+																placeholder="Book a virtual tour of our facilities..."
+															/>
+														</FormControl>
+														<FormMessage />
+													</FormItem>
+												)}
+											/>
+										</div>
 									</div>
 								</CardContent>
 							</Card>
@@ -1707,8 +2117,10 @@ export default function StartsidaPage() {
 											onClick={() =>
 												appendGalleryImage({
 													src: "",
-													title: "",
-													subtitle: "",
+													titleDe: "",
+													titleEn: "",
+													subtitleDe: "",
+													subtitleEn: "",
 												})
 											}
 										>
@@ -1781,13 +2193,31 @@ export default function StartsidaPage() {
 															</FormItem>
 														)}
 													/>
-													<div className="grid gap-4 sm:grid-cols-2">
+													{/* Title De/En */}
+													<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 														<FormField
 															control={form.control}
-															name={`imageGallery.images.${index}.title`}
+															name={`imageGallery.images.${index}.titleDe`}
 															render={({ field }) => (
 																<FormItem>
-																	<FormLabel>Title</FormLabel>
+																	<FormLabel>Title (DE)</FormLabel>
+																	<FormControl>
+																		<Input
+																			{...field}
+																			value={field.value || ""}
+																			placeholder="Moderne OP-Säle"
+																		/>
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+														<FormField
+															control={form.control}
+															name={`imageGallery.images.${index}.titleEn`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Title (EN)</FormLabel>
 																	<FormControl>
 																		<Input
 																			{...field}
@@ -1799,14 +2229,32 @@ export default function StartsidaPage() {
 																</FormItem>
 															)}
 														/>
+													</div>
+													{/* Subtitle De/En */}
+													<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 														<FormField
 															control={form.control}
-															name={`imageGallery.images.${index}.subtitle`}
+															name={`imageGallery.images.${index}.subtitleDe`}
 															render={({ field }) => (
 																<FormItem>
-																	<FormLabel>
-																		Subtitle
-																	</FormLabel>
+																	<FormLabel>Subtitle (DE)</FormLabel>
+																	<FormControl>
+																		<Input
+																			{...field}
+																			value={field.value || ""}
+																			placeholder="Ausgestattet mit Präzisionsrobotik"
+																		/>
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+														<FormField
+															control={form.control}
+															name={`imageGallery.images.${index}.subtitleEn`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Subtitle (EN)</FormLabel>
 																	<FormControl>
 																		<Input
 																			{...field}
@@ -1838,41 +2286,82 @@ export default function StartsidaPage() {
 									</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-4">
-									<FormField
-										control={form.control}
-										name="testimonialsSection.title"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Section Title</FormLabel>
-												<FormControl>
-													<Input
-														{...field}
-														value={field.value || ""}
-														placeholder="Our Partners"
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<FormField
-										control={form.control}
-										name="testimonialsSection.subtitle"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Section Subtitle</FormLabel>
-												<FormControl>
-													<Textarea
-														{...field}
-														value={field.value || ""}
-														placeholder="Organizations we work with..."
-														rows={2}
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
+									{/* Title De/En */}
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+										<FormField
+											control={form.control}
+											name="testimonialsSection.titleDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Section Title (DE)</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="Unsere Partner"
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="testimonialsSection.titleEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Section Title (EN)</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="Our Partners"
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+									{/* Subtitle De/En */}
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+										<FormField
+											control={form.control}
+											name="testimonialsSection.subtitleDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Section Subtitle (DE)</FormLabel>
+													<FormControl>
+														<Textarea
+															{...field}
+															value={field.value || ""}
+															placeholder="Organisationen, mit denen wir zusammenarbeiten..."
+															rows={2}
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="testimonialsSection.subtitleEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Section Subtitle (EN)</FormLabel>
+													<FormControl>
+														<Textarea
+															{...field}
+															value={field.value || ""}
+															placeholder="Organizations we work with..."
+															rows={2}
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
 								</CardContent>
 							</Card>
 
@@ -1887,9 +2376,12 @@ export default function StartsidaPage() {
 											size="sm"
 											onClick={() =>
 												appendTestimonial({
-													title: "",
-													subtitle: "",
-													description: "",
+													titleDe: "",
+													titleEn: "",
+													subtitleDe: "",
+													subtitleEn: "",
+													descriptionDe: "",
+													descriptionEn: "",
 													image: "",
 												})
 											}
@@ -1953,61 +2445,119 @@ export default function StartsidaPage() {
 															</FormItem>
 														)}
 													/>
-													{/* Title */}
-													<FormField
-														control={form.control}
-														name={`testimonialsSection.testimonials.${index}.title`}
-														render={({ field }) => (
-															<FormItem>
-																<FormLabel>Title</FormLabel>
-																<FormControl>
-																	<Input
-																		{...field}
-																		value={field.value || ""}
-																		placeholder="e.g. Bundesministerium für Familie"
-																	/>
-																</FormControl>
-																<FormMessage />
-															</FormItem>
-														)}
-													/>
-													{/* Subtitle */}
-													<FormField
-														control={form.control}
-														name={`testimonialsSection.testimonials.${index}.subtitle`}
-														render={({ field }) => (
-															<FormItem>
-																<FormLabel>Subtitle</FormLabel>
-																<FormControl>
-																	<Input
-																		{...field}
-																		value={field.value || ""}
-																		placeholder="e.g. Federal Ministry"
-																	/>
-																</FormControl>
-																<FormMessage />
-															</FormItem>
-														)}
-													/>
-													{/* Description */}
-													<FormField
-														control={form.control}
-														name={`testimonialsSection.testimonials.${index}.description`}
-														render={({ field }) => (
-															<FormItem>
-																<FormLabel>Description</FormLabel>
-																<FormControl>
-																	<Textarea
-																		{...field}
-																		value={field.value || ""}
-																		placeholder="A short description..."
-																		rows={3}
-																	/>
-																</FormControl>
-																<FormMessage />
-															</FormItem>
-														)}
-													/>
+													{/* Title De/En */}
+													<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+														<FormField
+															control={form.control}
+															name={`testimonialsSection.testimonials.${index}.titleDe`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Title (DE)</FormLabel>
+																	<FormControl>
+																		<Input
+																			{...field}
+																			value={field.value || ""}
+																			placeholder="z.B. Bundesministerium für Familie"
+																		/>
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+														<FormField
+															control={form.control}
+															name={`testimonialsSection.testimonials.${index}.titleEn`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Title (EN)</FormLabel>
+																	<FormControl>
+																		<Input
+																			{...field}
+																			value={field.value || ""}
+																			placeholder="e.g. Federal Ministry for Family"
+																		/>
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+													</div>
+													{/* Subtitle De/En */}
+													<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+														<FormField
+															control={form.control}
+															name={`testimonialsSection.testimonials.${index}.subtitleDe`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Subtitle (DE)</FormLabel>
+																	<FormControl>
+																		<Input
+																			{...field}
+																			value={field.value || ""}
+																			placeholder="z.B. Bundesministerium"
+																		/>
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+														<FormField
+															control={form.control}
+															name={`testimonialsSection.testimonials.${index}.subtitleEn`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Subtitle (EN)</FormLabel>
+																	<FormControl>
+																		<Input
+																			{...field}
+																			value={field.value || ""}
+																			placeholder="e.g. Federal Ministry"
+																		/>
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+													</div>
+													{/* Description De/En */}
+													<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+														<FormField
+															control={form.control}
+															name={`testimonialsSection.testimonials.${index}.descriptionDe`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Description (DE)</FormLabel>
+																	<FormControl>
+																		<Textarea
+																			{...field}
+																			value={field.value || ""}
+																			placeholder="Kurze Beschreibung auf Deutsch..."
+																			rows={3}
+																		/>
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+														<FormField
+															control={form.control}
+															name={`testimonialsSection.testimonials.${index}.descriptionEn`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Description (EN)</FormLabel>
+																	<FormControl>
+																		<Textarea
+																			{...field}
+																			value={field.value || ""}
+																			placeholder="A short description in English..."
+																			rows={3}
+																		/>
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+													</div>
 												</CardContent>
 											</Card>
 										))
@@ -2026,50 +2576,109 @@ export default function StartsidaPage() {
 									</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-6">
-									<FormField
-										control={form.control}
-										name="ctaSection.title"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Title</FormLabel>
-												<FormControl>
-													<Input
-														{...field}
-														value={field.value || ""}
-														placeholder="Ready to upgrade your business?"
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-
-									<FormField
-										control={form.control}
-										name="ctaSection.subtitle"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Subtitle</FormLabel>
-												<FormControl>
-													<Textarea
-														{...field}
-														value={field.value || ""}
-														placeholder="Contact us today..."
-														rows={2}
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-
-									<div className="grid gap-4 sm:grid-cols-2">
+									{/* Title De/En */}
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 										<FormField
 											control={form.control}
-											name="ctaSection.phoneTitle"
+											name="ctaSection.titleDe"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Phone Title</FormLabel>
+													<FormLabel>Title (DE)</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="Bereit, Ihr Unternehmen aufzurüsten?"
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="ctaSection.titleEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Title (EN)</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="Ready to upgrade your business?"
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+
+									{/* Subtitle De/En */}
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+										<FormField
+											control={form.control}
+											name="ctaSection.subtitleDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Subtitle (DE)</FormLabel>
+													<FormControl>
+														<Textarea
+															{...field}
+															value={field.value || ""}
+															placeholder="Kontaktieren Sie uns heute..."
+															rows={2}
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="ctaSection.subtitleEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Subtitle (EN)</FormLabel>
+													<FormControl>
+														<Textarea
+															{...field}
+															value={field.value || ""}
+															placeholder="Contact us today..."
+															rows={2}
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+
+									{/* Phone Title De/En */}
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+										<FormField
+											control={form.control}
+											name="ctaSection.phoneTitleDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Phone Title (DE)</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="Rufen Sie uns direkt an"
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="ctaSection.phoneTitleEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Phone Title (EN)</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
@@ -2081,12 +2690,33 @@ export default function StartsidaPage() {
 												</FormItem>
 											)}
 										/>
+									</div>
+
+									{/* Phone Subtitle De/En */}
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 										<FormField
 											control={form.control}
-											name="ctaSection.phoneSubtitle"
+											name="ctaSection.phoneSubtitleDe"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Phone Subtitle</FormLabel>
+													<FormLabel>Phone Subtitle (DE)</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="Wir sind erreichbar..."
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="ctaSection.phoneSubtitleEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Phone Subtitle (EN)</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
@@ -2100,13 +2730,31 @@ export default function StartsidaPage() {
 										/>
 									</div>
 
-									<div className="grid gap-4 sm:grid-cols-2">
+									{/* Email Title De/En */}
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 										<FormField
 											control={form.control}
-											name="ctaSection.emailTitle"
+											name="ctaSection.emailTitleDe"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Email Title</FormLabel>
+													<FormLabel>Email Title (DE)</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="E-Mail"
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="ctaSection.emailTitleEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Email Title (EN)</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
@@ -2118,12 +2766,33 @@ export default function StartsidaPage() {
 												</FormItem>
 											)}
 										/>
+									</div>
+
+									{/* Email Subtitle De/En */}
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 										<FormField
 											control={form.control}
-											name="ctaSection.emailSubtitle"
+											name="ctaSection.emailSubtitleDe"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Email Subtitle</FormLabel>
+													<FormLabel>Email Subtitle (DE)</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															value={field.value || ""}
+															placeholder="Schreiben Sie uns"
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="ctaSection.emailSubtitleEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Email Subtitle (EN)</FormLabel>
 													<FormControl>
 														<Input
 															{...field}
@@ -2139,58 +2808,119 @@ export default function StartsidaPage() {
 
 									<div className="border rounded-lg p-4 space-y-4">
 										<h4 className="font-medium">Contact Form Card</h4>
-										<FormField
-											control={form.control}
-											name="ctaSection.formTitle"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>Title</FormLabel>
-													<FormControl>
-														<Input
-															{...field}
-															value={field.value || ""}
-															placeholder="Have questions?"
-														/>
-													</FormControl>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-										<FormField
-											control={form.control}
-											name="ctaSection.formSubtitle"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>Subtitle</FormLabel>
-													<FormControl>
-														<Textarea
-															{...field}
-															value={field.value || ""}
-															placeholder="Fill out our contact form..."
-															rows={2}
-														/>
-													</FormControl>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-										<FormField
-											control={form.control}
-											name="ctaSection.formCtaText"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>Button Text</FormLabel>
-													<FormControl>
-														<Input
-															{...field}
-															value={field.value || ""}
-															placeholder="Send Message"
-														/>
-													</FormControl>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
+										{/* Form Title De/En */}
+										<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+											<FormField
+												control={form.control}
+												name="ctaSection.formTitleDe"
+												render={({ field }) => (
+													<FormItem>
+														<FormLabel>Title (DE)</FormLabel>
+														<FormControl>
+															<Input
+																{...field}
+																value={field.value || ""}
+																placeholder="Haben Sie Fragen?"
+															/>
+														</FormControl>
+														<FormMessage />
+													</FormItem>
+												)}
+											/>
+											<FormField
+												control={form.control}
+												name="ctaSection.formTitleEn"
+												render={({ field }) => (
+													<FormItem>
+														<FormLabel>Title (EN)</FormLabel>
+														<FormControl>
+															<Input
+																{...field}
+																value={field.value || ""}
+																placeholder="Have questions?"
+															/>
+														</FormControl>
+														<FormMessage />
+													</FormItem>
+												)}
+											/>
+										</div>
+										{/* Form Subtitle De/En */}
+										<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+											<FormField
+												control={form.control}
+												name="ctaSection.formSubtitleDe"
+												render={({ field }) => (
+													<FormItem>
+														<FormLabel>Subtitle (DE)</FormLabel>
+														<FormControl>
+															<Textarea
+																{...field}
+																value={field.value || ""}
+																placeholder="Füllen Sie unser Kontaktformular aus..."
+																rows={2}
+															/>
+														</FormControl>
+														<FormMessage />
+													</FormItem>
+												)}
+											/>
+											<FormField
+												control={form.control}
+												name="ctaSection.formSubtitleEn"
+												render={({ field }) => (
+													<FormItem>
+														<FormLabel>Subtitle (EN)</FormLabel>
+														<FormControl>
+															<Textarea
+																{...field}
+																value={field.value || ""}
+																placeholder="Fill out our contact form..."
+																rows={2}
+															/>
+														</FormControl>
+														<FormMessage />
+													</FormItem>
+												)}
+											/>
+										</div>
+										{/* Form CTA Text De/En */}
+										<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+											<FormField
+												control={form.control}
+												name="ctaSection.formCtaTextDe"
+												render={({ field }) => (
+													<FormItem>
+														<FormLabel>Button Text (DE)</FormLabel>
+														<FormControl>
+															<Input
+																{...field}
+																value={field.value || ""}
+																placeholder="Nachricht senden"
+															/>
+														</FormControl>
+														<FormMessage />
+													</FormItem>
+												)}
+											/>
+											<FormField
+												control={form.control}
+												name="ctaSection.formCtaTextEn"
+												render={({ field }) => (
+													<FormItem>
+														<FormLabel>Button Text (EN)</FormLabel>
+														<FormControl>
+															<Input
+																{...field}
+																value={field.value || ""}
+																placeholder="Send Message"
+															/>
+														</FormControl>
+														<FormMessage />
+													</FormItem>
+												)}
+											/>
+										</div>
 										<FormField
 											control={form.control}
 											name="ctaSection.formCtaHref"
@@ -2216,7 +2946,7 @@ export default function StartsidaPage() {
 							</Card>
 						</TabsContent>
 
-						{/* Rich Content Tab — hidden
+						{/* Rich Content Tab -- hidden
 						<TabsContent value="rich-content" className="space-y-6">
 							<Card>
 								<CardHeader>
@@ -2264,50 +2994,89 @@ export default function StartsidaPage() {
 										</CardDescription>
 									</CardHeader>
 									<CardContent className="space-y-4">
-										<FormField
-											control={form.control}
-											name="seo.title"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>Page Title</FormLabel>
-													<FormControl>
-														<Input
-															{...field}
-															value={field.value || ""}
-															placeholder="Zavd Medical - Medical Equipment"
-														/>
-													</FormControl>
-													<FormDescription>
-														Displayed in browser tab and search
-														results.
-													</FormDescription>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
+										{/* Page Title De/En */}
+										<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+											<FormField
+												control={form.control}
+												name="seo.titleDe"
+												render={({ field }) => (
+													<FormItem>
+														<FormLabel>Page Title (DE)</FormLabel>
+														<FormControl>
+															<Input
+																{...field}
+																value={field.value || ""}
+																placeholder="ZAVD - Seitentitel"
+															/>
+														</FormControl>
+														<FormMessage />
+													</FormItem>
+												)}
+											/>
+											<FormField
+												control={form.control}
+												name="seo.titleEn"
+												render={({ field }) => (
+													<FormItem>
+														<FormLabel>Page Title (EN)</FormLabel>
+														<FormControl>
+															<Input
+																{...field}
+																value={field.value || ""}
+																placeholder="ZAVD - Page Title"
+															/>
+														</FormControl>
+														<FormMessage />
+													</FormItem>
+												)}
+											/>
+										</div>
+										<FormDescription>
+											Displayed in browser tab and search results.
+										</FormDescription>
 
-										<FormField
-											control={form.control}
-											name="seo.description"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>Meta Description</FormLabel>
-													<FormControl>
-														<Textarea
-															{...field}
-															value={field.value || ""}
-															placeholder="Sweden's leading supplier..."
-															rows={3}
-														/>
-													</FormControl>
-													<FormDescription>
-														Short description shown in search
-														results.
-													</FormDescription>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
+										{/* Meta Description De/En */}
+										<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+											<FormField
+												control={form.control}
+												name="seo.descriptionDe"
+												render={({ field }) => (
+													<FormItem>
+														<FormLabel>Meta Description (DE)</FormLabel>
+														<FormControl>
+															<Textarea
+																{...field}
+																value={field.value || ""}
+																placeholder="Kurze Beschreibung auf Deutsch..."
+																rows={3}
+															/>
+														</FormControl>
+														<FormMessage />
+													</FormItem>
+												)}
+											/>
+											<FormField
+												control={form.control}
+												name="seo.descriptionEn"
+												render={({ field }) => (
+													<FormItem>
+														<FormLabel>Meta Description (EN)</FormLabel>
+														<FormControl>
+															<Textarea
+																{...field}
+																value={field.value || ""}
+																placeholder="Short description in English..."
+																rows={3}
+															/>
+														</FormControl>
+														<FormMessage />
+													</FormItem>
+												)}
+											/>
+										</div>
+										<FormDescription>
+											Short description shown in search results.
+										</FormDescription>
 
 										<FormField
 											control={form.control}
@@ -2349,15 +3118,15 @@ export default function StartsidaPage() {
 										<SeoPreview
 											data={{
 												title:
-													form.watch("seo.title") ||
-													"Zavd Medical - Medical Equipment",
+													form.watch("seo.titleDe") ||
+													"ZAVD",
 												description:
-													form.watch("seo.description") ||
+													form.watch("seo.descriptionDe") ||
 													"Add a description",
 												slug: "",
 												ogImage: form.watch("seo.ogImage") || null,
-												siteName: "Zavd Medical",
-												siteUrl: "www.zavd.se",
+												siteName: "ZAVD",
+												siteUrl: "www.zavd.de",
 											}}
 										/>
 									</CardContent>

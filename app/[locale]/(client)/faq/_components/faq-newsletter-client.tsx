@@ -7,9 +7,10 @@ import type { IFAQNewsletterSection } from "@/models/faq-page.model";
 
 interface FAQNewsletterClientProps {
 	data: IFAQNewsletterSection;
+	isEn?: boolean;
 }
 
-export function FAQNewsletterClient({ data }: FAQNewsletterClientProps) {
+export function FAQNewsletterClient({ data, isEn = false }: FAQNewsletterClientProps) {
 	const [email, setEmail] = useState("");
 	const [status, setStatus] = useState<
 		"idle" | "loading" | "success" | "error"
@@ -21,6 +22,24 @@ export function FAQNewsletterClient({ data }: FAQNewsletterClientProps) {
 		setMounted(true);
 	}, []);
 
+	const title = isEn ? (data.titleEn || data.titleDe) : (data.titleDe || data.titleEn);
+	const subtitle = isEn ? (data.subtitleEn || data.subtitleDe) : (data.subtitleDe || data.subtitleEn);
+	const inputPlaceholder = isEn
+		? (data.inputPlaceholderEn || data.inputPlaceholderDe)
+		: (data.inputPlaceholderDe || data.inputPlaceholderEn);
+	const buttonText = isEn
+		? (data.buttonTextEn || data.buttonTextDe)
+		: (data.buttonTextDe || data.buttonTextEn);
+	const loadingText = isEn
+		? (data.loadingTextEn || data.loadingTextDe)
+		: (data.loadingTextDe || data.loadingTextEn);
+	const successText = isEn
+		? (data.successTextEn || data.successTextDe)
+		: (data.successTextDe || data.successTextEn);
+	const privacyNote = isEn
+		? (data.privacyNoteEn || data.privacyNoteDe)
+		: (data.privacyNoteDe || data.privacyNoteEn);
+
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 
@@ -28,7 +47,9 @@ export function FAQNewsletterClient({ data }: FAQNewsletterClientProps) {
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		if (!emailRegex.test(email)) {
 			setStatus("error");
-			setMessage("Vänligen ange en giltig e-postadress");
+			setMessage(isEn
+				? "Please enter a valid email address"
+				: "Bitte geben Sie eine gultige E-Mail-Adresse ein");
 			return;
 		}
 
@@ -38,7 +59,9 @@ export function FAQNewsletterClient({ data }: FAQNewsletterClientProps) {
 		setTimeout(() => {
 			setStatus("success");
 			setMessage(
-				data.successText || "Tack! Du är nu prenumerant på vårt nyhetsbrev."
+				successText || (isEn
+					? "Thank you! You are now subscribed to our newsletter."
+					: "Vielen Dank! Sie sind jetzt fur unseren Newsletter angemeldet.")
 			);
 			setEmail("");
 		}, 1500);
@@ -193,16 +216,16 @@ export function FAQNewsletterClient({ data }: FAQNewsletterClientProps) {
 						</div>
 
 						{/* Title */}
-						{data.title && (
+						{title && (
 							<h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-								{data.title}
+								{title}
 							</h2>
 						)}
 
 						{/* Description */}
-						{data.subtitle && (
+						{subtitle && (
 							<p className="text-lg text-white/80 max-w-2xl mx-auto">
-								{data.subtitle}
+								{subtitle}
 							</p>
 						)}
 					</motion.div>
@@ -225,7 +248,7 @@ export function FAQNewsletterClient({ data }: FAQNewsletterClientProps) {
 											setStatus("idle");
 										}}
 										placeholder={
-											data.inputPlaceholder || "Din e-postadress"
+											inputPlaceholder || (isEn ? "Your email address" : "Ihre E-Mail-Adresse")
 										}
 										disabled={
 											status === "loading" || status === "success"
@@ -243,16 +266,16 @@ export function FAQNewsletterClient({ data }: FAQNewsletterClientProps) {
 									{status === "loading" ? (
 										<>
 											<div className="h-5 w-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-											<span>{data.loadingText || "Skickar..."}</span>
+											<span>{loadingText || (isEn ? "Sending..." : "Wird gesendet...")}</span>
 										</>
 									) : status === "success" ? (
 										<>
 											<CheckCircle2 className="h-5 w-5" />
-											<span>Prenumererar!</span>
+											<span>{isEn ? "Subscribed!" : "Angemeldet!"}</span>
 										</>
 									) : (
 										<>
-											<span>{data.buttonText || "Prenumerera"}</span>
+											<span>{buttonText || (isEn ? "Subscribe" : "Abonnieren")}</span>
 											<Send className="h-5 w-5" />
 										</>
 									)}
@@ -281,7 +304,7 @@ export function FAQNewsletterClient({ data }: FAQNewsletterClientProps) {
 						</form>
 
 						{/* Privacy Note */}
-						{data.privacyNote && (
+						{privacyNote && (
 							<motion.p
 								initial={{ opacity: 0 }}
 								whileInView={{ opacity: 1 }}
@@ -289,7 +312,7 @@ export function FAQNewsletterClient({ data }: FAQNewsletterClientProps) {
 								transition={{ duration: 0.6, delay: 0.4 }}
 								className="text-center text-sm text-white/60 mt-6"
 							>
-								{data.privacyNote}
+								{privacyNote}
 							</motion.p>
 						)}
 					</motion.div>

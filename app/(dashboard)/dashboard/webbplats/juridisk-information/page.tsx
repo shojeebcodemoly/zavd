@@ -18,6 +18,7 @@ import {
 	FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import {
@@ -61,10 +62,13 @@ const sectionVisibilitySchema = z.object({
 // Legal card schema
 const legalCardSchema = z.object({
 	icon: z.string().optional(),
-	title: z.string().optional(),
-	description: z.string().optional(),
+	titleDe: z.string().optional(),
+	titleEn: z.string().optional(),
+	descriptionDe: z.string().optional(),
+	descriptionEn: z.string().optional(),
 	href: z.string().optional(),
-	highlights: z.array(z.string()).optional(),
+	highlightsDe: z.array(z.string()).optional(),
+	highlightsEn: z.array(z.string()).optional(),
 });
 
 // Office address schema
@@ -75,19 +79,24 @@ const officeAddressSchema = z.object({
 
 // Term schema
 const termSchema = z.object({
-	title: z.string().optional(),
-	content: z.string().optional(),
+	titleDe: z.string().optional(),
+	titleEn: z.string().optional(),
+	contentDe: z.string().optional(),
+	contentEn: z.string().optional(),
 });
 
 // GDPR right schema
 const gdprRightSchema = z.object({
-	title: z.string().optional(),
-	description: z.string().optional(),
+	titleDe: z.string().optional(),
+	titleEn: z.string().optional(),
+	descriptionDe: z.string().optional(),
+	descriptionEn: z.string().optional(),
 });
 
 // CTA schema
 const ctaSchema = z.object({
-	text: z.string().optional(),
+	textDe: z.string().optional(),
+	textEn: z.string().optional(),
 	href: z.string().optional(),
 });
 
@@ -97,9 +106,12 @@ const legalPageFormSchema = z.object({
 
 	hero: z
 		.object({
-			badge: z.string().optional(),
-			title: z.string().optional(),
-			subtitle: z.string().optional(),
+			badgeDe: z.string().optional(),
+			badgeEn: z.string().optional(),
+			titleDe: z.string().optional(),
+			titleEn: z.string().optional(),
+			subtitleDe: z.string().optional(),
+			subtitleEn: z.string().optional(),
 		})
 		.optional(),
 
@@ -119,14 +131,16 @@ const legalPageFormSchema = z.object({
 
 	termsSection: z
 		.object({
-			title: z.string().optional(),
+			titleDe: z.string().optional(),
+			titleEn: z.string().optional(),
 			terms: z.array(termSchema).optional(),
 		})
 		.optional(),
 
 	gdprSection: z
 		.object({
-			title: z.string().optional(),
+			titleDe: z.string().optional(),
+			titleEn: z.string().optional(),
 			rights: z.array(gdprRightSchema).optional(),
 			primaryCta: ctaSchema.optional(),
 			secondaryCta: ctaSchema.optional(),
@@ -135,7 +149,8 @@ const legalPageFormSchema = z.object({
 
 	ctaSection: z
 		.object({
-			text: z.string().optional(),
+			textDe: z.string().optional(),
+			textEn: z.string().optional(),
 			primaryCta: ctaSchema.optional(),
 			secondaryCta: ctaSchema.optional(),
 		})
@@ -493,55 +508,36 @@ export default function LegalPageAdmin() {
 									<CardTitle>Hero Section</CardTitle>
 								</CardHeader>
 								<CardContent className="space-y-4">
-									<FormField
-										control={form.control}
-										name="hero.badge"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Badge</FormLabel>
-												<FormControl>
-													<Input
-														{...field}
-														value={field.value || ""}
-														placeholder="t.ex. Juridisk Information"
-													/>
-												</FormControl>
-											</FormItem>
-										)}
-									/>
-									<FormField
-										control={form.control}
-										name="hero.title"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Title</FormLabel>
-												<FormControl>
-													<Input
-														{...field}
-														value={field.value || ""}
-														placeholder="t.ex. Juridisk Information"
-													/>
-												</FormControl>
-											</FormItem>
-										)}
-									/>
-									<FormField
-										control={form.control}
-										name="hero.subtitle"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Subtitle</FormLabel>
-												<FormControl>
-													<Textarea
-														{...field}
-														value={field.value || ""}
-														placeholder="Beskriv sidan..."
-														rows={3}
-													/>
-												</FormControl>
-											</FormItem>
-										)}
-									/>
+									<div className="grid gap-4 md:grid-cols-2">
+										<div className="space-y-2">
+											<Label>Badge (DE)</Label>
+											<Input {...form.register("hero.badgeDe")} value={form.watch("hero.badgeDe") || ""} placeholder="z.B. Rechtliche Informationen" />
+										</div>
+										<div className="space-y-2">
+											<Label>Badge (EN)</Label>
+											<Input {...form.register("hero.badgeEn")} value={form.watch("hero.badgeEn") || ""} placeholder="e.g. Legal Information" />
+										</div>
+									</div>
+									<div className="grid gap-4 md:grid-cols-2">
+										<div className="space-y-2">
+											<Label>Title (DE)</Label>
+											<Input {...form.register("hero.titleDe")} value={form.watch("hero.titleDe") || ""} placeholder="z.B. Rechtliche Informationen" />
+										</div>
+										<div className="space-y-2">
+											<Label>Title (EN)</Label>
+											<Input {...form.register("hero.titleEn")} value={form.watch("hero.titleEn") || ""} placeholder="e.g. Legal Information" />
+										</div>
+									</div>
+									<div className="grid gap-4 md:grid-cols-2">
+										<div className="space-y-2">
+											<Label>Subtitle (DE)</Label>
+											<Textarea {...form.register("hero.subtitleDe")} value={form.watch("hero.subtitleDe") || ""} placeholder="Seitenbeschreibung..." rows={3} />
+										</div>
+										<div className="space-y-2">
+											<Label>Subtitle (EN)</Label>
+											<Textarea {...form.register("hero.subtitleEn")} value={form.watch("hero.subtitleEn") || ""} placeholder="Page description..." rows={3} />
+										</div>
+									</div>
 								</CardContent>
 							</Card>
 						</TabsContent>
@@ -563,10 +559,13 @@ export default function LegalPageAdmin() {
 										onClick={() =>
 											appendLegalCard({
 												icon: "Shield",
-												title: "",
-												description: "",
+												titleDe: "",
+												titleEn: "",
+												descriptionDe: "",
+												descriptionEn: "",
 												href: "",
-												highlights: [],
+												highlightsDe: [],
+												highlightsEn: [],
 											})
 										}
 									>
@@ -588,7 +587,7 @@ export default function LegalPageAdmin() {
 										>
 											<div className="flex items-center justify-between">
 												<div className="flex items-center gap-2">
-													
+
 													<span className="font-medium">
 														Card {index + 1}
 													</span>
@@ -640,55 +639,30 @@ export default function LegalPageAdmin() {
 														</FormItem>
 													)}
 												/>
-												<FormField
-													control={form.control}
-													name={`legalCards.${index}.title`}
-													render={({ field }) => (
-														<FormItem>
-															<FormLabel>Title</FormLabel>
-															<FormControl>
-																<Input
-																	{...field}
-																	value={field.value || ""}
-																	placeholder="t.ex. Integritetspolicy"
-																/>
-															</FormControl>
-														</FormItem>
-													)}
-												/>
-												<FormField
-													control={form.control}
-													name={`legalCards.${index}.href`}
-													render={({ field }) => (
-														<FormItem>
-															<FormLabel>Link</FormLabel>
-															<FormControl>
-																<Input
-																	{...field}
-																	value={field.value || ""}
-																	placeholder="t.ex. /integritetspolicy"
-																/>
-															</FormControl>
-														</FormItem>
-													)}
-												/>
-												<FormField
-													control={form.control}
-													name={`legalCards.${index}.description`}
-													render={({ field }) => (
-														<FormItem className="sm:col-span-2">
-															<FormLabel>Description</FormLabel>
-															<FormControl>
-																<Textarea
-																	{...field}
-																	value={field.value || ""}
-																	placeholder="Kort beskrivning..."
-																	rows={2}
-																/>
-															</FormControl>
-														</FormItem>
-													)}
-												/>
+												<div className="space-y-2">
+													<Label>Link</Label>
+													<Input {...form.register(`legalCards.${index}.href`)} value={form.watch(`legalCards.${index}.href`) || ""} placeholder="z.B. /datenschutz" />
+												</div>
+											</div>
+											<div className="grid gap-4 md:grid-cols-2">
+												<div className="space-y-2">
+													<Label>Title (DE)</Label>
+													<Input {...form.register(`legalCards.${index}.titleDe`)} value={form.watch(`legalCards.${index}.titleDe`) || ""} placeholder="z.B. Datenschutzrichtlinie" />
+												</div>
+												<div className="space-y-2">
+													<Label>Title (EN)</Label>
+													<Input {...form.register(`legalCards.${index}.titleEn`)} value={form.watch(`legalCards.${index}.titleEn`) || ""} placeholder="e.g. Privacy Policy" />
+												</div>
+											</div>
+											<div className="grid gap-4 md:grid-cols-2">
+												<div className="space-y-2">
+													<Label>Description (DE)</Label>
+													<Textarea {...form.register(`legalCards.${index}.descriptionDe`)} value={form.watch(`legalCards.${index}.descriptionDe`) || ""} placeholder="Kurze Beschreibung..." rows={2} />
+												</div>
+												<div className="space-y-2">
+													<Label>Description (EN)</Label>
+													<Textarea {...form.register(`legalCards.${index}.descriptionEn`)} value={form.watch(`legalCards.${index}.descriptionEn`) || ""} placeholder="Short description..." rows={2} />
+												</div>
 											</div>
 										</div>
 									))}
@@ -714,7 +688,7 @@ export default function LegalPageAdmin() {
 														<Input
 															{...field}
 															value={field.value || ""}
-															placeholder="t.ex. Zavd Medical AB"
+															placeholder="z.B. Zavd Medical AB"
 														/>
 													</FormControl>
 												</FormItem>
@@ -732,7 +706,7 @@ export default function LegalPageAdmin() {
 														<Input
 															{...field}
 															value={field.value || ""}
-															placeholder="t.ex. 556871-8075"
+															placeholder="z.B. 556871-8075"
 														/>
 													</FormControl>
 												</FormItem>
@@ -748,7 +722,7 @@ export default function LegalPageAdmin() {
 														<Input
 															{...field}
 															value={field.value || ""}
-															placeholder="t.ex. SE556871807501"
+															placeholder="z.B. SE556871807501"
 														/>
 													</FormControl>
 												</FormItem>
@@ -764,7 +738,7 @@ export default function LegalPageAdmin() {
 														<Input
 															{...field}
 															value={field.value || ""}
-															placeholder="t.ex. Sollentuna"
+															placeholder="z.B. Sollentuna"
 														/>
 													</FormControl>
 												</FormItem>
@@ -797,7 +771,7 @@ export default function LegalPageAdmin() {
 														<Input
 															{...field}
 															value={field.value || ""}
-															placeholder="t.ex. 010-205 15 01"
+															placeholder="z.B. 010-205 15 01"
 														/>
 													</FormControl>
 												</FormItem>
@@ -833,7 +807,7 @@ export default function LegalPageAdmin() {
 													key={field.id}
 													className="flex items-start gap-4 rounded-lg border p-4"
 												>
-													
+
 													<div className="grid flex-1 gap-4 sm:grid-cols-2">
 														<FormField
 															control={form.control}
@@ -845,7 +819,7 @@ export default function LegalPageAdmin() {
 																		<Input
 																			{...field}
 																			value={field.value || ""}
-																			placeholder="t.ex. Stockholm (Huvudkontor)"
+																			placeholder="z.B. Stockholm (Hauptsitz)"
 																		/>
 																	</FormControl>
 																</FormItem>
@@ -863,7 +837,7 @@ export default function LegalPageAdmin() {
 																		<Input
 																			{...field}
 																			value={field.value || ""}
-																			placeholder="t.ex. Turebergsvägen 5, 191 47 Sollentuna"
+																			placeholder="z.B. Turebergsvägen 5, 191 47 Sollentuna"
 																		/>
 																	</FormControl>
 																</FormItem>
@@ -909,7 +883,7 @@ export default function LegalPageAdmin() {
 										variant="outline"
 										size="sm"
 										onClick={() =>
-											appendTerm({ title: "", content: "" })
+											appendTerm({ titleDe: "", titleEn: "", contentDe: "", contentEn: "" })
 										}
 									>
 										<Plus className="mr-2 h-4 w-4" />
@@ -917,22 +891,16 @@ export default function LegalPageAdmin() {
 									</Button>
 								</CardHeader>
 								<CardContent className="space-y-6">
-									<FormField
-										control={form.control}
-										name="termsSection.title"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Section Title</FormLabel>
-												<FormControl>
-													<Input
-														{...field}
-														value={field.value || ""}
-														placeholder="t.ex. Allmänna Villkor"
-													/>
-												</FormControl>
-											</FormItem>
-										)}
-									/>
+									<div className="grid gap-4 md:grid-cols-2">
+										<div className="space-y-2">
+											<Label>Section Title (DE)</Label>
+											<Input {...form.register("termsSection.titleDe")} value={form.watch("termsSection.titleDe") || ""} placeholder="z.B. Allgemeine Geschäftsbedingungen" />
+										</div>
+										<div className="space-y-2">
+											<Label>Section Title (EN)</Label>
+											<Input {...form.register("termsSection.titleEn")} value={form.watch("termsSection.titleEn") || ""} placeholder="e.g. General Terms" />
+										</div>
+									</div>
 									{termFields.length === 0 && (
 										<p className="text-center text-muted-foreground py-8">
 											No terms added. Click &quot;Add Term&quot; to
@@ -946,7 +914,7 @@ export default function LegalPageAdmin() {
 										>
 											<div className="flex items-center justify-between">
 												<div className="flex items-center gap-2">
-													
+
 													<span className="font-medium">
 														Term {index + 1}
 													</span>
@@ -968,39 +936,26 @@ export default function LegalPageAdmin() {
 													<Trash2 className="h-4 w-4 text-destructive" />
 												</Button>
 											</div>
-											<FormField
-												control={form.control}
-												name={`termsSection.terms.${index}.title`}
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel>Title</FormLabel>
-														<FormControl>
-															<Input
-																{...field}
-																value={field.value || ""}
-																placeholder="t.ex. 1. Leveransvillkor"
-															/>
-														</FormControl>
-													</FormItem>
-												)}
-											/>
-											<FormField
-												control={form.control}
-												name={`termsSection.terms.${index}.content`}
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel>Content</FormLabel>
-														<FormControl>
-															<Textarea
-																{...field}
-																value={field.value || ""}
-																placeholder="Villkorstext..."
-																rows={4}
-															/>
-														</FormControl>
-													</FormItem>
-												)}
-											/>
+											<div className="grid gap-4 md:grid-cols-2">
+												<div className="space-y-2">
+													<Label>Title (DE)</Label>
+													<Input {...form.register(`termsSection.terms.${index}.titleDe`)} value={form.watch(`termsSection.terms.${index}.titleDe`) || ""} placeholder="z.B. 1. Lieferbedingungen" />
+												</div>
+												<div className="space-y-2">
+													<Label>Title (EN)</Label>
+													<Input {...form.register(`termsSection.terms.${index}.titleEn`)} value={form.watch(`termsSection.terms.${index}.titleEn`) || ""} placeholder="e.g. 1. Delivery Terms" />
+												</div>
+											</div>
+											<div className="grid gap-4 md:grid-cols-2">
+												<div className="space-y-2">
+													<Label>Content (DE)</Label>
+													<Textarea {...form.register(`termsSection.terms.${index}.contentDe`)} value={form.watch(`termsSection.terms.${index}.contentDe`) || ""} placeholder="Bedingungstext..." rows={4} />
+												</div>
+												<div className="space-y-2">
+													<Label>Content (EN)</Label>
+													<Textarea {...form.register(`termsSection.terms.${index}.contentEn`)} value={form.watch(`termsSection.terms.${index}.contentEn`) || ""} placeholder="Terms text..." rows={4} />
+												</div>
+											</div>
 										</div>
 									))}
 								</CardContent>
@@ -1022,7 +977,7 @@ export default function LegalPageAdmin() {
 										variant="outline"
 										size="sm"
 										onClick={() =>
-											appendGdprRight({ title: "", description: "" })
+											appendGdprRight({ titleDe: "", titleEn: "", descriptionDe: "", descriptionEn: "" })
 										}
 									>
 										<Plus className="mr-2 h-4 w-4" />
@@ -1030,22 +985,16 @@ export default function LegalPageAdmin() {
 									</Button>
 								</CardHeader>
 								<CardContent className="space-y-6">
-									<FormField
-										control={form.control}
-										name="gdprSection.title"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Section Title</FormLabel>
-												<FormControl>
-													<Input
-														{...field}
-														value={field.value || ""}
-														placeholder="t.ex. Dina rättigheter enligt GDPR"
-													/>
-												</FormControl>
-											</FormItem>
-										)}
-									/>
+									<div className="grid gap-4 md:grid-cols-2">
+										<div className="space-y-2">
+											<Label>Section Title (DE)</Label>
+											<Input {...form.register("gdprSection.titleDe")} value={form.watch("gdprSection.titleDe") || ""} placeholder="z.B. Ihre Rechte nach DSGVO" />
+										</div>
+										<div className="space-y-2">
+											<Label>Section Title (EN)</Label>
+											<Input {...form.register("gdprSection.titleEn")} value={form.watch("gdprSection.titleEn") || ""} placeholder="e.g. Your Rights under GDPR" />
+										</div>
+									</div>
 									{gdprRightFields.length === 0 && (
 										<p className="text-center text-muted-foreground py-8">
 											No rights added. Click &quot;Add Right&quot; to
@@ -1056,61 +1005,47 @@ export default function LegalPageAdmin() {
 										{gdprRightFields.map((field, index) => (
 											<div
 												key={field.id}
-												className="flex items-start gap-4 rounded-lg border p-4"
+												className="rounded-lg border p-4 space-y-4"
 											>
-												
-												<div className="grid flex-1 gap-4 sm:grid-cols-2">
-													<FormField
-														control={form.control}
-														name={`gdprSection.rights.${index}.title`}
-														render={({ field }) => (
-															<FormItem>
-																<FormLabel>Title</FormLabel>
-																<FormControl>
-																	<Input
-																		{...field}
-																		value={field.value || ""}
-																		placeholder="t.ex. Rätt till information"
-																	/>
-																</FormControl>
-															</FormItem>
-														)}
-													/>
-													<FormField
-														control={form.control}
-														name={`gdprSection.rights.${index}.description`}
-														render={({ field }) => (
-															<FormItem>
-																<FormLabel>
-																	Description
-																</FormLabel>
-																<FormControl>
-																	<Input
-																		{...field}
-																		value={field.value || ""}
-																		placeholder="Kort beskrivning..."
-																	/>
-																</FormControl>
-															</FormItem>
-														)}
-													/>
+												<div className="flex items-center justify-between">
+													<span className="font-medium">Right {index + 1}</span>
+													<Button
+														type="button"
+														variant="ghost"
+														size="icon"
+														onClick={async () => {
+															const confirmed = await confirm({
+																title: "Remove GDPR Right",
+																description:
+																	"Are you sure you want to remove this GDPR right?",
+																confirmText: "Remove",
+															});
+															if (confirmed) removeGdprRight(index);
+														}}
+													>
+														<Trash2 className="h-4 w-4 text-destructive" />
+													</Button>
 												</div>
-												<Button
-													type="button"
-													variant="ghost"
-													size="icon"
-													onClick={async () => {
-														const confirmed = await confirm({
-															title: "Remove GDPR Right",
-															description:
-																"Are you sure you want to remove this GDPR right?",
-															confirmText: "Remove",
-														});
-														if (confirmed) removeGdprRight(index);
-													}}
-												>
-													<Trash2 className="h-4 w-4 text-destructive" />
-												</Button>
+												<div className="grid gap-4 md:grid-cols-2">
+													<div className="space-y-2">
+														<Label>Title (DE)</Label>
+														<Input {...form.register(`gdprSection.rights.${index}.titleDe`)} value={form.watch(`gdprSection.rights.${index}.titleDe`) || ""} placeholder="z.B. Auskunftsrecht" />
+													</div>
+													<div className="space-y-2">
+														<Label>Title (EN)</Label>
+														<Input {...form.register(`gdprSection.rights.${index}.titleEn`)} value={form.watch(`gdprSection.rights.${index}.titleEn`) || ""} placeholder="e.g. Right to Information" />
+													</div>
+												</div>
+												<div className="grid gap-4 md:grid-cols-2">
+													<div className="space-y-2">
+														<Label>Description (DE)</Label>
+														<Input {...form.register(`gdprSection.rights.${index}.descriptionDe`)} value={form.watch(`gdprSection.rights.${index}.descriptionDe`) || ""} placeholder="Kurze Beschreibung..." />
+													</div>
+													<div className="space-y-2">
+														<Label>Description (EN)</Label>
+														<Input {...form.register(`gdprSection.rights.${index}.descriptionEn`)} value={form.watch(`gdprSection.rights.${index}.descriptionEn`) || ""} placeholder="Short description..." />
+													</div>
+												</div>
 											</div>
 										))}
 									</div>
@@ -1124,75 +1059,39 @@ export default function LegalPageAdmin() {
 												<h5 className="text-sm font-medium">
 													Primary Button
 												</h5>
-												<FormField
-													control={form.control}
-													name="gdprSection.primaryCta.text"
-													render={({ field }) => (
-														<FormItem>
-															<FormLabel>Text</FormLabel>
-															<FormControl>
-																<Input
-																	{...field}
-																	value={field.value || ""}
-																	placeholder="t.ex. Läs fullständig integritetspolicy"
-																/>
-															</FormControl>
-														</FormItem>
-													)}
-												/>
-												<FormField
-													control={form.control}
-													name="gdprSection.primaryCta.href"
-													render={({ field }) => (
-														<FormItem>
-															<FormLabel>Link</FormLabel>
-															<FormControl>
-																<Input
-																	{...field}
-																	value={field.value || ""}
-																	placeholder="/integritetspolicy"
-																/>
-															</FormControl>
-														</FormItem>
-													)}
-												/>
+												<div className="grid gap-4 md:grid-cols-2">
+													<div className="space-y-2">
+														<Label>Text (DE)</Label>
+														<Input {...form.register("gdprSection.primaryCta.textDe")} value={form.watch("gdprSection.primaryCta.textDe") || ""} placeholder="z.B. Datenschutzrichtlinie lesen" />
+													</div>
+													<div className="space-y-2">
+														<Label>Text (EN)</Label>
+														<Input {...form.register("gdprSection.primaryCta.textEn")} value={form.watch("gdprSection.primaryCta.textEn") || ""} placeholder="e.g. Read Privacy Policy" />
+													</div>
+												</div>
+												<div className="space-y-2">
+													<Label>Link</Label>
+													<Input {...form.register("gdprSection.primaryCta.href")} value={form.watch("gdprSection.primaryCta.href") || ""} placeholder="/datenschutz" />
+												</div>
 											</div>
 											<div className="space-y-4 rounded-lg border p-4">
 												<h5 className="text-sm font-medium">
 													Secondary Button
 												</h5>
-												<FormField
-													control={form.control}
-													name="gdprSection.secondaryCta.text"
-													render={({ field }) => (
-														<FormItem>
-															<FormLabel>Text</FormLabel>
-															<FormControl>
-																<Input
-																	{...field}
-																	value={field.value || ""}
-																	placeholder="t.ex. Kontakta oss"
-																/>
-															</FormControl>
-														</FormItem>
-													)}
-												/>
-												<FormField
-													control={form.control}
-													name="gdprSection.secondaryCta.href"
-													render={({ field }) => (
-														<FormItem>
-															<FormLabel>Link</FormLabel>
-															<FormControl>
-																<Input
-																	{...field}
-																	value={field.value || ""}
-																	placeholder="/kontakt"
-																/>
-															</FormControl>
-														</FormItem>
-													)}
-												/>
+												<div className="grid gap-4 md:grid-cols-2">
+													<div className="space-y-2">
+														<Label>Text (DE)</Label>
+														<Input {...form.register("gdprSection.secondaryCta.textDe")} value={form.watch("gdprSection.secondaryCta.textDe") || ""} placeholder="z.B. Kontaktieren Sie uns" />
+													</div>
+													<div className="space-y-2">
+														<Label>Text (EN)</Label>
+														<Input {...form.register("gdprSection.secondaryCta.textEn")} value={form.watch("gdprSection.secondaryCta.textEn") || ""} placeholder="e.g. Contact Us" />
+													</div>
+												</div>
+												<div className="space-y-2">
+													<Label>Link</Label>
+													<Input {...form.register("gdprSection.secondaryCta.href")} value={form.watch("gdprSection.secondaryCta.href") || ""} placeholder="/kontakt" />
+												</div>
 											</div>
 										</div>
 									</div>
@@ -1207,97 +1106,54 @@ export default function LegalPageAdmin() {
 									<CardTitle>Call-to-Action</CardTitle>
 								</CardHeader>
 								<CardContent className="space-y-4">
-									<FormField
-										control={form.control}
-										name="ctaSection.text"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Text</FormLabel>
-												<FormControl>
-													<Textarea
-														{...field}
-														value={field.value || ""}
-														placeholder="t.ex. Har du frågor om våra juridiska villkor?"
-														rows={2}
-													/>
-												</FormControl>
-											</FormItem>
-										)}
-									/>
+									<div className="grid gap-4 md:grid-cols-2">
+										<div className="space-y-2">
+											<Label>Text (DE)</Label>
+											<Textarea {...form.register("ctaSection.textDe")} value={form.watch("ctaSection.textDe") || ""} placeholder="z.B. Haben Sie Fragen zu unseren rechtlichen Bedingungen?" rows={2} />
+										</div>
+										<div className="space-y-2">
+											<Label>Text (EN)</Label>
+											<Textarea {...form.register("ctaSection.textEn")} value={form.watch("ctaSection.textEn") || ""} placeholder="e.g. Do you have questions about our legal terms?" rows={2} />
+										</div>
+									</div>
 									<div className="grid gap-4 sm:grid-cols-2">
 										<div className="space-y-4 rounded-lg border p-4">
 											<h5 className="text-sm font-medium">
 												Primary Button
 											</h5>
-											<FormField
-												control={form.control}
-												name="ctaSection.primaryCta.text"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel>Text</FormLabel>
-														<FormControl>
-															<Input
-																{...field}
-																value={field.value || ""}
-																placeholder="t.ex. Kontakta oss"
-															/>
-														</FormControl>
-													</FormItem>
-												)}
-											/>
-											<FormField
-												control={form.control}
-												name="ctaSection.primaryCta.href"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel>Link</FormLabel>
-														<FormControl>
-															<Input
-																{...field}
-																value={field.value || ""}
-																placeholder="/kontakt"
-															/>
-														</FormControl>
-													</FormItem>
-												)}
-											/>
+											<div className="grid gap-4 md:grid-cols-2">
+												<div className="space-y-2">
+													<Label>Text (DE)</Label>
+													<Input {...form.register("ctaSection.primaryCta.textDe")} value={form.watch("ctaSection.primaryCta.textDe") || ""} placeholder="z.B. Kontaktieren Sie uns" />
+												</div>
+												<div className="space-y-2">
+													<Label>Text (EN)</Label>
+													<Input {...form.register("ctaSection.primaryCta.textEn")} value={form.watch("ctaSection.primaryCta.textEn") || ""} placeholder="e.g. Contact Us" />
+												</div>
+											</div>
+											<div className="space-y-2">
+												<Label>Link</Label>
+												<Input {...form.register("ctaSection.primaryCta.href")} value={form.watch("ctaSection.primaryCta.href") || ""} placeholder="/kontakt" />
+											</div>
 										</div>
 										<div className="space-y-4 rounded-lg border p-4">
 											<h5 className="text-sm font-medium">
 												Secondary Button
 											</h5>
-											<FormField
-												control={form.control}
-												name="ctaSection.secondaryCta.text"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel>Text</FormLabel>
-														<FormControl>
-															<Input
-																{...field}
-																value={field.value || ""}
-																placeholder="t.ex. info@zavdmedical.se"
-															/>
-														</FormControl>
-													</FormItem>
-												)}
-											/>
-											<FormField
-												control={form.control}
-												name="ctaSection.secondaryCta.href"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel>Link</FormLabel>
-														<FormControl>
-															<Input
-																{...field}
-																value={field.value || ""}
-																placeholder="mailto:info@zavdmedical.se"
-															/>
-														</FormControl>
-													</FormItem>
-												)}
-											/>
+											<div className="grid gap-4 md:grid-cols-2">
+												<div className="space-y-2">
+													<Label>Text (DE)</Label>
+													<Input {...form.register("ctaSection.secondaryCta.textDe")} value={form.watch("ctaSection.secondaryCta.textDe") || ""} placeholder="z.B. info@zavdmedical.se" />
+												</div>
+												<div className="space-y-2">
+													<Label>Text (EN)</Label>
+													<Input {...form.register("ctaSection.secondaryCta.textEn")} value={form.watch("ctaSection.secondaryCta.textEn") || ""} placeholder="e.g. info@zavdmedical.se" />
+												</div>
+											</div>
+											<div className="space-y-2">
+												<Label>Link</Label>
+												<Input {...form.register("ctaSection.secondaryCta.href")} value={form.watch("ctaSection.secondaryCta.href") || ""} placeholder="mailto:info@zavdmedical.se" />
+											</div>
 										</div>
 									</div>
 								</CardContent>
@@ -1322,7 +1178,7 @@ export default function LegalPageAdmin() {
 														<Input
 															{...field}
 															value={field.value || ""}
-															placeholder="t.ex. Juridisk Information | Zavd Medical"
+															placeholder="z.B. Rechtliche Informationen | Zavd Medical"
 														/>
 													</FormControl>
 													<FormDescription>
@@ -1341,7 +1197,7 @@ export default function LegalPageAdmin() {
 														<Textarea
 															{...field}
 															value={field.value || ""}
-															placeholder="Beskrivning för sökmotorer..."
+															placeholder="Beschreibung für Suchmaschinen..."
 															rows={3}
 														/>
 													</FormControl>

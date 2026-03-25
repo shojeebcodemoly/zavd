@@ -34,27 +34,38 @@ const formSchema = z.object({
 		backgroundImage: z.string().optional(),
 		titleDe: z.string().optional(),
 		titleEn: z.string().optional(),
-		subtitle: z.string().optional(),
+		subtitleDe: z.string().optional(),
+		subtitleEn: z.string().optional(),
 	}),
 	intro: z.object({
-		badge: z.string().optional(),
-		headingBold: z.string().optional(),
-		headingLight: z.string().optional(),
-		description: z.string().optional(),
-		ctaText: z.string().optional(),
+		badgeDe: z.string().optional(),
+		badgeEn: z.string().optional(),
+		headingBoldDe: z.string().optional(),
+		headingBoldEn: z.string().optional(),
+		headingLightDe: z.string().optional(),
+		headingLightEn: z.string().optional(),
+		descriptionDe: z.string().optional(),
+		descriptionEn: z.string().optional(),
+		ctaTextDe: z.string().optional(),
+		ctaTextEn: z.string().optional(),
 		ctaHref: z.string().optional(),
 		images: z.array(z.object({ url: z.string(), alt: z.string().optional() })),
 	}),
 	projects: z.object({
-		badge: z.string().optional(),
-		heading: z.string().optional(),
-		description: z.string().optional(),
+		badgeDe: z.string().optional(),
+		badgeEn: z.string().optional(),
+		headingDe: z.string().optional(),
+		headingEn: z.string().optional(),
+		descriptionDe: z.string().optional(),
+		descriptionEn: z.string().optional(),
 		categories: z.array(z.string()),
 		items: z.array(
 			z.object({
 				image: z.string().optional(),
-				title: z.string().optional(),
-				description: z.string().optional(),
+				titleDe: z.string().optional(),
+				titleEn: z.string().optional(),
+				descriptionDe: z.string().optional(),
+				descriptionEn: z.string().optional(),
 				category: z.string().optional(),
 				href: z.string().optional(),
 			})
@@ -72,14 +83,20 @@ export default function ProjekteOverviewDashboardPage() {
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			hero: { backgroundImage: "", titleDe: "Projekte", titleEn: "Projects", subtitle: "" },
+			hero: { backgroundImage: "", titleDe: "Projekte", titleEn: "Projects", subtitleDe: "", subtitleEn: "" },
 			intro: {
-				badge: "", headingBold: "Our Work.", headingLight: "Your Vision Realized.",
-				description: "", ctaText: "Our Projects", ctaHref: "/projekte", images: [],
+				badgeDe: "", badgeEn: "",
+				headingBoldDe: "Unsere Arbeit.", headingBoldEn: "Our Work.",
+				headingLightDe: "Ihre Vision verwirklicht.", headingLightEn: "Your Vision Realized.",
+				descriptionDe: "", descriptionEn: "",
+				ctaTextDe: "Unsere Projekte", ctaTextEn: "Our Projects",
+				ctaHref: "/projekte", images: [],
 			},
 			projects: {
-				badge: "", heading: "Discover Our Completed Projects",
-				description: "", categories: [], items: [],
+				badgeDe: "", badgeEn: "",
+				headingDe: "Entdecken Sie unsere abgeschlossenen Projekte", headingEn: "Discover Our Completed Projects",
+				descriptionDe: "", descriptionEn: "",
+				categories: [], items: [],
 			},
 		},
 	});
@@ -107,21 +124,30 @@ export default function ProjekteOverviewDashboardPage() {
 						backgroundImage: page.hero?.backgroundImage || "",
 						titleDe: page.hero?.titleDe || "Projekte",
 						titleEn: page.hero?.titleEn || "Projects",
-						subtitle: page.hero?.subtitle || "",
+						subtitleDe: page.hero?.subtitleDe || "",
+						subtitleEn: page.hero?.subtitleEn || "",
 					},
 					intro: {
-						badge: page.intro?.badge || "",
-						headingBold: page.intro?.headingBold || "Our Work.",
-						headingLight: page.intro?.headingLight || "Your Vision Realized.",
-						description: page.intro?.description || "",
-						ctaText: page.intro?.ctaText || "Our Projects",
+						badgeDe: page.intro?.badgeDe || "",
+						badgeEn: page.intro?.badgeEn || "",
+						headingBoldDe: page.intro?.headingBoldDe || "Unsere Arbeit.",
+						headingBoldEn: page.intro?.headingBoldEn || "Our Work.",
+						headingLightDe: page.intro?.headingLightDe || "Ihre Vision verwirklicht.",
+						headingLightEn: page.intro?.headingLightEn || "Your Vision Realized.",
+						descriptionDe: page.intro?.descriptionDe || "",
+						descriptionEn: page.intro?.descriptionEn || "",
+						ctaTextDe: page.intro?.ctaTextDe || "Unsere Projekte",
+						ctaTextEn: page.intro?.ctaTextEn || "Our Projects",
 						ctaHref: page.intro?.ctaHref || "/projekte",
 						images: page.intro?.images || [],
 					},
 					projects: {
-						badge: page.projects?.badge || "",
-						heading: page.projects?.heading || "Discover Our Completed Projects",
-						description: page.projects?.description || "",
+						badgeDe: page.projects?.badgeDe || "",
+						badgeEn: page.projects?.badgeEn || "",
+						headingDe: page.projects?.headingDe || "Entdecken Sie unsere abgeschlossenen Projekte",
+						headingEn: page.projects?.headingEn || "Discover Our Completed Projects",
+						descriptionDe: page.projects?.descriptionDe || "",
+						descriptionEn: page.projects?.descriptionEn || "",
 						categories: page.projects?.categories || [],
 						items: page.projects?.items || [],
 					},
@@ -221,7 +247,7 @@ export default function ProjekteOverviewDashboardPage() {
 										<FormField control={form.control} name="hero.titleDe"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Title (German)</FormLabel>
+													<FormLabel>Title (DE)</FormLabel>
 													<FormControl><Input placeholder="Projekte" {...field} /></FormControl>
 													<FormMessage />
 												</FormItem>
@@ -230,22 +256,33 @@ export default function ProjekteOverviewDashboardPage() {
 										<FormField control={form.control} name="hero.titleEn"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Title (English)</FormLabel>
+													<FormLabel>Title (EN)</FormLabel>
 													<FormControl><Input placeholder="Projects" {...field} /></FormControl>
 													<FormMessage />
 												</FormItem>
 											)}
 										/>
 									</div>
-									<FormField control={form.control} name="hero.subtitle"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Subtitle</FormLabel>
-												<FormControl><Input placeholder="Short tagline..." {...field} /></FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+										<FormField control={form.control} name="hero.subtitleDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Subtitle (DE)</FormLabel>
+													<FormControl><Input placeholder="Kurze Tagline..." {...field} /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField control={form.control} name="hero.subtitleEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Subtitle (EN)</FormLabel>
+													<FormControl><Input placeholder="Short tagline..." {...field} /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
 								</CardContent>
 							</Card>
 						</TabsContent>
@@ -258,64 +295,115 @@ export default function ProjekteOverviewDashboardPage() {
 									<CardDescription>Left-side text of the intro section.</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-4">
-									<FormField control={form.control} name="intro.badge"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Badge / Label</FormLabel>
-												<FormControl><Input placeholder="e.g. Home / Project" {...field} /></FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
 									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-										<FormField control={form.control} name="intro.headingBold"
+										<FormField control={form.control} name="intro.badgeDe"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Heading (Bold)</FormLabel>
+													<FormLabel>Badge / Label (DE)</FormLabel>
+													<FormControl><Input placeholder="z.B. Startseite / Projekt" {...field} /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField control={form.control} name="intro.badgeEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Badge / Label (EN)</FormLabel>
+													<FormControl><Input placeholder="e.g. Home / Project" {...field} /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+										<FormField control={form.control} name="intro.headingBoldDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Heading Bold (DE)</FormLabel>
+													<FormControl><Input placeholder="Unsere Arbeit." {...field} /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField control={form.control} name="intro.headingBoldEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Heading Bold (EN)</FormLabel>
 													<FormControl><Input placeholder="Our Work." {...field} /></FormControl>
 													<FormMessage />
 												</FormItem>
 											)}
 										/>
-										<FormField control={form.control} name="intro.headingLight"
+									</div>
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+										<FormField control={form.control} name="intro.headingLightDe"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Heading (Light)</FormLabel>
+													<FormLabel>Heading Light (DE)</FormLabel>
+													<FormControl><Input placeholder="Ihre Vision verwirklicht." {...field} /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField control={form.control} name="intro.headingLightEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Heading Light (EN)</FormLabel>
 													<FormControl><Input placeholder="Your Vision Realized." {...field} /></FormControl>
 													<FormMessage />
 												</FormItem>
 											)}
 										/>
 									</div>
-									<FormField control={form.control} name="intro.description"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Description</FormLabel>
-												<FormControl><Input placeholder="Short paragraph text..." {...field} /></FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
 									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-										<FormField control={form.control} name="intro.ctaText"
+										<FormField control={form.control} name="intro.descriptionDe"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Button Text</FormLabel>
-													<FormControl><Input placeholder="Our Service" {...field} /></FormControl>
+													<FormLabel>Description (DE)</FormLabel>
+													<FormControl><Input placeholder="Kurzer Absatztext..." {...field} /></FormControl>
 													<FormMessage />
 												</FormItem>
 											)}
 										/>
-										<FormField control={form.control} name="intro.ctaHref"
+										<FormField control={form.control} name="intro.descriptionEn"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Button Link</FormLabel>
-													<FormControl><Input placeholder="/kontakt" {...field} /></FormControl>
+													<FormLabel>Description (EN)</FormLabel>
+													<FormControl><Input placeholder="Short paragraph text..." {...field} /></FormControl>
 													<FormMessage />
 												</FormItem>
 											)}
 										/>
 									</div>
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+										<FormField control={form.control} name="intro.ctaTextDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Button Text (DE)</FormLabel>
+													<FormControl><Input placeholder="Unsere Projekte" {...field} /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField control={form.control} name="intro.ctaTextEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Button Text (EN)</FormLabel>
+													<FormControl><Input placeholder="Our Projects" {...field} /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+									<FormField control={form.control} name="intro.ctaHref"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Button Link</FormLabel>
+												<FormControl><Input placeholder="/kontakt" {...field} /></FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
 								</CardContent>
 							</Card>
 
@@ -375,33 +463,66 @@ export default function ProjekteOverviewDashboardPage() {
 									<CardDescription>Badge, heading and description at the top of the grid section.</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-4">
-									<FormField control={form.control} name="projects.badge"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Badge</FormLabel>
-												<FormControl><Input placeholder="Top of Projects" {...field} /></FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<FormField control={form.control} name="projects.heading"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Heading</FormLabel>
-												<FormControl><Input placeholder="Discover Our Completed Projects" {...field} /></FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<FormField control={form.control} name="projects.description"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Description</FormLabel>
-												<FormControl><Input placeholder="Right-side description text..." {...field} /></FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+										<FormField control={form.control} name="projects.badgeDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Badge (DE)</FormLabel>
+													<FormControl><Input placeholder="Projekte" {...field} /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField control={form.control} name="projects.badgeEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Badge (EN)</FormLabel>
+													<FormControl><Input placeholder="Projects" {...field} /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+										<FormField control={form.control} name="projects.headingDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Heading (DE)</FormLabel>
+													<FormControl><Input placeholder="Entdecken Sie unsere abgeschlossenen Projekte" {...field} /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField control={form.control} name="projects.headingEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Heading (EN)</FormLabel>
+													<FormControl><Input placeholder="Discover Our Completed Projects" {...field} /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+										<FormField control={form.control} name="projects.descriptionDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Description (DE)</FormLabel>
+													<FormControl><Input placeholder="Beschreibungstext..." {...field} /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField control={form.control} name="projects.descriptionEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Description (EN)</FormLabel>
+													<FormControl><Input placeholder="Description text..." {...field} /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
 								</CardContent>
 							</Card>
 
@@ -465,30 +586,50 @@ export default function ProjekteOverviewDashboardPage() {
 												)}
 											/>
 											<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-												<FormField control={form.control} name={`projects.items.${index}.title`}
+												<FormField control={form.control} name={`projects.items.${index}.titleDe`}
 													render={({ field }) => (
 														<FormItem>
-															<FormLabel>Title</FormLabel>
+															<FormLabel>Title (DE)</FormLabel>
+															<FormControl><Input placeholder="Projekttitel..." {...field} /></FormControl>
+															<FormMessage />
+														</FormItem>
+													)}
+												/>
+												<FormField control={form.control} name={`projects.items.${index}.titleEn`}
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Title (EN)</FormLabel>
 															<FormControl><Input placeholder="Project title..." {...field} /></FormControl>
 															<FormMessage />
 														</FormItem>
 													)}
 												/>
-												<FormField control={form.control} name={`projects.items.${index}.category`}
+											</div>
+											<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+												<FormField control={form.control} name={`projects.items.${index}.descriptionDe`}
 													render={({ field }) => (
 														<FormItem>
-															<FormLabel>Category</FormLabel>
-															<FormControl><Input placeholder="e.g. Building" {...field} /></FormControl>
+															<FormLabel>Description (DE)</FormLabel>
+															<FormControl><Input placeholder="Kurze Beschreibung..." {...field} /></FormControl>
+															<FormMessage />
+														</FormItem>
+													)}
+												/>
+												<FormField control={form.control} name={`projects.items.${index}.descriptionEn`}
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Description (EN)</FormLabel>
+															<FormControl><Input placeholder="Short description..." {...field} /></FormControl>
 															<FormMessage />
 														</FormItem>
 													)}
 												/>
 											</div>
-											<FormField control={form.control} name={`projects.items.${index}.description`}
+											<FormField control={form.control} name={`projects.items.${index}.category`}
 												render={({ field }) => (
 													<FormItem>
-														<FormLabel>Description</FormLabel>
-														<FormControl><Input placeholder="Short description..." {...field} /></FormControl>
+														<FormLabel>Category</FormLabel>
+														<FormControl><Input placeholder="e.g. Building" {...field} /></FormControl>
 														<FormMessage />
 													</FormItem>
 												)}
@@ -508,7 +649,7 @@ export default function ProjekteOverviewDashboardPage() {
 										type="button"
 										variant="outline"
 										size="sm"
-										onClick={() => appendProject({ image: "", title: "", description: "", category: "", href: "" })}
+										onClick={() => appendProject({ image: "", titleDe: "", titleEn: "", descriptionDe: "", descriptionEn: "", category: "", href: "" })}
 									>
 										<Plus className="w-4 h-4 mr-2" />Add Project
 									</Button>

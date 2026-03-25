@@ -39,8 +39,10 @@ const formSchema = z.object({
 		breadcrumb: z.string().optional(),
 	}),
 	gallery: z.object({
-		title: z.string().optional(),
-		subtitle: z.string().optional(),
+		titleDe: z.string().optional(),
+		titleEn: z.string().optional(),
+		subtitleDe: z.string().optional(),
+		subtitleEn: z.string().optional(),
 		images: z.array(z.object({
 			url: z.string().min(1, "Image is required"),
 			alt: z.string().optional(),
@@ -48,16 +50,21 @@ const formSchema = z.object({
 		})),
 	}),
 	content: z.object({
-		title: z.string().optional(),
-		body: z.string().optional(),
+		titleDe: z.string().optional(),
+		titleEn: z.string().optional(),
+		bodyDe: z.string().optional(),
+		bodyEn: z.string().optional(),
 		image: z.string().optional(),
 		blocks: z.array(z.object({
-			heading: z.string().optional(),
-			body: z.string().optional(),
+			headingDe: z.string().optional(),
+			headingEn: z.string().optional(),
+			bodyDe: z.string().optional(),
+			bodyEn: z.string().optional(),
 		})),
 	}),
 	partners: z.object({
-		heading: z.string().optional(),
+		headingDe: z.string().optional(),
+		headingEn: z.string().optional(),
 		logos: z.array(z.object({
 			image: z.string().optional(),
 			name: z.string().optional(),
@@ -77,9 +84,9 @@ export default function EhrenamtEngagementDashboardPage() {
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			hero: { backgroundImage: "", titleDe: "Ehrenamt & Engagement", titleEn: "Volunteering", breadcrumb: "Ehrenamt & Engagement" },
-			gallery: { title: "", subtitle: "", images: [] },
-			content: { title: "", body: "", image: "", blocks: [] },
-			partners: { heading: "", logos: [] },
+			gallery: { titleDe: "", titleEn: "", subtitleDe: "", subtitleEn: "", images: [] },
+			content: { titleDe: "", titleEn: "", bodyDe: "", bodyEn: "", image: "", blocks: [] },
+			partners: { headingDe: "", headingEn: "", logos: [] },
 		},
 	});
 
@@ -108,18 +115,23 @@ export default function EhrenamtEngagementDashboardPage() {
 						breadcrumb: content.hero?.breadcrumb || "Ehrenamt & Engagement",
 					},
 					gallery: {
-						title: content.gallery?.title || "",
-						subtitle: content.gallery?.subtitle || "",
+						titleDe: content.gallery?.titleDe || "",
+						titleEn: content.gallery?.titleEn || "",
+						subtitleDe: content.gallery?.subtitleDe || "",
+						subtitleEn: content.gallery?.subtitleEn || "",
 						images: content.gallery?.images || [],
 					},
 					content: {
-						title: content.content?.title || "",
-						body: content.content?.body || "",
+						titleDe: content.content?.titleDe || "",
+						titleEn: content.content?.titleEn || "",
+						bodyDe: content.content?.bodyDe || "",
+						bodyEn: content.content?.bodyEn || "",
 						image: content.content?.image || "",
 						blocks: content.content?.blocks || [],
 					},
 					partners: {
-						heading: content.partners?.heading || "",
+						headingDe: content.partners?.headingDe || "",
+						headingEn: content.partners?.headingEn || "",
 						logos: content.partners?.logos || [],
 					},
 				});
@@ -240,18 +252,36 @@ export default function EhrenamtEngagementDashboardPage() {
 								</CardHeader>
 								<CardContent className="space-y-4">
 									<div className="grid gap-4 sm:grid-cols-2">
-										<FormField control={form.control} name="gallery.title"
+										<FormField control={form.control} name="gallery.titleDe"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Section Title</FormLabel>
+													<FormLabel>Title (DE)</FormLabel>
+													<FormControl><Input {...field} value={field.value || ""} placeholder="Unsere Galerie" /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)} />
+										<FormField control={form.control} name="gallery.titleEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Title (EN)</FormLabel>
 													<FormControl><Input {...field} value={field.value || ""} placeholder="Our Gallery" /></FormControl>
 													<FormMessage />
 												</FormItem>
 											)} />
-										<FormField control={form.control} name="gallery.subtitle"
+									</div>
+									<div className="grid gap-4 sm:grid-cols-2">
+										<FormField control={form.control} name="gallery.subtitleDe"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Section Subtitle</FormLabel>
+													<FormLabel>Subtitle (DE)</FormLabel>
+													<FormControl><Input {...field} value={field.value || ""} placeholder="Ein Einblick in unsere Arbeit..." /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)} />
+										<FormField control={form.control} name="gallery.subtitleEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Subtitle (EN)</FormLabel>
 													<FormControl><Input {...field} value={field.value || ""} placeholder="A glimpse into our work..." /></FormControl>
 													<FormMessage />
 												</FormItem>
@@ -339,26 +369,50 @@ export default function EhrenamtEngagementDashboardPage() {
 									<CardDescription>Main content with latest press and contact on the right.</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-6">
-									<FormField control={form.control} name="content.title"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Section Title</FormLabel>
-												<FormControl><Input {...field} value={field.value || ""} placeholder="Introduction" /></FormControl>
-												<FormMessage />
-											</FormItem>
-										)} />
-									<FormField control={form.control} name="content.body"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Body Content (HTML)</FormLabel>
-												<FormControl>
-													<Textarea {...field} value={field.value || ""} placeholder="<p>Enter content here...</p>"
-														className="font-mono text-sm min-h-[160px]" />
-												</FormControl>
-												<FormDescription>Supports HTML tags for formatting.</FormDescription>
-												<FormMessage />
-											</FormItem>
-										)} />
+									<div className="grid gap-4 sm:grid-cols-2">
+										<FormField control={form.control} name="content.titleDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Title (DE)</FormLabel>
+													<FormControl><Input {...field} value={field.value || ""} placeholder="Einleitung" /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)} />
+										<FormField control={form.control} name="content.titleEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Title (EN)</FormLabel>
+													<FormControl><Input {...field} value={field.value || ""} placeholder="Introduction" /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)} />
+									</div>
+									<div className="grid gap-4 sm:grid-cols-2">
+										<FormField control={form.control} name="content.bodyDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Body (DE) (HTML)</FormLabel>
+													<FormControl>
+														<Textarea {...field} value={field.value || ""} placeholder="<p>Inhalt hier eingeben...</p>"
+															className="font-mono text-sm min-h-[160px]" />
+													</FormControl>
+													<FormDescription>Supports HTML tags for formatting.</FormDescription>
+													<FormMessage />
+												</FormItem>
+											)} />
+										<FormField control={form.control} name="content.bodyEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Body (EN) (HTML)</FormLabel>
+													<FormControl>
+														<Textarea {...field} value={field.value || ""} placeholder="<p>Enter content here...</p>"
+															className="font-mono text-sm min-h-[160px]" />
+													</FormControl>
+													<FormDescription>Supports HTML tags for formatting.</FormDescription>
+													<FormMessage />
+												</FormItem>
+											)} />
+									</div>
 									<FormField control={form.control} name="content.image"
 										render={({ field }) => (
 											<FormItem>
@@ -379,7 +433,7 @@ export default function EhrenamtEngagementDashboardPage() {
 									<CardTitle className="flex items-center justify-between">
 										<span>Content Blocks</span>
 										<Button type="button" variant="outline" size="sm"
-											onClick={() => appendBlock({ heading: "", body: "" })}>
+											onClick={() => appendBlock({ headingDe: "", headingEn: "", bodyDe: "", bodyEn: "" })}>
 											<Plus className="h-4 w-4 mr-1" /> Add Block
 										</Button>
 									</CardTitle>
@@ -407,25 +461,48 @@ export default function EhrenamtEngagementDashboardPage() {
 													</div>
 												</CardHeader>
 												<CardContent className="space-y-4">
-													<FormField control={form.control} name={`content.blocks.${index}.heading`}
-														render={({ field }) => (
-															<FormItem>
-																<FormLabel>Heading</FormLabel>
-																<FormControl><Input {...field} value={field.value || ""} placeholder="Block heading" /></FormControl>
-																<FormMessage />
-															</FormItem>
-														)} />
-													<FormField control={form.control} name={`content.blocks.${index}.body`}
-														render={({ field }) => (
-															<FormItem>
-																<FormLabel>Body (HTML)</FormLabel>
-																<FormControl>
-																	<Textarea {...field} value={field.value || ""} placeholder="<p>Block content...</p>"
-																		className="font-mono text-sm min-h-[120px]" />
-																</FormControl>
-																<FormMessage />
-															</FormItem>
-														)} />
+													<div className="grid gap-4 sm:grid-cols-2">
+														<FormField control={form.control} name={`content.blocks.${index}.headingDe`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Heading (DE)</FormLabel>
+																	<FormControl><Input {...field} value={field.value || ""} placeholder="Block-Überschrift" /></FormControl>
+																	<FormMessage />
+																</FormItem>
+															)} />
+														<FormField control={form.control} name={`content.blocks.${index}.headingEn`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Heading (EN)</FormLabel>
+																	<FormControl><Input {...field} value={field.value || ""} placeholder="Block heading" /></FormControl>
+																	<FormMessage />
+																</FormItem>
+															)} />
+													</div>
+													<div className="grid gap-4 sm:grid-cols-2">
+														<FormField control={form.control} name={`content.blocks.${index}.bodyDe`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Body (DE) (HTML)</FormLabel>
+																	<FormControl>
+																		<Textarea {...field} value={field.value || ""} placeholder="<p>Block-Inhalt...</p>"
+																			className="font-mono text-sm min-h-[120px]" />
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)} />
+														<FormField control={form.control} name={`content.blocks.${index}.bodyEn`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Body (EN) (HTML)</FormLabel>
+																	<FormControl>
+																		<Textarea {...field} value={field.value || ""} placeholder="<p>Block content...</p>"
+																			className="font-mono text-sm min-h-[120px]" />
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)} />
+													</div>
 												</CardContent>
 											</Card>
 										))
@@ -442,14 +519,24 @@ export default function EhrenamtEngagementDashboardPage() {
 									<CardDescription>Partner/sponsor logos that scroll automatically right to left.</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-4">
-									<FormField control={form.control} name="partners.heading"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Section Heading (optional)</FormLabel>
-												<FormControl><Input {...field} value={field.value || ""} placeholder="Our Partners" /></FormControl>
-												<FormMessage />
-											</FormItem>
-										)} />
+									<div className="grid gap-4 sm:grid-cols-2">
+										<FormField control={form.control} name="partners.headingDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Heading (DE)</FormLabel>
+													<FormControl><Input {...field} value={field.value || ""} placeholder="Unsere Partner" /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)} />
+										<FormField control={form.control} name="partners.headingEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Heading (EN)</FormLabel>
+													<FormControl><Input {...field} value={field.value || ""} placeholder="Our Partners" /></FormControl>
+													<FormMessage />
+												</FormItem>
+											)} />
+									</div>
 								</CardContent>
 							</Card>
 							<Card>

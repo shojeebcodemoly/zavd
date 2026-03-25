@@ -34,21 +34,28 @@ import { useConfirmModal } from "@/components/ui/confirm-modal";
 const formSchema = z.object({
 	hero: z.object({
 		backgroundImage: z.string().optional(),
-		title: z.string().optional(),
+		titleDe: z.string().optional(),
+		titleEn: z.string().optional(),
 		breadcrumb: z.string().optional(),
 	}),
 	content: z.object({
-		title: z.string().optional(),
-		body: z.string().optional(),
+		titleDe: z.string().optional(),
+		titleEn: z.string().optional(),
+		bodyDe: z.string().optional(),
+		bodyEn: z.string().optional(),
 		image: z.string().optional(),
 		blocks: z.array(z.object({
-			heading: z.string().optional(),
-			body: z.string().optional(),
+			headingDe: z.string().optional(),
+			headingEn: z.string().optional(),
+			bodyDe: z.string().optional(),
+			bodyEn: z.string().optional(),
 		})),
 	}),
 	gallery: z.object({
-		title: z.string().optional(),
-		subtitle: z.string().optional(),
+		titleDe: z.string().optional(),
+		titleEn: z.string().optional(),
+		subtitleDe: z.string().optional(),
+		subtitleEn: z.string().optional(),
 		images: z.array(
 			z.object({
 				url: z.string().min(1, "Image is required"),
@@ -58,7 +65,8 @@ const formSchema = z.object({
 		),
 	}),
 	partners: z.object({
-		heading: z.string().optional(),
+		headingDe: z.string().optional(),
+		headingEn: z.string().optional(),
 		logos: z.array(
 			z.object({
 				image: z.string().optional(),
@@ -79,10 +87,10 @@ export default function PatenschaftsprojektDashboardPage() {
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			hero: { backgroundImage: "", title: "Patenschaftsprojekt", breadcrumb: "Patenschaftsprojekt" },
-			content: { title: "", body: "", image: "", blocks: [] },
-			gallery: { title: "", subtitle: "", images: [] },
-			partners: { heading: "", logos: [] },
+			hero: { backgroundImage: "", titleDe: "Patenschaftsprojekt", titleEn: "Mentorship Program", breadcrumb: "Patenschaftsprojekt" },
+			content: { titleDe: "", titleEn: "", bodyDe: "", bodyEn: "", image: "", blocks: [] },
+			gallery: { titleDe: "", titleEn: "", subtitleDe: "", subtitleEn: "", images: [] },
+			partners: { headingDe: "", headingEn: "", logos: [] },
 		},
 	});
 
@@ -107,22 +115,28 @@ export default function PatenschaftsprojektDashboardPage() {
 				form.reset({
 					hero: {
 						backgroundImage: content.hero?.backgroundImage || "",
-						title: content.hero?.title || "Patenschaftsprojekt",
+						titleDe: content.hero?.titleDe || "Patenschaftsprojekt",
+						titleEn: content.hero?.titleEn || "Mentorship Program",
 						breadcrumb: content.hero?.breadcrumb || "Patenschaftsprojekt",
 					},
 					content: {
-						title: content.content?.title || "",
-						body: content.content?.body || "",
+						titleDe: content.content?.titleDe || "",
+						titleEn: content.content?.titleEn || "",
+						bodyDe: content.content?.bodyDe || "",
+						bodyEn: content.content?.bodyEn || "",
 						image: content.content?.image || "",
 						blocks: content.content?.blocks || [],
 					},
 					gallery: {
-						title: content.gallery?.title || "",
-						subtitle: content.gallery?.subtitle || "",
+						titleDe: content.gallery?.titleDe || "",
+						titleEn: content.gallery?.titleEn || "",
+						subtitleDe: content.gallery?.subtitleDe || "",
+						subtitleEn: content.gallery?.subtitleEn || "",
 						images: content.gallery?.images || [],
 					},
 					partners: {
-						heading: content.partners?.heading || "",
+						headingDe: content.partners?.headingDe || "",
+						headingEn: content.partners?.headingEn || "",
 						logos: content.partners?.logos || [],
 					},
 				});
@@ -216,10 +230,10 @@ export default function PatenschaftsprojektDashboardPage() {
 									<div className="grid gap-4 sm:grid-cols-2">
 										<FormField
 											control={form.control}
-											name="hero.title"
+											name="hero.titleDe"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Title</FormLabel>
+													<FormLabel>Title (DE)</FormLabel>
 													<FormControl>
 														<Input {...field} value={field.value || ""} placeholder="Patenschaftsprojekt" />
 													</FormControl>
@@ -229,19 +243,32 @@ export default function PatenschaftsprojektDashboardPage() {
 										/>
 										<FormField
 											control={form.control}
-											name="hero.breadcrumb"
+											name="hero.titleEn"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Breadcrumb Text</FormLabel>
+													<FormLabel>Title (EN)</FormLabel>
 													<FormControl>
-														<Input {...field} value={field.value || ""} placeholder="Patenschaftsprojekt" />
+														<Input {...field} value={field.value || ""} placeholder="Mentorship Program" />
 													</FormControl>
-													<FormDescription>Text shown after &quot;Home / Projekte /&quot;</FormDescription>
 													<FormMessage />
 												</FormItem>
 											)}
 										/>
 									</div>
+									<FormField
+										control={form.control}
+										name="hero.breadcrumb"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Breadcrumb Text</FormLabel>
+												<FormControl>
+													<Input {...field} value={field.value || ""} placeholder="Patenschaftsprojekt" />
+												</FormControl>
+												<FormDescription>Text shown after &quot;Home / Projekte /&quot;</FormDescription>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
 								</CardContent>
 							</Card>
 						</TabsContent>
@@ -256,41 +283,80 @@ export default function PatenschaftsprojektDashboardPage() {
 									</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-6">
-									<FormField
-										control={form.control}
-										name="content.title"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Section Title</FormLabel>
-												<FormControl>
-													<Input {...field} value={field.value || ""} placeholder="Introduction" />
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<FormField
-										control={form.control}
-										name="content.body"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Body Content (HTML)</FormLabel>
-												<FormControl>
-													<Textarea
-														{...field}
-														value={field.value || ""}
-														placeholder="<p>Write your content here...</p>"
-														rows={14}
-														className="font-mono text-sm"
-													/>
-												</FormControl>
-												<FormDescription>
-													Supports HTML tags: &lt;p&gt;, &lt;h3&gt;, &lt;strong&gt;, &lt;ul&gt;, &lt;ol&gt;, &lt;li&gt;, &lt;a&gt;
-												</FormDescription>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
+									<div className="grid gap-4 sm:grid-cols-2">
+										<FormField
+											control={form.control}
+											name="content.titleDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Section Title (DE)</FormLabel>
+													<FormControl>
+														<Input {...field} value={field.value || ""} placeholder="Einleitung" />
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="content.titleEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Section Title (EN)</FormLabel>
+													<FormControl>
+														<Input {...field} value={field.value || ""} placeholder="Introduction" />
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+									<div className="grid gap-4 sm:grid-cols-2">
+										<FormField
+											control={form.control}
+											name="content.bodyDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Body Content (DE)</FormLabel>
+													<FormControl>
+														<Textarea
+															{...field}
+															value={field.value || ""}
+															placeholder="<p>Inhalt hier eingeben...</p>"
+															rows={14}
+															className="font-mono text-sm"
+														/>
+													</FormControl>
+													<FormDescription>
+														Supports HTML tags: &lt;p&gt;, &lt;h3&gt;, &lt;strong&gt;, &lt;ul&gt;, &lt;ol&gt;, &lt;li&gt;, &lt;a&gt;
+													</FormDescription>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="content.bodyEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Body Content (EN)</FormLabel>
+													<FormControl>
+														<Textarea
+															{...field}
+															value={field.value || ""}
+															placeholder="<p>Write your content here...</p>"
+															rows={14}
+															className="font-mono text-sm"
+														/>
+													</FormControl>
+													<FormDescription>
+														Supports HTML tags: &lt;p&gt;, &lt;h3&gt;, &lt;strong&gt;, &lt;ul&gt;, &lt;ol&gt;, &lt;li&gt;, &lt;a&gt;
+													</FormDescription>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
 
 									<FormField
 										control={form.control}
@@ -326,7 +392,7 @@ export default function PatenschaftsprojektDashboardPage() {
 											type="button"
 											variant="outline"
 											size="sm"
-											onClick={() => appendBlock({ heading: "", body: "" })}
+											onClick={() => appendBlock({ headingDe: "", headingEn: "", bodyDe: "", bodyEn: "" })}
 										>
 											<Plus className="h-4 w-4 mr-1" />
 											Add Block
@@ -366,32 +432,62 @@ export default function PatenschaftsprojektDashboardPage() {
 													</div>
 												</CardHeader>
 												<CardContent className="space-y-4">
-													<FormField
-														control={form.control}
-														name={`content.blocks.${index}.heading`}
-														render={({ field }) => (
-															<FormItem>
-																<FormLabel>Heading</FormLabel>
-																<FormControl>
-																	<Input {...field} value={field.value || ""} placeholder="What exactly is the mentoring program?" />
-																</FormControl>
-																<FormMessage />
-															</FormItem>
-														)}
-													/>
-													<FormField
-														control={form.control}
-														name={`content.blocks.${index}.body`}
-														render={({ field }) => (
-															<FormItem>
-																<FormLabel>Body</FormLabel>
-																<FormControl>
-																	<Textarea {...field} value={field.value || ""} placeholder="Write paragraph content..." rows={5} />
-																</FormControl>
-																<FormMessage />
-															</FormItem>
-														)}
-													/>
+													<div className="grid gap-4 sm:grid-cols-2">
+														<FormField
+															control={form.control}
+															name={`content.blocks.${index}.headingDe`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Heading (DE)</FormLabel>
+																	<FormControl>
+																		<Input {...field} value={field.value || ""} placeholder="Was genau ist das Patenschaftsprojekt?" />
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+														<FormField
+															control={form.control}
+															name={`content.blocks.${index}.headingEn`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Heading (EN)</FormLabel>
+																	<FormControl>
+																		<Input {...field} value={field.value || ""} placeholder="What exactly is the mentoring program?" />
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+													</div>
+													<div className="grid gap-4 sm:grid-cols-2">
+														<FormField
+															control={form.control}
+															name={`content.blocks.${index}.bodyDe`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Body (DE)</FormLabel>
+																	<FormControl>
+																		<Textarea {...field} value={field.value || ""} placeholder="Absatzinhalt eingeben..." rows={5} />
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+														<FormField
+															control={form.control}
+															name={`content.blocks.${index}.bodyEn`}
+															render={({ field }) => (
+																<FormItem>
+																	<FormLabel>Body (EN)</FormLabel>
+																	<FormControl>
+																		<Textarea {...field} value={field.value || ""} placeholder="Write paragraph content..." rows={5} />
+																	</FormControl>
+																	<FormMessage />
+																</FormItem>
+															)}
+														/>
+													</div>
 												</CardContent>
 											</Card>
 										))
@@ -412,12 +508,12 @@ export default function PatenschaftsprojektDashboardPage() {
 									<div className="grid gap-4 sm:grid-cols-2">
 										<FormField
 											control={form.control}
-											name="gallery.title"
+											name="gallery.titleDe"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Section Title</FormLabel>
+													<FormLabel>Section Title (DE)</FormLabel>
 													<FormControl>
-														<Input {...field} value={field.value || ""} placeholder="Our Gallery" />
+														<Input {...field} value={field.value || ""} placeholder="Unsere Galerie" />
 													</FormControl>
 													<FormMessage />
 												</FormItem>
@@ -425,10 +521,38 @@ export default function PatenschaftsprojektDashboardPage() {
 										/>
 										<FormField
 											control={form.control}
-											name="gallery.subtitle"
+											name="gallery.titleEn"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Section Subtitle</FormLabel>
+													<FormLabel>Section Title (EN)</FormLabel>
+													<FormControl>
+														<Input {...field} value={field.value || ""} placeholder="Our Gallery" />
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+									<div className="grid gap-4 sm:grid-cols-2">
+										<FormField
+											control={form.control}
+											name="gallery.subtitleDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Section Subtitle (DE)</FormLabel>
+													<FormControl>
+														<Input {...field} value={field.value || ""} placeholder="Ein Einblick in unsere Arbeit..." />
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="gallery.subtitleEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Section Subtitle (EN)</FormLabel>
 													<FormControl>
 														<Input {...field} value={field.value || ""} placeholder="A glimpse into our work..." />
 													</FormControl>
@@ -555,19 +679,34 @@ export default function PatenschaftsprojektDashboardPage() {
 									</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-4">
-									<FormField
-										control={form.control}
-										name="partners.heading"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Section Heading (optional)</FormLabel>
-												<FormControl>
-													<Input {...field} value={field.value || ""} placeholder="Our Partners" />
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
+									<div className="grid gap-4 sm:grid-cols-2">
+										<FormField
+											control={form.control}
+											name="partners.headingDe"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Section Heading (DE)</FormLabel>
+													<FormControl>
+														<Input {...field} value={field.value || ""} placeholder="Unsere Partner" />
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="partners.headingEn"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Section Heading (EN)</FormLabel>
+													<FormControl>
+														<Input {...field} value={field.value || ""} placeholder="Our Partners" />
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
 								</CardContent>
 							</Card>
 

@@ -6,6 +6,7 @@ import type { ISponsorsSection } from "@/models/home-page.model";
 
 interface SponsorsSectionProps {
 	data?: ISponsorsSection;
+	isEn?: boolean;
 }
 
 const DEFAULTS = {
@@ -14,9 +15,9 @@ const DEFAULTS = {
 		"We offer the opportunity to sponsor the association. Various options are available, such as sponsoring events or the association itself. Simply contact us at info@zavd.de",
 };
 
-export function SponsorsSection({ data }: SponsorsSectionProps) {
-	const heading = data?.heading || DEFAULTS.heading;
-	const description = data?.description || DEFAULTS.description;
+export function SponsorsSection({ data, isEn }: SponsorsSectionProps) {
+	const heading = (isEn ? data?.headingEn : data?.headingDe) || data?.headingDe || data?.headingEn || DEFAULTS.heading;
+	const description = (isEn ? data?.descriptionEn : data?.descriptionDe) || data?.descriptionDe || data?.descriptionEn || DEFAULTS.description;
 	const backgroundImage = data?.backgroundImage || null;
 	const sponsors = data?.sponsors || [];
 

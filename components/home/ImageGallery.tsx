@@ -8,12 +8,15 @@ import type { IImageGallerySection } from "@/models/home-page.model";
 
 interface ImageGalleryProps {
 	data: IImageGallerySection;
+	isEn?: boolean;
 }
 
-export function ImageGallery({ data }: ImageGalleryProps) {
+export function ImageGallery({ data, isEn }: ImageGalleryProps) {
 	const images = data?.images ?? [];
-	const hasBadge = data?.badge?.trim();
-	const hasTitle = data?.title?.trim();
+	const badge = (isEn ? data?.badgeEn : data?.badgeDe) || data?.badgeDe || data?.badgeEn;
+	const title = (isEn ? data?.titleEn : data?.titleDe) || data?.titleDe || data?.titleEn;
+	const hasBadge = badge?.trim();
+	const hasTitle = title?.trim();
 	const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
 	const close = useCallback(() => setActiveIndex(null), []);
@@ -33,6 +36,16 @@ export function ImageGallery({ data }: ImageGalleryProps) {
 
 	if (!images.length && !hasTitle && !hasBadge) return null;
 
+	const getImageTitle = (index: number) => {
+		const img = images[index];
+		return (isEn ? img?.titleEn : img?.titleDe) || img?.titleDe || img?.titleEn;
+	};
+
+	const getImageSubtitle = (index: number) => {
+		const img = images[index];
+		return (isEn ? img?.subtitleEn : img?.subtitleDe) || img?.subtitleDe || img?.subtitleEn;
+	};
+
 	return (
 		<>
 			<section className="pt-4 pb-16 lg:pt-6 lg:pb-24 bg-white overflow-hidden">
@@ -44,13 +57,13 @@ export function ImageGallery({ data }: ImageGalleryProps) {
 								<div className="flex items-center gap-3 mb-3">
 									<span className="w-8 h-[2px] bg-primary block" />
 									<span className="text-primary text-sm font-medium tracking-wide">
-										{data.badge}
+										{badge}
 									</span>
 								</div>
 							)}
 							{hasTitle && (
 								<h2 className="font-heading text-3xl md:text-4xl lg:text-5xl text-gray-900 leading-tight">
-									{data.title}
+									{title}
 								</h2>
 							)}
 						</div>
@@ -59,39 +72,43 @@ export function ImageGallery({ data }: ImageGalleryProps) {
 					{/* Grid */}
 					{images.length > 0 && (
 						<div className="grid grid-cols-2 md:grid-cols-4 gap-1">
-							{images.map((image, i) => (
-								<motion.div
-									key={i}
-									initial={{ opacity: 0, scale: 0.97 }}
-									whileInView={{ opacity: 1, scale: 1 }}
-									viewport={{ once: true, amount: 0.1 }}
-									transition={{ duration: 0.4, delay: (i % 4) * 0.07 }}
-									className="relative aspect-square overflow-hidden group cursor-pointer"
-									onClick={() => setActiveIndex(i)}
-								>
-									<ImageComponent
-										src={image.src ?? ""}
-										alt={image.title ?? "Gallery image"}
-										fill
-										className="object-cover transition-transform duration-500 group-hover:scale-105"
-									/>
-									<div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-									{/* Hover zoom hint */}
-									
-									<div className="absolute bottom-0 left-0 right-0 p-3 md:p-4">
-										{image.title && (
-											<p className="text-white text-xs md:text-sm font-bold uppercase tracking-wider leading-tight">
-												{image.title}
-											</p>
-										)}
-										{image.subtitle && (
-											<p className="text-white/80 text-[10px] md:text-xs uppercase tracking-wider mt-0.5">
-												{image.subtitle}
-											</p>
-										)}
-									</div>
-								</motion.div>
-							))}
+							{images.map((image, i) => {
+								const imgTitle = getImageTitle(i);
+								const imgSubtitle = getImageSubtitle(i);
+								return (
+									<motion.div
+										key={i}
+										initial={{ opacity: 0, scale: 0.97 }}
+										whileInView={{ opacity: 1, scale: 1 }}
+										viewport={{ once: true, amount: 0.1 }}
+										transition={{ duration: 0.4, delay: (i % 4) * 0.07 }}
+										className="relative aspect-square overflow-hidden group cursor-pointer"
+										onClick={() => setActiveIndex(i)}
+									>
+										<ImageComponent
+											src={image.src ?? ""}
+											alt={imgTitle ?? "Gallery image"}
+											fill
+											className="object-cover transition-transform duration-500 group-hover:scale-105"
+										/>
+										<div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+										{/* Hover zoom hint */}
+
+										<div className="absolute bottom-0 left-0 right-0 p-3 md:p-4">
+											{imgTitle && (
+												<p className="text-white text-xs md:text-sm font-bold uppercase tracking-wider leading-tight">
+													{imgTitle}
+												</p>
+											)}
+											{imgSubtitle && (
+												<p className="text-white/80 text-[10px] md:text-xs uppercase tracking-wider mt-0.5">
+													{imgSubtitle}
+												</p>
+											)}
+										</div>
+									</motion.div>
+								);
+							})}
 						</div>
 					)}
 				</div>
@@ -139,22 +156,22 @@ export function ImageGallery({ data }: ImageGalleryProps) {
 							<div className="relative w-full" style={{ paddingBottom: "66.66%" }}>
 								<ImageComponent
 									src={images[activeIndex].src ?? ""}
-									alt={images[activeIndex].title ?? "Gallery image"}
+									alt={getImageTitle(activeIndex) ?? "Gallery image"}
 									fill
 									className="object-contain"
 									showLoader={false}
 								/>
 							</div>
-							{(images[activeIndex].title || images[activeIndex].subtitle) && (
+							{(getImageTitle(activeIndex) || getImageSubtitle(activeIndex)) && (
 								<div className="text-center mt-3">
-									{images[activeIndex].title && (
+									{getImageTitle(activeIndex) && (
 										<p className="text-white font-semibold text-sm md:text-base uppercase tracking-wider">
-											{images[activeIndex].title}
+											{getImageTitle(activeIndex)}
 										</p>
 									)}
-									{images[activeIndex].subtitle && (
+									{getImageSubtitle(activeIndex) && (
 										<p className="text-white/60 text-xs md:text-sm mt-1">
-											{images[activeIndex].subtitle}
+											{getImageSubtitle(activeIndex)}
 										</p>
 									)}
 								</div>

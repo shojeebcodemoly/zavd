@@ -10,9 +10,10 @@ import type { IHeroSection } from "@/models/home-page.model";
 
 interface HeroSliderProps {
 	data: IHeroSection;
+	isEn?: boolean;
 }
 
-export function HeroSlider({ data }: HeroSliderProps) {
+export function HeroSlider({ data, isEn }: HeroSliderProps) {
 	const [currentSlide, setCurrentSlide] = useState(0);
 	const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
@@ -51,6 +52,9 @@ export function HeroSlider({ data }: HeroSliderProps) {
 	if (slides.length === 0) return null;
 
 	const activeSlide = slides[currentSlide];
+	const slideBadge = (isEn ? activeSlide.badgeEn : activeSlide.badgeDe) || activeSlide.badgeDe || activeSlide.badgeEn;
+	const slideTitle = (isEn ? activeSlide.titleEn : activeSlide.titleDe) || activeSlide.titleDe || activeSlide.titleEn;
+	const slideSubtitle = (isEn ? activeSlide.subtitleEn : activeSlide.subtitleDe) || activeSlide.subtitleDe || activeSlide.subtitleEn;
 
 	return (
 		<section className="relative w-full h-[90vh] overflow-hidden bg-black">
@@ -67,7 +71,7 @@ export function HeroSlider({ data }: HeroSliderProps) {
 					{activeSlide.backgroundImage && (
 						<ImageComponent
 							src={activeSlide.backgroundImage}
-							alt={activeSlide.title || "Hero background"}
+							alt={slideTitle || "Hero background"}
 							height={0}
 							width={0}
 							sizes="100vw"
@@ -95,38 +99,38 @@ export function HeroSlider({ data }: HeroSliderProps) {
 								className="flex flex-col gap-6"
 							>
 								{/* Badge */}
-								{activeSlide.badge && (
+								{slideBadge && (
 									<motion.span
 										initial={{ opacity: 0, y: 20 }}
 										animate={{ opacity: 1, y: 0 }}
 										transition={{ duration: 0.5, delay: 0.3 }}
 										className="text-xs md:text-sm tracking-[0.3em] uppercase text-amber-400 font-medium"
 									>
-										{activeSlide.badge}
+										{slideBadge}
 									</motion.span>
 								)}
 
 								{/* Title */}
-								{activeSlide.title && (
+								{slideTitle && (
 									<motion.h1
 										initial={{ opacity: 0, y: 30 }}
 										animate={{ opacity: 1, y: 0 }}
 										transition={{ duration: 0.6, delay: 0.4 }}
 										className="font-heading text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-white leading-tight"
 									>
-										{activeSlide.title}
+										{slideTitle}
 									</motion.h1>
 								)}
 
 								{/* Subtitle */}
-								{activeSlide.subtitle && (
+								{slideSubtitle && (
 									<motion.p
 										initial={{ opacity: 0, y: 20 }}
 										animate={{ opacity: 1, y: 0 }}
 										transition={{ duration: 0.5, delay: 0.5 }}
 										className="text-base md:text-lg text-white/75 max-w-lg leading-relaxed font-medium"
 									>
-										{activeSlide.subtitle}
+										{slideSubtitle}
 									</motion.p>
 								)}
 
