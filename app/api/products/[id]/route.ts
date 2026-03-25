@@ -6,8 +6,6 @@ import { logger } from "@/lib/utils/logger";
 import { isValidObjectId, generateSlug } from "@/lib/utils/product-helpers";
 import { revalidateProduct } from "@/lib/revalidation/actions";
 import {
-
-export const dynamic = "force-dynamic";
 	successResponse,
 	badRequestResponse,
 	unauthorizedResponse,
@@ -17,6 +15,8 @@ export const dynamic = "force-dynamic";
 	conflictResponse,
 	validationErrorResponse,
 } from "@/lib/utils/api-response";
+
+export const dynamic = "force-dynamic";
 
 interface RouteParams {
 	params: Promise<{ id: string }>;

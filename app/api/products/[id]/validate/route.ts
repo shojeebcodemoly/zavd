@@ -4,14 +4,14 @@ import { productService } from "@/lib/services/product.service";
 import { logger } from "@/lib/utils/logger";
 import { isValidObjectId } from "@/lib/utils/product-helpers";
 import {
-
-export const dynamic = "force-dynamic";
 	successResponse,
 	badRequestResponse,
 	unauthorizedResponse,
 	notFoundResponse,
 	internalServerErrorResponse,
 } from "@/lib/utils/api-response";
+
+export const dynamic = "force-dynamic";
 
 interface RouteParams {
 	params: Promise<{ id: string }>;

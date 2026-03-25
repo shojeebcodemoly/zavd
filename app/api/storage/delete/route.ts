@@ -9,13 +9,13 @@ import {
 	internalServerErrorResponse,
 } from "@/lib/utils/api-response";
 import {
-
-export const dynamic = "force-dynamic";
 	storageService,
 	StorageError,
 	deleteRequestSchema,
 	STORAGE_MESSAGES,
 } from "@/lib/storage";
+
+export const dynamic = "force-dynamic";
 
 /**
  * DELETE /api/storage/delete

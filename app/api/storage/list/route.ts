@@ -8,14 +8,14 @@ import {
 	internalServerErrorResponse,
 } from "@/lib/utils/api-response";
 import {
-
-export const dynamic = "force-dynamic";
 	storageService,
 	StorageError,
 	listRequestSchema,
 	STORAGE_MESSAGES,
 	STORAGE_CONFIG,
 } from "@/lib/storage";
+
+export const dynamic = "force-dynamic";
 
 /**
  * GET /api/storage/list

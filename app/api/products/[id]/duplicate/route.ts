@@ -5,14 +5,14 @@ import { logger } from "@/lib/utils/logger";
 import { isValidObjectId } from "@/lib/utils/product-helpers";
 import { revalidateProduct } from "@/lib/revalidation/actions";
 import {
-
-export const dynamic = "force-dynamic";
 	createdResponse,
 	badRequestResponse,
 	unauthorizedResponse,
 	notFoundResponse,
 	internalServerErrorResponse,
 } from "@/lib/utils/api-response";
+
+export const dynamic = "force-dynamic";
 
 interface RouteParams {
 	params: Promise<{ id: string }>;

@@ -4,12 +4,12 @@ import { z } from "zod";
 import { connectMongoose } from "@/lib/db/db-connect";
 import { getFormSubmissionModel } from "@/models/form-submission.model";
 import {
-
-export const dynamic = "force-dynamic";
 	createdResponse,
 	badRequestResponse,
 	internalServerErrorResponse,
 } from "@/lib/utils/api-response";
+
+export const dynamic = "force-dynamic";
 
 const simpleContactSchema = z.object({
 	fullName: z.string().min(2, "Name is required").max(100).trim(),

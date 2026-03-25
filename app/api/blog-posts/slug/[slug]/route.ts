@@ -2,12 +2,12 @@ import { NextRequest } from "next/server";
 import { blogPostService } from "@/lib/services/blog-post.service";
 import { logger } from "@/lib/utils/logger";
 import {
-
-export const dynamic = "force-dynamic";
 	successResponse,
 	notFoundResponse,
 	internalServerErrorResponse,
 } from "@/lib/utils/api-response";
+
+export const dynamic = "force-dynamic";
 
 interface RouteParams {
 	params: Promise<{ slug: string }>;
