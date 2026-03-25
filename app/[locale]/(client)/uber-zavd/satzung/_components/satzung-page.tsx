@@ -289,8 +289,8 @@ export function SatzungPage() {
 			.then((res) => (res.ok ? res.json() : null))
 			.then((json) => {
 				if (json) {
-					setSitePhone(json.phone || "");
-					setSiteEmail(json.email || "");
+					setSitePhone(json.data?.phone || "");
+					setSiteEmail(json.data?.email || "");
 				}
 			})
 			.catch(() => {});
