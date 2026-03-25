@@ -1,7 +1,1 @@
-export {
-	generateProductJsonLd,
-	generateBreadcrumbJsonLd,
-	generateFaqJsonLd,
-	generateOrganizationJsonLd,
-	generateProductPageJsonLd,
-} from "./product-jsonld";
+// SEO utilities - product-jsonld removed with product feature

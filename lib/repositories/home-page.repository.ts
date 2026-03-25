@@ -8,7 +8,6 @@ import {
 	type IAboutSection,
 	type ICtaSection,
 	type IHomePageSeo,
-	type IProductShowcaseSection,
 	type IImageGallerySection,
 	type ISectionVisibility,
 	type ITestimonialsSection,
@@ -26,16 +25,6 @@ export interface UpdateHomePageInput {
 	sectionVisibility?: ISectionVisibility;
 	hero?: Partial<IHeroSection>;
 	introSection?: Partial<IIntroSection>;
-	categoryShowcase?: {
-		badge?: string;
-		title?: string;
-		maxCategories?: number;
-	};
-	productCarousel?: {
-		badge?: string;
-		title?: string;
-		maxProducts?: number;
-	};
 	promoBanner?: {
 		leftBanner?: {
 			badge?: string;
@@ -67,7 +56,6 @@ export interface UpdateHomePageInput {
 		}>;
 	};
 	features?: IFeatureHighlight[];
-	productShowcase?: Partial<IProductShowcaseSection>;
 	imageGallery?: Partial<IImageGallerySection>;
 	aboutSection?: Partial<IAboutSection>;
 	testimonialsSection?: Partial<ITestimonialsSection>;
@@ -147,22 +135,6 @@ class HomePageRepository {
 			});
 		}
 
-		if (data.categoryShowcase) {
-			Object.entries(data.categoryShowcase).forEach(([key, value]) => {
-				if (value !== undefined) {
-					updateData[`categoryShowcase.${key}`] = value;
-				}
-			});
-		}
-
-		if (data.productCarousel) {
-			Object.entries(data.productCarousel).forEach(([key, value]) => {
-				if (value !== undefined) {
-					updateData[`productCarousel.${key}`] = value;
-				}
-			});
-		}
-
 		if (data.promoBanner) {
 			Object.entries(data.promoBanner).forEach(([key, value]) => {
 				if (value !== undefined) {
@@ -181,14 +153,6 @@ class HomePageRepository {
 
 		if (data.features) {
 			updateData.features = data.features;
-		}
-
-		if (data.productShowcase) {
-			Object.entries(data.productShowcase).forEach(([key, value]) => {
-				if (value !== undefined) {
-					updateData[`productShowcase.${key}`] = value;
-				}
-			});
 		}
 
 		if (data.imageGallery) {
@@ -318,14 +282,6 @@ class HomePageRepository {
 	async getFeatures(): Promise<IFeatureHighlight[]> {
 		const homePage = await this.get();
 		return homePage.features;
-	}
-
-	/**
-	 * Get product showcase section only
-	 */
-	async getProductShowcase(): Promise<IProductShowcaseSection> {
-		const homePage = await this.get();
-		return homePage.productShowcase;
 	}
 
 	/**

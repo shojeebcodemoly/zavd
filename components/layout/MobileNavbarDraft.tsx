@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Menu, X, ChevronRight, Search } from "lucide-react";
+import { Menu, X, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
 	Sheet,
@@ -19,7 +19,6 @@ import {
 	AccordionTrigger,
 } from "@/components/ui/accordion";
 import { mainNav } from "@/config/navigation";
-import { useNavigation } from "@/lib/hooks/use-navigation";
 import Logo from "../common/logo";
 import { useState } from "react";
 import ProtectedNavbar from "./ProtectedNavbar";
@@ -35,8 +34,6 @@ const MobileNavbar = ({ useLightText = false }: MobileNavbarProps) => {
 	const [open, setOpen] = useState(false);
 	const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
 	const [searchValue, setSearchValue] = useState("");
-	const { data: navigationData, isLoading } = useNavigation();
-
 	const handleQuoteClick = () => {
 		setOpen(false); // Close the mobile menu
 		setIsQuoteModalOpen(true); // Open the quote modal
@@ -118,96 +115,9 @@ const MobileNavbar = ({ useLightText = false }: MobileNavbarProps) => {
 										value={`item-${index}`}
 										className="border-0"
 									>
-										{/* Dynamic Kategori menu */}
 										{item.isDynamic ? (
-											<>
-												<AccordionTrigger className="px-3 py-2.5 text-sm font-medium text-secondary hover:text-secondary hover:bg-secondary/5 hover:no-underline rounded-lg transition-all data-[state=open]:bg-secondary/5 data-[state=open]:text-secondary">
-													<Link
-														href={item.href}
-														className="flex-1 text-left"
-														onClick={() => setOpen(false)}
-													>
-														{item.title}
-													</Link>
-												</AccordionTrigger>
-												<AccordionContent className="pb-1 pt-0.5">
-													<div className="ml-3 pl-3 border-l-2 border-secondary/20 space-y-0.5">
-														{isLoading && (
-															<div className="px-3 py-2 text-sm text-gray-400">
-																Laddar...
-															</div>
-														)}
-														{navigationData?.categories.map(
-															(category) => (
-																<div key={category._id}>
-																	<Link
-																		href={`/products/category/${category.slug}`}
-																		className="flex items-center justify-between px-3 py-2 text-sm font-medium text-gray-700 hover:text-secondary hover:bg-secondary/5 rounded-lg transition-all"
-																		onClick={() =>
-																			setOpen(false)
-																		}
-																	>
-																		{category.name}
-																		{category.products
-																			.length > 0 && (
-																			<ChevronRight className="h-3.5 w-3.5 text-secondary" />
-																		)}
-																	</Link>
-																	{category.products.length >
-																		0 && (
-																		<div className="ml-3 pl-3 border-l border-gray-200 space-y-0.5">
-																			{category.products
-																				.slice(0, 3)
-																				.map((product) => (
-																					<Link
-																						key={
-																							product._id
-																						}
-																						href={`/products/category/${product.primaryCategorySlug}/${product.slug}`}
-																						className="block px-3 py-1.5 text-xs text-gray-500 hover:text-secondary hover:bg-secondary/5 rounded-md transition-all"
-																						onClick={() =>
-																							setOpen(
-																								false
-																							)
-																						}
-																					>
-																						{
-																							product.title
-																						}
-																					</Link>
-																				))}
-																			{category.products
-																				.length > 3 && (
-																				<Link
-																					href={`/products/category/${category.slug}`}
-																					className="block px-3 py-1.5 text-xs text-secondary font-medium hover:underline"
-																					onClick={() =>
-																						setOpen(false)
-																					}
-																				>
-																					+
-																					{category
-																						.products
-																						.length -
-																						3}{" "}
-																					fler
-																				</Link>
-																			)}
-																		</div>
-																	)}
-																</div>
-															)
-														)}
-														{navigationData &&
-															navigationData.categories
-																.length === 0 && (
-																<div className="px-3 py-2 text-sm text-gray-400">
-																	Inga kategorier tillgängliga
-																</div>
-															)}
-													</div>
-												</AccordionContent>
-											</>
+											/* Products removed - skip dynamic menu */
+											null
 										) : item.items ? (
 											// Static menu items with subitems
 											<>

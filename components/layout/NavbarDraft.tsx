@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/navigation-menu";
 
 import { mainNav } from "@/config/navigation";
-import { useNavigation } from "@/lib/hooks/use-navigation";
 import { useNavbarVariant } from "@/lib/context/navbar-variant-context";
 import { cn } from "@/lib/utils";
 import type { SiteConfigType } from "@/config/site";
@@ -33,7 +32,6 @@ interface NavbarProps {
 export function Navbar({ config }: NavbarProps) {
 	const [isScrolled, setIsScrolled] = useState(false);
 	const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
-	const { data: navigationData } = useNavigation();
 	const { variant } = useNavbarVariant();
 
 	// Check if we should use light text (dark hero background and not scrolled)
@@ -68,84 +66,10 @@ export function Navbar({ config }: NavbarProps) {
 									<NavigationMenuList>
 										{mainNav.map((item) => (
 											<NavigationMenuItem key={item.title}>
-												{/* Dynamic Kategori menu */}
-												{item.isDynamic ? (
-													<>
-														<NavigationMenuTrigger
-																className={cn(
-																	"bg-transparent! hover:bg-secondary/10! focus:bg-secondary/10! active:bg-secondary/20! data-[state=open]:bg-secondary/10! text-sm font-medium transition-colors",
-																	useLightText
-																		? "text-white/90! hover:text-white! focus:text-white! active:text-white! data-[state=open]:text-white!"
-																		: "text-secondary! hover:text-secondary! focus:text-secondary! active:text-primary! data-[state=open]:text-secondary!"
-																)}
-															>
-															<Link href={item.href}>
-																{item.title}
-															</Link>
-														</NavigationMenuTrigger>
-														<NavigationMenuContent className="bg-slate-100/80! border! border-slate-200! ring-0! outline-none! backdrop-blur-xl">
-															<div className="w-[800px] p-5 md:w-[600px] lg:w-[850px] bg-slate-100/80 backdrop-blur-xl border border-white/20 shadow-sm rounded-sm">
-																<div className="grid grid-cols-3 gap-4">
-																	{navigationData?.categories.map(
-																		(category) => (
-																			<div
-																				key={category._id}
-																				className="space-y-2"
-																			>
-																				<Link
-																					href={`/products/category/${category.slug}`}
-																					className="block text-sm font-medium text-secondary hover:text-secondary hover:underline transition-colors"
-																				>
-																					{category.name}
-																				</Link>
-																				{category.products
-																					.length > 0 && (
-																					<ul className="space-y-1.5">
-																						{category.products.map(
-																							(
-																								product
-																							) => (
-																								<li
-																									key={
-																										product._id
-																									}
-																								>
-																									<Link
-																										href={`/products/category/${product.primaryCategorySlug}/${product.slug}`}
-																										className="block text-sm text-slate-400 hover:text-secondary transition-colors line-clamp-1 hover:underline"
-																									>
-																										{
-																											product.title
-																										}
-																									</Link>
-																								</li>
-																							)
-																						)}
-																					</ul>
-																				)}
-																			</div>
-																		)
-																	)}
-																	{/* Loading state */}
-																	{!navigationData && (
-																		<div className="col-span-3 py-8 text-center text-slate-400 text-sm">
-																			Laddar...
-																		</div>
-																	)}
-																	{/* Empty state */}
-																	{navigationData &&
-																		navigationData.categories
-																			.length === 0 && (
-																			<div className="col-span-3 py-8 text-center text-slate-400 text-sm">
-																				Inga kategorier
-																				tillgängliga
-																			</div>
-																		)}
-																</div>
-															</div>
-														</NavigationMenuContent>
-													</>
-												) : item.items ? (
+															{item.isDynamic ? (
+																/* Products removed - skip dynamic menu */
+																null
+															) : item.items ? (
 													// Static menu items with subitems
 													<>
 														<NavigationMenuTrigger

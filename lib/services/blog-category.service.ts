@@ -7,7 +7,7 @@ import {
 	BadRequestError,
 	ConflictError,
 } from "@/lib/utils/api-error";
-import { generateSlug, generateUniqueSlug } from "@/lib/utils/product-helpers";
+import { generateSlug, generateUniqueSlug } from "@/lib/utils/helpers";
 import { validateNoBlogCategoryParentCycle } from "@/lib/utils/blog-category-tree";
 import type {
 	IBlogCategory,

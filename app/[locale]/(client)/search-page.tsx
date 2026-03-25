@@ -3,15 +3,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { parseAsString, parseAsInteger, useQueryState } from "nuqs";
-import { Search, X, Package, FileText, FolderOpen } from "lucide-react";
+import { Search, X, FileText } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-	ProductResultCard,
-	ArticleResultCard,
-	CategoryResultCard,
-} from "@/components/search/SearchResultCard";
+import { ArticleResultCard } from "@/components/search/SearchResultCard";
 import { SearchPageSkeleton } from "@/components/search/SearchSkeleton";
 import { NoResults } from "@/components/search/NoResults";
 import type { SearchResults } from "@/lib/services/search.service";
@@ -76,7 +72,7 @@ export function SearchPageClient({
 		}
 	}, []);
 
-	// Sync input value with URL search query when it changes externally (e.g., popular search links)
+	// Sync input value with URL search query when it changes externally
 	useEffect(() => {
 		if (searchQuery !== inputValue) {
 			setInputValue(searchQuery);
@@ -86,7 +82,6 @@ export function SearchPageClient({
 
 	// Fetch when URL params change (after initial mount)
 	useEffect(() => {
-		// Skip if we have initial results and query matches
 		if (initialResults && searchQuery === initialQuery) {
 			return;
 		}
@@ -119,9 +114,7 @@ export function SearchPageClient({
 	};
 
 	// Calculate totals
-	const totalProducts = results?.products?.total || 0;
 	const totalPosts = results?.posts?.total || 0;
-	const totalCategories = results?.categories?.total || 0;
 	const totalResults = results?.totalResults || 0;
 
 	return (
@@ -131,11 +124,11 @@ export function SearchPageClient({
 				<div className="mb-8">
 					{hasSearched && results?.query && (
 						<p className="text-sm text-foreground/60 mb-1">
-							Din sökning &quot;{results.query}&quot; gav {totalResults} träffar
+							Ihre Suche nach &quot;{results.query}&quot; ergab {totalResults} Treffer
 						</p>
 					)}
 					<h1 className="text-2xl sm:text-3xl font-medium text-secondary">
-						{hasSearched ? "Sökresultat" : "Sök"}
+						{hasSearched ? "Suchergebnisse" : "Suche"}
 					</h1>
 				</div>
 
@@ -148,7 +141,7 @@ export function SearchPageClient({
 								type="text"
 								value={inputValue}
 								onChange={(e) => setInputValue(e.target.value)}
-								placeholder="Sök produkter, artiklar, kategorier..."
+								placeholder="Artikel suchen..."
 								className="pl-12 pr-10 h-14 text-base rounded-full border-border focus:border-primary focus:ring-primary bg-background"
 							/>
 							{inputValue && (
@@ -166,7 +159,7 @@ export function SearchPageClient({
 							className="w-full sm:w-auto h-14 px-8 rounded-full bg-primary hover:bg-primary-hover"
 							disabled={inputValue.trim().length < 2}
 						>
-							Sök
+							Suchen
 						</Button>
 					</div>
 				</form>
@@ -177,33 +170,13 @@ export function SearchPageClient({
 				{/* Results */}
 				{!isLoading && hasSearched && results && (
 					<div className="space-y-10">
-						{/* Products Section */}
-						{totalProducts > 0 && (
-							<div>
-								<div className="flex items-center gap-3 mb-4">
-									<Package className="h-5 w-5 text-primary" />
-									<h2 className="text-lg font-semibold text-secondary">
-										Produkter
-									</h2>
-									<Badge variant="secondary" className="rounded-full">
-										{totalProducts}
-									</Badge>
-								</div>
-								<div className="space-y-4">
-									{results.products.data.map((product) => (
-										<ProductResultCard key={product._id} product={product} />
-									))}
-								</div>
-							</div>
-						)}
-
 						{/* Articles Section */}
 						{totalPosts > 0 && (
 							<div>
 								<div className="flex items-center gap-3 mb-4">
 									<FileText className="h-5 w-5 text-blue-600" />
 									<h2 className="text-lg font-semibold text-secondary">
-										Artiklar & Nyheter
+										Artikel & Nachrichten
 									</h2>
 									<Badge variant="secondary" className="rounded-full">
 										{totalPosts}
@@ -217,26 +190,6 @@ export function SearchPageClient({
 							</div>
 						)}
 
-						{/* Categories Section */}
-						{totalCategories > 0 && (
-							<div>
-								<div className="flex items-center gap-3 mb-4">
-									<FolderOpen className="h-5 w-5 text-emerald-600" />
-									<h2 className="text-lg font-semibold text-secondary">
-										Kategorier
-									</h2>
-									<Badge variant="secondary" className="rounded-full">
-										{totalCategories}
-									</Badge>
-								</div>
-								<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-									{results.categories.data.map((category) => (
-										<CategoryResultCard key={category._id} category={category} />
-									))}
-								</div>
-							</div>
-						)}
-
 						{/* Pagination */}
 						{totalResults > 10 && (
 							<div className="flex justify-center gap-4 pt-6">
@@ -245,17 +198,17 @@ export function SearchPageClient({
 									disabled={page <= 1}
 									onClick={() => setPage(page > 1 ? page - 1 : 1)}
 								>
-									Föregående
+									Zurück
 								</Button>
 								<span className="flex items-center px-4 text-sm text-foreground/70">
-									Sida {page}
+									Seite {page}
 								</span>
 								<Button
 									variant="outline"
 									disabled={totalResults <= page * 10}
 									onClick={() => setPage(page + 1)}
 								>
-									Nästa
+									Weiter
 								</Button>
 							</div>
 						)}
@@ -274,7 +227,7 @@ export function SearchPageClient({
 							<Search className="h-8 w-8 text-foreground/50" />
 						</div>
 						<p className="text-foreground/60">
-							Skriv minst 2 tecken för att börja söka
+							Mindestens 2 Zeichen eingeben, um die Suche zu starten
 						</p>
 					</div>
 				)}

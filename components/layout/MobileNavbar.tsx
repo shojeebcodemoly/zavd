@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Menu, X, Search, ChevronDown } from "lucide-react";
+import { Menu, X, Search } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,7 +20,6 @@ import {
 	AccordionTrigger,
 } from "@/components/ui/accordion";
 import { mainNavNew } from "@/config/navigation-new";
-import { useNavigation } from "@/lib/hooks/use-navigation";
 import Logo from "../common/logo";
 import { useState } from "react";
 import ProtectedNavbar from "./ProtectedNavbar";
@@ -51,8 +50,6 @@ const MobileNavbar = ({ useLightText = false, logoUrl }: MobileNavbarProps) => {
 	const [open, setOpen] = useState(false);
 	const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
 	const [searchValue, setSearchValue] = useState("");
-	const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
-	const { data: navigationData, isLoading } = useNavigation();
 	const { data: session } = authClient.useSession();
 	const t = useTranslations("navigation");
 	const tCommon = useTranslations("common");
@@ -104,10 +101,6 @@ const MobileNavbar = ({ useLightText = false, logoUrl }: MobileNavbarProps) => {
 			setOpen(false);
 			setSearchValue("");
 		}
-	};
-
-	const toggleCategory = (categoryId: string) => {
-		setExpandedCategory(expandedCategory === categoryId ? null : categoryId);
 	};
 
 	return (
@@ -216,84 +209,9 @@ const MobileNavbar = ({ useLightText = false, logoUrl }: MobileNavbarProps) => {
 										value={`item-${index}`}
 										className="border-0"
 									>
-										{/* Dynamic Produkter menu */}
 										{item.isDynamic ? (
-											<>
-												<AccordionTrigger className="px-3 py-2.5 text-sm font-medium text-secondary hover:text-secondary hover:bg-secondary/5 hover:no-underline rounded-lg transition-all data-[state=open]:bg-secondary/5 data-[state=open]:text-secondary uppercase">
-													<span className="flex-1 text-left">
-														{t(item.titleKey)}
-													</span>
-												</AccordionTrigger>
-												<AccordionContent className="pb-1 pt-0.5">
-													<div className="ml-3 pl-3 border-l-2 border-secondary/20 space-y-0.5">
-														{isLoading && (
-															<div className="px-3 py-2 text-sm text-gray-400">
-																{tCommon("loading")}
-															</div>
-														)}
-														{navigationData?.categories.map(
-															(category) => (
-																<div key={category._id}>
-																	{/* Category with expandable products */}
-																	{category.products.length > 0 ? (
-																		<>
-																			<button
-																				onClick={() => toggleCategory(category._id)}
-																				className="flex items-center justify-between w-full px-3 py-2 text-sm font-medium text-primary hover:text-primary/80 hover:bg-secondary/5 rounded-lg transition-all"
-																			>
-																				<span>{category.name}</span>
-																				<ChevronDown
-																					className={cn(
-																						"h-4 w-4 text-muted-foreground transition-transform duration-200",
-																						expandedCategory === category._id && "rotate-180"
-																					)}
-																				/>
-																			</button>
-																			{/* Products - only show when expanded */}
-																			{expandedCategory === category._id && (
-																				<div className="ml-3 pl-3 border-l border-gray-200 space-y-0.5 animate-in slide-in-from-top-1 duration-200 max-h-[200px] overflow-y-auto nav-dropdown-scroll">
-																					{category.products.map((product) => (
-																						<Link
-																							key={product._id}
-																							href={`/products/category/${product.primaryCategorySlug}/${product.slug}`}
-																							className="block px-3 py-1.5 text-xs text-gray-500 hover:text-secondary hover:bg-secondary/5 rounded-md transition-all"
-																							onClick={() => setOpen(false)}
-																						>
-																							{product.title}
-																						</Link>
-																					))}
-																					<Link
-																						href={`/products/category/${category.slug}`}
-																						className="block px-3 py-1.5 text-xs text-secondary font-medium hover:underline"
-																						onClick={() => setOpen(false)}
-																					>
-																						{tCommon("viewAll")} →
-																					</Link>
-																				</div>
-																			)}
-																		</>
-																	) : (
-																		/* Category without products - just a link */
-																		<Link
-																			href={`/products/category/${category.slug}`}
-																			className="flex items-center px-3 py-2 text-sm font-medium text-primary hover:text-primary/80 hover:bg-secondary/5 rounded-lg transition-all"
-																			onClick={() => setOpen(false)}
-																		>
-																			{category.name}
-																		</Link>
-																	)}
-																</div>
-															)
-														)}
-														{navigationData &&
-															navigationData.categories.length === 0 && (
-																<div className="px-3 py-2 text-sm text-gray-400">
-																	{t("noCategories")}
-																</div>
-															)}
-													</div>
-												</AccordionContent>
-											</>
+											/* Products removed - skip dynamic menu */
+											null
 										) : item.items ? (
 											// Static menu items with subitems (Starta Eget, Om Oss)
 											<>

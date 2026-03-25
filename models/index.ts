@@ -13,10 +13,6 @@
 export * from "./user.model";
 export * from "./profile.model";
 
-// Product models
-export * from "./category.model";
-export * from "./product.model";
-
 // Blog models
 export * from "./blog-post.model";
 export * from "./blog-category.model";

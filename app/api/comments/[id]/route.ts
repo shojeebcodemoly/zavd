@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import { getAuth } from "@/lib/db/auth";
 import { getBlogCommentModel, type CommentStatus } from "@/models/blog-comment.model";
 import { logger } from "@/lib/utils/logger";
-import { isValidObjectId } from "@/lib/utils/product-helpers";
+import { isValidObjectId } from "@/lib/utils/helpers";
 import {
 	successResponse,
 	badRequestResponse,

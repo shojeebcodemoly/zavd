@@ -25,7 +25,7 @@ export async function GET() {
 
 		// Debug: Log fetched hero data
 		logger.info("GET - Fetched hero data", {
-			heroSlides: homePage.hero?.slides?.map((s: { title?: string }) => s.title),
+			heroSlides: homePage.hero?.slides?.map((s: { titleDe?: string }) => s.titleDe),
 		});
 
 		return successResponse(homePage, "Home page content retrieved successfully");
@@ -59,7 +59,7 @@ export async function PUT(request: NextRequest) {
 
 		// Debug: Log incoming hero data
 		logger.info("Incoming hero data from form", {
-			heroSlides: body.hero?.slides?.map((s: { title?: string }) => s.title),
+			heroSlides: body.hero?.slides?.map((s: { titleDe?: string }) => s.titleDe),
 		});
 
 		const validationResult = updateHomePageSchema.safeParse(body);
@@ -76,7 +76,7 @@ export async function PUT(request: NextRequest) {
 
 		// Debug: Log validated data
 		logger.info("Validated hero data", {
-			heroSlides: validationResult.data.hero?.slides?.map((s: { title?: string }) => s.title),
+			heroSlides: validationResult.data.hero?.slides?.map((s: { titleDe?: string }) => s.titleDe),
 		});
 
 		// Update home page
@@ -84,7 +84,7 @@ export async function PUT(request: NextRequest) {
 
 		// Debug: Log saved data
 		logger.info("Saved hero data", {
-			heroSlides: homePage.hero?.slides?.map((s: { title?: string }) => s.title),
+			heroSlides: homePage.hero?.slides?.map((s: { titleDe?: string }) => s.titleDe),
 		});
 
 		logger.info("Home page content updated", {

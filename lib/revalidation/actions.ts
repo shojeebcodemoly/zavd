@@ -4,78 +4,6 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { CACHE_TAGS, PATHS } from "./index";
 
 /**
- * Revalidate product-related caches
- * Call this when a product is created, updated, published, unpublished, or deleted
- */
-export async function revalidateProduct(
-	slug: string,
-	categorySlug?: string
-): Promise<void> {
-	// Revalidate product-specific tag (Next.js 16 requires second argument)
-	revalidateTag(CACHE_TAGS.PRODUCT(slug), {});
-
-	// Revalidate products list
-	revalidateTag(CACHE_TAGS.PRODUCTS, {});
-
-	// Revalidate product detail pages for the specific category
-	if (categorySlug) {
-		// New product detail page paths (English routes)
-		revalidatePath(`${PATHS.PRODUCTS_CATEGORY}/${categorySlug}/${slug}`);
-		revalidatePath(`${PATHS.PRODUCTS_CATEGORY}/${categorySlug}`);
-		// Legacy paths (Swedish routes)
-		revalidatePath(`${PATHS.KATEGORI}/${categorySlug}/${slug}`);
-		revalidatePath(`${PATHS.KLINIKUTRUSTNING}/${categorySlug}/${slug}`);
-		revalidatePath(`${PATHS.KATEGORI}/${categorySlug}`);
-		revalidatePath(`${PATHS.KLINIKUTRUSTNING}/${categorySlug}`);
-	}
-
-	// Always revalidate uncategorized paths (product might have been moved)
-	revalidatePath(`${PATHS.PRODUCTS_CATEGORY}/uncategorized/${slug}`);
-	revalidatePath(`${PATHS.KATEGORI}/uncategorized/${slug}`);
-	revalidatePath(`${PATHS.KLINIKUTRUSTNING}/uncategorized/${slug}`);
-
-	// Revalidate the direct product page
-	revalidatePath(`${PATHS.PRODUCTS}/produkt/${slug}`);
-
-	// Revalidate listing pages
-	revalidatePath(PATHS.PRODUCTS);
-	revalidatePath(PATHS.PRODUCTS_EN);
-	revalidatePath(PATHS.KATEGORI);
-	revalidatePath(PATHS.KLINIKUTRUSTNING);
-
-	// Revalidate sitemaps
-	revalidateTag(CACHE_TAGS.SITEMAPS, {});
-}
-
-/**
- * Revalidate all products (use sparingly)
- * Call this when bulk operations are performed
- */
-export async function revalidateAllProducts(): Promise<void> {
-	revalidateTag(CACHE_TAGS.PRODUCTS, {});
-	revalidatePath(PATHS.PRODUCTS);
-	revalidatePath(PATHS.KATEGORI);
-	revalidatePath(PATHS.KLINIKUTRUSTNING);
-	revalidateTag(CACHE_TAGS.SITEMAPS, {});
-}
-
-/**
- * Revalidate category-related caches
- * Call this when a category is created, updated, or deleted
- */
-export async function revalidateCategory(slug?: string): Promise<void> {
-	if (slug) {
-		revalidateTag(CACHE_TAGS.CATEGORY(slug), {});
-		revalidatePath(`${PATHS.KATEGORI}/${slug}`);
-		revalidatePath(`${PATHS.KLINIKUTRUSTNING}/${slug}`);
-	}
-	revalidateTag(CACHE_TAGS.CATEGORIES, {});
-	revalidatePath(PATHS.KATEGORI);
-	revalidatePath(PATHS.KLINIKUTRUSTNING);
-	revalidateTag(CACHE_TAGS.SITEMAPS, {});
-}
-
-/**
  * Revalidate blog post-related caches
  * Call this when a blog post is created, updated, published, or deleted
  */
@@ -296,19 +224,6 @@ export async function revalidateContactPage(): Promise<void> {
 	revalidatePath(`/sv${PATHS.CONTACT}`);
 	revalidatePath("/en/contact-us");
 	revalidatePath("/sv/contact-us");
-}
-
-/**
- * Revalidate store page
- * Call this when store page content is updated
- */
-export async function revalidateStorePage(): Promise<void> {
-	revalidateTag(CACHE_TAGS.STORE_PAGE, {});
-	revalidatePath(PATHS.STORE);
-	revalidatePath(`/en${PATHS.STORE}`);
-	revalidatePath(`/sv${PATHS.STORE}`);
-	revalidatePath("/en/our-store");
-	revalidatePath("/sv/our-store");
 }
 
 /**

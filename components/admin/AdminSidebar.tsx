@@ -166,17 +166,7 @@ const navSections: NavSection[] = [
 				href: "/dashboard/webbplats/kontakt",
 				icon: Phone,
 			},
-			{
-				title: "Store",
-				href: "/dashboard/webbplats/butik",
-				icon: Store,
-			},
-			{
-				title: "Reseller",
-				href: "/dashboard/webbplats/reseller",
-				icon: Handshake,
-			},
-		],
+			],
 	},
 	{
 		title: "Projekte",
@@ -211,22 +201,6 @@ const navSections: NavSection[] = [
 				title: "Ehrenamt & Engagement",
 				href: "/dashboard/projekte/ehrenamt-engagement",
 				icon: HandHeart,
-			},
-		],
-	},
-	{
-		title: "Products",
-		collapsible: true,
-		items: [
-			{
-				title: "All Products",
-				href: "/dashboard/products",
-				icon: Package,
-			},
-			{
-				title: "Categories",
-				href: "/dashboard/categories",
-				icon: FolderTree,
 			},
 		],
 	},

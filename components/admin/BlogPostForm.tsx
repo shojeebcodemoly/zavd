@@ -34,7 +34,7 @@ import {
 	type CreateBlogPostInput,
 	type UpdateBlogPostInput,
 } from "@/lib/validations/blog-post.validation";
-import { generateSlug } from "@/lib/utils/product-helpers";
+import { generateSlug } from "@/lib/utils/helpers";
 import type { IBlogPost } from "@/models/blog-post.model";
 import type { IBlogCategoryTreeNode } from "@/models/blog-category.model";
 import TextEditor from "../common/TextEditor";

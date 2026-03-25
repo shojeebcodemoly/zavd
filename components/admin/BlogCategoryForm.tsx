@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { TreeSelect } from "./TreeSelect";
+import { BlogTreeSelect } from "./BlogTreeSelect";
 import { MediaPicker } from "@/components/storage";
 import {
 	createBlogCategorySchema,
@@ -16,7 +16,7 @@ import {
 	type CreateBlogCategoryInput,
 	type UpdateBlogCategoryInput,
 } from "@/lib/validations/blog-category.validation";
-import { generateSlug } from "@/lib/utils/product-helpers";
+import { generateSlug } from "@/lib/utils/helpers";
 import type {
 	IBlogCategory,
 	IBlogCategoryTreeNode,
@@ -165,7 +165,7 @@ export function BlogCategoryForm({
 			{/* Parent Category */}
 			<div className="space-y-2">
 				<Label>Parent Category</Label>
-				<TreeSelect
+				<BlogTreeSelect
 					value={parent ? [parent] : []}
 					onChange={handleParentChange}
 					tree={categoryTree as any}

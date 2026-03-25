@@ -3,7 +3,7 @@ import { getAuth } from "@/lib/db/auth";
 import { blogCategoryService } from "@/lib/services/blog-category.service";
 import { updateBlogCategorySchema } from "@/lib/validations/blog-category.validation";
 import { logger } from "@/lib/utils/logger";
-import { isValidObjectId } from "@/lib/utils/product-helpers";
+import { isValidObjectId } from "@/lib/utils/helpers";
 import { revalidateBlogCategory } from "@/lib/revalidation/actions";
 import {
 	successResponse,

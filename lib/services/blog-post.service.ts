@@ -14,7 +14,7 @@ import {
 	sanitizeHtml,
 	isValidSlug,
 	normalizeSlug,
-} from "@/lib/utils/product-helpers";
+} from "@/lib/utils/helpers";
 import type { IBlogPost, BlogPublishType } from "@/models/blog-post.model";
 import type {
 	CreateBlogPostInput,

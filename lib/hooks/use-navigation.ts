@@ -1,10 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import type {
-	NavigationData,
-	NavCategory,
-} from "@/app/api/navigation/route";
+import type { NavigationData } from "@/app/api/navigation/route";
 
 interface UseNavigationResult {
 	data: NavigationData | null;
@@ -64,4 +61,4 @@ export function useNavigation(): UseNavigationResult {
 }
 
 // Export types for use in components
-export type { NavigationData, NavCategory };
+export type { NavigationData };

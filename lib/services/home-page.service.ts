@@ -9,7 +9,6 @@ import type {
 	IAboutSection,
 	ICtaSection,
 	IHomePageSeo,
-	IProductShowcaseSection,
 	IImageGallerySection,
 } from "@/models/home-page.model";
 
@@ -49,20 +48,6 @@ export const getFeatureHighlights = unstable_cache(
 		return homePageRepository.getFeatures();
 	},
 	["home-page-features"],
-	{
-		tags: [HOME_PAGE_CACHE_TAG],
-		revalidate: 3600,
-	}
-);
-
-/**
- * Get product showcase section only
- */
-export const getProductShowcaseSection = unstable_cache(
-	async (): Promise<IProductShowcaseSection> => {
-		return homePageRepository.getProductShowcase();
-	},
-	["home-page-product-showcase"],
 	{
 		tags: [HOME_PAGE_CACHE_TAG],
 		revalidate: 3600,
